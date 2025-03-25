@@ -1,0 +1,38 @@
+.banner {
+
+    background-image: url("/images/conferences/countdown-banner-bg.png") ;
+    background-position: center;
+    background-size:cover;
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  
+  .timeBox {
+    font-size: 20px;
+    color: #001f3f;
+  }
+  .time {
+    font-size: 30px;
+    font-weight: 800;
+    background: linear-gradient(180deg, #121989 0%, #050623 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+  .ticketBtn {
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 20px;
+    text-align: center;
+    background: linear-gradient(180deg, #121989 0%, #050623 100%);
+    font-weight: 500;
+  }
+  
+  .ticketBtn > img {
+  height: 40px;
+  width: 40px;
+  margin-left: 10px;
+  }
+  

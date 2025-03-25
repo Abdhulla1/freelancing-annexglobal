@@ -1,0 +1,22 @@
+.container{
+    background-image: url('/images/conferences/upcoming-conf-bg.webp');
+    padding: 10px;
+    background-size: cover;
+    object-position: bottom;
+}
+
+.greytext{
+    color: rgb(192, 192, 192);
+}
+
+.upcoming-conferences{
+    background-color: rgb(0,0,0,0.3);
+}
+
+.topspacer{
+    margin-top: 100px;
+}
+
+.btn-rounded{
+    border-radius: 50%;
+}

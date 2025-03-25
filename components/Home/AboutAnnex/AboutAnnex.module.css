@@ -1,0 +1,19 @@
+.about-content {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.about-headline{
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+@media only screen and (max-width: 991px) {
+  .about-content {
+    font-size: 15px;
+  }
+
+  .about-headline{
+    font-size: 18px;
+  }
+}

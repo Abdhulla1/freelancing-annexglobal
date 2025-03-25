@@ -1,0 +1,16 @@
+.container {
+  background: linear-gradient(to right, #a0f6ff, #e6fcff, #a0f6ff);
+}
+
+.max-width-container{
+    max-width: 850px;
+    margin: auto;
+}
+
+.accordion-button{
+    background-color: #a0f6ff;
+}
+
+.lineheight{
+    line-height: 1.3;
+}

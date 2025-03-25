@@ -1,0 +1,175 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+@import "animate.css";
+
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+@import "primereact/resources/themes/lara-light-blue/theme.css";
+@import "primereact/resources/primereact.min.css";
+@import "primeicons/primeicons.css";
+
+@import "@fontsource/barlow-condensed/300.css";
+@import "@fontsource/barlow-condensed/400.css";
+@import "@fontsource/barlow-condensed/500.css";
+@import "@fontsource/barlow-condensed/600.css";
+@import "@fontsource/barlow-condensed/700.css";
+
+@import "@fontsource/inter/100.css";
+@import "@fontsource/inter/200.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.global-nav a.p-menuitem-link {
+  text-decoration: none !important;
+  font-family: "Inter", sans-serif;
+
+  font-weight: 500;
+}
+
+.global-nav ul.p-submenu-list {
+  padding: 3px;
+}
+
+.global-nav ul.p-menubar-root-list {
+  margin-left: auto;
+  margin-bottom: 0;
+}
+
+.global-nav span.p-menuitem-text {
+  line-height: 1.5;
+}
+
+.brand-btn {
+  background: #F4A300;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.3s;
+}
+
+.brand-btn:hover {
+  background: #b47800;
+  transition-duration: 0.3s;
+  color: white;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  display: none;
+}
+
+.slick-dots {
+  display: none !important;
+}
+
+/* Align logo to the left and menu button to the right in mobile view */
+@media (max-width: 768px) {
+  .navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* Show dropdown on hover */
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Fix Bootstrap's default dropdown animation */
+.navbar .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  background-color: white;
+  border-radius: 5px;
+  border: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style dropdown items */
+.navbar .dropdown-item {
+  padding: 10px 15px;
+  transition: background 0.3s ease-in-out;
+}
+
+.navbar .dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+.form-control::placeholder {
+  font-size: 14px; /* Adjust size as needed */
+  color: #888; /* Optional: Change placeholder color */
+}
+
+.supporting-journal-container
+  .p-accordion
+  .p-accordion-header:not(.p-disabled).p-highlight
+  .p-accordion-header-link {
+  background-color: transparent;
+}
+.supporting-journal-container
+  .p-accordion
+  .p-accordion-header
+  .p-accordion-header-link {
+  background-color: transparent;
+  border: none;
+  text-decoration: none;
+  border-bottom: 2px solid #eee;
+}
+.supporting-journal-container .p-accordion-header-text {
+  color: black;
+}
+
+.supporting-journal-container .p-accordion .p-accordion-content {
+  background-color: transparent;
+}
+
+.supporting-journal-container svg.p-icon.p-accordion-toggle-icon {
+  display: none;
+}
+
+.p-sidebar-close.p-sidebar-icon.p-link {
+  background: #F4A300;
+  color: white;
+}
+
+select.form-control {
+  font-size: 14px;
+}
+
+/* Ensure dropdown works on mobile properly */
+@media (max-width: 768px) {
+  .navbar .dropdown-menu {
+    display: none;
+    position: static;
+    width: 100%;
+  }
+  .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+  }
+}
+
+@media (max-width: 991px) {
+  .nav-item,
+  .navbar .dropdown-item {
+    font-size: 12px;
+  }
+}

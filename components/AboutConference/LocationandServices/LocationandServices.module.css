@@ -1,0 +1,19 @@
+.container{
+    background-image: url('/images/conferences/hotel.webp');
+    background-size: cover;
+    background-position: center;
+    padding: 10px;
+}
+
+.lineheight{
+    line-height: 1.5;
+}
+
+.timings{
+    background: rgba(106, 106, 106, 0.1); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px; 
+    padding: 20px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
