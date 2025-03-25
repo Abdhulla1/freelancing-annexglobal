@@ -66,15 +66,15 @@ export default function Navbar() {
       ],
     },
   ];  
-  const idMatch = pathname.match(/^\/conferences\/([^/]+)/);
+  const idMatch = pathname.match(/^\/conference\/([^/]+)/);
   const conferenceId = idMatch ? idMatch[1] : null;  // Menu items for the /conference route
   const conferenceMenuItems = [
     { label: "HOME", url: "/" },
-    { label: "WEBINAR", url: `/conference/${conferenceId}/webinar` },
-    { label: "TOPICS", url:`/conference/${conferenceId}/topics` },
-    { label: "OCM", url: `/conference/${conferenceId}/organizing-committee-members` },
-    { label: "SPEAKERS", url: `/conference/${conferenceId}/speakers` },
-    { label: "REGISTRATION", url: `/conference/${conferenceId}/registration` },
+    { label: "WEBINAR", url: conferenceId ? `/conference/${conferenceId}/webinar` : "#" },
+    { label: "TOPICS", url: conferenceId ? `/conference/${conferenceId}/topics` : "#" },
+    { label: "OCM", url: conferenceId ? `/conference/${conferenceId}/organizing-committee-members` : "#" },
+    { label: "SPEAKERS", url: conferenceId ? `/conference/${conferenceId}/speakers` : "#" },
+    { label: "REGISTRATION", url: conferenceId ? `/conference/${conferenceId}/registration` : "#" },
     {
       label: "MORE",
       items: [

@@ -1,13 +1,10 @@
 import ConferenceSpeakers from '@/components/ConferenceSpeakers/ConferenceSpeakers'
 import React from 'react'
-import { conferenceData } from '@/service/conferenceData';
-
+import { getSelectedConference } from '@/service/conferenceData';
 const SpeakersPage = async({ params }) => {
 
-  const { slug } = await params; 
-    const selectedConference=conferenceData.find((conf) => conf.id === slug);
-  
-
+    const { slug } = await params; 
+    const selectedConference=getSelectedConference(slug);
   return (
     <ConferenceSpeakers conference={selectedConference}/>
   )

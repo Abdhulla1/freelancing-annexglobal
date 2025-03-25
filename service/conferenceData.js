@@ -42,3 +42,7 @@ export const conferenceData=[
         icon: "/icons/conference/gynaecologyWebinar.png",
     },
 ]
+export const getSelectedConference = (slug) => {
+    const selectedConference = conferenceData.find((conf) => conf.id === slug);
+    return selectedConference;
+  };

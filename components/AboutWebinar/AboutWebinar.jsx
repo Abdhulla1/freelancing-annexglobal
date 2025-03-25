@@ -11,10 +11,10 @@ import Prospectus from '../AboutConference/Prospectus/Prospectus';
 import ConnectWithOthers from '../Home/ConnectWithOthers/ConnectWithOthers';
 import EnquiryForm from '../Home/EnquiryForm/EnquiryForm';
 
-const AboutWebinar = () => {
+const AboutWebinar = ({conference}) => {
   return (
     <>
-        <ConferenceDetails/>
+        <ConferenceDetails conference={conference}/>
         <WelcomeContent/>
         <VisualRecap/>
         <OrganizingCommitee/>

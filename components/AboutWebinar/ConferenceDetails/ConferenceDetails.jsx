@@ -11,7 +11,7 @@ const ConferenceDetails = ({ conference }) => {
               <div className="d-flex align-items-center">
                 <div>
                   <img
-                    src="/icons/conference/logo.png"
+                    src={conference.icon}
                     className={ConferenceDetailsStyles["conferencelogo"]}
                     alt="Conference Logo"
                   />
@@ -19,7 +19,7 @@ const ConferenceDetails = ({ conference }) => {
                 &nbsp;&nbsp;&nbsp;
                 <div className={ConferenceDetailsStyles["heading"]}>
                   <h5 className="text-uppercase text-white">
-                    Annual Congress on Gynecology, Obstetrics and women's health
+                  {conference.title}
                   </h5>
                 </div>
               </div>
