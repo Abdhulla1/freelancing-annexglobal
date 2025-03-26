@@ -1,9 +1,11 @@
 import OrganizingComiteeMembers from '@/components/OrganizingComiteeMembers/OrganizingComiteeMembers'
 import React from 'react'
-
-const OrganizingCommitteePage = () => {
+import { getSelectedConference } from '@/service/conferenceData'
+const OrganizingCommitteePage = async({ params }) => {
+  const { slug } = await params; 
+  const selectedConference=getSelectedConference(slug);
   return (
-    <OrganizingComiteeMembers/>
+    <OrganizingComiteeMembers conference={selectedConference}/>
   )
 }
 

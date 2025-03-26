@@ -1,0 +1,102 @@
+.contactPage {
+    min-height: 100vh;
+    background-image: url('/images/home/contactus.png');
+    background-position: center;
+    background-size: cover;
+    background-blend-mode:lighten;
+}
+.stayConnected{
+    background: linear-gradient(90deg, rgba(60, 205, 228, 0.4) 0%, rgba(9, 61, 123, 0.4) 100%);
+    padding: 10px;
+    border-radius: 50px;
+     margin-top: 70px ;
+     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border: 1px solid;
+    border-image-source: linear-gradient(90deg, rgba(0, 172, 252, 0.33) 0%, rgba(0, 102, 150, 0.33) 100%);
+    
+    
+}
+.stayConnected > img{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+.highlightText {
+    color: #00aaff;
+    font-weight: 600;
+  }
+  .contactForm {
+    background: #00000057;
+    border-radius: 10px;
+    backdrop-filter: blur(74px);
+    margin-bottom: 50px;
+  }
+  
+  .submitButton {
+    background-color: #FFA500;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    padding: 10px;
+    transition: 0.3s;
+  }
+  
+  .submitButton:hover {
+    background-color: #ff9100;
+  }
+  
+  @media (max-width: 768px) {
+    .contactForm {
+      padding: 20px;
+    }
+  }
+  .footer {
+
+    width: 100vw;
+    height: 100%;
+   
+    text-align: center;
+  }
+  .footerContent{
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    background: #0000004D;
+    display: flex;
+    flex-wrap: wrap; /* Ensures it wraps on smaller screens */
+    gap: 10px;
+
+  }
+  .footerHeader {
+    background: linear-gradient(90deg, rgba(18, 25, 137, 0.3) 0%, rgba(5, 6, 35, 0.3) 100%);
+    border-bottom: none;
+    border-style: solid;
+    border-color: #3CCDE466;
+    border-width: 0.5px;
+
+
+    display: inline-block;
+    padding: 5px 15px;
+    border-bottom: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .icon {
+    width: 30px;
+    height: 30px;
+  }
+/* Make icons and text responsive */
+@media (max-width: 768px) {
+    .footerContent {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+  }

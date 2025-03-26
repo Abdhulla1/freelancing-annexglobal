@@ -24,6 +24,11 @@
   .heading h5{
     font-size: 12px;
 }
+.container {
+  background-size:cover;
+  background-position: center;
+
+}
 }
 
 .timings{

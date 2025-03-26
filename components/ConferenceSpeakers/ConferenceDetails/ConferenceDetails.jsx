@@ -12,7 +12,7 @@ const ConferenceDetails = ({conference}) => {
               <div className="d-flex ">
                 <div>
                   <img
-                    src="/icons/conference/logo.png"
+                    src={conference.icon}
                     className={ConferenceDetailsStyles["conferencelogo"]}
                     alt="Conference Logo"
                   />

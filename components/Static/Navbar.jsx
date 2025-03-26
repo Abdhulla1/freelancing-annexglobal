@@ -57,7 +57,7 @@ export default function Navbar() {
       ],
     },
     { label: "GALLERY", url: "#" },
-    { label: "CONTACT US", url: "#" },
+    { label: "CONTACT US", url: "/contact-us" },
     {
       label: "MORE",
       items: [
@@ -78,8 +78,8 @@ export default function Navbar() {
     {
       label: "MORE",
       items: [
-        { label: "UPCOMING EVENTS", url: "#" },
-        { label: "PAST EVENTS", url: "#" },
+        { label: "SUBMIT ABSTRACT", url: conferenceId ? `/conference/${conferenceId}/submit-abstract` : "#" },
+        { label: "Scientific Program", url: "#" },
       ],
     },
   ];

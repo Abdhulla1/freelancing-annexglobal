@@ -1,6 +1,6 @@
 import React from "react";
 import footerStyle from "./Footer.module.css";
-
+import Link from "next/link";
 const Footer = () => {
   return (
     <footer className={footerStyle["footer"]}>
@@ -14,16 +14,18 @@ const Footer = () => {
           <div className="col-xl-8 col-md-12 mx-auto">
             <div className="row">
               <div className="col-md-3 col-6 mt-3">
-                <a href="#">Blog</a>
+                <Link href={'/'} legacyBehavior><a>Blog</a></Link>
+                
               </div>
               <div className="col-md-3 col-6 mt-3">
-                <a href="#">Contact Us</a>
+                <Link href={'/contact-us'} legacyBehavior><a>Contact Us</a></Link>
               </div>
               <div className="col-md-3 col-6 mt-3">
-                <a href="#">Privacy Policy</a>
+                <Link href={'/privacy-policy'} legacyBehavior><a>Privacy Policy</a></Link>
               </div>
               <div className="col-md-3 col-6 mt-3">
-                <a href="#">Terms & Conditions</a>
+                <Link href={'/terms-and-conditions'} legacyBehavior><a>Terms & Conditions</a></Link>
+               
               </div>
             </div>
           </div>

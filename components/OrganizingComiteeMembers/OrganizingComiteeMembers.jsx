@@ -4,10 +4,10 @@ import OrganizingCommitee from '../AboutConference/OrganizingCommitee/Organizing
 import Prospectus from '../AboutConference/Prospectus/Prospectus'
 import EnquiryForm from '../Home/EnquiryForm/EnquiryForm'
 
-const OrganizingComiteeMembers = () => {
+const OrganizingComiteeMembers = ({ conference }) => {
   return (
     <>
-    <ConferenceDetails/>
+    <ConferenceDetails conference={conference}/>
     <OrganizingCommitee/>
     <Prospectus/>
     <EnquiryForm/>

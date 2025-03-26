@@ -1,9 +1,11 @@
-'use client';
+
 import React from "react";
 import ConferenceDetailsStyles from "./ConferenceDetails.module.css";
+import bgImage from '@/public/images/conferences/upcoming-bg.webp';
+
 const ConferenceDetails = ({conference}) => {
   return (
-    <div className={ConferenceDetailsStyles["container"]}>
+    <div className={ConferenceDetailsStyles["container"]} style={{ '--bg-image': `url(${bgImage.src})` }}>
       <div className="container">
         <div className="row">
           <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center mt-5 mt-lg-0">

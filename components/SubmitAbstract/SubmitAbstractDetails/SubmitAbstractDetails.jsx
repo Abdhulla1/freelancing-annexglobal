@@ -1,7 +1,7 @@
 import React from "react";
-import ConferenceDetailsStyles from "./ConferenceDetails.module.css";
+import ConferenceDetailsStyles from "./SubmitAbstractDetails.module.css";
 
-const ConferenceDetails = ({ conference }) => {
+const SubmitAbstractDetails = ({ conference }) => {
   return (
     <div className={ConferenceDetailsStyles["container"]}>
       <div className="container my-5">
@@ -18,15 +18,15 @@ const ConferenceDetails = ({ conference }) => {
                 </div>
                 &nbsp;&nbsp;&nbsp;
                 <div className={ConferenceDetailsStyles["heading"]}>
-                  <h3 className="text-uppercase text-white">Organizing Committee Members</h3>
+                  <h3 className="text-uppercase text-white">Submit Abstract</h3>
                   <p className="text-white ">
                  {conference.title}
                   </p>
-                  <div className="mt-4">
+                  {/* <div className="mt-4">
                     <button className="brand-btn h3">
                       Grab Your Seats Now
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -38,4 +38,4 @@ const ConferenceDetails = ({ conference }) => {
   );
 };
 
-export default ConferenceDetails;
+export default SubmitAbstractDetails;

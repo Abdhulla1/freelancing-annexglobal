@@ -1,8 +1,9 @@
 .container {
   background-image: url("/images/conferences/ocm-bg.png");
   padding: 10px;
-  background-size: contain;
-  background-position: center;
+  background-size:contain;
+  background-position: top;
+
 }
 
 .conferencelogo {
@@ -22,6 +23,11 @@
 @media only screen and (max-width: 600px) {
   .heading h5{
     font-size: 12px;
+}
+.container {
+  background-size:cover;
+  background-position: center;
+
 }
 }
 

@@ -1,7 +1,8 @@
 .container {
-  background-image:  var(--bg-image);
+  background-image: url("/images/conferences/submit-abstract-bg.png");
   padding: 10px;
   background-size: cover;
+  background-position: center;
 }
 
 .conferencelogo {
@@ -9,14 +10,26 @@
   height: 100px;
 }
 
-.heading h5{
-    line-height: 1.8;
+.heading h3 {
+  line-height: 1;
+  font-weight: bold;
+  /* Apply gradient to text */
+  background: linear-gradient(180deg, #F4A300 0%, rgba(190, 127, 0, 0.682) 63.08%, rgba(142, 95, 0, 0.4) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
+  
+}
+
+.heading p{
+  line-height: 2;
+  font-size: 21px;
 }
 
 @media only screen and (max-width: 600px) {
   .heading h5{
     font-size: 12px;
 }
+
 }
 
 .timings{
