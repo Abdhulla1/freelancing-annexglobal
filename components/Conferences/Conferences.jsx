@@ -1,6 +1,6 @@
 import React from 'react'
 import UpcomingConferences from './UpcomingConferences/UpcomingConferences'
-import UpcomingConference from '../Home/UpcomingConference/UpcomingConference'
+import UpcomingConference from './UpcomingConference/UpcomingConference'
 import PastConferences from './PastConferences/PastConferences'
 
 const Conferences = () => {

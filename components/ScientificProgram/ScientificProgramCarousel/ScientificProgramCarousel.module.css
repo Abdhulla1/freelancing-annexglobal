@@ -1,0 +1,140 @@
+/* WebinarProgramCarousel.module.css */
+
+.containerWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+
+
+  }
+  .textSection{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    flex-direction: column;
+    padding: 20px;
+    margin-bottom: 20px;
+    
+  }
+  .content{
+    width: 100%;
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+  
+  }
+  .programItem {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    color: #000000CC;
+    font-weight: 700;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+
+  }
+  .programItem > h6 {
+    font-weight: 700;
+   
+  }
+  
+  .inactiveProgram {
+    background-color: #f8f9fa; /* Light gray background */
+    font-weight: 500;
+  }
+  
+  .downloadButton {
+    width: 100%;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+  }
+  
+  .imageCarousel {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    height: 400px;
+
+  }
+  
+  .carouselImage {
+    position: absolute;
+    border-radius: 10px;
+   width: 562px;
+   height: 400px;
+    object-fit:cover;
+    scale: 0.7;
+    transition: all 0.5s ease;
+  }
+  .images {
+    width: 562px;
+    height: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    object-fit:cover;
+    border-radius: 20px;
+  }
+  
+  .carouselButton {
+    background: linear-gradient(53.73deg, #121989 5.63%, #050623 94.37%);
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .carouselButtons {
+    position: absolute;
+    top: 45%;
+    z-index: 15;
+    width: 100%;
+    display:flex ;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+  }
+  
+  .carouselButton:hover {
+    background: linear-gradient(53.73deg, #050623 5.63%, #121989 94.37%);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  @media screen and (max-width: 768px) {
+    .contentWrapper {
+      flex-direction: row-reverse;
+      align-items: center;
+      text-align: center;
+    }
+    .content{
+      scale: 1;
+    
+    }
+    .images {
+    scale: 0.5;
+    }
+    .containerWrapper {
+      margin-bottom: 250px;
+    }
+    .carouselButtons {
+      width: 95vw;
+    }
+    
+  }
+  
+
+
+  .programItem {
+    padding: 10px;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  

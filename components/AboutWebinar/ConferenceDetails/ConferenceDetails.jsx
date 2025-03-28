@@ -15,7 +15,7 @@ const ConferenceDetails = ({ conference }) => {
                     className={ConferenceDetailsStyles["conferencelogo"]}
                     alt="Conference Logo"
                   />
-                </div>{" "}
+                </div>
                 &nbsp;&nbsp;&nbsp;
                 <div className={ConferenceDetailsStyles["heading"]}>
                   <h5 className="text-uppercase text-white">

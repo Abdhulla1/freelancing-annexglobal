@@ -4,6 +4,7 @@ import UpcomingConferencesStyle from "./UpcomingConferences.module.css";
 import Slider from "react-slick";
 import { useRef } from "react";
 import ConferenceCard from "./../../Reusable/ConferenceCard/ConferenceCard";
+import Link from "next/link";
 
 var settings = {
   dots: true,
@@ -81,14 +82,20 @@ const UpcomingConferences = () => {
         <div
           className={`pb-5 p-4  ${UpcomingConferencesStyle["topspacer"]} ${UpcomingConferencesStyle["upcoming-conferences"]}`}
         >
+          <div className={UpcomingConferencesStyle.headingContainer}>
           <h4 className="text-center text-white">Upcoming Conference</h4>
+          <Link href={'/upcoming-conference'} className={UpcomingConferencesStyle.viewMorwButton}>
+            View More <span className="fw-bold fs-5"> →</span>
+          </Link>
+          </div>
+         
           <div className="mt-5 container-fluid">
             <Slider ref={sliderRef} {...settings}>
               {[0, 0, 0, 0].map((el, i) => (
                 <div className="ms-3">
                   <ConferenceCard {...conferenceData} />
                 </div>
-              ))}
+              ))} 
             </Slider>
             <div className="mt-3">
               <div className="d-flex justify-content-center align-items-center">

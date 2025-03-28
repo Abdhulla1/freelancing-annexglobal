@@ -1,11 +1,17 @@
-
 import React from "react";
 import ConferenceDetailsStyles from "./ConferenceDetails.module.css";
-import bgImage from '@/public/images/conferences/upcoming-bg.webp';
+import bgImage from "@/public/images/conferences/upcoming-bg.webp";
+import cardImg from "@/public/images/conferences/pregnant-test.png";
+import babyIcon from "@/public/images/conferences/baby-icon.png";
+import starIcon from "@/public/images/conferences/star.png";
 
-const ConferenceDetails = ({conference}) => {
+const ConferenceDetails = ({ conference }) => {
+
   return (
-    <div className={ConferenceDetailsStyles["container"]} style={{ '--bg-image': `url(${bgImage.src})` }}>
+    <div
+      className={ConferenceDetailsStyles["container"]}
+      style={{ "--bg-image": `url(${bgImage.src})` }}
+    >
       <div className="container">
         <div className="row">
           <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center mt-5 mt-lg-0">
@@ -21,7 +27,7 @@ const ConferenceDetails = ({conference}) => {
                 &nbsp;&nbsp;&nbsp;
                 <div className={ConferenceDetailsStyles["heading"]}>
                   <h5 className="text-uppercase text-white">
-                  {conference.title}
+                    {conference.title}
                   </h5>
                 </div>
               </div>
@@ -76,13 +82,22 @@ const ConferenceDetails = ({conference}) => {
                       <div className={ConferenceDetailsStyles.card}>
                         <div>
                           <img
-                            src="/images/conferences/pregnant-test.webp"
-                            className="img-fluid"
-                            alt=""
+                            src={cardImg.src}
+                            className={`img-fluid ${ConferenceDetailsStyles.cardimg}`}
+                            alt="card image"
                           />
-                          <div className="mt-3 text-white">
-                            <h6 >Obstetrics</h6>
-                            <p className="small">Lorem ipsum dolor sit amet.</p>
+                          <div className={`mt-3 text-white ${ConferenceDetailsStyles.cardContent} `}>
+                            <div>
+                              <h6>Obstetrics</h6>
+                              <p className="small">
+                                Lorem ipsum dolor sit amet.
+                              </p>
+                            </div>
+                            <img
+                              src={`${i % 2 === 0 ? babyIcon.src : starIcon.src}`}
+                              className={`img-fluid ${ConferenceDetailsStyles.icon}`}
+                              alt="card image"
+                            />
                           </div>
                         </div>
                       </div>

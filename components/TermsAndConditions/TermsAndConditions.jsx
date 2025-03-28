@@ -6,7 +6,7 @@ import TermsAndConditionsContent from './TermsAndConditionsContent/TermsAndCondi
   return (
     <>
      <TermsAndConditionsDetails/>
-     <TermsAndConditionsContent/>
+     <TermsAndConditionsContent/> 
     </>
    
   )

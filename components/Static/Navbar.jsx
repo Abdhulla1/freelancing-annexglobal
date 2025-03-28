@@ -3,12 +3,14 @@ import { useState, useRef, useEffect,useMemo  } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import NavbarStyles from "./Navbar.module.css";
-
+import useSessionStorageState from "use-local-storage-state"; // Using session storage hook
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
-  const [activeItem, setActiveItem] = useState(null);
+  const [activeItem, setActiveItem] = useSessionStorageState("activeNavItem", {
+    initialValue: "HOME",
+  });
   const menuRef = useRef(null);
   const pathname = usePathname();
   useEffect(() => {
@@ -52,8 +54,8 @@ export default function Navbar() {
     {
       label: "CONFERENCE",
       items: [
-        { label: "UPCOMING EVENTS", url: "#" },
-        { label: "PAST EVENTS", url: "#" },
+        { label: "UPCOMING EVENTS", url: "/upcoming-conference" },
+        { label: "PAST EVENTS", url: "/past-conference" },
       ],
     },
     { label: "GALLERY", url: "#" },
@@ -61,8 +63,9 @@ export default function Navbar() {
     {
       label: "MORE",
       items: [
-        { label: "UPCOMING EVENTS", url: "#" },
-        { label: "PAST EVENTS", url: "#" },
+        { label: "UPCOMING EVENTS", url: "/upcoming-conference" },
+        { label: "PAST EVENTS", url: "/past-conference" },
+       
       ],
     },
   ];  
@@ -79,7 +82,9 @@ export default function Navbar() {
       label: "MORE",
       items: [
         { label: "SUBMIT ABSTRACT", url: conferenceId ? `/conference/${conferenceId}/submit-abstract` : "#" },
-        { label: "Scientific Program", url: "#" },
+        { label: "WEBINAR PROGRAM",url: conferenceId ? `/conference/${conferenceId}/webinar-program` : "#" },
+        { label: "SCIENTICFIC PROGRAM",url: conferenceId ? `/conference/${conferenceId}/scientific-program` : "#" },
+        { label: "SPONSORS EXHIBITORS",url: conferenceId ? `/conference/${conferenceId}/sponsors-exhibitors` : "#" },
       ],
     },
   ];
@@ -91,7 +96,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`${NavbarStyles.navbar} navbar navbar-expand-md navbar-light bg-white shadow animate__animated ${
+      className={`${NavbarStyles.navbar} navbar navbar-expand-md navbar-light bg-white shadow animate__animated p-0 ${
         isFixed ? "fixed-top animate__fadeInDown" : ""
       }`}
     >
@@ -113,7 +118,7 @@ export default function Navbar() {
           type="button"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"> {" "}</span>
         </button>
 
         <div

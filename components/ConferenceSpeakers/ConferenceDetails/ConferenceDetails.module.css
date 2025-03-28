@@ -5,7 +5,9 @@
   background-position: top;
 
 }
-
+.speaker{
+  margin-left: 160px;
+}
 .conferencelogo {
   width: auto;
   height: 100px;

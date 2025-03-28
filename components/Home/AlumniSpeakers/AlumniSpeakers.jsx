@@ -34,15 +34,15 @@ const CustomArrow = ({ className, style, onClick, direction }) => {
   );
 };
 
-var settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  prevArrow: <CustomArrow direction="left" />,
-  nextArrow: <CustomArrow direction="right" />,
-};
+// var settings = {
+//   dots: true,
+//   infinite: true,
+//   speed: 500,
+//   slidesToShow: 1,
+//   slidesToScroll: 1,
+//   prevArrow: <CustomArrow direction="left" />,
+//   nextArrow: <CustomArrow direction="right" />,
+// };
 
 const AlumniSpeakers = () => {
   const [visibleDetails, setVisibleDetails] = useState(false);
@@ -129,7 +129,46 @@ const AlumniSpeakers = () => {
       about:
         "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
     },
+    {
+      name: "Emily Wilson",
+      designation: "HR Specialist",
+      company: "PeopleFirst",
+      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
+      profileImage:
+        "/images/home/speakers/speakermalecipla.png", // Replace
+      about:
+        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
+    },
+    {
+      name: "Emily Wilson",
+      designation: "HR Specialist",
+      company: "PeopleFirst",
+      companyLogo: "/images/reputed-organizations/gsk-dark.png", // Replace
+      profileImage:
+        "/images/home/speakers/speakergsk.png", // Replace
+      about:
+        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
+    },
+    {
+      name: "Emily Wilson",
+      designation: "HR Specialist",
+      company: "PeopleFirst",
+      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
+      profileImage:
+        "/images/home/speakers/speakercipla.png", // Replace
+      about:
+        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
+    },
   ];
+  const settings = {
+    dots: true,
+    infinite: Math.ceil(speakerData.length / 8) > 1, // Conditional infinite
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: <CustomArrow direction="left" />,
+    nextArrow: <CustomArrow direction="right" />,
+  };
 
   const handleSpeakerClick = (speaker) => {
     setSelectedSpeaker(speaker);
@@ -187,49 +226,48 @@ const AlumniSpeakers = () => {
       </div>
 
       <div className=" p-5 container-fluid">
-        <Slider {...settings}>
-          <div>
-            <div className="container">
-              <div className="row">
-                {speakerData.map((speaker, index) => (
-                  <div className="col-md-6 col-lg-4 col-xl-3 mb-3" key={index}>
-                    <div className={AlumniSpeakerStyles["card"]}>
-                      <div className={AlumniSpeakerStyles["card-header"]}>
-                        <img
-                          onClick={() => handleSpeakerClick(speaker)}
-                          src={speaker.profileImage}
-                          alt="Profile"
-                          className={AlumniSpeakerStyles["profile-img"]}
-                        />
-                        <div className={AlumniSpeakerStyles["mic-icon"]}>
-                          <img src="/icons/mic.png" alt="Mic" />
-                        </div>
-                      </div>
-                      <div className={AlumniSpeakerStyles["card-body"]}>
-                        <div
-                          onClick={() => handleSpeakerClick(speaker)}
-                          className={AlumniSpeakerStyles["name"]}
-                        >
-                          {speaker.name}
-                        </div>
-                        <div className={AlumniSpeakerStyles["designation"]}>
-                          {speaker.designation}
-                        </div>
-                        <div className={AlumniSpeakerStyles["company"]}>
-                          <img
-                            src={speaker.companyLogo}
-                            alt={speaker.company}
-                          />
-                        </div>
-                      </div>
-                    </div>
+      <Slider {...settings}>
+  {[...Array(Math.ceil(speakerData.length / 8))].map((_, index) => (
+    <div key={index}>
+      <div className="container">
+        <div className="row">
+          {speakerData.slice(index * 8, index * 8 + 8).map((speaker, i) => (
+            <div className="col-md-6 col-lg-4 col-xl-3 mb-3" key={i}>
+              <div className={AlumniSpeakerStyles["card"]}>
+                <div className={AlumniSpeakerStyles["card-header"]}>
+                  <img
+                    onClick={() => handleSpeakerClick(speaker)}
+                    src={speaker.profileImage}
+                    alt="Profile"
+                    className={AlumniSpeakerStyles["profile-img"]}
+                  />
+                  <div className={AlumniSpeakerStyles["mic-icon"]}>
+                    <img src="/icons/mic.png" alt="Mic" />
                   </div>
-                ))}
+                </div>
+                <div className={AlumniSpeakerStyles["card-body"]}>
+                  <div
+                    onClick={() => handleSpeakerClick(speaker)}
+                    className={AlumniSpeakerStyles["name"]}
+                  >
+                    {speaker.name}
+                  </div>
+                  <div className={AlumniSpeakerStyles["designation"]}>
+                    {speaker.designation}
+                  </div>
+                  <div className={AlumniSpeakerStyles["company"]}>
+                    <img src={speaker.companyLogo} alt={speaker.company} />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div></div>
-        </Slider>
+          ))}
+        </div>
+      </div>
+    </div>
+  ))}
+</Slider>
+
       </div>
     </div>
   );

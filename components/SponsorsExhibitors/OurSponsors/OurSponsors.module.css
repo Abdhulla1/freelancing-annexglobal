@@ -1,0 +1,96 @@
+.card{
+    width: 520px;
+    height: 514px;
+    gap: 10px;
+    padding: 53px;
+    border-radius: 32px;
+    background-image: var(--bg-image);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.cardWraper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.card > h4{
+    font-weight: 700;
+
+    font-size: 40px;
+}
+.card > p{
+    font-weight: 700;
+    
+    font-size: 20px;
+}
+
+.getMember{
+    text-decoration: none;
+    font-size: 20px;
+    background: linear-gradient(90deg, #0057C7 0%, #002A61 100%);
+    padding: 10px;
+    color: #FFFFFF;
+    border-radius: 5px;
+}
+.getMember:hover{
+
+    background: linear-gradient(90deg, #014daf 0%, #002A61 100%);
+ 
+}
+@media (max-width: 1024px) {
+    .card {
+        width: 400px;
+        height: 400px;
+        padding: 40px;
+    }
+    .card > h4 {
+        font-size: 30px;
+    }
+    .card > p {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .cardWraper {
+        flex-direction: column;
+        align-items: center;
+    }
+    .card {
+        width: 90%;
+        height: auto;
+        padding: 30px;
+    }
+    .card > h4 {
+        font-size: 26px;
+    }
+    .card > p {
+        font-size: 16px;
+    }
+    .getMember {
+        font-size: 18px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: 100%;
+        padding: 20px;
+    }
+    .card > h4 {
+        font-size: 22px;
+    }
+    .card > p {
+        font-size: 14px;
+    }
+    .getMember {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+}

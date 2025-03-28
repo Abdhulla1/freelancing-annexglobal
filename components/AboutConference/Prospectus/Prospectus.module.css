@@ -38,20 +38,42 @@
 
 
 
+.card-container {
+display: flex;
+justify-content: center;
+gap: 5px;
+
+}
 .card {
   position: relative;
-  width: 100%;
+  width: 350px;
   border-radius: 12px;
   overflow: hidden;
-  background: #000;
   color: white;
+  transition: all ease 0.3s;
 }
-.card img {
-  width: 100%;
+.card-active {
+  position: relative;
+  width: 120px;
   height: 350px;
+  border-radius: 12px;
+  overflow: hidden;
+  color: white;
+ 
+}
+.card-active img {
+  height: 350px;
+  width: 100%;
   object-fit: cover;
   display: block;
-  filter: brightness(0.5);
+  filter: brightness(0.7);
+}
+.card img {
+  height: 350px;
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.7);
 }
 .overlay {
   position: absolute;
@@ -65,15 +87,14 @@
 }
 
 .register-btn {
-  display: inline-block;
-  max-width: 45%;
+  /* display: inline-block; */
   background: #ffa500;
   color: white;
-  padding: 10px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
   text-align: center;
   cursor: pointer;
 }
@@ -81,8 +102,8 @@
 /* Overlay Text */
 .overlay-text {
   position: relative;
-  top: -43%;
-  left: 100%;
+  top: -50%;
+  left: 115%;
   transform: translate(-50%, -50%);
   color: white;
   font-size: 24px;
@@ -105,6 +126,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  top: 50px;
+  border: none;
+  color: white;
   box-shadow: 0 0 15px #0000a6;
 }
 
@@ -126,6 +150,7 @@
   border-radius: 50%;
   border: 5px solid transparent;
   background: linear-gradient(45deg, #00004d, #0000a6);
+  
   animation: pulse 2s infinite ease-in-out;
   z-index: -1;
 }
@@ -152,4 +177,10 @@
     top: 13%;
     left: 50%;
   }
+  .register-btn {
+    padding: 10px ;
+    font-size: 10px;
+   
+  }
 }
+

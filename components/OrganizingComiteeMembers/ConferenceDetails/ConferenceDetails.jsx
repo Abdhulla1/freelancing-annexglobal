@@ -1,6 +1,6 @@
 import React from "react";
 import ConferenceDetailsStyles from "./ConferenceDetails.module.css";
-
+import Image from "next/image";
 const ConferenceDetails = ({ conference }) => {
   return (
     <div className={ConferenceDetailsStyles["container"]}>
@@ -31,7 +31,16 @@ const ConferenceDetails = ({ conference }) => {
               </div>
             </div>
           </div>
-          <div className="col-md-12 col-lg-4 col-xl-5 mx-auto d-none d-lg-block"></div>
+          <div className="col-md-12 col-lg-4 col-xl-5 mx-auto d-none d-lg-block">
+             <Image
+                            className={ConferenceDetailsStyles["ocm"]}
+                            src="/images/conferences/speakerscardelement.png"
+                            alt="speaker"
+                            height={300}
+                            width={350}
+                            quality={100}
+                          />
+          </div>
         </div>
       </div>
     </div>

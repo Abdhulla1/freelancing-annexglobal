@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState } from "react";
 import style from "./OrganizingCommitee.module.css";
@@ -35,15 +34,15 @@ const CustomArrow = ({ className, style, onClick, direction }) => {
   );
 };
 
-var settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  prevArrow: <CustomArrow direction="left" />,
-  nextArrow: <CustomArrow direction="right" />,
-};
+// var settings = {
+//   dots: true,
+//   infinite: true,
+//   speed: 500,
+//   slidesToShow: 1,
+//   slidesToScroll: 1,
+//   prevArrow: <CustomArrow direction="left" />,
+//   nextArrow: <CustomArrow direction="right" />,
+// };
 
 const OrganizingCommitee = () => {
   const [visibleDetails, setVisibleDetails] = useState(false);
@@ -52,11 +51,11 @@ const OrganizingCommitee = () => {
   const speakerData = [
     {
       name: "Nick Shackelford",
-      designation: "Partner, Retention Head/Structured Co-Founder, Revenue Head",
+      designation:
+        "Partner, Retention Head/Structured Co-Founder, Revenue Head",
       company: "Scalers",
       companyLogo: "/images/reputed-organizations/cipla-dark.png",
-      profileImage:
-        "/images/home/speakers/member.png",
+      profileImage: "/images/home/speakers/member.png",
       about:
         "Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.",
     },
@@ -65,8 +64,7 @@ const OrganizingCommitee = () => {
       designation: "President, Unicorn Innovations",
       company: "TechCorp",
       companyLogo: "/images/reputed-organizations/gsk-dark.png", // Replace with actual logo
-      profileImage:
-        "/images/home/speakers/speakercipla.png", // Replace with actual image
+      profileImage: "/images/home/speakers/speakercipla.png", // Replace with actual image
       about:
         "Jane Smith is a visionary technology leader with over 20 years of experience. She has been instrumental in developing cutting-edge solutions for TechCorp, driving innovation and growth.",
     },
@@ -75,8 +73,7 @@ const OrganizingCommitee = () => {
       designation: "Head/Structured Co-Founder, Revenue Head",
       company: "Global Solutions",
       companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace with actual logo
-      profileImage:
-        "/images/home/speakers/speakergsk.png", // Replace with actual image
+      profileImage: "/images/home/speakers/speakergsk.png", // Replace with actual image
       about:
         "David is a Senior Engineer at Global Solutions, where he leads the development of their flagship product.  He is passionate about creating scalable and maintainable software.",
     },
@@ -84,9 +81,8 @@ const OrganizingCommitee = () => {
       name: "Sarah Williams",
       designation: "President, Unicorn Innovations",
       company: "MarketPlus",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png",  // Replace
-      profileImage:
-        "/images/home/speakers/speakergskmale.png", // Replace
+      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
+      profileImage: "/images/home/speakers/speakergskmale.png", // Replace
       about:
         "Sarah is a dynamic marketing leader with a proven track record of driving brand awareness and customer engagement. She has led several successful campaigns for MarketPlus.",
     },
@@ -94,9 +90,8 @@ const OrganizingCommitee = () => {
       name: "Michael Brown",
       designation: "President, Unicorn Innovations",
       company: "FinCorp",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png",  // Replace
-      profileImage:
-        "/images/home/speakers/speakermale.png",  // Replace
+      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
+      profileImage: "/images/home/speakers/speakermale.png", // Replace
       about:
         "Michael is a seasoned finance professional responsible for overseeing the financial operations of FinCorp. He has extensive experience in budgeting, forecasting, and financial analysis.",
     },
@@ -105,8 +100,7 @@ const OrganizingCommitee = () => {
       designation: "HR Specialist",
       company: "PeopleFirst",
       companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
-      profileImage:
-        "/images/home/speakers/speakermalecipla.png", // Replace
+      profileImage: "/images/home/speakers/speakermalecipla.png", // Replace
       about:
         "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
     },
@@ -115,8 +109,7 @@ const OrganizingCommitee = () => {
       designation: "HR Specialist",
       company: "PeopleFirst",
       companyLogo: "/images/reputed-organizations/gsk-dark.png", // Replace
-      profileImage:
-        "/images/home/speakers/speakergsk.png", // Replace
+      profileImage: "/images/home/speakers/speakergsk.png", // Replace
       about:
         "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
     },
@@ -125,12 +118,39 @@ const OrganizingCommitee = () => {
       designation: "HR Specialist",
       company: "PeopleFirst",
       companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
-      profileImage:
-        "/images/home/speakers/speakercipla.png", // Replace
+      profileImage: "/images/home/speakers/speakercipla.png", // Replace
       about:
         "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
     },
+    {
+      name: "Emily Wilson",
+      designation: "HR Specialist",
+      company: "PeopleFirst",
+      companyLogo: "/images/reputed-organizations/gsk-dark.png", // Replace
+      profileImage: "/images/home/speakers/speakergsk.png", // Replace
+      about:
+        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
+    },
+    {
+      name: "Emily Wilson",
+      designation: "HR Specialist",
+      company: "PeopleFirst",
+      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
+      profileImage: "/images/home/speakers/speakercipla.png", // Replace
+      about:
+        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
+    },
+   
   ];
+  const settings = {
+    dots: true,
+    infinite: Math.ceil(speakerData.length / 8) > 1, // Conditional infinite
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    prevArrow: <CustomArrow direction="left" />,
+    nextArrow: <CustomArrow direction="right" />,
+  };
 
   const handleSpeakerClick = (speaker) => {
     setSelectedSpeaker(speaker);
@@ -189,47 +209,53 @@ const OrganizingCommitee = () => {
 
       <div className=" p-5 container-fluid">
         <Slider {...settings}>
-          <div>
-            <div className="container">
-              <div className="row">
-                {speakerData.map((speaker, index) => (
-                  <div className="col-md-6 col-lg-4 col-xl-3 mb-3" key={index}>
-                    <div className={style["card"]}>
-                      <div className={style["card-header"]}>
-                        <img
-                          onClick={() => handleSpeakerClick(speaker)}
-                          src={speaker.profileImage}
-                          alt="Profile"
-                          className={style["profile-img"]}
-                        />
-                        <div className={style["mic-icon"]}>
-                          <img src="/icons/micwhite.png" alt="Mic" />
-                        </div>
-                      </div>
-                      <div className={style["card-body"]}>
-                        <div
-                          onClick={() => handleSpeakerClick(speaker)}
-                          className={style["name"]}
-                        >
-                          {speaker.name}
-                        </div>
-                        <div className={style["designation"]}>
-                          {speaker.designation}
-                        </div>
-                        <div className={style["company"]}>
+        {[...Array(Math.ceil(speakerData.length / 8))].map((_, index) => (
+            <div key={index}>
+              <div className="container">
+                <div className="row">
+                  {speakerData.slice(index * 8 , index * 8 + 8 ).map((speaker, index) => (
+                    <div
+                      className="col-md-6 col-lg-4 col-xl-3 mb-3"
+                      key={index}
+                    >
+                      <div className={style["card"]}>
+                        <div className={style["card-header"]}>
                           <img
-                            src={speaker.companyLogo}
-                            alt={speaker.company}
+                            onClick={() => handleSpeakerClick(speaker)}
+                            src={speaker.profileImage}
+                            alt="Profile"
+                            className={style["profile-img"]}
                           />
+                          <div className={style["mic-icon"]}>
+                            <img src="/icons/micwhite.png" alt="Mic" />
+                          </div>
+                        </div>
+                        <div className={style["card-body"]}>
+                          <div
+                            onClick={() => handleSpeakerClick(speaker)}
+                            className={style["name"]}
+                          >
+                            {speaker.name}
+                          </div>
+                          <div className={style["designation"]}>
+                            {speaker.designation}
+                          </div>
+                          <div className={style["company"]}>
+                            <img
+                              src={speaker.companyLogo}
+                              alt={speaker.company}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div></div>
+       
+          ))}
+      
         </Slider>
       </div>
     </div>

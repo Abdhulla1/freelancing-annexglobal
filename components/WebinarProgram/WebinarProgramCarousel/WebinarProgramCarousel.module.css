@@ -1,0 +1,119 @@
+/* WebinarProgramCarousel.module.css */
+
+.containerWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .contentWrapper {
+    display: flex;
+    align-items: center;
+    width: 75%;
+  }
+  
+
+  .programItem {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+  }
+  
+  .activeProgram {
+    background-color: #FFF8E9;
+    color: #000000CC;
+
+  }
+  .activeProgram >h6 {
+   
+    font-weight: 700;
+  }
+  
+  .inactiveProgram {
+    background-color: #f8f9fa; /* Light gray background */
+    font-weight: 500;
+  }
+  
+  .downloadButton {
+    width: 100%;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+  }
+  
+  .imageCarousel {
+    text-align: center;
+    position: relative;
+    height: 400px;
+  }
+  
+  .carouselImage {
+    position: absolute;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 350px;
+    object-fit: cover;
+    transition: all 0.5s ease;
+  }
+  
+  .carouselButton {
+    position: absolute;
+    top: 50%;
+    right: -90px;
+    transform: translateY(-100%);
+    z-index: 15;
+    background: linear-gradient(53.73deg, #121989 5.63%, #050623 94.37%);
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .carouselButton:hover {
+    background: linear-gradient(53.73deg, #050623 5.63%, #121989 94.37%);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  @media screen and (max-width: 768px) {
+    .contentWrapper {
+      flex-direction: row-reverse;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .imageCarousel {
+      height: auto;
+      margin-top: 10rem;
+      position: relative;
+      top: 250px;
+      left: 35%;
+    }
+  
+    .carouselImage {
+      width: 150px;
+      height: 200px;
+    }
+    .containerWrapper {
+      margin-bottom: 250px;
+    }
+  }
+  
+
+
+  .scrollContainer {
+    max-height: 300px; /* Adjust as needed */
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+  
+  .programItem {
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  

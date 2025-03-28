@@ -1,0 +1,51 @@
+.honeycombContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.honeycombButton {
+  position: relative;
+  text-transform: uppercase;
+  font-weight: bold;
+  min-width: 200px;
+  height: 64px;
+  text-align: center;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+  clip-path: polygon(12% 0%, 88% 0%, 100% 50%, 88% 100%, 12% 100%, 0% 50%);
+  padding: 10px 20px;
+  margin: 5px;
+  transition: all 0.3s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: #FFFFFF;
+  color: #333333;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* Selected button */
+.honeycombButton.selected {
+  background: linear-gradient(90deg, #101679 0%, #121989 35.87%, #0B0F51 57.37%, #060723 100%);
+  color: #FFFFFF;
+}
+
+/* Border effect using pseudo-element */
+.honeycombButton::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: calc(100% + 6px);
+  clip-path: polygon(12% 0%, 88% 0%, 100% 50%, 88% 100%, 12% 100%, 0% 50%);
+  background: none;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+  border-image-source: linear-gradient(90deg, rgba(97, 97, 97, 0.4) 0%, rgba(208, 208, 208, 0.4) 100%);
+  border-image-slice: 1;
+  z-index: -1;
+}

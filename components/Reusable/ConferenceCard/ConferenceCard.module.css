@@ -46,16 +46,19 @@
     display: inline-block;
     margin-top: 15px;
     padding: 10px 20px;
-    background: #4b61ff;
+    background: linear-gradient(90deg, #111880 0%, #03051A 100%);
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
     font-weight: bold;
+
 }
 .btn:hover {
-    background: #3947e5;
+   background: linear-gradient(90deg, #0e1575 0%, #03051A 100%);
+
+
 }
 @media (max-width: 600px) {
     .container {

@@ -9,6 +9,7 @@
   border: none;
   background: white;
   padding: 0 20px;
+  
 }
 
 .logo {
@@ -112,6 +113,14 @@
   .navbar-toggler {
     margin-left: auto;
   }
+  .nav-link.active::after {
+    display: none; /* Hide the bottom line on mobile */
+  }
+
+  .nav-link.active {
+    color: #121989; /* Keep the highlight */
+    font-weight: bold; /* Optionally make the text bold for better visibility */
+  }
 }
 
 
@@ -149,4 +158,3 @@
   border-right: 0.3em solid transparent;
   border-left: 0.3em solid transparent;
 }
-
