@@ -1,0 +1,26 @@
+.backbutton {
+    background-color: white;
+    border: 1px solid #FF9800; /* Light Orange */
+    border-radius: 5px; /* Adjust for desired roundness */
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-family: sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    color:  #F4A300;
+    margin-left: 10px;
+  }
+  .buttons{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  .nextbutton {
+    background-color: #FF9800; /* Orange */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-family: sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+  }

@@ -3,6 +3,7 @@ import SponsorsExhibitorsDetails from './SponsorsExhibitorsDetails/SponsorsExhib
 import About from './About/About';
 import Prospectus from '../AboutConference/Prospectus/Prospectus';
 import OurSponsors from './OurSponsors/OurSponsors';
+
 const SponsorsExhibitors = ({ conference }) => {
     return (
        <>

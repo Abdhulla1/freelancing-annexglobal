@@ -58,7 +58,7 @@ export default function Navbar() {
         { label: "PAST EVENTS", url: "/past-conference" },
       ],
     },
-    { label: "GALLERY", url: "#" },
+    { label: "GALLERY", url: "/gallery" },
     { label: "CONTACT US", url: "/contact-us" },
     {
       label: "MORE",
@@ -85,6 +85,7 @@ export default function Navbar() {
         { label: "WEBINAR PROGRAM",url: conferenceId ? `/conference/${conferenceId}/webinar-program` : "#" },
         { label: "SCIENTICFIC PROGRAM",url: conferenceId ? `/conference/${conferenceId}/scientific-program` : "#" },
         { label: "SPONSORS EXHIBITORS",url: conferenceId ? `/conference/${conferenceId}/sponsors-exhibitors` : "#" },
+        { label: "FAQ",url: conferenceId ? `/conference/${conferenceId}/faq` : "#" },
       ],
     },
   ];
@@ -125,7 +126,7 @@ export default function Navbar() {
           ref={menuRef}
           className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}
         >
-          <ul className="navbar-nav mx-auto gap-5">
+          <ul className={`navbar-nav mx-auto${isOpen ? " gap-3 " : " gap-5 "}`}>
             {Menuitems.map((item, index) => {
               const isActive = activeItem === item.label;
               return (
@@ -183,8 +184,8 @@ export default function Navbar() {
       </div>
 
       {isOpen && (
-        <button className={`w-100 ${NavbarStyles["buy-ticket"]}`}>
-          <Link href={"#"} className="mb-0 text-decoration-none h5 fw-normal w-100">
+        <button className={`w-100 text-center ${NavbarStyles["buy-ticket"]}`}>
+          <Link href={"#"} className="mb-0 text-decoration-none h6 fw-normal w-100">
             Buy Tickets
           </Link>
         </button>

@@ -13,17 +13,13 @@ const Footer = () => {
         <div className={footerStyle["footer-links"]}>
           <div className="col-xl-8 col-md-12 mx-auto">
             <div className="row">
-              <div className="col-md-3 col-6 mt-3">
-                <Link href={'/'} legacyBehavior><a>Blog</a></Link>
-                
-              </div>
-              <div className="col-md-3 col-6 mt-3">
+              <div className="col-md-4  mt-3">
                 <Link href={'/contact-us'} legacyBehavior><a>Contact Us</a></Link>
               </div>
-              <div className="col-md-3 col-6 mt-3">
+              <div className="col-md-4  mt-3">
                 <Link href={'/privacy-policy'} legacyBehavior><a>Privacy Policy</a></Link>
               </div>
-              <div className="col-md-3 col-6 mt-3">
+              <div className="col-md-4  mt-3">
                 <Link href={'/terms-and-conditions'} legacyBehavior><a>Terms & Conditions</a></Link>
                
               </div>

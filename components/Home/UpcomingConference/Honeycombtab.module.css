@@ -49,3 +49,11 @@
   border-image-slice: 1;
   z-index: -1;
 }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .honeycombContainer {
+   scale: 0.8;
+    margin-top: 16px;
+  }
+}
+

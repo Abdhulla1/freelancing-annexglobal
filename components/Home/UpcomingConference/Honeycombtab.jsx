@@ -20,9 +20,9 @@ const HoneycombTabs = () => {
   };
 
   return (
-    <div className={styles.honeycombContainer}>
+    <div className={`container ${styles.honeycombContainer}`}>
       {categories.map((row, rowIndex) => (
-        <div key={rowIndex}>
+        <div className="row" key={rowIndex}>
           {row.map((category, colIndex) => (
             <button
               key={colIndex}

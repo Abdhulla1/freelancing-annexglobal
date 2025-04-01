@@ -1,0 +1,52 @@
+.cardStyle{
+    background: linear-gradient(240.23deg, rgba(244, 163, 0, 0.2) 0.21%, rgba(219, 204, 0, 0.2) 99.79%);
+    border: none !important; 
+        position: relative;
+        color: black ;
+        
+}
+.cardTitle{
+    font-size: 1.5rem;
+    font-weight: bold;
+
+}
+.arrowCircle{
+    position: absolute;
+  top: -15px;
+  right: -5px;
+  background-color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+}
+.arrowCircle:hover{
+
+}
+.arrow{
+    padding: 15px;
+    background-color: white;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    cursor: pointer;
+    color:#F4A300;
+    border: 1px solid #F4A300;
+}
+.cardStyle:hover{
+    background: linear-gradient(240.23deg, #00214A 0.21%, #160066 99.79%);
+    color: white    ;
+.arrow{
+    background-color: #F4A300;
+    color:white;
+
+}
+}
+
+.arrow:hover{
+    background-color: #F4A300;
+    color:white;
+
+}

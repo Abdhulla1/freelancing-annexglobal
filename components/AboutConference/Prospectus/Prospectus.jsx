@@ -38,7 +38,7 @@ const Prospectus = () => {
               <h3>{prospectusData[activeIndex].title}</h3>
               <p className={ProspectusStyles["passage"]}>{prospectusData[activeIndex].description}</p>
               <button className={ProspectusStyles["btn-download"]}>
-                Download Prospectus
+                Download Brochure
               </button>
               <div className={ProspectusStyles["overlay-text"]}>
                 <button className={ProspectusStyles["icon-wrapper"]} onClick={handleNext}>
