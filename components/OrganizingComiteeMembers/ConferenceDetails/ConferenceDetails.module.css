@@ -89,3 +89,20 @@
   justify-content: center;
   font-size: 18px;
 }
+.brand-btn {
+  background: #F4A300;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.3s;
+}
+
+.brand-btn:hover {
+  background: #b47800;
+  transition-duration: 0.3s;
+  color: white;
+}

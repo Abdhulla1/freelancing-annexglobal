@@ -69,7 +69,7 @@ const ConferenceDetails = ({ conference }) => {
                 </div>
               </div>
               <div className="mt-4">
-                <button className="brand-btn h3">Grab Your Seats Now</button>
+                <button className={`h3 ${ConferenceDetailsStyles["brand-btn"]}`}>Grab Your Seats Now</button>
               </div>
             </div>
           </div>

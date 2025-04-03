@@ -5,7 +5,8 @@
   background-position: center;
 }
 .ocm{
-  margin-left: 160px;
+position: relative;
+right: -250px;
 }
 .conferencelogo {
   width: auto;

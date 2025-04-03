@@ -1,0 +1,38 @@
+
+/* Page Numbers */
+.p-paginator .p-paginator-pages .p-paginator-page {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold;
+    background-color: #F3F3F3; /* Light Gray */
+    color: #121989; /* Dark Blue */
+    border: none;
+    transition: all 0.2s ease-in-out;
+    margin: 0px 5px;
+  }
+  
+  /* Active Page */
+  .p-paginator .p-paginator-pages .p-highlight {
+    background-color: #001f61 !important; /* Dark Blue */
+    color: white !important;
+    font-weight: bold;
+  }
+  /* Prev & Next Buttons */
+  .p-paginator .p-paginator-prev,
+  .p-paginator .p-paginator-next {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: #FFFFFF;
+    background: linear-gradient(53.73deg, #121989 5.63%, #050623 94.37%);
+    margin: 0px 30px;
+  }
+  
+  /* Hover Effects */
+  .p-paginator .p-paginator-prev:hover,
+  .p-paginator .p-paginator-next:hover {
+    background: linear-gradient(53.73deg, #0e1471 5.63%, #050623 94.37%) ;
+  }
+  

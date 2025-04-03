@@ -1,35 +1,36 @@
 .container {
-  background-image: url("/images/conferences/webinar-program-bg.png");
+  background-image: url("/images/conferences/registeration-bg.png");
   padding: 10px;
   background-size: cover;
   background-position: center;
+ 
 }
-.ocm{
-  margin-left: 160px;
-}
+
 .conferencelogo {
   width: auto;
   height: 100px;
 }
 
-.heading h5{
-    line-height: 1.8;
+.heading h3 {
+  line-height: 1;
+  font-weight: bold;
+  /* Apply gradient to text */
+  background: linear-gradient(180deg, #F4A300 0%, rgba(190, 127, 0, 0.682) 63.08%, rgba(142, 95, 0, 0.4) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
+  
 }
 
 .heading p{
-  line-height: 2;
-  font-size: 25px;
+  line-height: 1.5;
+  font-size: 21px;
 }
 
 @media only screen and (max-width: 600px) {
   .heading h5{
     font-size: 12px;
 }
-.container {
-  background-size:cover;
-  background-position: center;
 
-}
 }
 
 .timings{
@@ -87,23 +88,4 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
-}
-
-
-.brand-btn {
-  background: #F4A300;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition-duration: 0.3s;
-}
-
-.brand-btn:hover {
-  background: #b47800;
-  transition-duration: 0.3s;
-  color: white;
 }

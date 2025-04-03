@@ -173,3 +173,11 @@ select.form-control {
     font-size: 12px;
   }
 }
+
+.p-dialog-header-close {
+  color: var(--bs-warning) !important; /* Bootstrap warning color */
+  border: 2px solid var(--bs-warning) !important;
+  border-radius: 10%;
+  width: 30px;
+  height: 30px;
+}

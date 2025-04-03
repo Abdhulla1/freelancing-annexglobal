@@ -23,7 +23,7 @@ const ConferenceDetails = ({ conference }) => {
                  {conference.title}
                   </p>
                   <div className="mt-4">
-                    <button className="brand-btn h3">
+                    <button className={`h3 ${ConferenceDetailsStyles["brand-btn"]}`}>
                       Grab Your Seats Now
                     </button>
                   </div>

@@ -24,7 +24,7 @@ const ConferenceDetails = ({conference}) => {
                  {conference.title}
                   </p>
                   <div className="mt-4">
-                    <button className="brand-btn">
+                    <button className={`${ConferenceDetailsStyles["brand-btn"]}`}>
                       Grab Your Seats Now
                     </button>
                   </div>

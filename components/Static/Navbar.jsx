@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useEffect,useMemo  } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import NavbarStyles from "./Navbar.module.css";
@@ -65,45 +65,92 @@ export default function Navbar() {
       items: [
         { label: "UPCOMING EVENTS", url: "/upcoming-conference" },
         { label: "PAST EVENTS", url: "/past-conference" },
-       
       ],
     },
-  ];  
+  ];
   const idMatch = pathname.match(/^\/conference\/([^/]+)/);
-  const conferenceId = idMatch ? idMatch[1] : null;  // Menu items for the /conference route
+  const conferenceId = idMatch ? idMatch[1] : null; // Menu items for the /conference route
   const conferenceMenuItems = [
     { label: "HOME", url: "/" },
-    { label: "WEBINAR", url: conferenceId ? `/conference/${conferenceId}/webinar` : "#" },
-    { label: "TOPICS", url: conferenceId ? `/conference/${conferenceId}/topics` : "#" },
-    { label: "OCM", url: conferenceId ? `/conference/${conferenceId}/organizing-committee-members` : "#" },
-    { label: "SPEAKERS", url: conferenceId ? `/conference/${conferenceId}/speakers` : "#" },
-    { label: "REGISTRATION", url: conferenceId ? `/conference/${conferenceId}/registration` : "#" },
+    {
+      label: "WEBINAR",
+      url: conferenceId ? `/conference/${conferenceId}/webinar` : "#",
+    },
+    {
+      label: "TOPICS",
+      url: conferenceId ? `/conference/${conferenceId}/topics` : "#",
+    },
+    {
+      label: "OCM",
+      url: conferenceId
+        ? `/conference/${conferenceId}/organizing-committee-members`
+        : "#",
+    },
+    {
+      label: "SPEAKERS",
+      url: conferenceId ? `/conference/${conferenceId}/speakers` : "#",
+    },
+    {
+      label: "REGISTRATION",
+      url: conferenceId ? `/conference/${conferenceId}/registration` : "#",
+    },
     {
       label: "MORE",
       items: [
-        { label: "SUBMIT ABSTRACT", url: conferenceId ? `/conference/${conferenceId}/submit-abstract` : "#" },
-        { label: "WEBINAR PROGRAM",url: conferenceId ? `/conference/${conferenceId}/webinar-program` : "#" },
-        { label: "SCIENTICFIC PROGRAM",url: conferenceId ? `/conference/${conferenceId}/scientific-program` : "#" },
-        { label: "SPONSORS EXHIBITORS",url: conferenceId ? `/conference/${conferenceId}/sponsors-exhibitors` : "#" },
-        { label: "FAQ",url: conferenceId ? `/conference/${conferenceId}/faq` : "#" },
+        {
+          label: "SUBMIT ABSTRACT",
+          url: conferenceId
+            ? `/conference/${conferenceId}/submit-abstract`
+            : "#",
+        },
+        {
+          label: "WEBINAR PROGRAM",
+          url: conferenceId
+            ? `/conference/${conferenceId}/webinar-program`
+            : "#",
+        },
+        {
+          label: "SCIENTICFIC PROGRAM",
+          url: conferenceId
+            ? `/conference/${conferenceId}/scientific-program`
+            : "#",
+        },
+        {
+          label: "SPONSORS EXHIBITORS",
+          url: conferenceId
+            ? `/conference/${conferenceId}/sponsors-exhibitors`
+            : "#",
+        },
+        {
+          label: "FAQ",
+          url: conferenceId ? `/conference/${conferenceId}/faq` : "#",
+        },
       ],
     },
   ];
 
   // Determine which menu to display
-  const Menuitems  = useMemo(() => {
-    return pathname.startsWith("/conference/") ? conferenceMenuItems : homePageItems ;
+  const Menuitems = useMemo(() => {
+    return pathname.startsWith("/conference/")
+      ? conferenceMenuItems
+      : homePageItems;
   }, [pathname]);
 
   return (
     <nav
-      className={`${NavbarStyles.navbar} navbar navbar-expand-md navbar-light bg-white shadow animate__animated p-0 ${
+      className={`${
+        NavbarStyles.navbar
+      } navbar navbar-expand-md navbar-light bg-white shadow animate__animated p-0 ${
         isFixed ? "fixed-top animate__fadeInDown" : ""
       }`}
     >
       <div className="container-fluid d-flex justify-content-between align-items-center w-100">
         <div className={`d-flex align-items-center ${NavbarStyles.logo}`}>
-          <img src="/icons/annex_logo.png" alt="Logo" className="img-fluid mb-2" />
+          <img
+            src="/icons/annex_logo.png"
+            alt="Logo"
+            className="img-fluid mb-2"
+          />
           <div className="mt-2">
             <span className={NavbarStyles["main-title"]}>
               ANNEX GLOBAL CONFERENCE
@@ -119,7 +166,7 @@ export default function Navbar() {
           type="button"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <span className="navbar-toggler-icon"> {" "}</span>
+          <span className="navbar-toggler-icon"> </span>
         </button>
 
         <div
@@ -133,7 +180,10 @@ export default function Navbar() {
                 <li
                   key={index}
                   className={`nav-item ${item.items ? "dropdown" : ""}`}
-                  onClick={() => setActiveItem(item.label)}
+                  onClick={() => {
+                    setActiveItem(item.label);
+                    setIsOpen(false);
+                  }}
                 >
                   {item.items ? (
                     <>
@@ -148,7 +198,11 @@ export default function Navbar() {
                       <ul className="dropdown-menu">
                         {item.items.map((subItem, subIndex) => (
                           <li key={subIndex}>
-                            <Link href={subItem.url} className="dropdown-item">
+                            <Link
+                              href={subItem.url}
+                              className="dropdown-item"
+                              onClick={() => setIsOpen(false)}
+                            >
                               {subItem.label}
                             </Link>
                           </li>
@@ -161,6 +215,7 @@ export default function Navbar() {
                       className={`${NavbarStyles["nav-link"]} ${
                         isActive ? NavbarStyles.active : ""
                       }`}
+                      onClick={() => setIsOpen(false)}
                     >
                       {item.label}
                     </Link>
@@ -185,7 +240,10 @@ export default function Navbar() {
 
       {isOpen && (
         <button className={`w-100 text-center ${NavbarStyles["buy-ticket"]}`}>
-          <Link href={"#"} className="mb-0 text-decoration-none h6 fw-normal w-100">
+          <Link
+            href={"#"}
+            className="mb-0 text-decoration-none h6 fw-normal w-100"
+          >
             Buy Tickets
           </Link>
         </button>
@@ -193,4 +251,3 @@ export default function Navbar() {
     </nav>
   );
 }
-

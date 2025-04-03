@@ -22,11 +22,11 @@ const FAQDetails = ({ conference }) => {
                   <p className="text-white ">
                  {conference.title}
                   </p>
-                  <div className="mt-4">
-                    <button className="brand-btn h3">
+                  {/* <div className="mt-4">
+                    <button className={`h3 ${ConferenceDetailsStyles["brand-btn"]}`}>
                       Grab Your Seats Now
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

@@ -1,7 +1,13 @@
 import React from 'react'
+import Registration from '@/components/Registration/Registration';
+import { getSelectedConference } from '@/service/conferenceData';
+const page= async ({ params })=>{
 
-export default function page() {
+  const {slug}= await params;
+  const selectedConference=getSelectedConference(slug);
   return (
-    <div>page</div>
+  <Registration conference={selectedConference}/>
   )
 }
+
+export default  page;

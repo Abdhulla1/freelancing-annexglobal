@@ -1,7 +1,12 @@
 import React from 'react'
-
-export default function page() {
+import Topics from '@/components/Topics/Topics'
+import { getSelectedConference } from '@/service/conferenceData';
+const page= async({ params })=>{
+  const { slug } = await params;
+  const selectedConference = getSelectedConference(slug);
   return (
-    <div>page</div>
+   <Topics conference={selectedConference}/>
   )
 }
+
+export default  page;
