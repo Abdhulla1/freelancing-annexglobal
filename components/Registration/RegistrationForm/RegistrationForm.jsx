@@ -5,48 +5,58 @@ import PricingTable from "../PricingTable/PricingTable";
 import { Dialog } from "primereact/dialog";
 import Image from "next/image";
 import Link from "next/link";
-// Separate component for label and input
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
 const FormField = ({
   label,
   name,
   type = "text",
-  value,
-  onChange,
+  formik,
   placeholder,
   colSpan = "col-md-6",
 }) => {
   return (
     <div className={`mb-3 ${colSpan}`}>
-      <label className="form-label">{label}</label>
+      <label className="form-label">
+        {label} <span className="text-danger">*</span>
+      </label>
       <input
         type={type}
         name={name}
-        className="form-control"
-        value={value}
-        onChange={onChange}
+        className={`form-control ${formik.touched[name] && formik.errors[name] ? "is-invalid" : ""
+          }`}
+        value={formik.values[name]}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
         placeholder={placeholder}
       />
+      {formik.touched[name] && formik.errors[name] && (
+        <div className="invalid-feedback">{formik.errors[name]}</div>
+      )}
     </div>
   );
 };
 
-// Separate component for select field
 const FormSelect = ({
   label,
   name,
-  value,
-  onChange,
   options,
+  formik,
   colSpan = "col-md-6",
 }) => {
   return (
     <div className={`mb-3 ${colSpan}`}>
-      <label className="form-label">{label}</label>
+      <label className="form-label">
+        {label} <span className="text-danger">*</span>
+      </label>
       <select
         name={name}
-        className="form-select"
-        value={value}
-        onChange={onChange}
+        className={`form-select ${formik.touched[name] && formik.errors[name] ? "is-invalid" : ""
+          }`}
+        value={formik.values[name]}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -54,38 +64,55 @@ const FormSelect = ({
           </option>
         ))}
       </select>
+      {formik.touched[name] && formik.errors[name] && (
+        <div className="invalid-feedback">{formik.errors[name]}</div>
+      )}
     </div>
   );
 };
 
+// === 👇 Main Component ===
 export default function RegistrationForm() {
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    contact: "",
-    country: "",
-    address: "",
-    currency: "",
-  });
   const [isOpen, setIsOpen] = useState(false);
+
   const getButtonStyle = (stepIndex) => {
     if (stepIndex === step) {
-      return `${styles.stepsBtns} ${styles.stepsBtnActiveFocus}`; // Active and focused
+      return `${styles.stepsBtns} ${styles.stepsBtnActiveFocus}`;
     } else if (stepIndex < step) {
-      return `${styles.stepsBtns} ${styles.stepsBtnCompleted}`; // Completed
+      return `${styles.stepsBtns} ${styles.stepsBtnCompleted}`;
     } else {
-      return `${styles.stepsBtns} ${styles.stepsBtns}`; // Inactive
+      return styles.stepsBtns;
     }
   };
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required("First name is required"),
+    lastName: Yup.string().required("Last name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    contact: Yup.string()
+      .matches(/^\d{10}$/, "Enter 10 digit number")
+      .required("Contact is required"),
+    country: Yup.string().required("Country is required"),
+    address: Yup.string().required("Address is required"),
+    currency: Yup.string().required("Currency is required"),
+  });
 
-  const nextStep = () => setStep((prev) => prev + 1);
-  const prevStep = () => setStep((prev) => prev - 1);
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      contact: "",
+      country: "",
+      address: "",
+      currency: "",
+    },
+    validationSchema,
+    onSubmit: () => {
+      setStep((prev) => prev + 1);
+    },
+  });
 
   return (
     <div className="container mt-5 p-5 shadow-lg rounded-4 bg-white">
@@ -96,9 +123,9 @@ export default function RegistrationForm() {
           return (
             <button
               key={stepIndex}
-              className={` text-decoration-none col-4 ${getButtonStyle(
+              className={`text-decoration-none col-4 ${getButtonStyle(
                 stepIndex
-              )} `}
+              )}`}
               onClick={() => setStep(stepIndex)}
             >
               {stepIndex < step ? (
@@ -113,82 +140,75 @@ export default function RegistrationForm() {
       </div>
 
       {step === 1 && (
-        <form className="container">
-          <div className="mb-4">
-            <h5 className="text-start mb-4">
-              Please fill in the Event Registration Form below to complete your
-              registration
-            </h5>
-            <div className="row">
-              <FormField
-                label="First Name *"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="Enter First Name"
-              />
-              <FormField
-                label="Last Name *"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Enter Last Name"
-              />
-            </div>
-            <div className="row">
-              <FormField
-                label="Email ID *"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter Email"
-              />
-              <FormField
-                label="Contact Number *"
-                name="contact"
-                type="tel"
-                value={formData.contact}
-                onChange={handleChange}
-                placeholder="Enter Contact"
-              />
-            </div>
-            <div className="row">
-              <FormField
-                label="Country *"
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                placeholder="Enter Country"
-              />
-              <FormField
-                label="Address *"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="Enter Address"
-              />
-            </div>
+        <form className="container" onSubmit={formik.handleSubmit}>
+          <h5 className="text-start mb-4">
+            Please fill in the Event Registration Form below to complete your
+            registration
+          </h5>
+          <div className="row">
+            <FormField
+              label="First Name"
+              name="firstName"
+              formik={formik}
+              placeholder="Enter First Name"
+            />
+            <FormField
+              label="Last Name"
+              name="lastName"
+              formik={formik}
+              placeholder="Enter Last Name"
+            />
           </div>
-          <div>
-            <h5 className="text-start mb-4">
-              Choose your preferred currency for a seamless experience.
-            </h5>
-
-            <div className="row">
-              <FormSelect
-                label="Currency"
-                name="currency"
-                value={formData.currency}
-                onChange={handleChange}
-                options={[
-                  { value: "", label: "Select Currency" },
-                  { value: "USD", label: "USD" },
-                  { value: "EUR", label: "EUR" },
-                  { value: "INR", label: "INR" },
-                ]}
-              />
-            </div>
+          <div className="row">
+            <FormField
+              label="Email"
+              name="email"
+              type="email"
+              formik={formik}
+              placeholder="Enter Email"
+            />
+            <FormField
+              label="Contact Number"
+              name="contact"
+              type="tel"
+              formik={formik}
+              placeholder="Enter Contact Number"
+            />
+          </div>
+          <div className="row">
+            <FormField
+              label="Country"
+              name="country"
+              formik={formik}
+              placeholder="Enter Country"
+            />
+            <FormField
+              label="Address"
+              name="address"
+              formik={formik}
+              placeholder="Enter Address"
+            />
+          </div>
+          <h5 className="text-start mb-4">
+            Choose your preferred currency for a seamless experience.
+          </h5>
+          <div className="row">
+            <FormSelect
+              label="Currency"
+              name="currency"
+              formik={formik}
+              options={[
+                { value: "", label: "Select Currency" },
+                { value: "USD", label: "USD" },
+                { value: "EUR", label: "EUR" },
+                { value: "INR", label: "INR" },
+              ]}
+            />
+          </div>
+          <div className="d-flex justify-content-end">
+            <button type="submit" className={`btn ${styles["brand-btn"]}`}>
+              Continue
+            </button>
           </div>
         </form>
       )}
@@ -202,7 +222,6 @@ export default function RegistrationForm() {
       {step === 3 && (
         <div className={`container ${styles.paymentContainer}`}>
           <div className="row">
-            {/* Payment Method Section */}
             <div className="col-md-6">
               <h5>Choose Payment Method</h5>
               <div className="d-flex flex-column gap-3">
@@ -245,7 +264,6 @@ export default function RegistrationForm() {
               </div>
             </div>
 
-            {/* Ticket Summary Section */}
             <div className="col-md-6">
               <h5 className="pb-4 border-bottom">Ticket Summary</h5>
               <div className="d-flex justify-content-between">
@@ -259,7 +277,7 @@ export default function RegistrationForm() {
               <hr />
               <div className="d-flex justify-content-between fw-bold fs-5">
                 <span>Total Cost</span>
-                <span>$1200.00</span>
+                <span>$2400.00</span>
               </div>
             </div>
           </div>
@@ -269,71 +287,69 @@ export default function RegistrationForm() {
       <div className="d-flex justify-content-between mt-4">
         <button
           className={`${styles.prevbtn} ${step === 1 ? "invisible" : ""}`}
-          onClick={prevStep}
+          onClick={() => setStep((prev) => prev - 1)}
         >
           <i className="pi pi-chevron-left"></i>&nbsp; Previous
         </button>
 
-        {step < 3 ? (
+        {step === 2 ? (
           <button
             className={`btn text-capitalize ${styles["brand-btn"]}`}
-            onClick={nextStep}
+            onClick={() => setStep((prev) => prev + 1)}
           >
             continue
           </button>
-        ) : (
+        ) : step === 3 ? (
           <button
             className={`btn text-capitalize ${styles["brand-btn"]}`}
             onClick={() => setIsOpen(true)}
           >
             Proceed to pay
           </button>
-        )}
+        ) : null}
       </div>
 
       <Dialog
-  visible={isOpen}
-  modal
-  dismissableMask
-  onHide={() => setIsOpen(false)}
-  className="w-40 max-w-[500px] "
-  maskClassName="bg-black bg-opacity-50 backdrop-blur-lg"
-  content={({ hide }) => (
-    <div className=" bg-white border rounded-4 p-3">
-      <div className="position-relative">
-        <Image
-          src="/images/conferences/registeration-success-bg.png"
-          height={200}
-          width={600}
-          className="img-fluid w-100 h-auto rounded-top"
-          alt="Registration Success Background"
-        />
-      </div>
-      <div className="text-center p-3">
-        <h3 className="fw-bold mt-3">Registration Successful!</h3>
-        <p className="mt-5 px-3">
-          Thank you for registering for the{" "}
-          <span className="fw-bold text-warning">
-            Annual Congress On Gynecology, Obstetrics and Women's Health
-          </span>. <br />
-          We appreciate your participation and look forward to an insightful event.
-        </p>
-        <p className="text-muted mt-5">
-          You will receive a confirmation email with further details soon.
-        </p>
-
-        {/* Back to Homepage Button */}
-        <Link
-          href={'/'}
-          className={`btn text-capitalize ${styles["brand-btn"]}`}
-        >
-          Back To Homepage
-        </Link>
-      </div>
-    </div>
-  )}
-></Dialog>
-
+        visible={isOpen}
+        modal
+        dismissableMask
+        onHide={() => setIsOpen(false)}
+        className="w-40 max-w-[500px]"
+        maskClassName="bg-black bg-opacity-50 backdrop-blur-lg"
+        content={({ hide }) => (
+          <div className="bg-white border rounded-4 p-3">
+            <div className="position-relative">
+              <Image
+                src="/images/conferences/registeration-success-bg.png"
+                height={200}
+                width={600}
+                className="img-fluid w-100 h-auto rounded-top"
+                alt="Registration Success Background"
+              />
+            </div>
+            <div className="text-center p-3">
+              <h3 className="fw-bold mt-3">Registration Successful!</h3>
+              <p className="mt-5 px-3">
+                Thank you for registering for the{" "}
+                <span className="fw-bold text-warning">
+                  Annual Congress On Gynecology, Obstetrics and Women's Health
+                </span>
+                . <br />
+                We appreciate your participation and look forward to an insightful event.
+              </p>
+              <p className="text-muted mt-5">
+                You will receive a confirmation email with further details soon.
+              </p>
+              <Link
+                href={"/"}
+                className={`btn text-capitalize ${styles["brand-btn"]}`}
+              >
+                Back To Homepage
+              </Link>
+            </div>
+          </div>
+        )}
+      ></Dialog>
     </div>
   );
 }

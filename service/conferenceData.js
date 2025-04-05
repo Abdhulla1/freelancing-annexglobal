@@ -45,4 +45,46 @@ export const conferenceData=[
 export const getSelectedConference = (slug) => {
     const selectedConference = conferenceData.find((conf) => conf.id === slug);
     return selectedConference;
-  };
+};
+
+  const Sessions = [
+    { id: 1, title: "Point Of View: Upcoming Trends And " },
+    { id: 2, title: "Diabetes Management: Pharmacology" },
+    { id: 3, title: "Innovations In Diabetes Diagnosis" },
+    { id: 4, title: "Diabetes Management And Treatment" },
+    { id: 5, title: "Infectious Diseases And Preventive" },
+    { id: 6, title: "Advance In Clinical Medicine" },
+    { id: 7, title: "Mental Health And Psychological " },
+    { id: 8, title: "Global Health And Internal Medicine" },
+    { id: 9, title: "Public Health And Nutrition" },
+    { id: 10, title: "Point Of View: Upcoming Trends And" },
+    { id: 11, title: "Diabetes Management: Pharmacology" },
+    { id: 12, title: "Innovations In Diabetes Diagnosis" },
+    { id: 13, title: "Diabetes Management And Treatment" },
+    { id: 14, title: "Infectious Diseases And Preventive" },
+    { id: 15, title: "Advance In Clinical Medicine" },
+    { id: 16, title: "Mental Health And Psychological " },
+    { id: 17, title: "Global Health And Internal Medicine" },
+    { id: 18, title: "Public Health And Nutrition" },
+    { id: 19, title: "Advance In Clinical Medicine" },
+    { id: 20, title: "Mental Health And Psychological " },
+    { id: 21, title: "Global Health And Internal Medicine" },
+    { id: 22, title: "Public Health And Nutrition" },
+    { id: 23, title: "Point Of View: Upcoming Trends And" },
+    { id: 24, title: "Diabetes Management: Pharmacology" },
+    { id: 25, title: "Innovations In Diabetes Diagnosis" },
+    { id: 26, title: "Diabetes Management And Treatment" },
+    { id: 27, title: "Infectious Diseases And Preventive" },
+    { id: 28, title: "Advance In Clinical Medicine" },
+    { id: 29, title: "Mental Health And Psychological " },
+    { id: 30, title: "Global Health And Internal Medicine" },
+    { id: 31, title: "Public Health And Nutrition" },
+  ];
+  
+  export const getSelectedSessions = (slug) => {
+    const selectedConference = Sessions.find((sess) => sess.id == slug);
+    return selectedConference;
+};
+  export const getAllSessions = () => {
+    return Sessions;
+};

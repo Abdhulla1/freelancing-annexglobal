@@ -1,11 +1,50 @@
 .container{
     padding: 10px;
     background-size: cover;
+    display: flex;
+    justify-content: space-between;
+    max-height: 800px;
+}
+.research{
+  color:#0000001A;
+  font-weight: 900;
+
+
+}
+.topics {
+  background-image: url('/images/conferences/topics.png');
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  
+}
+
+
+.topics-wraper{
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #F4A300  #DADADA66; /* Firefox (thumb color, track color) */
+}
+
+/* Chrome, Edge, Safari */
+.topics-wraper::-webkit-scrollbar {
+  width: 2px !important;
+}
+
+.topics-wraper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.topics-wraper::-webkit-scrollbar-thumb {
+  background-color: #F4A300; /* Scrollbar color */
+  border-radius: 10px;
 }
 
 .card {
-    background: white;
+    background: #FFFFFF1A;
     border-radius: 5px;
+    border: 1px solid  #35A4DBB2;
     padding: 15px 20px;
     width: 100%;
     display: flex;
@@ -17,7 +56,8 @@
 }
 
 .card .text {
-    color: black;
+    color: white;
+    font-weight: 500;
 }
 
 .card .icon {
@@ -31,7 +71,6 @@
     border-radius: 50%;
     cursor: pointer;
     font-size: 14px;
-    text-decoration: none;
 }
 
 
@@ -71,4 +110,47 @@
 .customPaginator .p-paginator .p-paginator-prev:hover,
 .customPaginator .p-paginator .p-paginator-next:hover {
   background: linear-gradient(53.73deg, #0e1471 5.63%, #050623 94.37%) ;
+}
+@media (max-width: 767px) {
+  .container {
+
+    max-height: unset;
+    padding: 15px;
+  }
+
+  .topics {
+    width: 100% !important;
+    padding: 20px !important;
+    margin-bottom: 20px;
+  }
+
+  .topics-wraper {
+    max-height: 300px;
+  }
+
+  .card {
+    flex-direction: row;
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .card .icon {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+
+  .p-paginator {
+    flex-wrap: wrap;
+    justify-content: center !important;
+  }
+
+  .customPaginator .p-paginator .p-paginator-prev,
+  .customPaginator .p-paginator .p-paginator-next {
+    margin: 0 10px;
+  }
 }

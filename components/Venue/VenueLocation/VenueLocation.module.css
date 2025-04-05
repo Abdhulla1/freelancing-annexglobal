@@ -1,0 +1,28 @@
+.container {
+    height: 60vh;
+   
+  }
+  .rightPanel {
+    background-color: #002147;
+    background-image: url('/images/conferences/venue-loaction.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    text-align: start;
+    display: flex ;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .rightPanelContent{
+    background-color: #00000080;
+    line-height: 64px;
+    text-wrap: nowrap;
+
+  }
+  @media (max-width: 991.98px) {
+    .container {
+      height: auto;
+    }
+  }
+  

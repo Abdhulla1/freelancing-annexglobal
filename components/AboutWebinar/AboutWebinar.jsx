@@ -18,7 +18,7 @@ const AboutWebinar = ({conference}) => {
         <WelcomeContent/>
         <VisualRecap/>
         <OrganizingCommitee/>
-        <DiscoverySessions/>
+        <DiscoverySessions conference={conference.id}/>
         <AlumniSpeakers/>
         <QueriesAnswered/>
         <Prospectus/>

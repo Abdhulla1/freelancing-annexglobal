@@ -16,6 +16,7 @@ import LocationandServices from "./LocationandServices/LocationandServices";
 import Prospectus from "./Prospectus/Prospectus";
 
 const AboutConference = ({conference}) => {
+
   return (
     <>
       <ConferenceDetails conference={conference} />
@@ -27,7 +28,7 @@ const AboutConference = ({conference}) => {
       <div className="mt-5"></div>
       <ReputedOrganizations/>
       <AlumniSpeakers/>
-      <DiscoverySessions/>
+      <DiscoverySessions conference={conference.id}/>
       <PastConference/>
       <QueriesAnswered/>
       <LocationandServices/>

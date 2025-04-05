@@ -122,6 +122,10 @@ export default function Navbar() {
             : "#",
         },
         {
+          label: "VENUE",
+          url: conferenceId ? `/conference/${conferenceId}/venue` : "#",
+        },
+        {
           label: "FAQ",
           url: conferenceId ? `/conference/${conferenceId}/faq` : "#",
         },

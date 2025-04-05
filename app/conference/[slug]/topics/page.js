@@ -1,12 +1,9 @@
-import React from 'react'
-import Topics from '@/components/Topics/Topics'
-import { getSelectedConference } from '@/service/conferenceData';
-const page= async({ params })=>{
-  const { slug } = await params;
-  const selectedConference = getSelectedConference(slug);
-  return (
-   <Topics conference={selectedConference}/>
-  )
-}
+import React from "react";
+import DiscoverySessions from "@/components/Topics/DiscoverySessions/DiscoverySessions";
 
-export default  page;
+const page = async ({ params }) => {
+  const { slug } = await params;
+  return <DiscoverySessions conferenceId={slug} />;
+};
+
+export default page;

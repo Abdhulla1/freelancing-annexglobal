@@ -1,11 +1,25 @@
 .container{
     padding: 10px;
     background-size: cover;
+    display: flex;
+    justify-content: space-between;
 }
+.research{
+  color:#0000001A;
+  font-weight: 900;
 
+}
+.topics{
+  background-image: url('/images/conferences/topics.png');
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
 .card {
-    background: white;
+    background: #FFFFFF1A;
     border-radius: 5px;
+    border: 1px solid  #35A4DBB2;
     padding: 15px 20px;
     width: 100%;
     display: flex;
@@ -17,7 +31,8 @@
 }
 
 .card .text {
-    color: black;
+    color: white;
+    font-weight: 500;
 }
 
 .card .icon {

@@ -1,0 +1,83 @@
+.container {
+  height: 55vh;
+
+ 
+}
+
+.leftPanel {
+  background-color: #002147;
+  background-image: url('/images/conferences/venue-left.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.navButton {
+  background-color: transparent;
+  border: 1px solid #FFFFFF99;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+
+}
+
+.navButton i{
+  background-color: transparent;
+  color: #FFFFFF99; 
+  font-weight: 200;
+  font-size: 15px;
+  cursor: pointer;
+
+}
+
+.slideNumber {
+  font-size: 25px;
+  font-weight: 200;
+}
+
+.imageContainer {
+  display: flex;
+  gap: 10px;
+  overflow: hidden;
+  position: relative;
+  margin-top: 50px;
+  right:150px;
+  width: 100vw;
+}
+
+.image {
+  border-radius: 6px;
+  object-fit: cover;
+}
+.line {
+  flex-grow: 1;
+  border-bottom: 1px solid #FFFFFF99;
+  margin: 0 20px;
+}
+@media (max-width: 991.98px) {
+  .imageContainer {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    right: 0;
+    margin-top: 20px;
+    overflow: visible;
+    width: 100%;
+  }
+
+  .image {
+    width: calc(50% - 10px);
+    max-width: 180px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .container {
+    height: auto;
+  }
+}

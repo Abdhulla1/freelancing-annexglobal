@@ -1,6 +1,6 @@
 .container{
     padding: 10px;
-    background-image: url('/images/conferences/discovery-sessions.webp');
+    background-image: url('/images/conferences/discovery-sessions-topics.png');
     background-size: cover;
 }
 
@@ -32,4 +32,5 @@
     border-radius: 50%;
     cursor: pointer;
     font-size: 14px;
+    text-decoration: none;
 }
