@@ -11,8 +11,10 @@ export default function Navbar() {
   const [activeItem, setActiveItem] = useSessionStorageState("activeNavItem", {
     initialValue: "HOME",
   });
+
   const menuRef = useRef(null);
   const pathname = usePathname();
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -43,6 +45,7 @@ export default function Navbar() {
         setIsFixed(false);
       }
     }
+
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -68,8 +71,10 @@ export default function Navbar() {
       ],
     },
   ];
+
   const idMatch = pathname.match(/^\/conference\/([^/]+)/);
-  const conferenceId = idMatch ? idMatch[1] : null; // Menu items for the /conference route
+  const conferenceId = idMatch ? idMatch[1] : null;
+
   const conferenceMenuItems = [
     { label: "HOME", url: "/" },
     {
@@ -133,12 +138,30 @@ export default function Navbar() {
     },
   ];
 
-  // Determine which menu to display
   const Menuitems = useMemo(() => {
     return pathname.startsWith("/conference/")
       ? conferenceMenuItems
       : homePageItems;
   }, [pathname]);
+
+  // Set the active item based on the current pathname
+  useEffect(() => {
+    const matchedItem = Menuitems.find((item) => {
+      const matchUrl = (url) =>
+        pathname === url || pathname.startsWith(url + "/");
+    
+      if (item.url && matchUrl(item.url)) return true;
+      if (item.items) {
+        return item.items.some((subItem) => matchUrl(subItem.url));
+      }
+      return false;
+    });
+    
+
+    if (matchedItem) {
+      setActiveItem(matchedItem.label);
+    }
+  }, [pathname, Menuitems, setActiveItem]);
 
   return (
     <nav
@@ -184,10 +207,7 @@ export default function Navbar() {
                 <li
                   key={index}
                   className={`nav-item ${item.items ? "dropdown" : ""}`}
-                  onClick={() => {
-                    setActiveItem(item.label);
-                    setIsOpen(false);
-                  }}
+                  onClick={() => setIsOpen(false)}
                 >
                   {item.items ? (
                     <>

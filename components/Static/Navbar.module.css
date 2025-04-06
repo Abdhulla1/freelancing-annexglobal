@@ -103,6 +103,12 @@
     max-height: 30px; /* Adjust height for proper scaling */
     width: auto;
   }
+  
+.buy-ticket {
+
+  font-size: 10px;
+   /* Adjust padding for smaller screens */
+}
 }
 
 @media (max-width: 768px) {
@@ -120,6 +126,11 @@
   .nav-link.active {
     color: #121989; /* Keep the highlight */
     font-weight: bold; /* Optionally make the text bold for better visibility */
+  }
+  .buy-ticket {
+
+    font-size: 10px;
+     /* Adjust padding for smaller screens */
   }
 }
 

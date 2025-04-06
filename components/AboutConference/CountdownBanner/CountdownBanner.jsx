@@ -37,7 +37,7 @@ const CountdownBanner = () => {
   if (!timeLeft) return null;
 
   return (
-    <div className={`fixed-bottom py-3 ${styles.banner}`}>
+    <div className={`fixed-bottom  ${styles.banner}`}>
       <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center">
         <h5 className="text-dark m-0 fw-bold">EVENT STARTS IN:</h5>
 

@@ -6,7 +6,37 @@
 .passage {
   font-size: 20px;
   margin-top: 25px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding-right: 10px;
+  scroll-behavior: smooth;
+
+  /* Scrollbar styling for Chrome, Edge, Safari */
+  scrollbar-width: thin;
+  scrollbar-color: #F4A300 #f1f1f1; 
 }
+
+/* Webkit-based browsers (Chrome, Edge, Safari) */
+.passage::-webkit-scrollbar {
+  width: 3px;
+}
+
+.passage::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.passage::-webkit-scrollbar-thumb {
+  background-color: #F4A300; /* Blue thumb */
+  border-radius: 4px;
+  border: 2px solid #f1f1f1; /* Creates space around thumb */
+}
+
+/* Optional hover effect */
+.passage::-webkit-scrollbar-thumb:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
 
 .btn-download {
   background-color: #fff;
@@ -42,7 +72,6 @@
 display: flex;
 justify-content: center;
 gap: 5px;
-
 }
 .card {
   position: relative;
@@ -103,7 +132,7 @@ gap: 5px;
 .overlay-text {
   position: relative;
   top: -50%;
-  left: 115%;
+
   transform: translate(-50%, -50%);
   color: white;
   font-size: 24px;
@@ -118,7 +147,7 @@ gap: 5px;
 
 
 .icon-wrapper {
-  position: relative;
+  position: absolute;
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -126,7 +155,6 @@ gap: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: 50px;
   border: none;
   color: white;
   box-shadow: 0 0 15px #0000a6;
@@ -174,8 +202,8 @@ gap: 5px;
 @media only screen and (max-width: 768px) {
   .overlay-text {
     position: relative;
-    top: 13%;
-    left: 50%;
+    top: -100%;
+    left: 40%;
   }
   .register-btn {
     padding: 10px ;

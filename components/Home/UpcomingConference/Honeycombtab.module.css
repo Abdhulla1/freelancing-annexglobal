@@ -52,8 +52,9 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .honeycombContainer {
-   scale: 0.8;
+   scale: 0.5;
     margin-top: 16px;
+    justify-content: center;font-size: 10px;
   }
 }
 
