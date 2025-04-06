@@ -163,7 +163,7 @@ const OrganizingCommitee = () => {
         visible={visibleDetails}
         position="right"
         onHide={() => setVisibleDetails(false)}
-        style={{ width: "32rem" }}
+        style={{ width: "32rem", borderTopLeftRadius: "40px", borderBottomLeftRadius: "40px"}}
       >
         {selectedSpeaker && (
           <>
