@@ -79,6 +79,7 @@ const Prospectus = () => {
               {prospectusData.map((prospectus, i) => (
                 <div
                   key={i}
+                  onClick={() => setActiveIndex(i)}
                   className={
                     activeIndex === i
                       ? ProspectusStyles["card"]

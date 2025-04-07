@@ -6,7 +6,7 @@
 
 .conferencelogo {
   width: auto;
-  height: 100px;
+  height: 150px;
 }
 
 .heading h5{
@@ -104,6 +104,23 @@
 }
 
 .brand-btn:hover {
+  background: #b47800;
+  transition-duration: 0.3s;
+  color: white;
+}
+.program-btn {
+  background: #FFFFFF1A;
+  color: #F4A300;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.3s;
+}
+
+.program-btn:hover {
   background: #b47800;
   transition-duration: 0.3s;
   color: white;

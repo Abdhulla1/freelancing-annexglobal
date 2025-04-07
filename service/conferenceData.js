@@ -2,6 +2,7 @@ export const conferenceData=[
     {
         date: "17 Mar 2026",
         title: "Annual Congress on gynecology, obstetrics & women’s health",
+        theme:'“Forging the future of global healthcare through effortless scanning solutions”',
         location: "Dubai, UAE",
         id: "gynecology-conference",
         icon: "/icons/conference/logo.png",
@@ -9,6 +10,7 @@ export const conferenceData=[
     {
         date: "22 Apr 2026",
         title: "Primary Healthcare, Pain Management & Functional Structure",
+        theme:'“Forging the future of global healthcare through effortless scanning solutions”',
         location: "New York, USA",
         id: "primary-healthcare",
         icon: "/icons/conference/primaryHealthcare.png",
@@ -16,6 +18,7 @@ export const conferenceData=[
     {
         date: "10 May 2026",
         title: "International Conference on global healthcare",
+        theme:'“Forging the future of global healthcare through effortless scanning solutions”',
         location: "London, UK",
         id: "neurology-brain-disorders",
         icon: "/icons/conference/ghc.png",
@@ -23,6 +26,7 @@ export const conferenceData=[
     {
         date: "5 Jun 2026",
         title: "International webinar on global healthcare",
+        theme:'“Forging the future of global healthcare through effortless scanning solutions”',
         location: "Sydney, Australia",
         id: "healthcare-webinar",
         icon: "/icons/conference/healthcarewebinar.png",
@@ -30,6 +34,7 @@ export const conferenceData=[
     {
         date: "18 Jul 2026",
         title: "International webinar on oncology & cancer research",
+        theme:'“Forging the future of global healthcare through effortless scanning solutions”',
         location: "Paris, France",
         id: "oncology",
         icon: "/icons/conference/oncology.png",
@@ -37,6 +42,7 @@ export const conferenceData=[
     {
         date: "23 Aug 2026",
         title: "International Webinar on Gynaecology, Obstetrics and Women’s Healthcare",
+        theme:'“Forging the future of global healthcare through effortless scanning solutions”',
         location: "Toronto, Canada",
         id: "gynaecology-webinar",
         icon: "/icons/conference/gynaecologyWebinar.png",

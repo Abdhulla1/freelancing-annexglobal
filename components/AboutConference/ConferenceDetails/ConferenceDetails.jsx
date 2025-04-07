@@ -4,7 +4,7 @@ import bgImage from "@/public/images/conferences/upcoming-bg.webp";
 import cardImg from "@/public/images/conferences/pregnant-test.png";
 import babyIcon from "@/public/images/conferences/baby-icon.png";
 import starIcon from "@/public/images/conferences/star.png";
-
+import Link from "next/link";
 const ConferenceDetails = ({ conference }) => {
 
   return (
@@ -17,21 +17,22 @@ const ConferenceDetails = ({ conference }) => {
           <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center mt-5 mt-lg-0">
             <div>
               <div className="d-flex align-items-center">
-                <div>
+                <Link href="#" className="text-decoration-none">
                   <img
                     src={conference.icon}
                     className={ConferenceDetailsStyles["conferencelogo"]}
                     alt="Conference Logo"
                   />
-                </div>
+                </Link>
                 &nbsp;&nbsp;&nbsp;
                 <div className={ConferenceDetailsStyles["heading"]}>
                   <h5 className="text-uppercase text-white">
                     {conference.title}
                   </h5>
+                  <p className="text-white">{conference.theme}</p>
                 </div>
               </div>
-              <div className={`mt-5 ${ConferenceDetailsStyles["timings"]} `}>
+              <div className={`mt-1 ${ConferenceDetailsStyles["timings"]} `}>
                 <div className="row">
                   <div className="col-6 col-md-3 border-end border-white">
                     <div className="d-flex align-items-center gap-3">
@@ -68,8 +69,9 @@ const ConferenceDetails = ({ conference }) => {
                   </div>
                 </div>
               </div>
-              <div className="mt-4">
-                <button className={`h3 ${ConferenceDetailsStyles["brand-btn"]}`}>Grab Your Seats Now</button>
+              <div className="mt-4 gap-3 d-flex flex-column flex-md-row">
+                <Link href={ `/conference/${conference.id}/registration`} className={`text-decoration-none ${ConferenceDetailsStyles["brand-btn"]}`}>Grab Your Seats Now</Link>
+                <Link href={ `/conference/${conference.id}/scientific-program`}className={ `text-decoration-none ${ConferenceDetailsStyles["program-btn"]}`}>Scientific Program</Link>
               </div>
             </div>
           </div>

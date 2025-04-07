@@ -1,29 +1,32 @@
 import React from "react";
 import ConferenceDetailsStyles from "./ConferenceDetails.module.css";
 import Image from "next/image";
+import Link from "next/link";
+
 const ConferenceDetails = ({ conference }) => {
   return (
-    <div className={ConferenceDetailsStyles["container"]}>
+    <div className={`vh-75 ${ConferenceDetailsStyles["container"]}`}>
       <div className="container my-5">
         <div className="row">
-          <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center  mt-lg-0">
+          <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center mt-lg-0">
             <div>
               <div className="d-flex align-items-center">
-                <div>
-                  <img
+              <Link href={`/conference/${conference.id}`} className="text-decoration-none">
+              <img
                     src={conference.icon}
                     className={ConferenceDetailsStyles["conferencelogo"]}
                     alt="Conference Logo"
                   />
-                </div>
+                </Link>
                 &nbsp;&nbsp;&nbsp;
                 <div className={ConferenceDetailsStyles["heading"]}>
                   <h5 className="text-uppercase text-white">
                   {conference.title}
                   </h5>
+                  <p className="text-white">{conference.theme}</p>
                 </div>
               </div>
-              <div className={`mt-5 ${ConferenceDetailsStyles["timings"]} `}>
+              <div className={`mt-1 ${ConferenceDetailsStyles["timings"]} `}>
                 <div className="row">
                   <div className="col-6 col-md-3 border-end border-white">
                     <div className="d-flex align-items-center gap-3">
@@ -60,9 +63,9 @@ const ConferenceDetails = ({ conference }) => {
                   </div>
                 </div>
               </div>
-              <div className="mt-4">
-                <button className={`h3 ${ConferenceDetailsStyles["brand-btn"]}`}>Grab Your Seats Now</button>
-              </div>
+              <div className="mt-4 gap-3 d-flex flex-column flex-md-row">
+              <Link href={ `/conference/${conference.id}/registration`} className={`text-decoration-none ${ConferenceDetailsStyles["brand-btn"]}`}>Grab Your Seats Now</Link>
+              <Link href={ `/conference/${conference.id}/webinar-program`}className={ `text-decoration-none ${ConferenceDetailsStyles["program-btn"]}`}>Webinar Program</Link>              </div>
             </div>
           </div>
           <div className="col-md-12 col-lg-4 col-xl-5 mx-auto d-none d-lg-block">

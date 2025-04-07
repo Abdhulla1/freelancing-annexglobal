@@ -134,6 +134,10 @@ export default function Navbar() {
           label: "FAQ",
           url: conferenceId ? `/conference/${conferenceId}/faq` : "#",
         },
+        {
+          label: "TERMS & CONDITIONS",
+          url: "/terms-and-conditions",
+        },
       ],
     },
   ];

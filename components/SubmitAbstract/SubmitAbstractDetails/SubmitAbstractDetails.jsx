@@ -3,8 +3,8 @@ import ConferenceDetailsStyles from "./SubmitAbstractDetails.module.css";
 
 const SubmitAbstractDetails = ({ conference }) => {
   return (
-    <div className={ConferenceDetailsStyles["container"]}>
-      <div className="container my-5">
+    <div className={` ${ConferenceDetailsStyles["container"]}`}>
+      <div className="container my-5 ">
         <div className="row">
           <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center  mt-lg-0">
             <div>
@@ -22,11 +22,11 @@ const SubmitAbstractDetails = ({ conference }) => {
                   <p className="text-white ">
                  {conference.title}
                   </p>
-                  {/* <div className="mt-4">
-                    <button className="brand-btn h3">
+                  <div className="mt-4">
+                    {/* <button className="brand-btn h3">
                       Grab Your Seats Now
-                    </button>
-                  </div> */}
+                    </button> */}
+                  </div>
                 </div>
               </div>
             </div>
