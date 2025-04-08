@@ -1,0 +1,144 @@
+
+.navbar-wrapper {
+    background: linear-gradient(90deg, #11187F 0%, #06082D 100%);
+    padding: 0.75rem 1rem;
+    position: fixed;         /* 👈 Fixed positioning */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050; 
+    max-height: 60px;
+  }
+  
+  .searchBar {
+    background-color: #f8f9fc;
+    border-radius: 5px;
+    overflow: hidden;
+    padding-left: 10px; /* Reduced padding */
+    padding-right: 10px; /* Reduced padding */
+    max-width: 400px; /* Reduced max-width for smaller screens */
+    width: 100%;
+    height: 30px; /* Reduced height */
+  }
+  
+  .searchBar input {
+    background-color: transparent;
+    border: none;
+    font-size: 0.8rem; /* Reduced font size */
+    color: #6c757d;
+    padding: 0.2rem 0; /* Adjusted padding */
+  }
+  
+  .searchBar input::placeholder {
+    color: #adb5bd;
+    font-size: 0.8rem; /* Reduced font size */
+  }
+  
+  .searchBar .input-group-text {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem; /* Adjusted padding */
+  }
+  
+  .searchBar .input-group-text i {
+    font-size: 0.9rem; /* Reduced icon size */
+  }
+  
+  .bell {
+    color: #5B6871;
+    font-size: 1.1rem; /* Adjusted icon size */
+  }
+  
+  /* Avatar Styles */
+  .rounded-avatar,
+  .rounded-avatar-lg {
+    overflow: hidden;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .rounded-avatar {
+    width: 30px; /* Reduced size */
+    height: 30px; /* Reduced size */
+  }
+  
+  .rounded-avatar-lg {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .rounded-avatar img,
+  .rounded-avatar-lg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Custom dropdown styles */
+  .dropdown-menu-custom {
+    position: absolute;
+    top: 40px; /* Adjusted top position */
+    right: 0;
+    background: #fff;
+    border-radius: 10px; /* Slightly reduced border-radius */
+    min-width: 180px; /* Reduced min-width */
+    z-index: 1000;
+  }
+  
+  .dropdown-item-custom {
+    padding: 6px 8px; /* Reduced padding */
+    cursor: pointer;
+    border-radius: 6px; /* Reduced border-radius */
+    transition: background 0.2s;
+    font-size: 0.9rem; /* Reduced font size */
+  }
+  
+  .dropdown-item-custom:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 991px) {
+
+    
+      .searchBar {
+        max-width: 250px; /* Further reduce search bar width on md */
+        margin-left: auto; /* Push search bar to the right */
+      }
+    
+      .navbar-wrapper {
+        padding: 0.75rem; /* Keep padding consistent */
+      }
+  
+  }
+  @media (max-width: 768px) {
+    .logo-text {
+      display: none; /* Hide "Annex Global Conferences" on md screens */
+    }
+  
+    .searchBar {
+      max-width: 150px; /* Further reduce search bar width on md */
+      margin-left: auto; /* Push search bar to the right */
+    }
+  
+    .navbar-wrapper {
+      padding: 0.75rem; /* Keep padding consistent */
+    }
+
+  }
+  
+  @media (max-width: 576px) {
+
+    .bell {
+      font-size: 1rem; /* Adjust bell icon size */
+    }
+  }
+  
+  @media (max-width: 375px) {
+    .rounded-avatar {
+      width: 28px;
+      height: 28px;
+    }
+  }

@@ -1,0 +1,21 @@
+/* DashboardLayout.module.css */
+.layoutContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding-top: 60px; 
+  }
+  
+  .contentWrapper {
+    display: flex;
+    flex-grow: 1;
+    margin-top: 60px; /* To offset fixed navbar */
+    margin-left: 250px; /* To offset fixed sidebar */
+  }
+  
+  .mainContent {
+    flex-grow: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    height: calc(100vh - 60px);  }
+  
