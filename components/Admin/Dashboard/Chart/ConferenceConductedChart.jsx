@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Chart } from "primereact/chart";
+import ChartJS from 'chart.js/auto'; // helps with tree shaking
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.min.css";

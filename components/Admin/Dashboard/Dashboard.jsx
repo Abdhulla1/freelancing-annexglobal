@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import style from "./Dashboard.module.css";
 import { Chart } from "primereact/chart";
+import ChartJS from 'chart.js/auto'; 
 import ConferenceConductedChart from "./Chart/ConferenceConductedChart";
 import VenueBookingsChart from "./Chart/VenueBookingsChart";
 import CardStats from "./CardStats";
