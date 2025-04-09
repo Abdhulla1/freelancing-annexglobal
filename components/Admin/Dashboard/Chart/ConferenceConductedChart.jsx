@@ -4,6 +4,7 @@ import { Chart } from "primereact/chart";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primeicons/primeicons.css";
 import "primereact/resources/primereact.min.css";
+import 'chart.js/auto';
 
 export default function ConferenceConductedChart() {
   const [chartData, setChartData] = useState({});
@@ -37,6 +38,7 @@ export default function ConferenceConductedChart() {
 
     const options = {
       maintainAspectRatio: false,
+      animation: false,
       aspectRatio: 1.2,
       plugins: {
         legend: {

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Chart } from "primereact/chart";
+import 'chart.js/auto';
 
 export default function VenueBookingsChart() {
   const [chartData, setChartData] = useState({});
@@ -31,6 +32,7 @@ export default function VenueBookingsChart() {
       responsive: true,
       aspectRatio: 1.2,
       maintainAspectRatio: false,
+      animation: false,
       plugins: {
         legend: {
           display: false,

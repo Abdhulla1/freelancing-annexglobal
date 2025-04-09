@@ -5,6 +5,8 @@ import { Chart } from "primereact/chart";
 import ConferenceConductedChart from "./Chart/ConferenceConductedChart";
 import VenueBookingsChart from "./Chart/VenueBookingsChart";
 import CardStats from "./CardStats";
+import 'chart.js/auto';
+
 const events = [
   {
     title: "Annual Congress On Gynecology, Obstetrics And Women's Health",
@@ -105,6 +107,7 @@ export default function Dashboard() {
     const options = {
       maintainAspectRatio: false,
       aspectRatio: 1.2,
+      animation: false,
       plugins: {
         legend: {
           display: false,
