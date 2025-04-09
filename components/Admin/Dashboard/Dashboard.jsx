@@ -110,6 +110,9 @@ export default function Dashboard() {
           display: false,
         },
       },
+      animation: {
+        duration: 0,
+      },
       scales: {
         x: {
           ticks: {
@@ -197,7 +200,8 @@ export default function Dashboard() {
             type="line"
             data={chartData}
             options={chartOptions}
-            style={{ marginTop: "20px", height: "300px" }}          />
+            style={{ marginTop: "20px" }}
+          />
         </div>
       </div>
       <div className="row gap-2 mt-3 justify-content-center">
