@@ -110,9 +110,6 @@ export default function Dashboard() {
           display: false,
         },
       },
-      animation: {
-        duration: 0,
-      },
       scales: {
         x: {
           ticks: {
