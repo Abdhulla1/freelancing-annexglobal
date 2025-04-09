@@ -5,6 +5,12 @@ import { Chart } from "primereact/chart";
 import ConferenceConductedChart from "./Chart/ConferenceConductedChart";
 import VenueBookingsChart from "./Chart/VenueBookingsChart";
 import CardStats from "./CardStats";
+import dynamic from "next/dynamic";
+
+const DynamicChart = dynamic(() => import("primereact/chart").then(mod => mod.Chart), {
+  ssr: false,
+});
+
 const events = [
   {
     title: "Annual Congress On Gynecology, Obstetrics And Women's Health",
@@ -193,7 +199,7 @@ export default function Dashboard() {
           <h4 className={`fw-bold d-inline mb-5 event-heading`}>
             website visitor
           </h4>
-          <Chart
+          <DynamicChart
             type="line"
             data={chartData}
             options={chartOptions}
