@@ -12,6 +12,7 @@
     "@fontsource/barlow-condensed": "^5.2.5",
     "@fontsource/inter": "^5.2.5",
     "@fontsource/montserrat": "^5.2.5",
+    "@netlify/plugin-nextjs": "^5.10.4",
     "@reduxjs/toolkit": "^2.6.1",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.3",
