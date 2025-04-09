@@ -2,8 +2,7 @@
 import React from "react";
 import "./Sidnav.css";
 
-export default function Sidnav({ navItems, activeTab,setActivetab }) {
-  console.log(navItems);
+export default function Sidnav({ navItems, activeTab,setActivetab }) {npm 
   return (
     <div className="bg-white rounded-2 p-2">
       {navItems.map(({item}, i) => (
