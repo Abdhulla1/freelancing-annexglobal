@@ -1,0 +1,55 @@
+.tab-btn{
+    cursor: pointer;
+}
+.event-title{
+   color: #05004E;
+   font-size: 0.9rem;
+}
+.event-icon{
+   color: #07E098;
+   font-size: 1rem;
+}
+.events {
+
+    scroll-behavior: smooth; 
+    /* Firefox scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #11187FCC #D9D9D980 ; 
+  }
+  
+  /* Chrome, Edge, and Safari */
+  .events::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .events::-webkit-scrollbar-track {
+    background: #11187FCC;
+    border-radius: 20px;
+  }
+  
+  .events::-webkit-scrollbar-thumb {
+    background-color: #f7a707;
+    border-radius: 10px;
+    border: 2px solid #0c0b45;
+  }
+  
+  /* Media Query for Mobile Devices */
+@media (max-width: 1040px) {
+    .tab-btn {
+      font-size: 0.85rem;
+      padding: 4px 8px;
+    }
+  
+    .event-title {
+      font-size: 0.8rem;
+    }
+  
+    .event-icon {
+      font-size: 0.9rem;
+    }
+  
+    .events {
+      max-height: 250px;
+    }
+  }
+  

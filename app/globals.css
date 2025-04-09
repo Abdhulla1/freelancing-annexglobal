@@ -80,6 +80,19 @@ body {
   transition-duration: 0.3s;
 
 }
+.event-heading{
+  color:  #05004E;
+}
+.table-heading{
+  background-color: #F3F3F3;
+  color: #667085;
+  border: 1px solid #E7E7E7;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.table-data{
+  border-bottom:1px solid #E7E7E7 ;
+}
 .slick-prev:before,
 .slick-next:before {
   display: none;
@@ -196,4 +209,16 @@ select.form-control {
   border-radius: 10%;
   width: 30px;
   height: 30px;
+}
+
+
+/* Confirm dialog Box  Align buttons center and add gap */
+.custom-confirm-dialog .p-dialog-footer {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 1rem !important;
+}
+.p-dialog-mask {
+  backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.2);
 }

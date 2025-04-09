@@ -6,7 +6,7 @@ import React from 'react'
 export default function DashboardLayout({children}) {
   return (
     <>
-    <DashboardWrapper>    {children}</DashboardWrapper>
+    <DashboardWrapper>{children}</DashboardWrapper>
 
     </>
   )

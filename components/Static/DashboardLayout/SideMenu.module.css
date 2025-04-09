@@ -9,7 +9,7 @@
   color: white;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.8rem;
   font-family: 'Segoe UI', sans-serif;
   font-size: 1.2rem;
   overflow-y: auto;
@@ -19,7 +19,7 @@
   .menuItem {
     display: flex;
     align-items: center;
-    padding: 0.8rem 1rem;
+    padding: 0.5rem 1rem;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.3s;
@@ -31,8 +31,60 @@
     background-color: rgba(255, 255, 255, 0.1);
   }
   
+  .menuItem.active:hover {
+    background-color: #eb9d00;
+  }
+  
   .active {
     background-color: #f7a707;
     color: white;
+  }
+  .dropdownMenu {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .subMenuItem {
+    font-size: 1rem;
+    color: #ddd;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  
+  .subMenuItem:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .bx-chevron-down {
+    margin-left: auto;
+  }
+  
+  @media (max-width: 1040px) {
+    .menuItem span,
+    .subMenuItem {
+      display: none;
+    }
+  
+    .sidebar {
+      width: 80px; /* narrower sidebar */
+      padding: 2rem 0.5rem;
+    }
+  
+    .dropdownMenu {
+      margin-left: 0.5rem;
+    }
+  
+    .menuItem {
+      justify-content: center;
+      align-items: center;
+    }
+    .bx-chevron-down {
+      display: none;
+    }
   }
   

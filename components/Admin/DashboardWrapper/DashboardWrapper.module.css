@@ -9,13 +9,20 @@
   .contentWrapper {
     display: flex;
     flex-grow: 1;
-    margin-top: 60px; /* To offset fixed navbar */
     margin-left: 250px; /* To offset fixed sidebar */
   }
   
   .mainContent {
     flex-grow: 1;
-    padding: 1.5rem;
+    padding: 1rem;
     overflow-y: auto;
+    background-color: #F0FAFF80;
     height: calc(100vh - 60px);  }
   
+@media (max-width: 1040px) {
+  .contentWrapper {
+    display: flex;
+    flex-grow: 1;
+    margin-left: 70px; /* To offset fixed sidebar */
+  }
+}

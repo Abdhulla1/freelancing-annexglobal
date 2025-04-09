@@ -39,7 +39,7 @@ export default function DashboardNavbar() {
         </Link>
 
         <div className="d-flex align-items-center gap-3 gap-md-5 flex-grow-1 justify-content-end ">
-          <div className={`input-group ${styles.searchBar}`}>
+          {/* <div className={`input-group ${styles.searchBar}`}>
             <input
               type="text"
               className="form-control border-0 shadow-none"
@@ -49,7 +49,7 @@ export default function DashboardNavbar() {
             <span className="input-group-text bg-transparent border-0">
               <i className="pi pi-search text-muted"></i>
             </span>
-          </div>
+          </div> */}
 
           <div className={styles.bell}>
             <i className="bx bxs-bell bx-sm" title="Notifications"></i>
