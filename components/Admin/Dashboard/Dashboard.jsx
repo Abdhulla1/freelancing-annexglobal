@@ -105,8 +105,9 @@ export default function Dashboard() {
       ],
     };
     const options = {
-      maintainAspectRatio: false,
+      responsive: true,
       aspectRatio: 1.2,
+      maintainAspectRatio: false,
       animation: false,
       plugins: {
         legend: {

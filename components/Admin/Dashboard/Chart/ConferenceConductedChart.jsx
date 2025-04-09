@@ -37,9 +37,10 @@ export default function ConferenceConductedChart() {
     };
 
     const options = {
+      responsive: true,
+      aspectRatio: 1.2,
       maintainAspectRatio: false,
       animation: false,
-      aspectRatio: 1.2,
       plugins: {
         legend: {
           display: false, // hide default legend
