@@ -94,7 +94,7 @@ export default function Dashboard() {
         {
           label: "First Dataset",
           data: [
-            0, 292, 303, 111, 216, 252, 120, 351, 292, 303, 111, 216, 252, 120,
+            0, 292, 303, 111, 216, 252, 120, 351, 292, 303, 111, 216,
           ],
           fill: false,
           borderColor: documentStyle.getPropertyValue("--blue-500"),
