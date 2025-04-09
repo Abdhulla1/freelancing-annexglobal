@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Chart } from "primereact/chart";
-import ChartJS from 'chart.js/auto';
 
 export default function VenueBookingsChart() {
   const [chartData, setChartData] = useState({});

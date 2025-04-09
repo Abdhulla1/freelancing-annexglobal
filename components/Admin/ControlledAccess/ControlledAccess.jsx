@@ -153,6 +153,8 @@ export default function ControlledAccess() {
     Admins: <AdminsTable adminsData={adminsData} />,
     Settings: <SettingsComponent />,
   };
+
+
   return (
     <div className="container p-2">
       <h5 className="fw-bold">Controlled Access</h5>
