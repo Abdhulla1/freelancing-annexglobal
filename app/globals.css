@@ -222,3 +222,7 @@ select.form-control {
   backdrop-filter: blur(4px);
   background-color: rgba(0, 0, 0, 0.2);
 }
+.no-outline {
+  outline: none !important;
+  box-shadow: none !important;
+}

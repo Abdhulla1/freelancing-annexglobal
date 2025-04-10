@@ -4,8 +4,10 @@ import AdminsTable from "./AdminsTable/AdminsTable";
 import Sidnav from "../Dashboard/Sidenav/Sidnav";
 import SettingsComponent from "./SettingsComponent";
 import './style.css'
+
 export default function ControlledAccess() {
   const [activeTab, setActivetab] = useState("Admins");
+  const [visibleDetails, setVisibleDetails] = useState(false);
   const navItems = [{ item: "Admins" }, { item: "Settings" }];
   const adminsData = [
     {
@@ -150,7 +152,7 @@ export default function ControlledAccess() {
     },
   ];
   const componentMap = {
-    Admins: <AdminsTable adminsData={adminsData} />,
+    Admins: <AdminsTable adminsData={adminsData} visibleDetails={visibleDetails}  setVisibleDetails={setVisibleDetails}/>,
     Settings: <SettingsComponent />,
   };
 
@@ -172,6 +174,7 @@ export default function ControlledAccess() {
             <button
               className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
               style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
+              onClick={()=>setVisibleDetails(true)}
             >
               +
             </button>

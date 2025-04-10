@@ -32,6 +32,7 @@ export default function VenueBookingsChart() {
       responsive: true,
       aspectRatio: 1.2,
       maintainAspectRatio: false,
+  
       plugins: {
         legend: {
           display: false,

@@ -52,6 +52,9 @@ export const getSelectedConference = (slug) => {
     const selectedConference = conferenceData.find((conf) => conf.id === slug);
     return selectedConference;
 };
+export const getAllConference = () => { 
+    return conferenceData;
+};
 
   const Sessions = [
     { id: 1, title: "Point Of View: Upcoming Trends And " },

@@ -15,7 +15,7 @@ export default function SettingsComponent() {
           </label>
           <select
             id="expiring"
-            className="form-select"
+            className="form-select no-outline"
             value={selectedRole}
             onChange={(e) => setSelectedRole(e.target.value)}
           >
@@ -50,7 +50,7 @@ export default function SettingsComponent() {
       {/* Sticky Button Area */}
       <div className="bg-secondary bg-opacity-10 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
         <button className="btn px-5 bg-white border">Cancel</button>
-        <button className="btn px-5 btn-warning text-white">
+        <button className="btn px-1 px-md-5 btn-warning text-white">
           Save Changes
         </button>
       </div>

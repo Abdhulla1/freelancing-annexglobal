@@ -1,0 +1,11 @@
+.conference-card {
+  background: linear-gradient(
+    16deg,
+    rgba(253, 187, 45, 0.7299252464657738) 0%,
+    rgba(255, 245, 226, 0.8755835097710959) 35%,
+    rgba(255, 255, 255, 0.7775442940848214) 54%,
+    rgba(34, 193, 195, 0.5618580195750176) 100%
+  );
+  border: 1px solid #F4A300;
+  margin-right: 5px;
+}
