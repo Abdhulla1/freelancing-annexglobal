@@ -218,11 +218,76 @@ select.form-control {
   justify-content: center !important;
   gap: 1rem !important;
 }
+/* Customize PrimeReact confirmDialog for mobile */
+.custom-confirm-dialog .p-dialog {
+  max-width: 600px;
+  width: 90%;
+}
+
+@media (max-width: 576px) {
+  .custom-confirm-dialog .p-dialog {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+
+  .custom-confirm-dialog .p-dialog-content {
+    padding: 1rem;
+  }
+
+  .custom-confirm-dialog .p-dialog-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+
+  .custom-confirm-dialog .btn {
+    width: 100%;
+  }
+}
+
 .p-dialog-mask {
   backdrop-filter: blur(4px);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.p-sidebar-mask {
+  backdrop-filter: blur(3px);
   background-color: rgba(0, 0, 0, 0.2);
 }
 .no-outline {
   outline: none !important;
   box-shadow: none !important;
+}
+.custom-sidebar {
+  width: 35rem;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .custom-sidebar {
+    width: 90vw; /* Almost full screen for mobile */
+  }
+}
+
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px; /* horizontal scrollbar height */ /* Change this value to your desired width */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Optional: background of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Optional: scrollbar thumb color */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Optional: color on hover */
 }

@@ -1,12 +1,12 @@
 "use client";
 import React, { useState } from "react";
 import AdminsTable from "./AdminsTable/AdminsTable";
-import Sidnav from "../Dashboard/Sidenav/Sidnav";
+import Sidenav from "../Dashboard/Sidenav/Sidenav";
 import SettingsComponent from "./SettingsComponent";
 import './style.css'
 
 export default function ControlledAccess() {
-  const [activeTab, setActivetab] = useState("Admins");
+  const [activeMenu, setActiveMenu] = useState("Admins");
   const [visibleDetails, setVisibleDetails] = useState(false);
   const navItems = [{ item: "Admins" }, { item: "Settings" }];
   const adminsData = [
@@ -158,19 +158,19 @@ export default function ControlledAccess() {
 
 
   return (
-    <div className="container p-2">
+    <div className="container p-2 ">
       <h5 className="fw-bold">Controlled Access</h5>
       <div className="row gap-2 gap-md-0 p-3">
         <div className="col-12 col-md-3 ">
-          <Sidnav
+          <Sidenav
             navItems={navItems}
-            activeTab={activeTab}
-            setActivetab={setActivetab}
+            activeMenu={activeMenu}
+            setActiveMenu={setActiveMenu}
           />
         </div>
         <div className="col-md-9 col-12 p-3 bg-white rounded-2"  >
-          <h5>{activeTab}</h5>
-          {activeTab === "Admins" && (
+          <h5>{activeMenu}</h5>
+          {activeMenu === "Admins" && (
             <button
               className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
               style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
@@ -180,7 +180,7 @@ export default function ControlledAccess() {
             </button>
           )}
           <div className="mt-5  right-panel">
-          {componentMap[activeTab]}
+          {componentMap[activeMenu]}
           </div>
         </div>
       </div>

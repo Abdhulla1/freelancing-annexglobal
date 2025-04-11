@@ -56,11 +56,11 @@ const SideMenu = () => {
       );
     } else {
       return (
-        <Link href={item.path} key={item.label} passHref legacyBehavior>
-          <a className={`${styles.menuItem} ${pathname === item.path ? styles.active : ''}`}>
+        <Link href={item.path} key={item.label} className={`${styles.menuItem} ${pathname === item.path ? styles.active : ''}`}>
+
             <i className={`${item.icon} me-2`}></i>
             <span>{item.label}</span>
-          </a>
+
         </Link>
       );
     }
