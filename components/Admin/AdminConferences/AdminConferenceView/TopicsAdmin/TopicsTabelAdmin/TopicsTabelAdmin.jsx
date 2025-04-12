@@ -1,46 +1,37 @@
 import React, { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import RichTextEditor from "../LandingPage/RichTextEditor";
+import RichTextEditor from "../../ConferencePageAdmin/LandingPage/RichTextEditor";
 import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import { InputSwitch } from "primereact/inputswitch";
-import { classNames } from "primereact/utils";
-const testimonialData = [
+const topicData = [
   {
     image: "/icons/DefaultPreviewImage.png", // Optional
-    name: "Pam Beesaley",
-    designation: "Founder",
-    status: false,
+    topicName: "Benefits of attending the conference",
     content:
-      "Attendees gain insights from industry leaders, network with professionals,",
+      "Attendees gain insights from industry leaders, network with professionals, and get access to exclusive content and resources.",
   },
   {
     image: "/icons/DefaultPreviewImage.png",
-    name: "Guna",
-    designation: "CEO",
-    status: false,
+    topicName: "How to register",
     content:
-      "Register on our website by clicking the",
+      "Register on our website by clicking the 'Register Now' button. Early bird discounts are available.",
   },
   {
     image: "/icons/DefaultPreviewImage.png",
-    name: "Pam Beesaley",
-    designation: "Researcher",
-    status: false,
+    topicName: "Session recordings",
     content:
-      "All sessions will be recorded and available",
+      "All sessions will be recorded and available to registered participants within a week after the event.",
   },
-
+  // ... add the rest
 ];
 
-export default function TestimonialAdmin({ visibleDetails, setVisibleDetails }) {
+export default function TopicsTabelAdmin({ visibleDetails, setVisibleDetails }) {
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
     content: null,
   });
-  const [statusChecked, setStatusChecked] = useState(false);
   const confirmDelete = () => {
     const accept = () => {
       console.log("accepted");
@@ -63,15 +54,15 @@ export default function TestimonialAdmin({ visibleDetails, setVisibleDetails }) 
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
       view: {
-        header: "View Testimonial",
+        header: "View Topic",
         content: <View data={data} />,
       },
       edit: {
-        header: "Edit Testimonial",
+        header: "Edit Topic",
         content: <Edit data={data} />,
       },
       add: {
-        header: "Add Testimonial",
+        header: "Add Topic",
         content: <Add />,
       },
     };
@@ -100,7 +91,7 @@ export default function TestimonialAdmin({ visibleDetails, setVisibleDetails }) 
             {sidebarState.content}
 
             {/* Sticky Button Area */}
-            {sidebarState.header !== "View Testimonial" && (
+            {sidebarState.header !== "View Topic" && (
               <div className="bg-secondary bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
                 <button
                   className="btn px-5 bg-white border"
@@ -120,29 +111,25 @@ export default function TestimonialAdmin({ visibleDetails, setVisibleDetails }) 
       <table className="tabel w-100  table-striped-columns">
         <thead>
           <tr>
-            <td className="p-2 table-heading">Logo Image</td>
-            <td className="p-2 table-heading">Name</td>
-            <td className="p-2 table-heading">Designation</td>
+            <td className="p-2 table-heading">Image</td>
+            <td className="p-2 table-heading">Topic Name</td>
             <td className="p-2 table-heading">Content</td>
-            <td className="p-2 table-heading">Status</td>
             <td className="p-2 table-heading">Action</td>
           </tr>
         </thead>
         <tbody>
-          {testimonialData.map((element, i) => (
+          {topicData.map((element, i) => (
             <tr key={i}>
               <td className="p-3 table-data">
                 <Image
                   src={element.image}
-                  height={90}
-                  width={90}
+                  height={80}
+                  width={80}
                   alt="TopicImage"
                 />{" "}
               </td>
-              <td className="p-3 table-data">{element.name}</td>
-              <td className="p-3 table-data">{element.designation}</td>
+              <td className="p-3 table-data">{element.topicName}</td>
               <td className="p-3  table-data ">{element.content}</td>
-              <td className="p-3  table-data ">  <InputSwitch checked={statusChecked} onChange={(e) => setStatusChecked(e.value) }            style={{scale:"0.7"}}/></td>
               <td className="p-3 table-data ">
                 <div className="d-flex gap-1  justify-content-center flex-nowrap">
                   <button
@@ -186,29 +173,11 @@ export default function TestimonialAdmin({ visibleDetails, setVisibleDetails }) 
 function Edit({ data }) {
   return (
     <div className="d-flex gap-3 flex-column">
-        <FileUpload   title ={ "Logo Image Upload"} showBorder = {true}/>
-
-          <div className=" mb-3">
-            <label htmlFor="eventLocation" className="form-label">
-            Name
-            </label>
-            <input
-              type="text"
-              name="eventLocation"
-              value={data.name}
-              className="form-control"
-              id="eventLocation"
-              placeholder="Enter Name"
-              onChange={(e)=>console.log(e.target.value)}
-              required
-            />
-          </div>
-
-     
+        <FileUpload   title ={ "Upload Image"} showBorder = {true}/>
       <RichTextEditor
-        labelName={"Designation"}
+        labelName={"Topic"}
         height="120px"
-        initialValue={data.designation}
+        initialValue={data.topicName}
         onChange={(content) => console.log("Edited content:", content)}
       />
       <RichTextEditor
@@ -222,58 +191,25 @@ function Edit({ data }) {
 function Add({ data }) {
   return (
     <div className="d-flex gap-3 flex-column">
-    <FileUpload   title ={ "Logo Image Upload"} showBorder = {true}/>
-
-      <div className=" mb-3">
-        <label htmlFor="eventLocation" className="form-label">
-        Name
-        </label>
-        <input
-          type="text"
-          name="eventLocation"
-
-          className="form-control"
-          id="eventLocation"
-          placeholder="Enter Name"
-
-          required
-        />
-      </div>
-
- 
-  <RichTextEditor
-    labelName={"Designation"}
-    height="120px"
-    initialValue={''}
-    onChange={(content) => console.log("Edited content:", content)}
-  />
-  <RichTextEditor
-    labelName={"Content"}
-    initialValue={''}
-    onChange={(content) => console.log("Edited content:", content)}
-  />
-</div>
+           <FileUpload   title ={ "Upload Image"} showBorder = {true}/>
+      <RichTextEditor labelName={"Topic"} height="120px" initialValue={""} />
+      <RichTextEditor labelName={"Content"} initialValue={""} />
+    </div>
   );
 }
 function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
-      <label className="form-label">Image</label>
+      <label className="form-label fw-bold">Image</label>
       <Image src={data.image} width={120} height={120} alt="DeleteIcon" />
       <div>
-        <label className="form-label  mb-2">Name</label>
+        <label className="form-label fw-bold mb-2">Topic</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.name}
+          {data.topicName}
         </p>
       </div>
       <div>
-        <label className="form-label  mb-2">Designation</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.name}
-        </p>
-      </div>
-      <div>
-        <label className="form-label mb-2">Content</label>
+        <label className="form-label fw-bold mb-2">Content</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
           {data.content}
         </p>
@@ -286,7 +222,7 @@ function Delete({ data = null }) {
   return (
     <div className="d-flex flex-column align-items-center text-center">
       <Image src="/icons/delete.png" width={80} height={80} alt="DeleteIcon" />
-      <h5 className="mt-3">Delete Testimonial</h5>
+      <h5 className="mt-3">Delete Topic</h5>
       <p className="mb-0 col-md-8">
         Are you sure you want to delete this Program File? This action cannot be
         undone.

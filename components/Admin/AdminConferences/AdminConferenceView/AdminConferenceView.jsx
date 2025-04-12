@@ -3,6 +3,11 @@ import React, { useState } from "react";
 import Sidenav from "../../Dashboard/Sidenav/Sidenav";
 import ConferencePageAdmin from "./ConferencePageAdmin/ConferencePageAdmin";
 import WebinarPageAdmin from "./WebinarPageAdmin/WebinarPageAdmin";
+import SpeakerAdmin from "./SpeakerAdmin/SpeakerAdmin";
+import OCMAdmin from "./OCMAdmin/OCMAdmin";
+import TopicsAdmin from "./TopicsAdmin/TopicsAdmin";
+import VenuePageAdmin from "./VenuePageAdmin/VenuePageAdmin";
+import RegistrationAdmin from "./RegistrationAdmin/RegistrationAdmin";
 export default function AdminConferenceView({
   selectedConference,
   setSelectedConference,
@@ -21,11 +26,11 @@ export default function AdminConferenceView({
   const componentMap = {
     Conference: <ConferencePageAdmin />,
     Webinar: <WebinarPageAdmin/>,
-    Speakers: <h4>Speakers</h4>,
-    OCM: <h4>OCM</h4>,
-    Topics: <h4>Topics</h4>,
-    Venue: <h4>Venue</h4>,
-    Registration: <h4>Registration</h4>,
+    Speakers: <SpeakerAdmin/>,
+    OCM: <OCMAdmin/>,
+    Topics: <TopicsAdmin/>,
+    Venue: <VenuePageAdmin/>,
+    Registration: <RegistrationAdmin/>,
   };
 
   return (

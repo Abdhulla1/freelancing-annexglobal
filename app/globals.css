@@ -224,6 +224,7 @@ select.form-control {
   width: 90%;
 }
 
+
 @media (max-width: 576px) {
   .custom-confirm-dialog .p-dialog {
     width: 95% !important;

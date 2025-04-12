@@ -16,8 +16,8 @@ const SideMenu = () => {
   { label: 'Dashboard', icon: 'bx bxs-dashboard', path: '/admin-annex-global-conferences/dashboard' },
   { label: 'Controlled Access', icon: 'bx bxs-lock', path: '/admin-annex-global-conferences/dashboard/controlled-access' },
   { label: 'Conference', icon: 'bx bxs-home-alt-2', path: '/admin-annex-global-conferences/dashboard/conference' },
-  { label: 'OCM', icon: 'bx bxs-user-circle', path: '/admin-annex-global-conferences/dashboard/ocm' },
-  { label: 'Speakers', icon: 'pi pi-users', path: '/admin-annex-global-conferences/dashboard/speakers' },
+  { label: 'OCM', icon: 'bx bxs-user-circle', path: '/admin-annex-global-conferences/dashboard/organizing-committee-members' },
+  { label: 'Speakers', icon: 'pi pi-users', path: '/admin-annex-global-conferences/dashboard/admin-speakers' },
   { label: 'PDF Uploads', icon: 'pi pi-calendar', path: '/admin-annex-global-conferences/dashboard/uploads' },
   { label: 'Testimonial', icon: 'pi pi-calendar', path: '/admin-annex-global-conferences/dashboard/testimonial' },
   {
