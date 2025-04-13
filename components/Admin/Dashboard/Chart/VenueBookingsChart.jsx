@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import { Chart } from "primereact/chart";
 import 'chart.js/auto';

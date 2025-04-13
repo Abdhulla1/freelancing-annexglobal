@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import RichTextEditor from "../../ConferencePageAdmin/LandingPage/RichTextEditor";
 import Image from "next/image";
-import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { InputSwitch } from "primereact/inputswitch";
 import { Dialog } from "primereact/dialog";
 const couponData = [

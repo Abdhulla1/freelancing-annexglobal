@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import { Sidebar } from "primereact/sidebar";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import RichTextEditor from "../../ConferencePageAdmin/LandingPage/RichTextEditor";
 import Image from "next/image";
-import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import DropZoneFile from "@/components/Reusable/DropeZone/DropZoneFile";
 const webinarProgramData = [
   {

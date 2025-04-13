@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import TopicsTabelAdmin from "./TopicsTabelAdmin/TopicsTabelAdmin";
 export default function TopicsAdmin() {

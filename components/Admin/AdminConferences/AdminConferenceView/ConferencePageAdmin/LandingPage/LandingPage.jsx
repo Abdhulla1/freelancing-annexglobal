@@ -1,8 +1,6 @@
-"use client";
 import React, { useState } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
 export default function LandingPage() {
   const [uploads, setUploads] = useState([{ id: Date.now() }]);
   const [startDate, setStartDate] = useState(new Date());

@@ -1,4 +1,3 @@
-'use client';
 import React,{useState} from "react";
 import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/ScrollableTabs";
 import VenueImageUploads from "./VenueImageUploads/VenueImageUploads";

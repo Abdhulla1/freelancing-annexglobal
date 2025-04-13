@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import RichTextEditor from "../LandingPage/RichTextEditor";
 import Image from "next/image";
-import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import DropZoneFile from "@/components/Reusable/DropeZone/DropZoneFile";
 const scientificProgramData = [
   {

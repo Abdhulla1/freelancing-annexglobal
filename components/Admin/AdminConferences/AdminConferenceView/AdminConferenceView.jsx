@@ -1,4 +1,4 @@
-"use client";
+
 import React, { useState } from "react";
 import Sidenav from "../../Dashboard/Sidenav/Sidenav";
 import ConferencePageAdmin from "./ConferencePageAdmin/ConferencePageAdmin";
