@@ -3,11 +3,22 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./DashboardNavbar.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function DashboardNavbar() {
+  const router=useRouter();
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
-
+  const handleLogout = async () => {
+    try {
+      await axios.post("/api/logout");
+      // Redirect to login after logout
+      router.push("/admin-annex-global-conferences");
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -94,7 +105,7 @@ export default function DashboardNavbar() {
                 <hr className="my-2" />
                 <div
                   className={styles["dropdown-item-custom"]}
-                  onClick={() => console.log("Logout")}
+                  onClick={handleLogout}
                 >
                   <i className="bx bx-log-out me-2" />
                   Log Out

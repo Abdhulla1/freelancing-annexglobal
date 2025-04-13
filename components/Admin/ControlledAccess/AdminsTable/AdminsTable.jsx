@@ -1,12 +1,28 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Sidebar } from "primereact/sidebar";
 import "./style.css";
+import { fetchAdmins } from "@/service/adminService";
 export default function AdminsTable({
   adminsData,
   visibleDetails,
   setVisibleDetails,
 }) {
+
+useEffect(
+    ()=>{
+      const loadData=async()=>{
+        try{
+          const data = await fetchAdmins(); 
+        } catch (error) {
+          console.error("Failed to load admins:", error.message);
+        }
+      }
+      loadData();
+    },[]
+  )
+
+
   const confirmReset = () => {
     const accept = () => {
       console.log("accepted");

@@ -133,8 +133,6 @@ export default function Dashboard() {
         },
       },
     };
-    console.log("Chart data:", data);
-    console.log("Options:", options);
     
     setChartData(data);
     setChartOptions(options);
@@ -232,3 +230,6 @@ export default function Dashboard() {
     </div>
   );
 }
+
+
+

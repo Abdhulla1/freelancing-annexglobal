@@ -5,9 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
-
+import axios from "axios";
+import { useRouter } from "next/navigation";
 const loginSchema = Yup.object().shape({
-  username: Yup.string().email("Invalid email").required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().required("Password is required"),
 });
 const forgotPasswordSchema = Yup.object().shape({
@@ -16,7 +17,7 @@ const forgotPasswordSchema = Yup.object().shape({
 
 export default function Login() {
     const [loginData,setLoginData]=useState({
-        username:"",
+        email:"",
         password:""
     });
     const [forgotPassword,setForgotPassword]=useState({
@@ -25,6 +26,8 @@ export default function Login() {
     });
   const [showPassword, setShowPassword] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
+  const router = useRouter();
+  const BASE_URL="https://139.59.15.8:8003/api/v1"
 
 //   const loginFormik = useFormik({
 //     initialValues: {
@@ -45,9 +48,22 @@ export default function Login() {
 //       console.log("Reset Email Sent", values);
 //     },
 //   });
-    const handleSubmit=(e)=>{
+    const handleSubmit= async (e)=>{
             e.preventDefault();
-            console.log("Login Submited" +loginData);
+            try {
+              const response = await axios.post("/api/login", loginData);
+        
+              const data = response.data;     
+              if (data.success) {
+                router.push("/admin-annex-global-conferences/dashboard");
+              } else {
+                setError("Login failed. Check credentials.");
+              }
+            } catch (err) {
+              console.error("Login error:", err);
+              setError("Something went wrong.");
+            }
+  
     }
   return (
     <div className={`container-fluid ${style["login-container"]}`}>
@@ -98,8 +114,9 @@ export default function Login() {
                       name="username"
                     className={`form-control ${style["input"]} `}
                     id="username"
+                    name="email"
                     placeholder="Enter user name or email Id"
-                    value={loginData.username}
+                    value={loginData.email}
                     onChange={(e)=>(setLoginData({...loginData,[e.target.name]:e.target.value}))}
                     autoComplete="off"
                   />
@@ -156,13 +173,13 @@ export default function Login() {
                     Remember me
                   </label>
                 </div>
-                <Link
+                <button
                 href={'/admin-annex-global-conferences/dashboard'}
                   type="submit"
                   className={`p-1 d-block text-center text-decoration-none text-white rounded mt-5 w-100 text-white main-btn }`}
                 >
                   Login
-                </Link>
+                </button>
               </form>
             </>
           ) : (
