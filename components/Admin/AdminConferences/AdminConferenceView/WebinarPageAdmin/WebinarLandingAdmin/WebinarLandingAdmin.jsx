@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import FileUploadVideo from "@/components/Reusable/Admin/FileUpload/FileUploadVideo";
 export default function WebinarLandingAdmin() {
