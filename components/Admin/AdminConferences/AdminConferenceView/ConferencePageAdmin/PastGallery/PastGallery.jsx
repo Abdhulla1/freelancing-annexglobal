@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 

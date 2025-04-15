@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import SpeakerTabelAdmin from "./SpeakerTabelAdmin/SpeakerTabelAdmin";
 export default function SpeakerAdmin() {

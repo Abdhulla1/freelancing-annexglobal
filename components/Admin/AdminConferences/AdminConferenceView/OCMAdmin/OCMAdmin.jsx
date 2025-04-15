@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import OCMTabelAdmin from "./OCMTabelAdmin/OCMTabelAdmin";
 export default function OCMAdmin() {

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import RegistrationTabelAdmin from "./RegistrationTabelAdmin/RegistrationTabelAdmin";
 export default function RegistrationAdmin() {

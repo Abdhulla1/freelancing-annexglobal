@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import Image from "next/image";

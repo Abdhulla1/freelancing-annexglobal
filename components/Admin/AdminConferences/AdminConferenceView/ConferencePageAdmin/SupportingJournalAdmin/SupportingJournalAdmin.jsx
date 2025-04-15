@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
