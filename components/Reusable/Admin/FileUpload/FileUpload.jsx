@@ -6,6 +6,7 @@ export default function FileUpload({
   showTitle = true,
   showBorder = true,
   showDelete = false,
+  onFileChange
 }) {
   const inputRef = useRef();
   const [previewSrc, setPreviewSrc] = useState(
@@ -22,6 +23,7 @@ export default function FileUpload({
         setPreviewSrc(reader.result);
       };
       reader.readAsDataURL(file);
+      onFileChange(file);
     } else {
       setFileName("No File Chosen");
       setPreviewSrc("/icons/DefaultPreviewImage.png");

@@ -1,5 +1,5 @@
-
-import React, { useState } from "react";
+'use client'
+import React, { useState,useEffect } from "react";
 import Sidenav from "../../Dashboard/Sidenav/Sidenav";
 import ConferencePageAdmin from "./ConferencePageAdmin/ConferencePageAdmin";
 import WebinarPageAdmin from "./WebinarPageAdmin/WebinarPageAdmin";
@@ -8,12 +8,13 @@ import OCMAdmin from "./OCMAdmin/OCMAdmin";
 import TopicsAdmin from "./TopicsAdmin/TopicsAdmin";
 import VenuePageAdmin from "./VenuePageAdmin/VenuePageAdmin";
 import RegistrationAdmin from "./RegistrationAdmin/RegistrationAdmin";
-export default function AdminConferenceView({
-  selectedConference,
-  setSelectedConference,
-}) {
-  const [activeMenu, setActiveMenu] = useState("Conference");
+import { getSelectedConference } from "@/service/adminConference";
+import { useRouter } from "next/navigation";
+export default function AdminConferenceView({conference}){
 
+  const [activeMenu, setActiveMenu] = useState("Conference");
+  const [selectedConference, setSelectedConference] = useState(null);
+  const router=useRouter();
   const navItems = [
     { item: "Conference" },
     { item: "Webinar" },
@@ -32,19 +33,30 @@ export default function AdminConferenceView({
     Venue: <VenuePageAdmin/>,
     Registration: <RegistrationAdmin/>,
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getSelectedConference(conference);
+        setSelectedConference(data);
+      } catch (error) {
+        console.error("Failed to fetch conference data", error);
+      }
+    };
+    fetchData();
+  }, []);
 
+  const handleBack = () => {
+    router.push('/admin-annex-global-conferences/dashboard/conference')
+  }
   return (
     <div className="container p-2">
       <h5 className="fw-bold">
         <i
           className="bx bx-chevron-left text-center cursor-pointer"
           style={{ cursor: "pointer" }}
-          onClick={() => {
-            setSelectedConference(null);
-            sessionStorage.removeItem("selectedConference");
-          }}
+          onClick={handleBack}
         ></i>
-        {selectedConference?.title}
+        {selectedConference?.name}
       </h5>
       <div className="row gap-2 gap-md-0 p-3">
         <div className="col-12 col-md-3">

@@ -18,6 +18,7 @@ export default function DashboardNavbar() {
     } catch (error) {
       console.error("Logout failed", error);
     }
+    localStorage.removeItem("token")
   };
   useEffect(() => {
     function handleClickOutside(event) {

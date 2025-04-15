@@ -1,37 +1,30 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { getAllConference } from "@/service/conferenceData";
+import { getAllConference } from "@/service/adminConference";
 import Image from "next/image";
 import styles from "./AdminConferences.module.css";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import AdminConferenceView from "./AdminConferenceView/AdminConferenceView";
-
+import Link from "next/link";
+import { uploadImage } from "@/service/mediaManagemnt";
 export default function AdminConferences() {
   const [query, setQuery] = useState("");
   const [filterBy, setFilterBy] = useState("title");
   const [showDropdown, setShowDropdown] = useState(false);
-  const conferenceData = getAllConference();
-
-  const [selectedConference, setSelectedConference] = useState(null);
+  const [conferenceData, setConferenceData] = useState([]);
 
   useEffect(() => {
-    const stored = sessionStorage.getItem("selectedConference");
-    if (stored) {
+    const fetchData = async () => {
       try {
-        setSelectedConference(JSON.parse(stored));
-      } catch (e) {
-        console.error("Invalid JSON in sessionStorage:", e);
+        const data = await getAllConference();
+        setConferenceData(data);
+      } catch (error) {
+        console.error("Failed to fetch conference data", error);
       }
-    }
+    };
+    fetchData();
   }, []);
-
-  const handleSelectConference = (conference) => {
-    setSelectedConference(conference);
-    sessionStorage.setItem("selectedConference", JSON.stringify(conference));
-  };
-
-  const handleSearch = (e) => setQuery(e.target.value.toLowerCase());
+    const handleSearch = (e) => setQuery(e.target.value.toLowerCase());
 
   const addNewConference = () => {
     const accept = () => {
@@ -41,7 +34,7 @@ export default function AdminConferences() {
       console.log("Closed");
     };
     confirmDialog({
-      message: <AddNewConference />,
+      message: <AddNewConference/>,
       acceptLabel: "Upload",
       rejectLabel: "Cancel",
       header: "Add New Conference",
@@ -55,7 +48,7 @@ export default function AdminConferences() {
   };
   const filteredData = conferenceData.filter((item) => {
     if (filterBy === "title") {
-      return item.title.toLowerCase().includes(query);
+      return item.name.toLowerCase().includes(query);
     } else if (filterBy === "date") {
       return item.date.toLowerCase().includes(query);
     }
@@ -63,8 +56,7 @@ export default function AdminConferences() {
   });
   return (
     <div className="container p-2">
-      {!selectedConference ? (
-        <>
+
           <ConfirmDialog draggable={false} />
           <div className="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-4">
             {/* Title */}
@@ -155,55 +147,61 @@ export default function AdminConferences() {
                     >
                       {/* Left Image */}
                       <Image
-                        src={item.icon}
-                        alt="Congress Logo"
+                        src={'https://139.59.15.8:8003/api/v1/media/click/image?image=healthcarewebinar-bba266d1-8601-4e09-96aa-59a7d1fcb258.png'}
+                        alt="conference Logo"
                         width={80}
                         height={80}
                         className="rounded-circle"
+                        unoptimized
                       />
+
                       {/* Title */}
-                      <div className="mx-2 flex-grow-1 ">{item.title}</div>
+                      <div className="mx-2 flex-grow-1 ">{item.name}</div>
                       {/* Button */}
-                      <button
+                      <Link
                         className="btn btn-warning text-white"
-                        onClick={() => handleSelectConference(item)}
+                        href={`/admin-annex-global-conferences/dashboard/conference/${item._id}`}
                       >
                         <i className="bx bx-right-arrow-alt"></i>
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </>
-      ) : (
-        selectedConference && (
-          <AdminConferenceView
-            selectedConference={selectedConference}
-            setSelectedConference={setSelectedConference}
-          />
-        )
-      )}
+    
+      
     </div>
   );
 }
 
 function AddNewConference() {
+
+
+  const [file, setFile] = useState(null);
+  const [conferenceName, setConferenceName] = useState('');
+  const handleFileChange = (file) => {
+    setFile(file);
+  };
+  const handleNameChange = (e) => {
+    setConferenceName(e.target.value);
+  };
   return (
     <>
-      <FileUpload title={"Add Conference Logo"} />
+      <FileUpload title={"Add Conference Logo"}   onFileChange={handleFileChange}/>
       <div className="mb-4 mt-4">
         <label htmlFor="conferenceName" className="form-label">
           Conference Name*
         </label>
         <input
-          type="email"
+          type="text"
           name="conferenceName"
           className={`form-control `}
           id="conferenceName"
           placeholder="Enter Conference Name"
           required
+          onChange={handleNameChange}
           autoComplete="off"
         />
       </div>
