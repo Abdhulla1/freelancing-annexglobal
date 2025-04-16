@@ -13,10 +13,8 @@ const ConferenceDetails = () => {
             Annual Congress On Gynecology, Obstetrics, And Women’s Health
           </p>
         </div>
-
-       
       </div>
-      <PerspectiveScroll/>
+    <PerspectiveScroll/>
     </div>
   );
 };

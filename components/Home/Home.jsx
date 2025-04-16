@@ -20,7 +20,11 @@ const Home = () => {
       <AlumniSpeakers/>
       <ReputedOrganizations/>
       <ConnectWithOthers/>
+      <section id='newsletter'>
       <EnquiryForm/>
+      </section>
+  
+
     </div>
   )
 }

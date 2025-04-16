@@ -4,13 +4,13 @@
     text-align: center;
     overflow: hidden;
     position: relative;
-    scale: 1.3;
+    scale: 1;
     margin-top: 50px;
 
 }
 .banner .slider{
     position: absolute;
-    width: 350PX;
+    width: 300PX;
     height: 250px;
     top: 30%;
     left: calc(50% - 125px);

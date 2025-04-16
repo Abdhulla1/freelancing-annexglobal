@@ -66,8 +66,11 @@ export default function Navbar() {
     {
       label: "MORE",
       items: [
-        { label: "UPCOMING EVENTS", url: "/upcoming-conference" },
-        { label: "PAST EVENTS", url: "/past-conference" },
+        { label: "PRIVACY POLICY", url: "/privacy-policy" },
+        {
+          label: "TERMS & CONDITIONS",
+          url: "/terms-and-conditions",
+        },
       ],
     },
   ];
@@ -257,10 +260,10 @@ export default function Navbar() {
         <div className="d-none d-md-block">
           <button className={NavbarStyles["buy-ticket"]}>
             <Link
-              href={"#"}
+              href={"/#newsletter"}
               className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
             >
-              Buy Tickets
+             Subscribe
             </Link>
           </button>
         </div>
@@ -269,10 +272,10 @@ export default function Navbar() {
       {isOpen && (
         <button className={`w-100 text-center ${NavbarStyles["buy-ticket"]}`}>
           <Link
-            href={"#"}
+            href={"/#newsletter"}
             className="mb-0 text-decoration-none h6 fw-normal w-100"
           >
-            Buy Tickets
+            Subscribe
           </Link>
         </button>
       )}

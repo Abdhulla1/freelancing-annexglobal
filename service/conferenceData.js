@@ -2,7 +2,7 @@ export const conferenceData=[
     {
         date: "17 Mar 2026",
         title: "Annual Congress on gynecology, obstetrics & women’s health",
-        theme:'“Forging the future of global healthcare through effortless scanning solutions”',
+        theme:'“Theme: “Enhancing Women’s Health: Improvement, Difficulties, and Innovative Thoughts in Obstetrics and Gynecology””',
         location: "Dubai, UAE",
         id: "gynecology-conference",
         icon: "/icons/conference/logo.png",

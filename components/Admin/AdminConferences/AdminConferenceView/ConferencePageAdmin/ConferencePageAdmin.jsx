@@ -11,10 +11,10 @@ import SupportingJournalAdmin from "./SupportingJournalAdmin/SupportingJournalAd
 import TestimonialAdmin from "./TestimonialAdmin/TestimonialAdmin";
 import HotelsRegistration from "./HotelsRegistration/HotelsRegistration";
 import ScientificProgramAdmin from "./ScientificProgramAdmin/ScientificProgramAdmin";
-export default function ConferencePageAdmin() {
+export default function ConferencePageAdmin({selectedConferenceID}) {
   const [activeTab, setActiveTab] = useState("Landing Page"); // default to first tab
   const tabs = {
-    "Landing Page": <LandingPage/>,
+    "Landing Page": <LandingPage selectedConferenceID={selectedConferenceID}/>,
     "Welcome Content": <WelcomeContent/>,
     "Video Section": <VideoSection/>,
     "FAQ":<FAQAdmin/> ,

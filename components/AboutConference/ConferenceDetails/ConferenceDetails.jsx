@@ -29,7 +29,7 @@ const ConferenceDetails = ({ conference }) => {
                   <h5 className="text-uppercase text-white">
                     {conference.title}
                   </h5>
-                  <p className="text-white">{conference.theme}</p>
+                  <p className="text-white fst-italic">{"Theme: “Enhancing Women’s Health: Improvement, Difficulties, and Innovative Thoughts in Obstetrics and Gynecology”"}</p>
                 </div>
               </div>
               <div className={`mt-1 ${ConferenceDetailsStyles["timings"]} `}>

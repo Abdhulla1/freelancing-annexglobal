@@ -1,5 +1,4 @@
-"use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./PricingTable.module.css";
 
 const pricingOptions = [
@@ -55,10 +54,43 @@ const FormSelect = ({
   );
 };
 
-export default function PricingTable() {
-  const [selected, setSelected] = useState({});
-  const [activeSelection, setActiveSelection] = useState({});
-  const [formData, setFormData] = useState({ currency: "" });
+export default function PricingTable({ onTotalChange }) {
+  const [selected, setSelected] = useState(() => {
+    const stored = sessionStorage.getItem("pricingSelected");
+    return stored ? JSON.parse(stored) : {};
+  });
+
+  const [activeSelection, setActiveSelection] = useState(() => {
+    const stored = sessionStorage.getItem("pricingActiveSelection");
+    return stored ? JSON.parse(stored) : {};
+  });
+
+  const [formData, setFormData] = useState(() => {
+    const stored = sessionStorage.getItem("pricingFormData");
+    return stored ? JSON.parse(stored) : {
+      occupancy: "",
+      period: "",
+      room: "",
+    };
+  });
+
+  useEffect(() => {
+    const storedSelected = sessionStorage.getItem("pricingSelected");
+    const storedSelection = sessionStorage.getItem("pricingActiveSelection");
+    const storedFormData = sessionStorage.getItem("pricingFormData");
+    const storedTotals = sessionStorage.getItem("pricingTotals");
+
+    if (storedSelected) setSelected(JSON.parse(storedSelected));
+    if (storedSelection) setActiveSelection(JSON.parse(storedSelection));
+    if (storedFormData) setFormData(JSON.parse(storedFormData));
+    if (storedTotals) onTotalChange?.(JSON.parse(storedTotals));
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem("pricingSelected", JSON.stringify(selected));
+    sessionStorage.setItem("pricingActiveSelection", JSON.stringify(activeSelection));
+    sessionStorage.setItem("pricingFormData", JSON.stringify(formData));
+  }, [selected, activeSelection, formData]);
 
   const handleQuantityChange = (type, change) => {
     setSelected((prev) => {
@@ -68,16 +100,77 @@ export default function PricingTable() {
   };
 
   const handleSelection = (type, category) => {
-    setActiveSelection((prev) => ({
-      ...prev,
-      [type]: category,
-    }));
+    setActiveSelection((prev) => {
+      if (prev[type] === category) {
+        // Deselect the option if it's already selected
+        setSelected((prevSelected) => ({
+          ...prevSelected,
+          [type]: 0,
+        }));
+        return { ...prev, [type]: "" }; // Deselect the option
+      } else {
+        // Select the new category
+        setSelected((prevSelected) => ({
+          ...prevSelected,
+          [type]: 1, 
+        }));
+        return { ...prev, [type]: category }; // Update selection
+      }
+    });
   };
-
+  
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  const calculateTicketPrice = () => {
+    return Object.entries(selected).reduce((total, [type, qty]) => {
+      const category = activeSelection[type];
+      if (!category || qty === 0) return total;
+
+      const option = pricingOptions.find((opt) => opt.type === type);
+      const price = option?.[category] || 0;
+      return total + price * qty;
+    }, 0);
+  };
+
+  const calculateAccommodationCost = () => {
+    const { occupancy, period, room } = formData;
+    if (!occupancy || !period || !room) return 0;
+
+    const basePrices = {
+      single: 100,
+      double: 150,
+      suite: 250,
+    };
+
+    const periodMultiplier = {
+      one_night: 1,
+      two_nights: 2,
+      week: 7,
+    };
+
+    const occupancyCost = basePrices[occupancy] || 0;
+    const nights = periodMultiplier[period] || 0;
+    const rooms = parseInt(room) || 0;
+
+    return occupancyCost * nights * rooms;
+  };
+
+  const ticketTotal = calculateTicketPrice();
+  const accommodationTotal = calculateAccommodationCost();
+  const netTotal = ticketTotal + accommodationTotal;
+
+  useEffect(() => {
+    const totalData = {
+      ticketTotal,
+      accommodationTotal,
+      netTotal,
+    };
+    sessionStorage.setItem("pricingTotals", JSON.stringify(totalData));
+    onTotalChange?.(totalData);
+  }, [ticketTotal, accommodationTotal, netTotal]);
 
   return (
     <div className={styles.tableContainer}>
@@ -182,6 +275,7 @@ export default function PricingTable() {
             value={formData.period}
             onChange={handleChange}
             options={[
+              { value: "", label: "Select period" },
               { value: "one_night", label: "One Night" },
               { value: "two_nights", label: "Two Nights" },
               { value: "week", label: "One Week" },
@@ -190,12 +284,13 @@ export default function PricingTable() {
           <FormSelect
             label="Room"
             name="room"
-            value={formData.period}
+            value={formData.room}
             onChange={handleChange}
             options={[
-              { value: "one", label: "One " },
-              { value: "two", label: "Two " },
-              { value: "three", label: "Three" },
+              { value: "", label: "Select room count" },
+              { value: "1", label: "One" },
+              { value: "2", label: "Two" },
+              { value: "3", label: "Three" },
             ]}
           />
         </div>
@@ -204,16 +299,16 @@ export default function PricingTable() {
         <div className={styles.pricingItem}>
           <span>Your Ticket Price</span>
           <div className={styles.line}></div>
-          <span className={styles.amount}>$ 0.00</span>
+          <span className={styles.amount}>${ticketTotal.toFixed(2)}</span>
         </div>
         <div className={styles.pricingItem}>
           <span>Accommodation Cost</span>
           <div className={styles.line}></div>
-          <span className={styles.amount}>$ 0.00</span>
+          <span className={styles.amount}>${accommodationTotal.toFixed(2)}</span>
         </div>
         <div className={styles.netTotal}>
           <span>Net Total</span>
-          <span className={styles.totalAmount}>$ 0.00</span>
+          <span className={styles.totalAmount}>${netTotal.toFixed(2)}</span>
         </div>
       </div>
     </div>

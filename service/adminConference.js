@@ -31,3 +31,22 @@ try {
     throw new Error(error.response?.data || "Failed to fetch Conference");
   }
 }
+export async function saveConference(formdata){
+try {
+    const response = await axiosInstance.post(`/conference/create`,formdata);
+    return response.data?.detail;
+
+  } catch (error) {
+    throw new Error(error.response?.data || "Failed to Save Conference");
+  }
+}
+export async function saveConferenceLandingPage(formdata,id){
+try {
+    const response = await axiosInstance.patch(`/conference/${id}/landing/page`,formdata);
+    return response.data?.detail;
+
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.response?.data || "Failed to Save Conference");
+  }
+}

@@ -29,7 +29,13 @@
   .max-width-700 {
     max-width: 690px;
     margin: auto;
+    background: linear-gradient(116.55deg, rgba(255, 255, 255, 0.03) -49.79%, rgba(255, 255, 255, 0.03) 35.66%, rgba(255, 255, 255, 0.03) 110.61%);
+    backdrop-filter: blur(3px);               /* blur effect */
+    -webkit-backdrop-filter: blur(3px);       /* Safari support */
+    border-radius: 10px;                       
+    padding: 30px;                            
   }
+  
   
   .bottom-end-section{
     display: flex;

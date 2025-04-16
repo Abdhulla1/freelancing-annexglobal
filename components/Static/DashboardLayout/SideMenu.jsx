@@ -31,40 +31,61 @@ const SideMenu = () => {
 ];
 
 
-  const renderMenuItem = (item) => {
+const renderMenuItem = (item) => {
+  const isActive = () => {
     if (item.children) {
-      return (
-        <div key={item.label}>
-          <div
-            className={`${styles.menuItem} ${openDropdown === item.label ? styles.active : ''}`}
-            onClick={() => toggleDropdown(item.label)}
-          >
-            <i className={`${item.icon} me-2`}></i>
-            <span>{item.label}</span>
-            <i className="bx bx-chevron-down ms-auto"></i>
-          </div>
-          {openDropdown === item.label && (
-            <div className={styles.dropdownMenu}>
-              {item.children.map(subItem => (
-                <Link href={subItem.path} key={subItem.label} className={`${styles.subMenuItem} ${pathname === subItem.path ? styles.active : ''}`}>
-                    {subItem.label}
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      );
-    } else {
-      return (
-        <Link href={item.path} key={item.label} className={`${styles.menuItem} ${pathname === item.path ? styles.active : ''}`}>
-
-            <i className={`${item.icon} me-2`}></i>
-            <span>{item.label}</span>
-
-        </Link>
-      );
+      return item.children.some(child => pathname.startsWith(child.path));
     }
+
+    // Match all routes under Conference
+    if (item.label === 'Conference') {
+      return pathname.startsWith('/admin-annex-global-conferences/dashboard/conference');
+    }
+
+    // Exact match for others
+    return pathname === item.path;
   };
+
+  if (item.children) {
+    return (
+      <div key={item.label}>
+        <div
+          className={`${styles.menuItem} ${isActive() ? styles.active : ''}`}
+          onClick={() => toggleDropdown(item.label)}
+        >
+          <i className={`${item.icon} me-2`}></i>
+          <span>{item.label}</span>
+          <i className="bx bx-chevron-down ms-auto"></i>
+        </div>
+        {(openDropdown === item.label || isActive()) && (
+          <div className={styles.dropdownMenu}>
+            {item.children.map(subItem => (
+              <Link
+                href={subItem.path}
+                key={subItem.label}
+                className={`${styles.subMenuItem} ${pathname.startsWith(subItem.path) ? styles.active : ''}`}
+              >
+                {subItem.label}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  } else {
+    return (
+      <Link
+        href={item.path}
+        key={item.label}
+        className={`${styles.menuItem} ${isActive() ? styles.active : ''}`}
+      >
+        <i className={`${item.icon} me-2`}></i>
+        <span>{item.label}</span>
+      </Link>
+    );
+  }
+};
+
 
   return <div className={styles.sidebar}>{menuItems.map(renderMenuItem)}</div>;
 };

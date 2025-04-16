@@ -76,6 +76,14 @@ export default function RegistrationForm() {
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
+  const [totals, setTotals] = useState({
+    ticketTotal: 0,
+    accommodationTotal: 0,
+    netTotal: 0,
+  });
+  const handleTotalChange = (newTotals) => {
+    setTotals(newTotals);
+  };
   const getButtonStyle = (stepIndex) => {
     if (stepIndex === step) {
       return `${styles.stepsBtns} ${styles.stepsBtnActiveFocus}`;
@@ -126,7 +134,6 @@ export default function RegistrationForm() {
               className={`text-decoration-none col-4 ${getButtonStyle(
                 stepIndex
               )}`}
-              onClick={() => setStep(stepIndex)}
             >
               {stepIndex < step ? (
                 <i className="pi pi-check-circle mr-2"></i>
@@ -215,7 +222,7 @@ export default function RegistrationForm() {
 
       {step === 2 && (
         <div>
-          <PricingTable />
+          <PricingTable onTotalChange={handleTotalChange} />
         </div>
       )}
 
@@ -268,16 +275,16 @@ export default function RegistrationForm() {
               <h5 className="pb-4 border-bottom">Ticket Summary</h5>
               <div className="d-flex justify-content-between">
                 <span className="mt-2">Your Ticket Price</span>
-                <span className="fw-bold mt-2">$1200.00</span>
+                <span className="fw-bold mt-2">${totals.ticketTotal.toFixed(2)}</span>
               </div>
               <div className="d-flex justify-content-between">
                 <span className="mt-2">Accommodation Cost</span>
-                <span className="fw-bold mt-2">$1200.00</span>
+                <span className="fw-bold mt-2">${totals.accommodationTotal.toFixed(2)}</span>
               </div>
               <hr />
               <div className="d-flex justify-content-between fw-bold fs-5">
                 <span>Total Cost</span>
-                <span>$2400.00</span>
+                <span>${totals.netTotal.toFixed(2)}</span>
               </div>
             </div>
           </div>
