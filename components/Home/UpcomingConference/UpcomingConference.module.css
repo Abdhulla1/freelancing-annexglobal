@@ -26,8 +26,16 @@
     border-radius: 10px;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border: 3px solid #3CCDE4;
+    /* border: 3px solid #3CCDE4; */
+    border: 2px solid #3F5A6499;
+    box-shadow: 
+  0px -5px 9px 0px #00000040, /* top shadow */
+  -5px 0px 9px 0px #00000040, /* left shadow */
+  0px 5px 9px 0px #00000040,  /* bottom shadow */
+  5px 0px 9px 0px #00000040;  /* right shadow */
+backdrop-filter: blur(4px);
+
+ 
 }
 
 .upcoming-events-card::before {
@@ -39,6 +47,7 @@
     height: 100%;
     background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.1) 80%, rgba(0, 0, 0, 0) 100%);
     z-index: 1;
+    
 }
 
 
@@ -87,6 +96,7 @@
     transition: all 0.3s ease-in-out;
 }
 
+
 .upcoming-events-card:hover {
     background: linear-gradient(45deg, #00004d, #0000a6);
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
@@ -114,7 +124,7 @@
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgb(255, 180, 40);
+    background: linear-gradient(90deg, #F4A300 0%, #FFEA61 100%);
     color: black;
     font-weight: bold;
     padding: 10px 20px;

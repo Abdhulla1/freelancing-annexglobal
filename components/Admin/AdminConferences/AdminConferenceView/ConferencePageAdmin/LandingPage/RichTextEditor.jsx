@@ -2,18 +2,41 @@
 import React, { useEffect, useState } from "react";
 import { Editor } from "primereact/editor";
 
-const RichTextEditor = ({ labelName, height = "207px", initialValue = "", onChange }) => {
+const RichTextEditor = ({
+  labelName,
+  height = "207px",
+  initialValue = "",
+  maxLength = 500,
+  onChange,
+}) => {
   const [text, setText] = useState(initialValue);
+  const [charCount, setCharCount] = useState(0);
 
   useEffect(() => {
     setText(initialValue);
+    setCharCount(stripHtml(initialValue).length);
   }, [initialValue]);
 
+  const stripHtml = (html) => {
+    const tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+  };
+
   const handleTextChange = (e) => {
-    const value = e.htmlValue;
-    setText(value);
-    if (onChange) {
-      onChange(value);
+    const plainText = stripHtml(e.htmlValue);
+    if (plainText.length <= maxLength) {
+      setText(e.htmlValue);
+      setCharCount(plainText.length);
+      onChange?.(e.htmlValue);
+    }
+  };
+  
+  // This handler will limit further input once maxLength is reached
+  const handleKeyDown = (e) => {
+    const plainText = stripHtml(text);
+    if (plainText.length >= maxLength && e.key !== "Backspace" && e.key !== "Delete") {
+      e.preventDefault(); 
     }
   };
 
@@ -49,7 +72,11 @@ const RichTextEditor = ({ labelName, height = "207px", initialValue = "", onChan
         onTextChange={handleTextChange}
         style={{ height }}
         headerTemplate={header}
+        onKeyDown={handleKeyDown} // Attach keydown handler to block input
       />
+      <div style={{ textAlign: "right", fontSize: "12px", marginTop: "4px", color: charCount >= maxLength ? "red" : "#666" }}>
+        {charCount}/{maxLength}
+      </div>
     </div>
   );
 };

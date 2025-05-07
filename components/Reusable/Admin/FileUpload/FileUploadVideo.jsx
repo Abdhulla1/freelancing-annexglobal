@@ -1,16 +1,22 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import Image from "next/image";
 
 export default function FileUploadVideo({
   title = "Upload Video",
   showTitle = true,
   showBorder = true,
+  videoUrl = "",
+  onFileChange,
 }) {
   const inputRef = useRef();
   const [previewSrc, setPreviewSrc] = useState(null);
   const [fileName, setFileName] = useState("No File Chosen");
-
+  useEffect(() => {
+    if (videoUrl) {
+      setPreviewSrc(videoUrl);
+    }
+  }, [videoUrl]);
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("video/")) {
@@ -20,6 +26,7 @@ export default function FileUploadVideo({
         setPreviewSrc(reader.result);
       };
       reader.readAsDataURL(file);
+      onFileChange(file);
     } else {
       setFileName("No File Chosen");
       setPreviewSrc(null);
@@ -95,7 +102,7 @@ export default function FileUploadVideo({
               className="mb-0 text-muted small text-truncate"
               style={{ maxWidth: "100%", width: "200px" }}
             >
-              {fileName}
+              {videoUrl ? "":fileName}
             </p>
           </div>
         </div>

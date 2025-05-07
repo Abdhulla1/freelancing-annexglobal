@@ -217,7 +217,7 @@ const AlumniSpeakers = () => {
         )}
       </Sidebar>
       <div className="container mt-5">
-        <div className="col-xl-3 col-lg-4 col-md-6 ">
+        <div className="col-xl-2 col-lg-4 col-md-6 ">
           <div className={AlumniSpeakerStyles["header"]}>MEET OUR SPEAKERS</div>
         </div>
 
@@ -243,7 +243,7 @@ const AlumniSpeakers = () => {
                     className={AlumniSpeakerStyles["profile-img"]}
                   />
                   <div className={AlumniSpeakerStyles["mic-icon"]}>
-                    <img src="/icons/mic.png" alt="Mic" />
+                    <img src="/icons/mic.png" alt="Mic" onClick={() => handleSpeakerClick(speaker)} />
                   </div>
                 </div>
                 <div className={AlumniSpeakerStyles["card-body"]}>

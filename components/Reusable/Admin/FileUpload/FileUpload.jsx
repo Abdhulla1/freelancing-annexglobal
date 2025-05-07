@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 export default function FileUpload({
@@ -7,13 +7,19 @@ export default function FileUpload({
   showTitle = true,
   showBorder = true,
   showDelete = false,
-  onFileChange
+  imageUrl = "",
+  onFileChange,
 }) {
   const inputRef = useRef();
   const [previewSrc, setPreviewSrc] = useState(
     "/icons/DefaultPreviewImage.png"
   );
   const [fileName, setFileName] = useState("No File Chosen");
+  useEffect(() => {
+    if (imageUrl) {
+      setPreviewSrc(imageUrl);
+    }
+  }, [imageUrl]);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -61,6 +67,7 @@ export default function FileUpload({
             width={100}
             height={100}
             style={{ objectFit: "cover", borderRadius: "8px" }}
+            unoptimized
           />
         </div>
 
@@ -78,6 +85,7 @@ export default function FileUpload({
           />
           <div className="d-flex mt-md-4 flex-column flex-sm-row align-items-start align-items-sm-center gap-2">
             <button
+            type="button"
               className="btn btn-outline-warning px-3"
               style={{ whiteSpace: "nowrap", minWidth: "120px" }}
               onClick={handleButtonClick}
@@ -94,21 +102,20 @@ export default function FileUpload({
                 whiteSpace: "nowrap",
               }}
             >
-              {fileName}
+              {imageUrl ? "" : fileName}
             </p>
-            
           </div>
-          
         </div>
-        {showDelete &&   <button
-                    className="btn btn-sm btn-outline-danger text-center"
-                    title="Delete"
-                  >
-                    <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>
-                  </button>}
-      
+        {showDelete && (
+          <button
+          type="button"
+            className="btn btn-sm btn-outline-danger text-center"
+            title="Delete"
+          >
+            <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>
+          </button>
+        )}
       </div>
-      
     </div>
   );
 }

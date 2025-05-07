@@ -8,42 +8,59 @@ const Footer = () => {
       <div className="container">
         <div className={footerStyle["footer-logo"]}>
           <img src="/icons/annex_logo.png" alt="Logo" />
-          <br />
-          <small className="mt-3 text-white">ANNEX GLOBAL CONFERENCE</small>
+          <small className="ms-3 text-white">
+            {" "}
+            Dubai, UAE • 26-27 February 2025
+          </small>
         </div>
+        <div className="mt-4 col">
+          <small className="ms-3 text-white ">
+            {" "}
+            # Annex Global conference{" "}
+          </small>
+          <div className="d-inline-flex justify-content-center gap-3">
+            <i className="bx bxl-facebook text-white fs-6"></i>
+            <i className="bx bxl-instagram text-white fs-6"></i>
+            <i className="bx bxl-linkdin text-white fs-6"></i>
+            <i className="bx bxl-whatsapp text-white fs-6"></i>
+            <i className="pi pi-twitter text-white fs-6"></i>
+            <i className="bx bxl-youtube text-white fs-6"></i>
+            <Link
+              href={"/"}
+              className="text-decoration-none text-warning ms-3 text-center"
+            >
+              Back to top
+            </Link>{" "}
+          </div>
+        </div>
+        <hr
+          className="bg-white"
+          style={{
+            height: "2px",
+            border: "none",
+            color: "#FFFFFF4D",
+            backdropFilter: "blur(4px)",
+          }}
+        />
         <div className={footerStyle["footer-links"]}>
           <div className="col-xl-8 col-md-12 mx-auto">
-            <div className="row">
-              <div className="col-md-4  mt-3">
-                <Link href={'/contact-us'} >Contact Us</Link>
-              </div>
-              <div className="col-md-4  mt-3">
-                <Link href={'/privacy-policy'} >Privacy Policy</Link>
-              </div>
-              <div className="col-md-4  mt-3">
-                <Link href={'/terms-and-conditions'} >Terms & Conditions</Link>
-               
-              </div>
+            <div className="d-flex justify-content-center flex-wrap text-white">
+              <Link href={"/contact-us"}>Contact Us</Link> •
+              <Link href={"/privacy-policy"}> Privacy Policy</Link> •
+              <Link href={"/terms-and-conditions"}>Terms & Conditions</Link>
             </div>
           </div>
         </div>
-        <hr className="bg-white" />
-        <div className={footerStyle["social-icons"]}>
-          <a href="#">
-            <i className="pi-facebook pi"></i>
-          </a>
-          <a href="#">
-            <i className="pi-youtube pi"></i>
-          </a>
-          <a href="#">
-            <i className="pi-instagram pi"></i>
-          </a>
-          <a href="#">
-            <i className="pi-linkedin pi"></i>
-          </a>
-        </div>
+
         <div className={footerStyle["footer-bottom"]}>
-          © {new Date().getFullYear()} annexglobal-conference. All Rights Reserved
+          © {new Date().getFullYear()} AG Medical Conference. All Rights
+          Reserved • Contact us at:{" "}
+          <a
+            href="mailto:gynecology@annexglobalconferences.com"
+            style={{ color: "inherit", textDecoration: "none" }}
+          >
+            gynecology@annexglobalconferences.com
+          </a>
         </div>
       </div>
     </footer>

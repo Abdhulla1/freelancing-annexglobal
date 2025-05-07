@@ -16,19 +16,21 @@ const Banner = () => {
         <div className={BannerStyle["max-width-700"]}>
       
         <p>WELCOME TO</p>
-        <h1 className="fw-bold">ANNEX GLOBAL CONFERENCES</h1>
-        <p className="mt-3 h4 fw-light lh-sm">
-          "Exploring new Realms, Challenging Constraints, Fostering
-          Collaboration "
+        <h4 className="fw-bold">ANNEX GLOBAL CONFERENCES</h4>
+        <h1 className={`text-uppercase ${BannerStyle["location"]}`}>Dubai</h1>
+        <p className="mt-3 h5 fw-light lh-sm" style={{ color: "#D0D0D0" }}>
+          “Exploring New Realms, Challenging Constraints, Fostering Collaboration” 
         </p>
       <Button/>
-        <div className={`mt-5 ${BannerStyle["bottom-end-section"]}`}>
+     
+        </div>
+        
+        <div className="mt-5">
+        <div className={`ps-2 pe-2 ${BannerStyle["bottom-end-section"]}`}>
           <div className={BannerStyle["badge"]}>
             Attended by top reputed organizations
           </div>
         </div>
-        </div>
-        <div className="mt-5">
           <Marquee gradient={true} autoFill={true} gradientColor='transparent'>
             <img src="images/reputed-organizations/cipla.png" className={BannerStyle["marquee-logo"]} alt="" />
             <img src="images/reputed-organizations/dr-reddy.png" className={BannerStyle["marquee-logo"]} alt="" />

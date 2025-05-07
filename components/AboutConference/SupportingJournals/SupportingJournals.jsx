@@ -40,7 +40,7 @@ const SupportingJournals = () => {
         </div>
         <div >
           <button className={`btn ${SupportingJournalsStyles['accordion-button']} h-100`}>
-            <i className={`pi ${isActive ? "pi-arrow-down" : "pi-arrow-up"} h4 mt-2`}></i>
+            <i className={`pi ${isActive ? "pi-arrow-up" : "pi-arrow-down"} h4 mt-2`}></i>
           </button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import React,{useState} from "react";
+import React, { useState, useRef } from "react";
 import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/ScrollableTabs";
 import LandingPage from "./LandingPage/LandingPage";
 import WelcomeContent from "./WelcomeContent/WelcomeContent";
@@ -11,23 +11,33 @@ import SupportingJournalAdmin from "./SupportingJournalAdmin/SupportingJournalAd
 import TestimonialAdmin from "./TestimonialAdmin/TestimonialAdmin";
 import HotelsRegistration from "./HotelsRegistration/HotelsRegistration";
 import ScientificProgramAdmin from "./ScientificProgramAdmin/ScientificProgramAdmin";
-export default function ConferencePageAdmin({selectedConferenceID}) {
+import { Toast } from "primereact/toast";
+export default function ConferencePageAdmin({ selectedConferenceID }) {
+  const toast = useRef(null);
   const [activeTab, setActiveTab] = useState("Landing Page"); // default to first tab
   const tabs = {
-    "Landing Page": <LandingPage selectedConferenceID={selectedConferenceID}/>,
-    "Welcome Content": <WelcomeContent/>,
-    "Video Section": <VideoSection/>,
-    "FAQ":<FAQAdmin/> ,
-    "Past Gallery": <PastGallery/>,
-    "Topics": <TopicsAdmin/>,
-    "Supporting Journal":<SupportingJournalAdmin/>,
-    "Testimonial": <TestimonialAdmin/>,
-    "Scientific Program": <ScientificProgramAdmin/> ,
-    "Hotels Registration": <HotelsRegistration/>,
+    "Landing Page": (
+      <LandingPage selectedConferenceID={selectedConferenceID} toast={toast} />
+    ),
+    "Welcome Content": (
+      <WelcomeContent
+        selectedConferenceID={selectedConferenceID}
+        toast={toast}
+      />
+    ),
+    "Video Section": <VideoSection   selectedConferenceID={selectedConferenceID} toast={toast} />,
+    FAQ: <FAQAdmin />,
+    "Past Gallery": <PastGallery />,
+    Topics: <TopicsAdmin />,
+    "Supporting Journal": <SupportingJournalAdmin />,
+    Testimonial: <TestimonialAdmin />,
+    "Scientific Program": <ScientificProgramAdmin />,
+    "Hotels Registration": <HotelsRegistration />,
   };
-  
+
   return (
     <>
+      <Toast ref={toast} />
 
       <div className="d-flex justify-content-between">
         <h5>Conference</h5>

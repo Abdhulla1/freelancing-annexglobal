@@ -146,7 +146,7 @@ const UpcomingConference = () => {
         <Slider {...settings}>
           {[...Array(Math.ceil(upcomingConferences.length / 6))].map((_, index) => (
             <div key={index}>
-              <div className="container">
+              <div className="container p-5">
                 <div className="row">
                   {upcomingConferences
                     .slice(index * 6, index * 6 + 6)

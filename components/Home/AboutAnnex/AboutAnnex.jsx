@@ -4,8 +4,8 @@ import AboutAnnexStyles from './AboutAnnex.module.css';
 const AboutAnnex = () => {
   return (
     <div className="p-3 p-md-5">
-      <h3 className="text-center fw-bold">About Annex World</h3>
-      <p className={`text-center mt-4 ${AboutAnnexStyles["about-headline"]} h5`}>
+      <h2 className="text-center fw-bold">About Annex World</h2>
+      <p className={`text-center mt-4 ${AboutAnnexStyles["about-headline"]} h4`}>
         “Synergies Unleashed: Uniting Worldwide Frontiers In Science, Business,
         And Technology Symposia”
       </p>

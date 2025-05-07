@@ -1,13 +1,14 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import { Toast } from "primereact/toast";
 import { uploadImage } from "@/service/mediaManagemnt";
-import { saveConferenceLandingPage } from "@/service/adminConference";
-export default function LandingPage({ selectedConferenceID }) {
-  const [uploads, setUploads] = useState([{ id: Date.now(), file: null }]);
-  const toast = useRef(null);
+import {
+  saveConferenceLandingPage,
+  getSelectedConference,
+} from "@/service/adminConference";
 
+export default function LandingPage({ selectedConferenceID,toast}) {
+  const [uploads, setUploads] = useState([{ id: Date.now(), file: null }]);
   const [formData, setFormData] = useState({
     startDate: "",
     endDate: "",
@@ -17,37 +18,75 @@ export default function LandingPage({ selectedConferenceID }) {
     endTime: "",
   });
 
+  // Fetch data on component mount or ID change
+  useEffect(() => {
+    const fetchLandingPageData = async () => {
+      try {
+        const res= await getSelectedConference(selectedConferenceID);
+        const landing = res?.conference?.landingPage;
+        if (res.status === 404) {
+          router.push("/notFound");
+        }
+        if (landing) {
+          setFormData({
+            startDate: landing.startDate || "",
+            endDate: landing.endDate || "",
+            location: landing.location || "",
+            address: landing.address || "",
+            startTime: landing.startTime || "",
+            endTime: landing.endTime || "",
+          });
+
+          if (landing.images && landing.images.length > 0) {
+            setUploads(
+              landing.images.map((imgUrl) => ({
+                id: Date.now() + Math.random(),
+                file: { preview: imgUrl, isUploaded: true }, // Custom format for existing images
+              }))
+
+            );
+          }
+        }
+      } catch (error) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Fetch Error",
+          detail: "Failed to load existing landing page data.",
+          life: 3000,
+        });
+      }
+    };
+
+    fetchLandingPageData();
+  }, [selectedConferenceID]);
+
   const isFormFilled =
-  formData.startDate &&
-  formData.endDate &&
-  formData.location &&
-  formData.address &&
-  formData.startTime &&
-  formData.endTime;
+    formData.startDate &&
+    formData.endDate &&
+    formData.location &&
+    formData.address &&
+    formData.startTime &&
+    formData.endTime;
 
-const hasAtLeastOneFile = uploads.some((upload) => upload.file);
-const formValid = isFormFilled && hasAtLeastOneFile;
+  const hasAtLeastOneFile = uploads.some((upload) => upload.file);
+  const formValid = isFormFilled && hasAtLeastOneFile;
 
-  // Add new upload block
   const handleAddUpload = () => {
     setUploads([...uploads, { id: Date.now(), file: null }]);
   };
 
-  // Remove upload block
   const handleRemoveUpload = (id) => {
     if (uploads.length > 2) {
       setUploads(uploads.filter((upload) => upload.id !== id));
     }
   };
 
-  // Set file for a specific upload
   const handleFileChange = (file, id) => {
     setUploads((prev) =>
       prev.map((upload) => (upload.id === id ? { ...upload, file } : upload))
     );
   };
 
-  // Handle input fields
   const handleInputChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -55,12 +94,10 @@ const formValid = isFormFilled && hasAtLeastOneFile;
     }));
   };
 
-  // Handle full form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if at least one file is uploaded
-    const hasAtLeastOneFile = uploads.some((upload) => upload.file);
-    if (!hasAtLeastOneFile) {
+    const hasFile = uploads.some((upload) => upload.file);
+    if (!hasFile) {
       toast.current.show({
         severity: "error",
         summary: "Image Upload Error",
@@ -69,28 +106,23 @@ const formValid = isFormFilled && hasAtLeastOneFile;
       });
       return;
     }
+
     try {
       let imageUrls = [];
 
-      // Handle image uploads
-      try {
-        const uploadPromises = uploads
-          .filter((upload) => upload.file) // Filter out uploads without files
-          .map((upload) => uploadImage(upload.file)); // Call uploadImage function for each file
+      const uploadPromises = uploads.map(async (upload) => {
+        if (upload.file?.isUploaded) {
+          return { url: upload.file.preview };
+        } else if (upload.file) {
+          return await uploadImage(upload.file);
+        } else {
+          return null;
+        }
+      });
 
-        const imageUploadResponses = await Promise.all(uploadPromises);
-        imageUrls = imageUploadResponses.map((res) => res.url || ""); // Store URLs in imageUrls
-      } catch (imageError) {
-        toast.current.show({
-          severity: "error",
-          summary: "Image Upload Error",
-          detail:
-            "Failed to upload one or more landing images. Please try again.",
-          life: 3000,
-        });
-        return;
-      }
-      // Final payload
+      const responses = await Promise.all(uploadPromises);
+      imageUrls = responses.filter(Boolean).map((res) => res.url);
+
       const finalPayload = {
         images: imageUrls,
         ...formData,
@@ -102,19 +134,17 @@ const formValid = isFormFilled && hasAtLeastOneFile;
       );
 
       if (response[0].msg === "Landing page updated successfully") {
-        setUploads([{ id: Date.now(), file: null }]);
-        setFormData({
-          startDate: "",
-          endDate: "",
-          location: "",
-          address: "",
-          startTime: "",
-          endTime: "",
-        });
         toast.current.show({
           severity: "success",
           summary: "Success!",
           detail: "The form has been submitted successfully.",
+          life: 3000,
+        });
+      }else if (response[0].msg === "No modifications found") {
+        toast.current.show({
+          severity: "warn",
+          summary: "Warning",
+          detail: "No modifications found",
           life: 3000,
         });
       }
@@ -122,7 +152,7 @@ const formValid = isFormFilled && hasAtLeastOneFile;
       toast.current.show({
         severity: "error",
         summary: "Submission failed",
-        detail: "Failed to Submission The Form . Please try again.",
+        detail: "Failed to submit the form. Please try again.",
         life: 3000,
       });
     }
@@ -130,8 +160,6 @@ const formValid = isFormFilled && hasAtLeastOneFile;
 
   return (
     <form onSubmit={handleSubmit}>
-      <Toast ref={toast} />
-
       <div className="mb-2">
         <label className="form-label">Upload Landing Page Images</label>
         <button
@@ -154,6 +182,7 @@ const formValid = isFormFilled && hasAtLeastOneFile;
                 showBorder={false}
                 showTitle={false}
                 onFileChange={(file) => handleFileChange(file, upload.id)}
+                imageUrl={upload.file?.preview}
               />
             </div>
             <button
@@ -168,13 +197,10 @@ const formValid = isFormFilled && hasAtLeastOneFile;
         ))}
       </div>
 
-      {/* Conference Date Inputs */}
       <div className="mt-4">
         <div className="row">
           <div className="col-md-6 mb-3">
-            <label htmlFor="startDate" className="form-label">
-              Start Date of Conference
-            </label>
+            <label className="form-label">Start Date of Conference</label>
             <input
               type="date"
               name="startDate"
@@ -186,9 +212,7 @@ const formValid = isFormFilled && hasAtLeastOneFile;
           </div>
 
           <div className="col-md-6 mb-3">
-            <label htmlFor="endDate" className="form-label">
-              End Date of Conference
-            </label>
+            <label className="form-label">End Date of Conference</label>
             <input
               type="date"
               name="endDate"
@@ -200,12 +224,9 @@ const formValid = isFormFilled && hasAtLeastOneFile;
           </div>
         </div>
 
-        {/* Event Details */}
         <div className="row">
           <div className="col-md-6 mb-3">
-            <label htmlFor="location" className="form-label">
-              Event Location
-            </label>
+            <label className="form-label">Event Location</label>
             <input
               type="text"
               name="location"
@@ -218,9 +239,7 @@ const formValid = isFormFilled && hasAtLeastOneFile;
           </div>
 
           <div className="col-md-6 mb-3">
-            <label htmlFor="address" className="form-label">
-              Event Address
-            </label>
+            <label className="form-label">Event Address</label>
             <input
               type="text"
               name="address"
@@ -233,12 +252,9 @@ const formValid = isFormFilled && hasAtLeastOneFile;
           </div>
         </div>
 
-        {/* Event Time */}
         <div className="row">
           <div className="col-md-6 mb-3">
-            <label htmlFor="startTime" className="form-label">
-              Event Start Time
-            </label>
+            <label className="form-label">Event Start Time</label>
             <input
               type="time"
               name="startTime"
@@ -250,9 +266,7 @@ const formValid = isFormFilled && hasAtLeastOneFile;
           </div>
 
           <div className="col-md-6 mb-3">
-            <label htmlFor="endTime" className="form-label">
-              Event End Time
-            </label>
+            <label className="form-label">Event End Time</label>
             <input
               type="time"
               name="endTime"
@@ -264,15 +278,14 @@ const formValid = isFormFilled && hasAtLeastOneFile;
           </div>
         </div>
 
-        {/* Buttons */}
         <div className="bg-secondary bg-opacity-10 mt-4 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
-          <button type="button" className="btn px-5 bg-white border"   disabled={!formValid}>
+          <button type="button" className="btn px-5 bg-white border" disabled={!formValid}>
             Cancel
           </button>
           <button
             type="submit"
             className="btn px-1 px-md-5 btn-warning text-white"
-              disabled={!formValid}
+            disabled={!formValid}
           >
             Save Changes
           </button>

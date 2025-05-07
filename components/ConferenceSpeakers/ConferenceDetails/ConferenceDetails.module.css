@@ -106,3 +106,26 @@
   transition-duration: 0.3s;
   color: white;
 }
+.speakerCard{
+  background: linear-gradient(180deg, rgba(18, 25, 137, 0.8) 0%, rgba(5, 6, 35, 0.8) 100%);
+  width: 300px;
+  border-radius: 8px;
+  transform: rotate(20deg);
+  z-index: 2;
+}
+.speakerCardLayer{
+  background: linear-gradient(180deg, rgba(18, 25, 137, 0.8) 0%, rgba(5, 6, 35, 0.8) 100%);
+  width: 300px;
+  border-radius: 8px;
+  transform:translateY(-390px) rotate(-20deg);
+  z-index: 0;
+}
+.micIcon{
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(180deg, #8CFF8C 0%, #00FFCB 100%);
+border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

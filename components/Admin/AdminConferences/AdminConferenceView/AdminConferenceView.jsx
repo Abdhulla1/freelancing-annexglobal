@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState, useEffect } from "react";
 import Sidenav from "../../Dashboard/Sidenav/Sidenav";
 import ConferencePageAdmin from "./ConferencePageAdmin/ConferencePageAdmin";
@@ -11,7 +11,7 @@ import RegistrationAdmin from "./RegistrationAdmin/RegistrationAdmin";
 import { getSelectedConference } from "@/service/adminConference";
 import { useRouter } from "next/navigation";
 import { ProgressSpinner } from "primereact/progressspinner";
-
+import { Toast } from "primereact/toast";
 export default function AdminConferenceView({ conference }) {
   const [activeMenu, setActiveMenu] = useState("Conference");
   const [selectedConference, setSelectedConference] = useState(null);
@@ -28,7 +28,9 @@ export default function AdminConferenceView({ conference }) {
   ];
 
   const componentMap = {
-    Conference: selectedConference ? <ConferencePageAdmin selectedConferenceID={selectedConference._id} /> : null,
+    Conference: selectedConference ? (
+      <ConferencePageAdmin selectedConferenceID={selectedConference._id} />
+    ) : null,
     Webinar: <WebinarPageAdmin />,
     Speakers: <SpeakerAdmin />,
     OCM: <OCMAdmin />,
@@ -40,8 +42,14 @@ export default function AdminConferenceView({ conference }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getSelectedConference(conference);
-        setSelectedConference(data);
+        const response = await getSelectedConference(conference);
+        if(response.status===404){
+          router.push("/notFound");
+
+        }else{
+          setSelectedConference(response);
+        }
+      
       } catch (error) {
         console.error("Failed to fetch conference data", error);
       }
@@ -55,7 +63,10 @@ export default function AdminConferenceView({ conference }) {
 
   if (selectedConference === null) {
     return (
-      <div className="container d-flex justify-content-center align-items-center" style={{ height: "70vh" }}>
+      <div
+        className="container d-flex justify-content-center align-items-center"
+        style={{ height: "70vh" }}
+      >
         <ProgressSpinner
           style={{ width: "50px", height: "50px" }}
           strokeWidth="5"

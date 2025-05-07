@@ -3,13 +3,13 @@
   padding: 0;
   background-color: white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
 }
 
 .custom-navbar {
   border: none;
   background: white;
   padding: 0 20px;
-  
 }
 
 .logo {
@@ -18,7 +18,8 @@
 }
 
 .logo img {
-  height: 50px;
+  width: auto;
+  height: 81px;
   margin-right: 10px;
 }
 
@@ -30,7 +31,7 @@
 .main-title {
   font-weight: bold;
   font-size: 8px;
-  color: #F4A300;
+  color: #f4a300;
 }
 
 .sub-title {
@@ -46,6 +47,7 @@
   font-size: 16px;
   color: #000;
   padding: 10px 15px;
+
 }
 
 .p-menubar-root-list > li > a:hover {
@@ -53,26 +55,29 @@
 }
 
 .buy-ticket {
-  background: #F4A300;
+  background: linear-gradient(90deg, #f4a300 0%, #ffea61 100%);
+
   color: white;
   padding: 10px 20px;
   font-size: 16px;
-  border: none;
-  border-radius:62px;
+  border: 1px solid #f4a300;
+  border-radius: 62px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.3s;
+}
+.sponsor {
+  background: linear-gradient(90deg, #000000 0%, #4E4E4E 100%);
+  border: 1px solid #000000;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 62px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition-duration: 0.3s;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo img {
-  max-height: 50px; /* Adjust height for proper scaling */
-  width: auto;
-}
 
 .main-title {
   font-size: 20px; /* Reduce font size for mobile */
@@ -81,10 +86,11 @@
 
 .sub-title {
   font-size: 16px;
+  color: #000000;
   display: block; /* Stack the subtitle under the title */
 }
 
-.navbar-noShadow:focus{
+.navbar-noShadow:focus {
   box-shadow: none;
 }
 
@@ -93,22 +99,26 @@
     font-size: 16px; /* Reduce font size for mobile */
     font-weight: bold;
   }
-  
+
   .sub-title {
     font-size: 10px;
-    display: block; /* Stack the subtitle under the title */
+    display: none; /* Stack the subtitle under the title */
   }
 
   .logo img {
-    max-height: 30px; /* Adjust height for proper scaling */
+    max-height: 50px; /* Adjust height for proper scaling */
     width: auto;
   }
-  
-.buy-ticket {
 
-  font-size: 10px;
-   /* Adjust padding for smaller screens */
-}
+  .buy-ticket {
+    font-size: 10px;
+    /* Adjust padding for smaller screens */
+  }
+  .sponsor {
+    font-size: 10px;
+    /* Adjust padding for smaller screens */
+  }
+  
 }
 
 @media (max-width: 768px) {
@@ -128,20 +138,20 @@
     font-weight: bold; /* Optionally make the text bold for better visibility */
   }
   .buy-ticket {
-
     font-size: 10px;
-     /* Adjust padding for smaller screens */
+    /* Adjust padding for smaller screens */
   }
 }
 
-
 .nav-link {
   position: relative;
-  padding-bottom: 4px; 
+  padding-bottom: 4px;
   color: #000;
   text-decoration: none;
   display: flex; /* Use flexbox to align items */
-  align-items: center; 
+  align-items: center;  
+  font-family: Manrope;
+  font-weight: 500;
 }
 
 .nav-link.active::after {
@@ -154,9 +164,12 @@
   width: 20px; /* Width of the line */
   height: 3px; /* Thickness of the line */
   background-color: #121989; /* Blue color */
+
+  
 }
 .nav-link.active {
   color: #121989;
+  font-weight: 800;
 }
 .nav-link:hover {
   color: #121989;
@@ -168,4 +181,23 @@
   border-top: 0.3em solid #000;
   border-right: 0.3em solid transparent;
   border-left: 0.3em solid transparent;
+}
+.announcementBar {
+  background: url("/images/home/attendAnnex.png") no-repeat center center/cover;
+  max-height: 38px;
+  color: #000000;
+  font-family: Manrope;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 80px;
+  letter-spacing: 0%;
+  text-align: center;
+  text-transform: capitalize;
+}
+.announcementBar span:nth-of-type(2) {
+  background: linear-gradient(90deg, #18006f 0%, #2e00d5 100%);
+  font-size: 11px;
+  color: #ffffff;
+  line-height: 18px;
+  padding: 0 18px;
 }

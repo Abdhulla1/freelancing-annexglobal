@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import NavbarStyles from "./Navbar.module.css";
 import useSessionStorageState from "use-local-storage-state"; // Using session storage hook
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
@@ -118,7 +117,7 @@ export default function Navbar() {
             : "#",
         },
         {
-          label: "SCIENTICFIC PROGRAM",
+          label: "SCIENTIFIC PROGRAM",
           url: conferenceId
             ? `/conference/${conferenceId}/scientific-program`
             : "#",
@@ -156,14 +155,13 @@ export default function Navbar() {
     const matchedItem = Menuitems.find((item) => {
       const matchUrl = (url) =>
         pathname === url || pathname.startsWith(url + "/");
-    
+
       if (item.url && matchUrl(item.url)) return true;
       if (item.items) {
         return item.items.some((subItem) => matchUrl(subItem.url));
       }
       return false;
     });
-    
 
     if (matchedItem) {
       setActiveItem(matchedItem.label);
@@ -171,114 +169,148 @@ export default function Navbar() {
   }, [pathname, Menuitems, setActiveItem]);
 
   return (
-    <nav
-      className={`${
-        NavbarStyles.navbar
-      } navbar navbar-expand-md navbar-light bg-white shadow animate__animated p-0 ${
-        isFixed ? "fixed-top animate__fadeInDown" : ""
-      }`}
-    >
-      <div className="container-fluid d-flex justify-content-between align-items-center w-100">
-        <div className={`d-flex align-items-center ${NavbarStyles.logo}`}>
-          <img
-            src="/icons/annex_logo.png"
-            alt="Logo"
-            className="img-fluid mb-2"
-          />
-          <div className="mt-2">
-            <span className={NavbarStyles["main-title"]}>
-              ANNEX GLOBAL CONFERENCE
-            </span>
+    <div  className={`${isFixed ? "fixed-top animate__fadeInDown" : ""
+    }`}>
+      <div
+        className={` d-none d-md-flex  justify-content-center p-2 align-items-center w-100 ${NavbarStyles.announcementBar}`}
+      >
+        <span>
+          Join more than 7,000 + Marketers in Budapest 4-5 September 2025{" "}
+        </span>
+        <span className="ps-2 pe-2 p-1 ms-2 rounded">
+          Attend Annex Global conference world
+        </span>
+      </div>
+      <nav
+        className={`${
+          NavbarStyles.navbar
+        } navbar navbar-expand-md navbar-light bg-white shadow animate__animated p-0 `}
+      >
+        
+        <div className="container-fluid d-flex justify-content-between align-items-center w-100">
+          <div className={`d-flex align-items-center ${NavbarStyles.logo}`}>
+            <img
+              src="/icons/annexWithText.png"
+              alt="Logo"
+  
+            />
+            <div className="mt-2">
+
+          {/* Location/Weather*/}
             <p className={NavbarStyles["sub-title"]}>
-              Advancing Healthcare, Inspiring Minds
-            </p>
+            Dubai, UAE • 26-27 February 2025 • < i className='bx bxs-sun text-warning'/>  36.1°C
+
+                        </p>
+          
           </div>
-        </div>
+          </div>
 
-        <button
-          className={`navbar-toggler border-0 ${NavbarStyles["navbar-noShadow"]} ms-auto`}
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span className="navbar-toggler-icon"> </span>
-        </button>
+          <button
+            className={`navbar-toggler border-0 ${NavbarStyles["navbar-noShadow"]} ms-auto`}
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <span className="navbar-toggler-icon"> </span>
+          </button>
 
-        <div
-          ref={menuRef}
-          className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}
-        >
-          <ul className={`navbar-nav mx-auto${isOpen ? " gap-3 " : " gap-5 "}`}>
-            {Menuitems.map((item, index) => {
-              const isActive = activeItem === item.label;
-              return (
-                <li
-                  key={index}
-                  className={`nav-item ${item.items ? "dropdown" : ""}`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.items ? (
-                    <>
+          <div
+            ref={menuRef}
+            className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}
+          >
+            <ul
+              className={`navbar-nav mx-auto${isOpen ? " gap-3 " : " gap-4 "}`}
+            >
+              {Menuitems.map((item, index) => {
+                const isActive = activeItem === item.label;
+                return (
+                  <li
+                    key={index}
+                    className={`nav-item ${item.items ? "dropdown" : ""}`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.items ? (
+                      <>
+                        <Link
+                          href="#"
+                          className={`${NavbarStyles["nav-link"]} dropdown-toggle `}
+                          id={`dropdown${index}`}
+                          role="button"
+                        >
+                          {item.label}
+                        </Link>
+                        <ul className="dropdown-menu">
+                          {item.items.map((subItem, subIndex) => (
+                            <li key={subIndex}>
+                              <Link
+                                href={subItem.url}
+                                className="dropdown-item"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {subItem.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
                       <Link
-                        href="#"
-                        className={`${NavbarStyles["nav-link"]} dropdown-toggle `}
-                        id={`dropdown${index}`}
-                        role="button"
+                        href={item.url}
+                        className={`${NavbarStyles["nav-link"]} ${
+                          isActive ? NavbarStyles.active : ""
+                        }`}
+                        onClick={() => setIsOpen(false)}
                       >
                         {item.label}
                       </Link>
-                      <ul className="dropdown-menu">
-                        {item.items.map((subItem, subIndex) => (
-                          <li key={subIndex}>
-                            <Link
-                              href={subItem.url}
-                              className="dropdown-item"
-                              onClick={() => setIsOpen(false)}
-                            >
-                              {subItem.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  ) : (
-                    <Link
-                      href={item.url}
-                      className={`${NavbarStyles["nav-link"]} ${
-                        isActive ? NavbarStyles.active : ""
-                      }`}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
 
-        <div className="d-none d-md-block">
-          <button className={NavbarStyles["buy-ticket"]}>
-            <Link
-              href={"/#newsletter"}
-              className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
-            >
-             Subscribe
-            </Link>
-          </button>
+          <div className="d-none d-md-flex  gap-2">
+            <button className={` ${NavbarStyles["sponsor"]}`}>
+              <Link
+                href={"/"}
+                className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
+              >
+                SPONSOR
+              </Link>
+            </button>
+            <button className={NavbarStyles["buy-ticket"]}>
+              <Link
+                href={"/conferences"}
+                className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
+              >
+                Buy Tickets
+              </Link>
+            </button>
+          </div>
         </div>
-      </div>
-
-      {isOpen && (
-        <button className={`w-100 text-center ${NavbarStyles["buy-ticket"]}`}>
+{/* 
+        {isOpen && (
+          <>     <button className={NavbarStyles["sponsor"]}>
           <Link
-            href={"/#newsletter"}
-            className="mb-0 text-decoration-none h6 fw-normal w-100"
+            href={"/"}
+            className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
           >
-            Subscribe
+            SPONSOR
           </Link>
         </button>
-      )}
-    </nav>
+        <button className={`w-100 text-center ${NavbarStyles["buy-ticket"]}`}>
+            
+            <Link
+              href={"/#newsletter"}
+              className="mb-0 text-decoration-none h6 fw-normal w-100"
+            >
+              Subscribe
+            </Link>
+          </button>
+          </>
+       
+        )} */}
+      </nav>
+    </div>
   );
 }

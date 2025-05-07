@@ -1,4 +1,6 @@
 "use client";
+import React from "react";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./CountdownBanner.module.css";
@@ -18,10 +20,10 @@ const CountdownBanner = () => {
       const difference = eventDate - now;
 
       return {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
+        days: String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0'),
+        hours: String(Math.floor((difference / (1000 * 60 * 60)) % 24)).padStart(2, '0'),
+        minutes: String(Math.floor((difference / 1000 / 60) % 60)).padStart(2, '0'),
+        seconds: String(Math.floor((difference / 1000) % 60)).padStart(2, '0'),
       };
     };
 
@@ -41,17 +43,23 @@ const CountdownBanner = () => {
       <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center">
         <h5 className="text-dark m-0 fw-bold">EVENT STARTS IN:</h5>
 
-        <div className="d-flex gap-3 flex-wrap justify-content-center">
-          {["days", "hours", "minutes", "seconds"].map((unit) => (
-            <div key={unit} className={`text-center ${styles.timeBox}`}>
-              <span className={`d-block fw-bold ${styles.time}`}>{timeLeft[unit]}</span>
-              <span className="small text-uppercase">{unit}</span>
-            </div>
-          ))}
-        </div>
+        <div className="d-flex gap-3 flex-wrap justify-content-center align-items-center">
+  {["days", "hours", "minutes", "seconds"].map((unit, index, array) => (
+    <React.Fragment key={unit}>
+      <div className={`text-center ${styles.timeBox}`}>
+        <span className={`d-block  fw-bold ${styles.time}`}>{timeLeft[unit]}</span>
+        <span className="small text-uppercase">{unit}</span>
+      </div>
+      {index < array.length - 1 && (
+        <span className={`fw-bold fs-3 ${styles.colon}`}>:</span>
+      )}
+    </React.Fragment>
+  ))}
+</div>
 
-        <Link href="/tickets" className="mt-2 mt-md-0">
-          <button className={`btn btn-dark ${styles.ticketBtn}`}>
+
+        <Link href="/conferences" className="mt-2 mt-md-0">
+          <button className={` ${styles.ticketBtn}`}>
             GET TICKET <img src="/icons/arrow-circle-up.png" alt="Arrow Icon" />
           </button>
         </Link>

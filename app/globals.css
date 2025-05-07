@@ -22,6 +22,11 @@
 @import "@fontsource/inter/600.css";
 @import "@fontsource/inter/700.css";
 
+@import '@fontsource/manrope';
+
+
+@import '@fontsource/gfs-didot';
+
 body {
   font-family: "Inter", sans-serif;
 }
@@ -47,7 +52,9 @@ body {
 }
 
 .brand-btn {
-  background: #F4A300;
+
+  background: linear-gradient(90deg, #F4A300 0%, #FFEA61 100%);
+  border: 2px solid #F4A300;
   color: white;
   padding: 10px 20px;
   font-size: 16px;
@@ -56,6 +63,22 @@ body {
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition-duration: 0.3s;
+}
+
+.brand-btn-secondary {
+
+  background: linear-gradient(90deg, #A1A1A1 0%, #3B3B3B 100%);
+  border: 1px solid #000000;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.3s;
+}
+.brand-btn-secondary:hover {
+  background: linear-gradient(120deg, #A1A1A1 0%, #3B3B3B 100%);
 }
 
 .brand-btn:hover {
