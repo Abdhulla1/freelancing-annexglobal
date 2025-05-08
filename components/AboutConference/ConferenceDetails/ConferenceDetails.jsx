@@ -107,9 +107,9 @@ const ConferenceDetails = ({ conference }) => {
                   />
                 </Link>
                 &nbsp;&nbsp;&nbsp;
-                <div className={ConferenceDetailsStyles["heading"]}>
-                <h6 className="text-uppercase text-warning opacity-75">
-                  2nd International Conference On
+                <div className={`col-md-12 col-lg-9  ${ConferenceDetailsStyles["heading"]}`}>
+                  <h6 className="text-uppercase text-warning opacity-75">
+                    2nd International Conference On
                   </h6>
                   <h5 className="text-uppercase text-white">
                     {conference.title}
@@ -119,58 +119,60 @@ const ConferenceDetails = ({ conference }) => {
                       "Theme: “Enhancing Women’s Health: Improvement, Difficulties, and Innovative Thoughts in Obstetrics and Gynecology”"
                     }
                   </p>
-                </div>
-              </div>
-              <div className={`mt-1 ${ConferenceDetailsStyles["timings"]}`}>
-                <div className="row">
-                  <div className="col-6 col-md-3 border-end border-white">
-                    <div className="d-flex align-items-center gap-3">
+                  <div className={`mt-1 ${ConferenceDetailsStyles["timings"]}`}>
+                    <div className="d-inline-flex flex-nowrap align-items-center  gap-2 p-1">
                       <div>
-                        <i className={`pi h4 pi-calendar  ${ConferenceDetailsStyles["icons"]}`}></i>
+                        <i
+                          className={`pi h6 pi-calendar  ${ConferenceDetailsStyles["icons"]}`}
+                        ></i>
                       </div>
                       <div className="text-white">
                         <b>12-03-2025</b>
-                        <p>Date</p>
+                        <p className="opacity-75">Date</p>
                       </div>
+                      <div className="ms-3 fs-2 text-white opacity-75">|</div>
                     </div>
-                  </div>
-                  <div className="col-6 col-md-3 border-end border-white">
-                    <div className="d-flex align-items-center gap-3">
+                    <div className="d-inline-flex align-items-center gap-2 p-1">
                       <div>
-                        <i className={`pi h4 pi-map-marker  ${ConferenceDetailsStyles["icons"]}`}></i>
+                        <i
+                          className={`pi h6 pi-map-marker   ${ConferenceDetailsStyles["icons"]}`}
+                        ></i>
                       </div>
                       <div className="text-white">
                         <b>Dubai, UAE</b>
-                        <p>Location</p>
+                        <p className="opacity-75">Location</p>
+                      </div>
+                      <div className="ms-3 fs-2 text-white opacity-75">|</div>
+                    </div>
+                    <div className="d-inline-flex align-items-center gap-2 p-1">
+                      <div>
+                        <i
+                          className={`pi h6 pi-clipboard  ${ConferenceDetailsStyles["icons"]}`}
+                        ></i>
+                      </div>
+                      <div
+                        className="text-white"
+                      >
+                        <b>City Seasons Hotel, Deira</b>
+                        <p className="opacity-75">Hotel</p>
                       </div>
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 mt-md-0 mt-3">
-                    <div className="d-flex align-items-center gap-3">
-                      <div>
-                        <i className={`pi h4 pi-clipboard  ${ConferenceDetailsStyles["icons"]}`}></i>
-                      </div>
-                      <div className="text-white">
-                        <b>City Seasons Hotel, Deira</b>
-                        <p>Hotel</p>
-                      </div>
-                    </div>
+                  <div className="mt-4 gap-3 d-flex flex-column flex-md-row">
+                    <Link
+                      href={`/conference/${conference.id}/registration`}
+                      className={`text-decoration-none ${ConferenceDetailsStyles["brand-btn"]}`}
+                    >
+                      Grab Your Seats Now
+                    </Link>
+                    <Link
+                      href={`/conference/${conference.id}/scientific-program`}
+                      className={`text-decoration-none ${ConferenceDetailsStyles["program-btn"]}`}
+                    >
+                      Scientific Program
+                    </Link>
                   </div>
                 </div>
-              </div>
-              <div className="mt-4 gap-3 d-flex flex-column flex-md-row">
-                <Link
-                  href={`/conference/${conference.id}/registration`}
-                  className={`text-decoration-none ${ConferenceDetailsStyles["brand-btn"]}`}
-                >
-                  Grab Your Seats Now
-                </Link>
-                <Link
-                  href={`/conference/${conference.id}/scientific-program`}
-                  className={`text-decoration-none ${ConferenceDetailsStyles["program-btn"]}`}
-                >
-                  Scientific Program
-                </Link>
               </div>
             </div>
           </div>
@@ -227,7 +229,10 @@ export default ConferenceDetails;
 
 function SpeakerCard({ imgSrc, name, location }) {
   return (
-    <div className="ms-3 d-flex flex-column align-items-center justify-content-center" style={{ width: "auto", flex: "1" }}>
+    <div
+      className="ms-3 d-flex flex-column align-items-center justify-content-center"
+      style={{ width: "auto", flex: "1" }}
+    >
       <div className="rounded-circle border border-2 border-primary p-1 overflow-hidden mb-2">
         <Image
           src={imgSrc}

@@ -51,8 +51,11 @@ const Footer = () => {
             </div>
           </div>
         </div>
-
+    
         <div className={footerStyle["footer-bottom"]}>
+        <p className="text-white opacity-75 text-center ">
+          2 Frederick Street, Kings Cross, London, WC1X 0ND, United Kingdom
+        </p>
           © {new Date().getFullYear()} AG Medical Conference. All Rights
           Reserved • Contact us at:{" "}
           <a

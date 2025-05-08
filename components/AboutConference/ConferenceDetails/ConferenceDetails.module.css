@@ -6,7 +6,7 @@
 
 .conferencelogo {
   width: auto;
-  height: 170px;
+  height: 190px;
 }
 .annexlogo{
   width: auto;
@@ -24,12 +24,14 @@
 }
 
 .timings{
-    background: rgba(106, 106, 106, 0.1); 
+    background:#3CCDE41F; 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 12px; 
     padding: 5px; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 13px;
+    letter-spacing: 0px;
 }
 .speaker-container{
   background-image:  var(--speaker-bg-image); 

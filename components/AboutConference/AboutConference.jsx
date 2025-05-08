@@ -23,17 +23,22 @@ const AboutConference = ({conference}) => {
       <WelcomeContent />
       <AboutMission/>
       <OrganizingCommitee/>
-      <BroucherGrid/>
-      <SupportingJournals/>
-      <div className="mt-5"></div>
-      <ReputedOrganizations/>
-      <AlumniSpeakers/>
       <DiscoverySessions conference={conference.id}/>
+
+      {/* <BroucherGrid/> */}
+      {/* <SupportingJournals/> */}
+      <div className="mt-5"></div>
+      {/* <ReputedOrganizations/> */}
+      <AlumniSpeakers/>
+      {/* <DiscoverySessions conference={conference.id}/> */}
       <PastConference/>
-      <QueriesAnswered/>
+      <ConnectWithOthers/>
+            <SupportingJournals/>
+
+      {/* <QueriesAnswered/> */}
       <LocationandServices/>
       <Prospectus/>
-      <ConnectWithOthers/>
+      {/* <ConnectWithOthers/> */}
       <EnquiryForm/>
       
     </>
