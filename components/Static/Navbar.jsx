@@ -197,8 +197,8 @@ export default function Navbar() {
             <div className="mt-2">
 
           {/* Location/Weather*/}
-            <p className={NavbarStyles["sub-title"]}>
-            Dubai, UAE • 26-27 February 2025 • < i className='bx bxs-sun text-warning'/>  36.1°C
+            <p className={`${NavbarStyles["sub-title"]}`}>
+            Dubai, UAE &nbsp;•&nbsp;26-27 February 2025&nbsp;•&nbsp;< i className='bx bxs-sun text-warning'/> 36.1°C
 
                         </p>
           

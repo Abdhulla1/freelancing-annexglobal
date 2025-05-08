@@ -1,11 +1,12 @@
 .header {
-  background-color: #eee;
+  background: linear-gradient(90deg, #A1A1A1 0%, #3B3B3B 100%);
   padding: 5px;
   text-align: center;
-  color: #04BF68;
+  color: white;
   font-weight: 500;
   font-size: 18px;
   border-radius: 20px;
+  border: 1px solid #000000;
 }
 
 .card {

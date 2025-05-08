@@ -217,7 +217,7 @@ const AlumniSpeakers = () => {
         )}
       </Sidebar>
       <div className="container mt-5">
-        <div className="col-xl-2 col-lg-4 col-md-6 ">
+        <div className="col-xl-3 col-lg-4 col-md-6 ">
           <div className={AlumniSpeakerStyles["header"]}>MEET OUR SPEAKERS</div>
         </div>
 
