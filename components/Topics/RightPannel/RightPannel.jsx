@@ -1,19 +1,40 @@
 import React from "react";
 import RightPannelStyles from "./RightPannel.module.css";
 
-import Image from "next/image";
-
 export default function RightPannel() {
   return (
-    <div className={` w-100 ${RightPannelStyles["image-slides-card-wrapper"]}`}>
-      <Image
-        className={` w-75 img-fluid h-auto ${RightPannelStyles["ocm"]}`}
-        src="/images/conferences/topic-bg-cover.png"
-        alt="speaker"
-        height={450}
-        width={350}
-        quality={100}
-      />
+    <div
+      className={`d-flex justify-content-end align-items-end ${RightPannelStyles["image-slides-card-wrapper"]}`}
+    >
+      <div className={` position-relative ${RightPannelStyles["wrapper"]}`}>
+        <div className={`mt-5 ${RightPannelStyles["octagon"]}`}></div>
+        <img
+          src="/images/conferences/topicsHeaderImages/imageTwo.png"
+          className={`mt-5 ${RightPannelStyles["octagon-image"]}`}
+          alt="image1"
+        />
+        <img
+          src="/images/conferences/topicsHeaderImages/imageThree.png"
+          className={`mt-5 ${RightPannelStyles["octagon-image-top"]}`}
+          alt="image1"
+        />
+        <img
+          src="/images/conferences/topicsHeaderImages/imagefour.png"
+          className={`mt-5 ${RightPannelStyles["octagon-image-bottom"]}`}
+          alt="image1"
+        />
+        <div className={`${RightPannelStyles["octagon-shape-with-fill"]}`} />
+        <img
+          src="/images/conferences/topicsHeaderImages/imageOne.png"
+          className={`mt-5 ${RightPannelStyles["octagon-image-bottom-right"]}`}
+          alt="image1"
+        />
+        <img
+     src="/images/conferences/topicsHeaderImages/imageFive.png"
+          className={`mt-5 ${RightPannelStyles["octagon-image-bottom-right-top"]}`}
+          alt="image1"
+        />
+      </div>
     </div>
   );
 }

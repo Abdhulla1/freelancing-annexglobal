@@ -1,10 +1,132 @@
 .image-slides-card-wrapper {
   max-height: 400px;
-  /* overflow: hidden; */
- 
+  overflow: hidden;
 }
-.ocm{
-position: relative;
-right: -250px;
+.ocm {
+  position: absolute;
+  right: -220px;
 }
+.wrapper{
 
+}
+.octagon {
+  --b:2px; /* the border thickness */
+  width: 350px;
+  aspect-ratio: 1;
+  --o:calc(50%*tan(-22.5deg));
+  --x:calc(var(--b)*cos(22.5deg));
+  --y:calc(var(--b)*sin(22.5deg));
+  clip-path: polygon(    
+    var(--o) 50%,50% var(--o),
+    calc(100% - var(--o)) 50%,    
+    50% calc(100% - var(--o)),var(--o) 50%,
+    calc(50% + var(--o) + var(--y)) var(--x),
+    var(--x) calc(50% + var(--o) + var(--y)),
+    var(--x) calc(50% - var(--o) - var(--y)),
+    calc(50% + var(--o) + var(--y)) calc(100% - var(--x)),
+    calc(50% - var(--o) - var(--y)) calc(100% - var(--x)),
+    calc(100% - var(--x)) calc(50% - var(--o) - var(--y)),
+    calc(100% - var(--x)) calc(50% + var(--o) + var(--y)),
+    calc(50% - var(--o) - var(--y)) var(--x),
+    calc(50% + var(--o) + var(--y)) var(--x)
+  );
+  background: linear-gradient(242.11deg, #F4A300 0.44%, #8E5F00 99.56%);
+  transform: translateX(40px) translateY(20px) ;
+}
+.octagon-image{
+   width: 170px;
+  aspect-ratio: 1;
+  --o:calc(50%*tan(-22.5deg));
+  clip-path: polygon(
+    var(--o) 50%,
+    50% var(--o),
+    calc(100% - var(--o)) 50%,
+    50% calc(100% - var(--o))
+  );
+  object-fit: cover;
+  object-position: center;
+  position: absolute;
+  left: -5%;
+  top: 20%;
+}
+.octagon-image-top{
+   width: 130px;
+  aspect-ratio: 1;
+  --o:calc(50%*tan(-22.5deg));
+  clip-path: polygon(
+    var(--o) 50%,
+    50% var(--o),
+    calc(100% - var(--o)) 50%,
+    50% calc(100% - var(--o))
+  );
+  position: absolute;
+  top: -10%;
+  right: 20%;
+   object-fit: cover;
+  object-position: center;
+}
+.octagon-image-bottom{
+   width: 90px;
+  aspect-ratio: 1;
+  --o:calc(50%*tan(-22.5deg));
+  clip-path: polygon(
+    var(--o) 50%,
+    50% var(--o),
+    calc(100% - var(--o)) 50%,
+    50% calc(100% - var(--o))
+  );
+  position: absolute;
+  bottom: 3%;
+  left: 32%;
+   object-fit: cover;
+  object-position: center;
+
+}
+.octagon-image-bottom-right{
+   width: 150px;
+  aspect-ratio: 1;
+  --o:calc(50%*tan(-22.5deg));
+  clip-path: polygon(
+    var(--o) 50%,
+    50% var(--o),
+    calc(100% - var(--o)) 50%,
+    50% calc(100% - var(--o))
+  );
+ position: absolute;
+  bottom: 15%;
+  right: 2%;
+ object-fit: cover;
+  object-position: center;
+}
+.octagon-image-bottom-right-top{
+   width: 65px;
+  aspect-ratio: 1;
+  --o:calc(50%*tan(-22.5deg));
+  clip-path: polygon(
+    var(--o) 50%,
+    50% var(--o),
+    calc(100% - var(--o)) 50%,
+    50% calc(100% - var(--o))
+  );
+ position: absolute;
+  top: 18%;
+  right: 2%;
+ object-fit: cover;
+  object-position: center;
+}
+.octagon-shape-with-fill
+{
+  width: 150px;
+  aspect-ratio: 1;
+  --o:calc(50%*tan(-22.5deg));
+  clip-path: polygon(
+    var(--o) 50%,
+    50% var(--o),
+    calc(100% - var(--o)) 50%,
+    50% calc(100% - var(--o))
+  );
+  background: #F4A300E5;
+ position: absolute;
+  bottom: -2%;
+  right: -28%;
+}
