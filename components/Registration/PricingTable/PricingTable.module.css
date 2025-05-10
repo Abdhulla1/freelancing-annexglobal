@@ -59,7 +59,9 @@
 }
 
 .td.mid.selected {
-  background: #b0b0b0;
+  /* background: #b0b0b0; */
+  background: linear-gradient(264.67deg, #FF3300 2.35%, #BEB800 97.65%);
+
   color: white;
 }
 .td.mid.selected> button {

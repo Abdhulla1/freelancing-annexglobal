@@ -58,7 +58,8 @@
     }
     
 }.brand-btn {
-    background: #F4A300;
+    /* background: #F4A300; */
+         background: var(--btn-gradient);
     color: white;
     padding: 10px 20px;
     font-size: 16px;
@@ -70,7 +71,8 @@
   }
   
   .brand-btn:hover {
-    background: #b47800;
+    /* background: #b47800; */
+    background: var(--btn-hover-gradient);
     transition-duration: 0.3s;
     color: white;
   }.paymentContainer {

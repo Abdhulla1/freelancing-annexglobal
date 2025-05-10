@@ -1,144 +1,135 @@
 .wrapper {
-    margin-top: 20px;
-    padding: 80px;
-    background-image: url('/images/conferences/submit-abstract-form-bg.png');
-    background-position: center;
-    background-size: cover;
-   
-  }
-  
-  .downloadSection {
-    display: flex;
-    justify-content: center; /* Centers horizontally */
-    align-items: center; /* Centers vertically */
-  }
-  
-  .downloadButton {
-    position: absolute;
-    background: linear-gradient(90deg, #111883 0%, #050726 100%);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    font-weight: bold;
-    z-index: 1;
+  margin-top: 20px;
+  padding: 80px;
+  background-image: url("/images/conferences/submit-abstract-form-bg.png");
+  background-position: center;
+  background-size: cover;
+}
 
-  }
-  
-  .downloadLink {
-    color: #fdbc00;
-    margin-left: 5px;
-    text-decoration: underline;
-  }
-  
-  .formCard {
-    position: relative;
-    max-width: 900px;
-    border-radius: 10px;
-    background: white;
-    border: 0.7px solid #003578;
-    padding: 50px;
-    margin: auto;
-  
-  
-  }
-  
-  .formCard > h3 {
-text-align: left;
-color: #3E3E3E;
+.downloadSection {
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center; /* Centers vertically */
+}
 
-  
-  }
-  
-  .label {
+.downloadButton {
+  position: absolute;
+  background: linear-gradient(90deg, #111883 0%, #050726 100%);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  font-weight: bold;
+  z-index: 1;
+}
 
-    margin-top: 10px;
-  }
-  
-  .inputField {
-    border-radius: 5px;
-    border: 1px solid #EFEFF1;
-    background: #F9F9F9;
+.downloadLink {
+  color: #fdbc00;
+  margin-left: 5px;
+  text-decoration: underline;
+}
 
-  }
-  
-  .submitButton {
-    background-color: #fdbc00;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
-    margin-top: 20px;
-  }
-  
+.formCard {
+  position: relative;
+  max-width: 900px;
+  border-radius: 10px;
+  background: white;
+  border: 0.7px solid #003578;
+  padding: 50px;
+  margin: auto;
+}
+
+.formCard > h3 {
+  text-align: left;
+  color: #3e3e3e;
+}
+
+.label {
+  margin-top: 10px;
+}
+
+.inputField {
+  border-radius: 5px;
+  border: 1px solid #efeff1;
+  background: #f9f9f9;
+}
+
+.submitButton {
+   background: var(--btn-gradient);
+
+  border: none;
+  padding: 10px;
+  width: 100%;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
-    .wrapper {
-      padding: 40px;
-    }
-    
-    .formCard {
-      padding: 40px;
-    }
+  .wrapper {
+    padding: 40px;
   }
-  
-  @media (max-width: 768px) {
-    .wrapper {
-      padding: 20px;
-    }
-  
-    .formCard {
-      padding: 30px;
-    }
-  
-    .downloadButton {
-      padding: 10px 18px;
-      font-size: 14px;
-    }
-  
-    .inputField {
-      font-size: 14px;
-    }
+
+  .formCard {
+    padding: 40px;
   }
-  
-  @media (max-width: 576px) {
-    .formCard {
-      padding: 30px;
-    }
-  
-    .downloadButton {
-      padding: 8px 15px;
-      font-size: 12px;
-      margin-top: 20px;
-    }
-  
-    .inputField {
-      font-size: 12px;
-    }
-  
-    .submitButton {
-      padding: 10px;
-      font-size: 14px;
-    }
-  }
-  .uploadBox {
-    width: 100%;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
     padding: 20px;
-    border-radius: 8px;
-    text-align:center;
-    cursor: pointer;
-    border: 1px dashed #EFEFF1;
-    background: #F9F9F9;
-    transition: 0.3s;
-    font-size: 15px;
-    color: #151515;
-  
   }
-  
-  .uploadBox:hover {
-    border-color: #111883;
-    background-color: #eef2ff;
+
+  .formCard {
+    padding: 30px;
   }
-  
+
+  .downloadButton {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .inputField {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .formCard {
+    padding: 30px;
+  }
+
+  .downloadButton {
+    padding: 8px 15px;
+    font-size: 12px;
+    margin-top: 20px;
+  }
+
+  .inputField {
+    font-size: 12px;
+  }
+
+  .submitButton {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+.uploadBox {
+  width: 100%;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  border: 1px dashed #efeff1;
+  background: #f9f9f9;
+  transition: 0.3s;
+  font-size: 15px;
+  color: #151515;
+}
+
+.uploadBox:hover {
+  border-color: #111883;
+  background-color: #eef2ff;
+}

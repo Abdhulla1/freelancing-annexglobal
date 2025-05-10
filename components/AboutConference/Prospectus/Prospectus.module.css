@@ -117,7 +117,9 @@ gap: 5px;
 
 .register-btn {
   /* display: inline-block; */
-  background: #ffa500;
+  /* background: #ffa500; */
+         background: var(--btn-gradient);
+
   color: white;
   padding: 10px 20px;
   border: none;

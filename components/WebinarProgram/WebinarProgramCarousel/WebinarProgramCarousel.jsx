@@ -58,7 +58,7 @@ const WebinarProgramCarousel = () => {
               </div>
             ))}
           </div>
-          <button className={`btn btn-warning text-white ${styles.downloadButton}`}>
+          <button className={`btn  text-white ${styles.downloadButton}`}>
             {conferencePrograms[currentIndex].date} | Download
           </button>
         </div>

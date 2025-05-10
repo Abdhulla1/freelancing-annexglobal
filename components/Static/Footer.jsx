@@ -26,7 +26,7 @@ const Footer = () => {
             <i className="pi pi-twitter text-white fs-6"></i>
             <i className="bx bxl-youtube text-white fs-6"></i>
             <Link
-              href={"/"}
+              href={"#"}
               className="text-decoration-none text-warning ms-3 text-center"
             >
               Back to top

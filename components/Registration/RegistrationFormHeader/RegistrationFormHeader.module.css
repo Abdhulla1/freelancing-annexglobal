@@ -8,7 +8,7 @@
 
 .conferencelogo {
   width: auto;
-  height: 100px;
+  height: 190px;
 }
 
 .heading h3 {
@@ -19,12 +19,11 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;  
   
+}.heading h5{
+    line-height: 1;
 }
 
-.heading p{
-  line-height: 1.5;
-  font-size: 21px;
-}
+
 
 @media only screen and (max-width: 600px) {
   .heading h5{

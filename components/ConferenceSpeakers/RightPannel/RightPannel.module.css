@@ -1,0 +1,61 @@
+.rightPannel-container{
+  max-height: 400px;
+  overflow: hidden;
+}
+.speaker{
+  margin-left: 160px;
+}
+
+.speakerCard{
+  background: linear-gradient(180deg, rgba(18, 25, 137, 0.8) 0%, rgba(5, 6, 35, 0.8) 100%);
+  width: 300px;
+  border-radius: 8px;
+  transform: rotate(20deg) scale(0.8);
+  z-index: 2;
+
+}
+.speakerCard::after {
+  content: '';
+  position: absolute; /* Required for top/right to work */
+  background-image: url('/icons/multiStars.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  bottom: 20px;
+  right: -100px;
+  width: 100px;
+  height: 100px; 
+  transform: rotate(-15deg);
+  pointer-events: none; 
+}
+
+.speakerCardLayer{
+  background: linear-gradient(180deg, rgba(18, 25, 137, 0.8) 0%, rgba(5, 6, 35, 0.8) 100%);
+  width: 300px;
+  border-radius: 8px;
+  transform:translateY(-380px) translateX(-110px) rotate(-20deg) scale(0.8);
+  z-index: 0;
+
+}
+.speakerCardLayer::before {
+  content: '';
+  position: absolute; /* Required for top/right to work */
+  background-image: url('/icons/multiStars.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  top: -55px;
+  left: -23px;
+  width: 100px;
+  height: 100px; 
+
+  pointer-events: none; 
+}
+
+.micIcon{
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(180deg, #8CFF8C 0%, #00FFCB 100%);
+border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

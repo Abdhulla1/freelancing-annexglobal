@@ -14,12 +14,15 @@ import PastConference from "./PastConference/PastConference";
 import QueriesAnswered from "./QueriesAnswered/QueriesAnswered";
 import LocationandServices from "./LocationandServices/LocationandServices";
 import Prospectus from "./Prospectus/Prospectus";
+import RightPannel from "./ConferenceDetails/RightPannel/RightPannel";
+
+import bgImage from "@/public/images/conferences/upcoming-bg.webp";
 
 const AboutConference = ({conference}) => {
 
   return (
     <>
-      <ConferenceDetails conference={conference} />
+      <ConferenceDetails conference={conference} Component={RightPannel} bgImage={bgImage} buttonProps={{name:'Scientific Program',href:`/conference/${conference.id}/scientific-program`}} />
       <WelcomeContent />
       <AboutMission/>
       <OrganizingCommitee/>

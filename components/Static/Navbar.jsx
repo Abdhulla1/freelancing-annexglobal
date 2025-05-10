@@ -55,6 +55,7 @@ export default function Navbar() {
     { label: "HOME", url: "/" },
     {
       label: "CONFERENCE",
+      url:"",
       items: [
         { label: "UPCOMING EVENTS", url: "/upcoming-conference" },
         { label: "PAST EVENTS", url: "/past-conference" },
@@ -64,6 +65,7 @@ export default function Navbar() {
     { label: "CONTACT US", url: "/contact-us" },
     {
       label: "MORE",
+      url:"",
       items: [
         { label: "PRIVACY POLICY", url: "/privacy-policy" },
         {
@@ -78,10 +80,20 @@ export default function Navbar() {
   const conferenceId = idMatch ? idMatch[1] : null;
 
   const conferenceMenuItems = [
-    { label: "HOME", url: "/" },
+    { label: "HOME", url: conferenceId ? `/conference/${conferenceId}` : "/"},
     {
       label: "WEBINAR",
       url: conferenceId ? `/conference/${conferenceId}/webinar` : "#",
+      items: [
+       
+        {
+          label: "WEBINAR PROGRAM",
+          url: conferenceId
+            ? `/conference/${conferenceId}/webinar-program`
+            : "#",
+        },
+       
+      ],
     },
     {
       label: "TOPICS",
@@ -103,6 +115,7 @@ export default function Navbar() {
     },
     {
       label: "MORE",
+      url:"#",
       items: [
         {
           label: "SUBMIT ABSTRACT",
@@ -151,22 +164,29 @@ export default function Navbar() {
   }, [pathname]);
 
   // Set the active item based on the current pathname
-  useEffect(() => {
-    const matchedItem = Menuitems.find((item) => {
-      const matchUrl = (url) =>
-        pathname === url || pathname.startsWith(url + "/");
-
-      if (item.url && matchUrl(item.url)) return true;
-      if (item.items) {
-        return item.items.some((subItem) => matchUrl(subItem.url));
+useEffect(() => {
+  const findMatchedLabel = (items) => {
+    for (const item of items) {
+      if (item.url && pathname === item.url) {
+        return item.label;
       }
-      return false;
-    });
-
-    if (matchedItem) {
-      setActiveItem(matchedItem.label);
+      if (item.items) {
+        for (const subItem of item.items) {
+          if (subItem.url && (pathname === subItem.url || pathname.startsWith(subItem.url + "/"))) {
+            return item.label;
+          }
+        }
+      }
     }
-  }, [pathname, Menuitems, setActiveItem]);
+    return null;
+  };
+
+  const matchedLabel = findMatchedLabel(Menuitems);
+  if (matchedLabel) {
+    setActiveItem(matchedLabel);
+  }
+}, [pathname, Menuitems, setActiveItem]);
+
 
   return (
     <div  className={`${isFixed ? "fixed-top animate__fadeInDown" : ""
@@ -189,11 +209,15 @@ export default function Navbar() {
         
         <div className="container-fluid d-flex justify-content-between align-items-center w-100">
           <div className={`d-flex align-items-center ${NavbarStyles.logo}`}>
+            <Link
+              href={"/"}className="text-decoration-none"
+             > 
             <img
               src="/icons/annexWithText.png"
               alt="Logo"
   
             />
+            </Link>
             <div className="mt-2">
 
           {/* Location/Weather*/}
@@ -231,7 +255,7 @@ export default function Navbar() {
                     {item.items ? (
                       <>
                         <Link
-                          href="#"
+                           href={item.url}
                           className={`${NavbarStyles["nav-link"]} dropdown-toggle `}
                           id={`dropdown${index}`}
                           role="button"
@@ -269,11 +293,11 @@ export default function Navbar() {
             </ul>
           </div>
 
-          <div className="d-none d-md-flex  gap-2">
+          <div className="d-none d-md-flex gap-2">
             <button className={` ${NavbarStyles["sponsor"]}`}>
               <Link
                 href={"/"}
-                className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
+                className="text-center mb-0 text-decoration-none text-white fw-normal"
               >
                 SPONSOR
               </Link>
@@ -281,7 +305,7 @@ export default function Navbar() {
             <button className={NavbarStyles["buy-ticket"]}>
               <Link
                 href={"/conferences"}
-                className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
+                className="text-center mb-0 text-decoration-none  text-white fw-normal"
               >
                 Buy Tickets
               </Link>

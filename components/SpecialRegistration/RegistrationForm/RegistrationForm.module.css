@@ -1,0 +1,141 @@
+
+.stepsBtns{
+    color:#616161;
+    border-radius: 0px !important;
+    border: 1px solid #CACACA80;
+    padding: 10px;
+    background: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+
+.stepsBtnActiveFocus{
+    color:#F4A300;
+    border-radius: 0px !important;
+    background:#F4A3000A;
+    border: 1px solid #CACACA80;
+    border-bottom: 2px solid #F4A300;
+
+}
+.stepsBtnActiveFocus:hover{
+    color:#F4A300;
+    border-radius: 0px !important;
+    background:#F4A3000A;
+    border: 1px solid #CACACA80;
+    border-bottom: 2px solid #F4A300;
+
+}
+
+
+.stepsBtnCompleted{
+    color:#F4A300;
+    border-radius: 0px !important;
+    border: 1px solid #CACACA80;
+}
+
+.stepsBtnCompleted:hover{
+    color:#F4A300;
+    border-radius: 0px !important;
+    border: 1px solid #CACACA80;
+}
+.prevbtn{
+    color:#F4A300;
+    background: transparent;
+    border: none;
+}
+@media (max-width: 768px){
+    .stepsBtns{
+        padding: 10px;
+        background: #FFFFFF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+        font-size: 12px;
+    }
+    
+}.brand-btn {
+    /* background: #F4A300; */
+         background: var(--btn-gradient);
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition-duration: 0.3s;
+  }
+  
+  .brand-btn:hover {
+    /* background: #b47800; */
+    background: var(--btn-hover-gradient);
+    transition-duration: 0.3s;
+    color: white;
+  }.paymentContainer {
+    padding: 20px;
+
+    border-radius: 10px;
+  
+  }
+  
+  .paymentOptions label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+    background-color: #fff;
+  }
+  
+  .paymentOptions label:hover {
+    border-color: #007bff; /* Bootstrap primary color */
+    background-color: #f0f8ff;
+  }
+  
+  .paymentOptions img {
+    width: 80px;
+    height: auto;
+  }
+  
+  .paymentDropdown {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 14px;
+    background-color: #fff;
+  }
+  
+  .ticketSummary {
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .summaryItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+
+  }
+  
+  .totalCost {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 18px;
+    color: #000;
+  }
+  
+  .totalAmount {
+    font-weight: bold;
+    font-size: 18px;
+    color: #007bff;
+  }
+  

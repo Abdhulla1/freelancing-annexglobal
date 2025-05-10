@@ -243,7 +243,7 @@ const Prospectus = () => {
                   >
                     Cancel
                   </button>
-                  <button type="submit" className="btn btn-warning text-white px-5">
+                  <button type="submit" className="btn main-btn text-white px-5">
                     Submit
                   </button>
                 </div>

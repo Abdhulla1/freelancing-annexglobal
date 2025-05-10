@@ -1,42 +1,45 @@
-
 /* Page Numbers */
 
-.p-paginator{
+.p-paginator {
   background-color: transparent;
 }
 .p-paginator .p-paginator-pages .p-paginator-page {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    text-align: center;
-    font-weight: bold;
-    background-color: #F3F3F31A; /* Light Gray */
-    color: white; /* Dark Blue */
-    border: none;
-    transition: all 0.2s ease-in-out;
-    margin: 0px 5px;
-  }
-  
-  /* Active Page */
-  .p-paginator .p-paginator-pages .p-highlight {
-    background-color: #f4a300a2 !important; /* Dark Blue */
-    color: white !important;
-    font-weight: bold;
-  }
-  /* Prev & Next Buttons */
-  .p-paginator .p-paginator-prev,
-  .p-paginator .p-paginator-next {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    color: #FFFFFF;
-    background: #F4A300;
-    margin: 0px 20px;
-  }
-  
-  /* Hover Effects */
-  .p-paginator .p-paginator-prev:hover,
-  .p-paginator .p-paginator-next:hover {
-    background: #e59901;
-  }
-  
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: bold;
+  background-color: #f3f3f31a; /* Light Gray */
+  color: white; /* Dark Blue */
+  border: none;
+  transition: all 0.2s ease-in-out;
+  margin: 0px 5px;
+}
+
+/* Active Page */
+.p-paginator .p-paginator-pages .p-highlight {
+  /* background-color: #f4a300a2 !important; */
+  background: linear-gradient(90deg, #f4a300b9 0%, #ffea61 100%) !important;
+
+  color: white !important;
+  font-weight: bold;
+}
+/* Prev & Next Buttons */
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #ffffff;
+  /* background: #F4A300; */
+   background: var(--btn-gradient);
+
+  margin: 0px 20px;
+}
+
+/* Hover Effects */
+.p-paginator .p-paginator-prev:hover,
+.p-paginator .p-paginator-next:hover {
+
+  background: linear-gradient(90deg, #ed9e00 0%, #ebd857 100%);
+}

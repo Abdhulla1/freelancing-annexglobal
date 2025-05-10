@@ -36,6 +36,8 @@
   }
   
   .downloadButton {
+           background: var(--btn-gradient);
+
     width: 100%;
     font-weight: bold;
     padding: 0.5rem 1rem;

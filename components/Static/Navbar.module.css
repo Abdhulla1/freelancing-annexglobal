@@ -55,10 +55,10 @@
 }
 
 .buy-ticket {
-  background: linear-gradient(90deg, #f4a300 0%, #ffea61 100%);
+   background: var(--btn-gradient);
 
   color: white;
-  padding: 10px 20px;
+  padding: 5px 10px;
   font-size: 16px;
   border: 1px solid #f4a300;
   border-radius: 62px;
@@ -70,7 +70,7 @@
   background: linear-gradient(90deg, #000000 0%, #4E4E4E 100%);
   border: 1px solid #000000;
   color: white;
-  padding: 10px 20px;
+  padding: 5px 10px;
   font-size: 16px;
   border-radius: 62px;
   cursor: pointer;
@@ -87,6 +87,7 @@
 .sub-title {
   font-size: 16px;
   color: #000000;
+  font-weight: 500;
   display: block; /* Stack the subtitle under the title */
 }
 
@@ -138,6 +139,10 @@
     font-weight: bold; /* Optionally make the text bold for better visibility */
   }
   .buy-ticket {
+    font-size: 10px;
+    /* Adjust padding for smaller screens */
+  }
+  .sponsor {
     font-size: 10px;
     /* Adjust padding for smaller screens */
   }

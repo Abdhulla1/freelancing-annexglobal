@@ -58,7 +58,7 @@ const ConnectWithOthers = () => {
             <div className="col-md-9">
               <div className={connectWithOthers["excess-slider"]}>
                 <Slider ref={sliderRef} {...settings}>
-                  {[0, 0, 0, 0, 0, 0].map((el, i) => (
+                  {[true, false, false, false, false, false].map((el, i) => (
                     <div key={i}>
                       <div className="px-2">
                         <div className={connectWithOthers["card"]}>
@@ -69,9 +69,15 @@ const ConnectWithOthers = () => {
                             />
                           </div>
                           <div className={connectWithOthers["card-body"]}>
-                              <div className={connectWithOthers["quote-icon"]}>
-                                “
-                              </div>
+                            <div className={connectWithOthers["quote-icon"]}>
+                              {el ? (
+                                <div className={`rounded-circle ${connectWithOthers["video"]}`}>
+                                  <i className="bx bx-play fs-2 shadow"></i>
+                                </div>
+                              ) : (
+                                <i className="bx bxs-quote-left"></i>
+                              )}
+                            </div>
                             <p className={connectWithOthers["description"]}>
                               The Annex Global Conference Fosters Innovation And
                               Collaboration Across Diverse Industries Worldwide.

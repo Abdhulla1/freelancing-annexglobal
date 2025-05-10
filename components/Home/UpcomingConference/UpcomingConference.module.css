@@ -38,7 +38,7 @@ backdrop-filter: blur(4px);
  
 }
 
-.upcoming-events-card::before {
+/* .upcoming-events-card::before {
     content: "";
     position: absolute;
     top: 0;
@@ -48,7 +48,23 @@ backdrop-filter: blur(4px);
     background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.1) 80%, rgba(0, 0, 0, 0) 100%);
     z-index: 1;
     
-}
+} */
+.upcoming-events-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+    background: linear-gradient(45deg, #00004d, #0000a6);
+      transition: all 0.5s ease-in-out;
+      border-bottom-left-radius: 15rem;
+      z-index: 0;
+    }
+  .upcoming-events-card:hover::before {
+      width: 150%;
+      height: 150%;
+    }
 
 
 .upcoming-events-card .date {
@@ -97,10 +113,10 @@ backdrop-filter: blur(4px);
 }
 
 
-.upcoming-events-card:hover {
+/* .upcoming-events-card:hover {
     background: linear-gradient(45deg, #00004d, #0000a6);
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .upcoming-events-card:hover img {
     opacity: 0;
@@ -124,7 +140,7 @@ backdrop-filter: blur(4px);
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: linear-gradient(90deg, #F4A300 0%, #FFEA61 100%);
+     background: var(--btn-gradient);
     color: black;
     font-weight: bold;
     padding: 10px 20px;

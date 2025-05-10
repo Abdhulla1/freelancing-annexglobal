@@ -1,0 +1,63 @@
+.image-slides-card-wrapper {
+  max-height: 400px;
+    max-width: 600px;
+  overflow: hidden;
+  border-radius: 16px; /* Optional for soft edges */
+  background-color: rgba(255, 255, 255, 0.05); /* Very light background overlay */
+  backdrop-filter: blur(10px); /* Blurred background */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Optional: adds depth */
+
+}
+.image-slides-card-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(0, 31, 71, 0.18) 0%, #010137 100%);
+
+}
+.image-slides-card{
+  transform: rotate(-15deg); 
+  position: relative;
+  z-index: 1;
+}
+.image-card {
+  height: 200px;
+  width: 180px;
+}
+.image {
+  object-fit: cover;
+  transition: 0.5s;
+}
+
+.slides-wraper-up {
+
+  animation: scrollUp 20s linear infinite;
+}
+
+.slides-wraper-down {
+
+  
+  animation: scrollDown 20s linear infinite;
+}
+@keyframes scrollUp {
+  0% {
+
+    transform: translateY(0%);
+  }
+  100% {
+
+    transform: translateY(-50%) ;
+  }
+}
+
+@keyframes scrollDown {
+  0% {
+    transform: translateY(-50%) ;
+  }
+  100% {
+    transform: translateY(0%) ;
+  }
+}

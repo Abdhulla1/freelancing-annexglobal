@@ -1,0 +1,6 @@
+.speaker-container{
+  background-image:  var(--speaker-bg-image); 
+   background-size: cover;
+   background-repeat: no-repeat;
+
+}

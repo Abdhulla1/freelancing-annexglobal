@@ -61,7 +61,8 @@
 }
 
 .card .icon {
-    background-color: #fdb913; /* Yellow */
+    /* background-color: #fdb913;  */
+        background: var(--btn-gradient);
     color: white;
     width: 32px;
     height: 32px;

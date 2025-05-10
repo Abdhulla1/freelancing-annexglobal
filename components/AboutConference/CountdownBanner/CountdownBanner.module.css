@@ -27,7 +27,7 @@
   font-size: 20px;    
   text-align: center;
   color: #121989;
-  background: linear-gradient(90deg, #F4A300 0%, #FFEA61 100%);
+   background: var(--btn-gradient);
   font-weight: 500;
   border: none;
 }
