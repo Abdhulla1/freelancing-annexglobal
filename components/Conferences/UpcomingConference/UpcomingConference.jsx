@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import UpcomingConferenceStyle from "./UpcomingConference.module.css";
 import Slider from "react-slick";
 import Link from "next/link";
-import HoneycombTabs from "./Honeycombtab";
+// import HoneycombTabs from "./Honeycombtab";
+import HoneycombTabs from "@/components/Home/UpcomingConference/Honeycombtab";
 import Button from "@/components/Static/Button";
 const UpcomingConference = () => {
   const categories = [
