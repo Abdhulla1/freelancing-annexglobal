@@ -32,7 +32,7 @@ const DiscoverySessions = ({ conference }) => {
       <Sidebar
         visible={visibleDetails}
         position="right"
-        header={<h5 className="text-black p-3 ">{selectedTopic.title}</h5>}
+        header={selectedTopic&&<h5 className="text-black p-3 ">{selectedTopic.title}</h5>}
         onHide={() => setVisibleDetails(false)}
         style={{
           width: "32rem",

@@ -231,7 +231,7 @@ export default function Navbar() {
             className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}
           >
             <ul
-              className={`navbar-nav mx-auto${isOpen ? " gap-3 " : " gap-4 "}`}
+              className={`navbar-nav ms-4 ${isOpen ? " gap-3 " : " gap-4 "}`}
             >
               {Menuitems.map((item, index) => {
                 const isActive = activeItem === item.label;
