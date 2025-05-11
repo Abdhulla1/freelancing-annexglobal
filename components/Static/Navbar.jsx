@@ -55,7 +55,7 @@ export default function Navbar() {
     { label: "HOME", url: "/" },
     {
       label: "CONFERENCE",
-      url:"",
+      url: "",
       items: [
         { label: "UPCOMING EVENTS", url: "/upcoming-conference" },
         { label: "PAST EVENTS", url: "/past-conference" },
@@ -65,7 +65,7 @@ export default function Navbar() {
     { label: "CONTACT US", url: "/contact-us" },
     {
       label: "MORE",
-      url:"",
+      url: "",
       items: [
         { label: "PRIVACY POLICY", url: "/privacy-policy" },
         {
@@ -80,19 +80,17 @@ export default function Navbar() {
   const conferenceId = idMatch ? idMatch[1] : null;
 
   const conferenceMenuItems = [
-    { label: "HOME", url: conferenceId ? `/conference/${conferenceId}` : "/"},
+    { label: "HOME", url: conferenceId ? `/conference/${conferenceId}` : "/" },
     {
       label: "WEBINAR",
       url: conferenceId ? `/conference/${conferenceId}/webinar` : "#",
       items: [
-       
         {
           label: "WEBINAR PROGRAM",
           url: conferenceId
             ? `/conference/${conferenceId}/webinar-program`
             : "#",
         },
-       
       ],
     },
     {
@@ -115,7 +113,7 @@ export default function Navbar() {
     },
     {
       label: "MORE",
-      url:"#",
+      url: "",
       items: [
         {
           label: "SUBMIT ABSTRACT",
@@ -164,33 +162,35 @@ export default function Navbar() {
   }, [pathname]);
 
   // Set the active item based on the current pathname
-useEffect(() => {
-  const findMatchedLabel = (items) => {
-    for (const item of items) {
-      if (item.url && pathname === item.url) {
-        return item.label;
-      }
-      if (item.items) {
-        for (const subItem of item.items) {
-          if (subItem.url && (pathname === subItem.url || pathname.startsWith(subItem.url + "/"))) {
-            return item.label;
+  useEffect(() => {
+    const findMatchedLabel = (items) => {
+      for (const item of items) {
+        if (item.url && pathname === item.url) {
+          return item.label;
+        }
+        if (item.items) {
+          for (const subItem of item.items) {
+            if (
+              subItem.url &&
+              (pathname === subItem.url ||
+                pathname.startsWith(subItem.url + "/"))
+            ) {
+              return item.label;
+            }
           }
         }
       }
+      return null;
+    };
+
+    const matchedLabel = findMatchedLabel(Menuitems);
+    if (matchedLabel) {
+      setActiveItem(matchedLabel);
     }
-    return null;
-  };
-
-  const matchedLabel = findMatchedLabel(Menuitems);
-  if (matchedLabel) {
-    setActiveItem(matchedLabel);
-  }
-}, [pathname, Menuitems, setActiveItem]);
-
+  }, [pathname, Menuitems, setActiveItem]);
 
   return (
-    <div  className={`${isFixed ? "fixed-top animate__fadeInDown" : ""
-    }`}>
+    <div className={`${isFixed ? "fixed-top animate__fadeInDown" : ""}`}>
       <div
         className={` d-none d-md-flex  justify-content-center p-2 align-items-center w-100 ${NavbarStyles.announcementBar}`}
       >
@@ -202,31 +202,20 @@ useEffect(() => {
         </span>
       </div>
       <nav
-        className={`${
-          NavbarStyles.navbar
-        } navbar navbar-expand-md navbar-light bg-white shadow animate__animated p-0 `}
+        className={`${NavbarStyles.navbar} navbar navbar-expand-md navbar-light bg-white shadow animate__animated p-0 `}
       >
-        
         <div className="container-fluid d-flex justify-content-between align-items-center w-100">
           <div className={`d-flex align-items-center ${NavbarStyles.logo}`}>
-            <Link
-              href={"/"}className="text-decoration-none"
-             > 
-            <img
-              src="/icons/annexWithText.png"
-              alt="Logo"
-  
-            />
+            <Link href={"/"} className="text-decoration-none">
+              <img src="/icons/annexWithText.png" alt="Logo" />
             </Link>
             <div className="mt-2">
-
-          {/* Location/Weather*/}
-            <p className={`${NavbarStyles["sub-title"]}`}>
-            Dubai, UAE &nbsp;•&nbsp;26-27 February 2025&nbsp;•&nbsp;< i className='bx bxs-sun text-warning'/> 36.1°C
-
-                        </p>
-          
-          </div>
+              {/* Location/Weather*/}
+              <p className={`${NavbarStyles["sub-title"]}`}>
+                Dubai, UAE &nbsp;•&nbsp;26-27 February 2025&nbsp;•&nbsp;
+                <i className="bx bxs-sun text-warning" /> 36.1°C
+              </p>
+            </div>
           </div>
 
           <button
@@ -255,7 +244,7 @@ useEffect(() => {
                     {item.items ? (
                       <>
                         <Link
-                           href={item.url}
+                          href={item.url}
                           className={`${NavbarStyles["nav-link"]} dropdown-toggle `}
                           id={`dropdown${index}`}
                           role="button"
@@ -312,7 +301,7 @@ useEffect(() => {
             </button>
           </div>
         </div>
-{/* 
+        {/* 
         {isOpen && (
           <>     <button className={NavbarStyles["sponsor"]}>
           <Link
