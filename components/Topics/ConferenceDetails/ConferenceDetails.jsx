@@ -1,31 +1,49 @@
-
 import React from "react";
 import ConferenceDetailsStyles from "./ConferenceDetails.module.css";
 import bgImageDefault from "@/public/images/conferences/upcoming-bg.webp";
-
+import Image from "next/image";
 import Link from "next/link";
 
-const ConferenceDetails = ({ conference, Component,bgImage=bgImageDefault,buttonProps={name:null,href:null}}) => {
-
+const ConferenceDetails = ({
+  conference,
+  Component,
+  bgImage = bgImageDefault,
+  buttonProps = { name: null, href: null },
+}) => {
   return (
     <div
       className={ConferenceDetailsStyles["container"]}
       style={{ "--bg-image": `url(${bgImage.src})` }}
     >
-      <div className="ms-3 justify-content-center py-2 ps-2 pe-0 overflow-hidden">
+      <div className="ms-3 justify-content-center  ps-0 p-2 pe-0 overflow-hidden">
         <div className="row gap-1">
           <div className="col-md-12 col-lg-8 col-xl-6 d-flex align-items-center mt-5 mt-lg-0">
             <div className="d-flex flex-wrap flex-md-nowrap  align-items-center justify-content-center justify-content-md-start  p-3">
-              <Link href={`/conference/${conference.id}`} className="text-decoration-none">
-                <img
-                  src={conference.icon}
-                  className={`me-4 mb-3 mb-md-0 ${ConferenceDetailsStyles["conferencelogo"]}`}
-                  alt="Conference Logo"
-                />
-              </Link>
-              &nbsp;&nbsp;&nbsp;
+              <div className="row justify-content-center me-3 ">
+                <Link
+                  href={`/conference/${conference.id}`}
+                  className="text-decoration-none"
+                >
+                  <img
+                    src={conference.icon}
+                    className={`mb-3 mb-md-0 ${ConferenceDetailsStyles["conferencelogo"]}`}
+                    alt="Conference Logo"
+                  />
+                </Link>
+                <div
+                  className={`rounded mt-3 text-center position-relative d-none d-md-block ${ConferenceDetailsStyles["certification"]}`}
+                >
+                  <Image
+                    src={"/images/conferences/certificate.jpg"}
+                    fill
+                    alt="Certification"
+                    style={{ objectFit: "contain" }}
+                  />
+                </div>
+              </div>
+              {/* &nbsp; */}
               <div
-                className={`col-md-12 col-lg-9    ${ConferenceDetailsStyles["heading"]}`}
+                className={`col-md-12 col-lg-9 ${ConferenceDetailsStyles["heading"]}`}
               >
                 <h6 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
                   2nd International Conference On
@@ -94,7 +112,6 @@ const ConferenceDetails = ({ conference, Component,bgImage=bgImageDefault,button
                       {buttonProps.name}
                     </Link>
                   )}
-      
                 </div>
               </div>
             </div>

@@ -1,39 +1,43 @@
 .container {
-  background-image:  var(--bg-image);
-padding: 10px;
-padding-right: 0;
+  background-image: var(--bg-image);
+  padding: 10px;
+  padding-right: 0;
   background-size: cover;
-    background-position: center;
+  background-position: center;
 }
 
 .conferencelogo {
   width: auto;
-  height: 190px;
+  height: 210px;
 }
-.annexlogo{
+.certification{
+  height: 140px;
+  width: 110px;
+}
+.annexlogo {
   width: auto;
   height: 70px;
 }
 
-.heading h5{
-    line-height: 1;
+.heading h5 {
+  line-height: 1;
 }
 
 @media only screen and (max-width: 600px) {
-  .heading h5{
+  .heading h5 {
     font-size: 12px;
-}
+  }
 }
 
-.timings{
-    background:#3CCDE41F; 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 12px; 
-    padding: 5px; 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    font-size: 13px;
-    letter-spacing: 0px;
+.timings {
+  background: #3ccde41f;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-size: 13px;
+  letter-spacing: 0px;
 }
 
 .scroll-container {
@@ -73,8 +77,8 @@ padding-right: 0;
 
 .card {
   width: 100%;
-  background: #FFFFFF0F;
-  
+  background: #ffffff0f;
+
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 8px;
@@ -89,18 +93,17 @@ padding-right: 0;
   height: 205px;
   width: 250px;
 }
-.icon{
+.icon {
   height: 30px;
   width: 30px;
-  
 }
-.cardContent{
+.cardContent {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
 .brand-btn {
-  background: linear-gradient(90deg, #F4A300 0%, #FFEA61 100%);
+  background: linear-gradient(90deg, #f4a300 0%, #ffea61 100%);
   color: white;
   padding: 10px 20px;
   font-size: 16px;
@@ -112,13 +115,13 @@ padding-right: 0;
 }
 
 .brand-btn:hover {
-  background: linear-gradient(90deg, #da9100 0%, #FFEA61 100%);
+  background: linear-gradient(90deg, #da9100 0%, #ffea61 100%);
   transition-duration: 0.3s;
   color: white;
 }
 .program-btn {
-  background: #FFFFFF1A;
-  color: #F4A300;
+  background: #ffffff1a;
+  color: #f4a300;
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -134,7 +137,7 @@ padding-right: 0;
   color: white;
 }
 .icons {
-  background: linear-gradient(180deg, #F4A300 0%, #FEE85E 100%);
+  background: linear-gradient(180deg, #f4a300 0%, #fee85e 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

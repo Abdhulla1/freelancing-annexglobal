@@ -88,48 +88,54 @@ const speakerData = [
 export default function RightPannel() {
   const sliderRef = useRef(null);
   return (
-    <div
-      className={`w-100  rounded p-2  ${RightPannelStyles["speaker-container"]}`}
-      style={{ "--speaker-bg-image": `url(${speakerBg.src})` }}
-    >
-      <div className="d-flex position-relative align-items-center mb-2">
-        <img
-          src={annexLogo.src}
-          className={`me-4 ${RightPannelStyles["annexlogo"]}`}
-          alt="Conference Logo"
-        />
-        <h4 className="text-uppercase position-absolute start-50 translate-middle-x m-0 ">
-          Alumni Speakers
-        </h4>
-      </div>
-      <Slider ref={sliderRef} {...settings}>
-        {speakerData.map((el, i) => (
-          <SpeakerCard
-            key={i}
-            imgSrc={el.imgSrc}
-            name={el.name}
-            location={el.location}
+    <div>
+      <div
+        className={`w-100 mb-3 rounded p-2  ${RightPannelStyles["speaker-container"]}`}
+        style={{ "--speaker-bg-image": `url(${speakerBg.src})` }}
+      >
+        <div className="d-flex position-relative align-items-center mb-2">
+          <img
+            src={annexLogo.src}
+            className={`me-4 ${RightPannelStyles["annexlogo"]}`}
+            alt="Conference Logo"
           />
-        ))}
-      </Slider>
-      <div className="mt-5 d-flex justify-content-between align-items-end">
-        <div className="d-flex justify-content-start align-items-center">
-          <button
-            className={`brand-btn px-3`}
-            onClick={() => sliderRef.current.slickPrev()}
-          >
-            <i className="pi-angle-left pi"></i>
-          </button>{" "}
-          &nbsp;&nbsp;
-          <button
-            className={`brand-btn px-3 `}
-            onClick={() => sliderRef.current.slickNext()}
-          >
-            <i className="pi-angle-right pi"></i>
-          </button>
+          <h4 className="text-uppercase position-absolute start-50 translate-middle-x m-0 ">
+            Alumni Speakers
+          </h4>
         </div>
-        <small>gynecology@annexglobalconferences.com</small>
+        <Slider ref={sliderRef} {...settings}>
+          {speakerData.map((el, i) => (
+            <SpeakerCard
+              key={i}
+              imgSrc={el.imgSrc}
+              name={el.name}
+              location={el.location}
+            />
+          ))}
+        </Slider>
+        <div className="mt-5 d-flex justify-content-between align-items-end">
+          <div className="d-flex justify-content-start align-items-center">
+            <button
+              className={`brand-btn px-3`}
+              onClick={() => sliderRef.current.slickPrev()}
+            >
+              <i className="pi-angle-left pi"></i>
+            </button>{" "}
+            &nbsp;&nbsp;
+            <button
+              className={`brand-btn px-3 `}
+              onClick={() => sliderRef.current.slickNext()}
+            >
+              <i className="pi-angle-right pi"></i>
+            </button>
+          </div>
+          <small>gynecology@annexglobalconferences.com</small>
+        </div>
       </div>
+      <span className="bg-white py-2 px-3 mt-3 rounded text-warning ">
+        <i className="bx bxs-bookmark text-center me-1"></i>CPD Accredited
+        Conference
+      </span>
     </div>
   );
 }

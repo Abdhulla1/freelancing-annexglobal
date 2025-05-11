@@ -7,7 +7,11 @@
 
 .conferencelogo {
   width: auto;
-  height: 190px;
+  height: 210px;
+}
+.certification{
+  height: 140px;
+  width: 110px;
 }
 .annexlogo{
   width: auto;
@@ -19,7 +23,7 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .heading h5{
+  .heading p{
     font-size: 12px;
 }
 }
