@@ -39,7 +39,7 @@ const AboutConference = ({conference}) => {
             <SupportingJournals/>
 
       {/* <QueriesAnswered/> */}
-      <LocationandServices/>
+      <LocationandServices conference={conference}/>
       <Prospectus/>
       {/* <ConnectWithOthers/> */}
       <EnquiryForm/>

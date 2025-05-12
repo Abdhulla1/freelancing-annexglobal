@@ -1,7 +1,7 @@
 import React from "react";
 import LocationandServicesStyles from "./LocationandServices.module.css";
-
-const LocationandServices = () => {
+import Link from "next/link";
+const LocationandServices = ({conference}) => {
   return (
     <div className={LocationandServicesStyles["container"]}>
       <div className="px-3 px-md-5">
@@ -25,7 +25,7 @@ const LocationandServices = () => {
                 the adventure begin!
               </p>
               <div className="mt-3">
-              <div className={`mt-5 ${LocationandServicesStyles["timings"]} `}>
+              <div className={`mt-5 mb-4 ${LocationandServicesStyles["timings"]} `}>
                 <div className="row">
                   <div className="col-6 col-md-6 col-lg-3 border-end border-white">
                     <div className="d-flex align-items-center gap-3">
@@ -62,9 +62,9 @@ const LocationandServices = () => {
                   </div>
                 </div>
               </div>
-              <button className="brand-btn d-flex align-items-center mt-4">See Hotels  &nbsp;&nbsp;
+              <Link href={`/conference/${conference.id}/venue`} className="brand-btn col-5 text-center  mt-4 text-decoration-none">See Hotels  &nbsp;&nbsp;
                 <i className="pi pi-arrow-right"></i>
-              </button>
+              </Link>
               </div>
             </div>
           </div>
