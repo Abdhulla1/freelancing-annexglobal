@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import RichTextEditor from "../../AdminConferences/AdminConferenceView/ConferencePageAdmin/LandingPage/RichTextEditor";
@@ -6,74 +6,84 @@ import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { InputSwitch } from "primereact/inputswitch";
 import { Dialog } from "primereact/dialog";
-const ocmData = [
+const speakerData = [
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Pam Beesaley",
-    author:"Pediatrics Conference",
+    title: "Associate Professor",
+    author: "Pediatrics Conference",
     company: "Faculty of Law, National Autonomous University",
     status: false,
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Michael Scott",
-    author:"Gynecology Conference",
+    title: "Senior Legal Advisor",
+    author: "Gynecology Conference",
     company: "Scranton Law College",
     status: true,
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Angela Martin",
-    author:"Pediatrics Conference",
+    title: "Legal Consultant",
+    author: "Pediatrics Conference",
     company: "Global Legal Solutions Ltd.",
     status: true,
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Jim Halpert",
-    author:"Pediatrics Conference",
+    title: "Corporate Law Specialist",
+    author: "Pediatrics Conference",
     company: "Dunder Legal Group",
     status: false,
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Dwight Schrute",
-    author:"Gynecology Conference",
+    title: "Compliance Officer",
+    author: "Gynecology Conference",
     company: "BeetTech Legal Advisory",
     status: true,
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Oscar Martinez",
-    author:"Pediatrics Conference",
+    title: "Tax Law Analyst",
+    author: "Pediatrics Conference",
     company: "GreenLedger Consultancy",
     status: true,
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Phyllis Vance",
-    author:"Pediatrics Conference",
+    title: "Human Rights Lawyer",
+    author: "Pediatrics Conference",
     company: "Equality Now Foundation",
     status: false,
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Stanley Hudson",
-    author:"Pediatrics Conference",
+    title: "Labor Law Specialist",
+    author: "Pediatrics Conference",
     company: "Hudson Employment Law Center",
     status: true,
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Ryan Howard",
-    author:"Pediatrics Conference",
+    title: "Legal Tech Consultant",
+    author: "Pediatrics Conference",
     company: "Incubator Legal Labs",
     status: false,
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Kelly Kapoor",
-    author:"Pediatrics Conference",
+    title: "International Law Expert",
+    author: "Pediatrics Conference",
     company: "Global Voices Legal Network",
     status: true,
   },
@@ -190,8 +200,9 @@ export default function SpeakersTabelAdmin({
       <table className="tabel w-100  table-striped-columns">
         <thead>
           <tr>
-            <td className="p-2 table-heading">OCM Image</td>
+            <td className="p-2 table-heading">Speaker Image</td>
             <td className="p-2 table-heading">Name</td>
+            <td className="p-2 table-heading">Title</td>
             <td className="p-2 table-heading">Company</td>
             <td className="p-2 table-heading">Author</td>
             <td className="p-2 table-heading">Status</td>
@@ -199,7 +210,7 @@ export default function SpeakersTabelAdmin({
           </tr>
         </thead>
         <tbody>
-          {ocmData.map((element, i) => (
+          {speakerData.map((element, i) => (
             <tr key={i}>
               <td className="p-3 table-data">
                 <Image
@@ -210,14 +221,15 @@ export default function SpeakersTabelAdmin({
                 />{" "}
               </td>
               <td className="p-3 table-data">{element.name}</td>
+              <td className="p-3 table-data">{element.title}</td>
               <td className="p-3  table-data ">{element.company}</td>
-              <td className="p-3  table-data ">{element.author}</td>
+              <td className="p-3  table-data text-nowrap ">{element.author}</td>
               <td className="p-3  table-data ">
                 {" "}
                 <InputSwitch
                   checked={statusChecked}
                   onChange={(e) => setStatusChecked(e.value)}
-                  style={{scale:"0.7"}}
+                  style={{ scale: "0.7" }}
                 />
               </td>
               <td className="p-3 table-data ">
@@ -253,7 +265,6 @@ export default function SpeakersTabelAdmin({
         className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
         style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
         onClick={(e) => handleModel(e.target.name)}
-
       >
         +
       </button>
@@ -264,7 +275,6 @@ export default function SpeakersTabelAdmin({
 function Edit({ data }) {
   return (
     <div className="d-flex gap-3 container flex-column h-100">
-
       <div className="mb-3">
         <label htmlFor="eventLocation" className="form-label">
           Name*
@@ -281,46 +291,13 @@ function Edit({ data }) {
         />
       </div>
       <div className="mb-3">
-          <label htmlFor="inputPassword5" className="form-label">
-          Author
-          </label>
-          <select
-            id="Author"
-            className="form-select no-outline"
-            onChange={(e) => console.log(e.target.value)}
-          >
-            <option value={""}>Select Author</option>
-            <option value={"Pediatrics Conference"}>Pediatrics Conference</option>
-            <option value={"Gynecology Conference"}>Gynecology Conference</option>
-          </select>
-        </div>
-      <FileUpload title={"OCM Image Upload*"} showBorder={true} />
-      <RichTextEditor
-        labelName={"Company Details*"}
-        initialValue={data.company}
-        onChange={(content) => console.log("Edited content:", content)}
-      />
-      <RichTextEditor
-        labelName={"Bio-Data*"}
-        height="120px"
-        initialValue={''}
-        onChange={(content) => console.log("Edited content:", content)}
-      />
-    </div>
-  );
-}
-function Add({ data }) {
-  return (
-    <div className="d-flex gap-3 container flex-column h-100">
-
-      <div className=" mb-3">
         <label htmlFor="eventLocation" className="form-label">
-          Name*
+          Title*
         </label>
         <input
           type="text"
           name="eventLocation"
-          value=''
+          value={data.title}
           className="form-control"
           id="eventLocation"
           placeholder="Enter Name"
@@ -329,30 +306,92 @@ function Add({ data }) {
         />
       </div>
       <div className="mb-3">
-          <label htmlFor="inputPassword5" className="form-label">
+        <label htmlFor="inputPassword5" className="form-label">
           Author
-          </label>
-          <select
-            id="Author"
-            className="form-select no-outline"
-            onChange={(e) => console.log(e.target.value)}
-          >
-            <option value={""}>Select Author</option>
-            <option value={"Pediatrics Conference"}>Pediatrics Conference</option>
-            <option value={"Gynecology Conference"}>Gynecology Conference</option>
-          </select>
-        </div>
-      <FileUpload title={"OCM Image Upload*"} showBorder={true} />
-
+        </label>
+        <select
+          id="Author"
+          className="form-select no-outline"
+          onChange={(e) => console.log(e.target.value)}
+        >
+          <option value={""}>Select Author</option>
+          <option value={"Pediatrics Conference"}>Pediatrics Conference</option>
+          <option value={"Gynecology Conference"}>Gynecology Conference</option>
+        </select>
+      </div>
+      <FileUpload title={"Speaker Image Upload*"} showBorder={true} />
+   
       <RichTextEditor
-        labelName={"Company Details*"}
-        initialValue=''
-        onChange={(content) => console.log("Edited content:", content)}
-      />
-            <RichTextEditor
         labelName={"Bio-Data*"}
         height="120px"
-        initialValue={''}
+        initialValue={""}
+        onChange={(content) => console.log("Edited content:", content)}
+      />
+         <RichTextEditor
+        labelName={"Company Details*"}
+        initialValue={data.company}
+        onChange={(content) => console.log("Edited content:", content)}
+      />
+    </div>
+  );
+}
+function Add({ data }) {
+  return (
+    <div className="d-flex gap-3 container flex-column h-100">
+      <div className=" mb-3">
+        <label htmlFor="eventLocation" className="form-label">
+          Name*
+        </label>
+        <input
+          type="text"
+          name="eventLocation"
+          value=""
+          className="form-control"
+          id="eventLocation"
+          placeholder="Enter Name"
+          onChange={(e) => console.log(e.target.value)}
+          required
+        />
+      </div>
+      <div className=" mb-3">
+        <label htmlFor="eventLocation" className="form-label">
+          Title*
+        </label>
+        <input
+          type="text"
+          name="eventLocation"
+          value=""
+          className="form-control"
+          id="eventLocation"
+          placeholder="Enter Name"
+          onChange={(e) => console.log(e.target.value)}
+          required
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="inputPassword5" className="form-label">
+          Author*
+        </label>
+        <select
+          id="Author"
+          className="form-select no-outline"
+          onChange={(e) => console.log(e.target.value)}
+        >
+          <option value={""}>Select Author</option>
+          <option value={"Pediatrics Conference"}>Pediatrics Conference</option>
+          <option value={"Gynecology Conference"}>Gynecology Conference</option>
+        </select>
+      </div>
+      <FileUpload title={"Speaker Image Upload*"} showBorder={true} />
+      <RichTextEditor
+        labelName={"Bio-Data*"}
+        height="120px"
+        initialValue={""}
+        onChange={(content) => console.log("Edited content:", content)}
+      />
+      <RichTextEditor
+        labelName={"Company Details*"}
+        initialValue={data.company}
         onChange={(content) => console.log("Edited content:", content)}
       />
     </div>
@@ -362,30 +401,38 @@ function Add({ data }) {
 function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
-            <label className="form-label">Speaker Image</label>
-            <Image src={data.image} width={100} height={100} alt="DeleteIcon" />
       <div>
         <label className="form-label  mb-2">Name</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.name}</p>
       </div>
       <div>
-        <label className="form-label  mb-2">Author</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.author}</p>
+        <label className="form-label  mb-2">title</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.title}</p>
       </div>
       <div>
-        <label className="form-label mb-2">Company Details</label>
+        <label className="form-label  mb-2">Author</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+          {data.author}
+        </p>
+      </div>
+      <label className="form-label">Speaker Image</label>
+      <Image src={data.image} width={100} height={100} alt="image" />
+
+      <div>
+        <label className="form-label mb-2">Bio-Data</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+          Dubai, a charming city in the United Arab Emirates, skillfully
+          combines contemporary and heritage. Recognized for the 
+          world’s tallest structure, the Burj Khalifa, Dubai offers contemporary
+          architecture,
+        </p>
+      </div>
+      <div>
+        <label className="form-label mb-2">Company</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
           {data.company}
         </p>
       </div>
-      <div>
-        <label className="form-label mb-2">Bio-Data</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-        Dubai, a charming city in the United Arab Emirates, skillfully combines contemporary and heritage. Recognized for the 
-        world’s tallest structure, the Burj Khalifa, Dubai offers contemporary architecture, 
-        </p>
-      </div>
-
     </div>
   );
 }

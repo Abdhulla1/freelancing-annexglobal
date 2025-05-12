@@ -18,32 +18,38 @@ import RightPannel from "./ConferenceDetails/RightPannel/RightPannel";
 
 import bgImage from "@/public/images/conferences/upcoming-bg.webp";
 
-const AboutConference = ({conference}) => {
-
+const AboutConference = ({ conference }) => {
   return (
     <>
-      <ConferenceDetails conference={conference} Component={RightPannel} bgImage={bgImage} buttonProps={{name:'Scientific Program',href:`/conference/${conference.id}/scientific-program`}} />
+      <ConferenceDetails
+        conference={conference}
+        Component={RightPannel}
+        bgImage={bgImage}
+        buttonProps={{
+          name: "Scientific Program",
+          href: `/conference/${conference.id}/scientific-program`,
+        }}
+      />
       <WelcomeContent />
-      <AboutMission/>
-      <OrganizingCommitee/>
-      <DiscoverySessions conference={conference.id}/>
+      <AboutMission />
+      <OrganizingCommitee />
+      <DiscoverySessions conference={conference.id} />
 
       {/* <BroucherGrid/> */}
       {/* <SupportingJournals/> */}
       <div className="mt-5"></div>
       {/* <ReputedOrganizations/> */}
-      <AlumniSpeakers/>
+      <AlumniSpeakers />
       {/* <DiscoverySessions conference={conference.id}/> */}
-      <PastConference/>
-      <ConnectWithOthers/>
-            <SupportingJournals/>
+      <PastConference />
+      <ConnectWithOthers />
+      <SupportingJournals />
 
       {/* <QueriesAnswered/> */}
-      <LocationandServices conference={conference}/>
-      <Prospectus/>
+      <LocationandServices conference={conference} />
+      <Prospectus />
       {/* <ConnectWithOthers/> */}
-      <EnquiryForm/>
-      
+      <EnquiryForm />
     </>
   );
 };

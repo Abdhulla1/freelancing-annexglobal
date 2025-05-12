@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import SupportingJournalsStyles from "./SupportingJournals.module.css";
 import { Accordion, AccordionTab } from "primereact/accordion";
-
+import Image from "next/image";
 const SupportingJournals = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
@@ -56,7 +56,19 @@ const SupportingJournals = () => {
             <Accordion activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
               {accordionData.map((data, i) => (
                 <AccordionTab key={i} header={headerGen(data, i)}>
+                  <div className="position-relative rounded float-start me-4" style={{ width: "150px", height: "150px" }}>
+                  <Image src={'/images/conferences/image.png'}   className="img-fluid rounded float-start me-4" fill alt="JournalImage" style={{objectFit:'cover'}}/>
+
+                  </div>
                   <p className="m-0">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua. Ut enim ad minim veniam, quis nostrud exercitation
