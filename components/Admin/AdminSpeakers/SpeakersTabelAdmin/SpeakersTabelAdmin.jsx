@@ -391,7 +391,7 @@ function Add({ data }) {
       />
       <RichTextEditor
         labelName={"Company Details*"}
-        initialValue={data.company}
+        initialValue={''}
         onChange={(content) => console.log("Edited content:", content)}
       />
     </div>

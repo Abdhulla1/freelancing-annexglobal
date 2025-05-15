@@ -4,6 +4,7 @@ import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/Scrollabl
 import LandingPage from "./LandingPage/LandingPage";
 import CategoryPage from "./Category/CategoryPage";
 import VideoSection from "./VideoSection/VideoSection";
+import NavLocationOverview from "./NavLocationOverview/NavLocationOverview";
 import WelcomeContent from "./WelcomeContent/WelcomeContent";
 import { Toast } from "primereact/toast";
 
@@ -16,6 +17,7 @@ export default function MainPage({ selectedConferenceID }) {
     "Welcome Content": <WelcomeContent />,
     "Video Section": <VideoSection />,
     "Category": <CategoryPage toast={toast} />,
+    "Location Overview": <NavLocationOverview toast={toast} />,
     
   };
 
