@@ -7,7 +7,7 @@ import './style.css'
 
 export default function ControlledAccess() {
   const [activeMenu, setActiveMenu] = useState("Admins");
-  const navItems = [{ item: "Admins" }, { item: "Settings" }];
+  const navItems = [{ item: "Admins" },]; //{ item: "Settings" }
   const adminsData = [
     {
       id: 1,

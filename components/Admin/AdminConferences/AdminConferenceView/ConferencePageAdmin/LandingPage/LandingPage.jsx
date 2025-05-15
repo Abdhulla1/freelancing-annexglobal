@@ -7,9 +7,11 @@ import {
   getSelectedConference,
 } from "@/service/adminConference";
 
-export default function LandingPage({ selectedConferenceID,toast}) {
+export default function LandingPage({ selectedConferenceID, toast }) {
   const [uploads, setUploads] = useState([{ id: Date.now(), file: null }]);
   const [formData, setFormData] = useState({
+    conference: "",
+    theme: "",
     startDate: "",
     endDate: "",
     location: "",
@@ -22,13 +24,15 @@ export default function LandingPage({ selectedConferenceID,toast}) {
   useEffect(() => {
     const fetchLandingPageData = async () => {
       try {
-        const res= await getSelectedConference(selectedConferenceID);
+        const res = await getSelectedConference(selectedConferenceID);
         const landing = res?.conference?.landingPage;
         if (res.status === 404) {
           router.push("/notFound");
         }
         if (landing) {
           setFormData({
+            conference: landing.conference || "",
+            theme: landing.theme || "",
             startDate: landing.startDate || "",
             endDate: landing.endDate || "",
             location: landing.location || "",
@@ -43,7 +47,6 @@ export default function LandingPage({ selectedConferenceID,toast}) {
                 id: Date.now() + Math.random(),
                 file: { preview: imgUrl, isUploaded: true }, // Custom format for existing images
               }))
-
             );
           }
         }
@@ -61,6 +64,8 @@ export default function LandingPage({ selectedConferenceID,toast}) {
   }, [selectedConferenceID]);
 
   const isFormFilled =
+    formData.conference &&
+    formData.theme &&
     formData.startDate &&
     formData.endDate &&
     formData.location &&
@@ -140,7 +145,7 @@ export default function LandingPage({ selectedConferenceID,toast}) {
           detail: "The form has been submitted successfully.",
           life: 3000,
         });
-      }else if (response[0].msg === "No modifications found") {
+      } else if (response[0].msg === "No modifications found") {
         toast.current.show({
           severity: "warn",
           summary: "Warning",
@@ -160,7 +165,7 @@ export default function LandingPage({ selectedConferenceID,toast}) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-2">
+      {/* <div className="mb-2">
         <label className="form-label">Upload Landing Page Images</label>
         <button
           type="button"
@@ -195,9 +200,36 @@ export default function LandingPage({ selectedConferenceID,toast}) {
             </button>
           </div>
         ))}
-      </div>
+      </div> */}
 
       <div className="mt-4">
+        <div className="row">
+          <div className="col-md-6 mb-3">
+            <label className="form-label">Conference</label>
+            <input
+              type="text"
+              name="conference"
+              className="form-control"
+              value={formData.conference}
+              onChange={handleInputChange}
+              placeholder="Enter Conference Name"
+              required
+            />
+          </div>
+
+          <div className="col-md-6 mb-3">
+            <label className="form-label">Theme</label>
+            <input
+              type="text"
+              name="theme"
+              className="form-control"
+              value={formData.theme}
+              onChange={handleInputChange}
+              placeholder="Enter Theme"
+              required
+            />
+          </div>
+        </div>
         <div className="row">
           <div className="col-md-6 mb-3">
             <label className="form-label">Start Date of Conference</label>
@@ -279,7 +311,11 @@ export default function LandingPage({ selectedConferenceID,toast}) {
         </div>
 
         <div className="bg-secondary bg-opacity-10 mt-4 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
-          <button type="button" className="btn px-5 bg-white border" disabled={!formValid}>
+          <button
+            type="button"
+            className="btn px-5 bg-white border"
+            disabled={!formValid}
+          >
             Cancel
           </button>
           <button

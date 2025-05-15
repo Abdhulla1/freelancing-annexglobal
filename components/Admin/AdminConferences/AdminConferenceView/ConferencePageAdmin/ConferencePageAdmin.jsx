@@ -10,7 +10,9 @@ import PastGallery from "./PastGallery/PastGallery";
 import SupportingJournalAdmin from "./SupportingJournalAdmin/SupportingJournalAdmin";
 import TestimonialAdmin from "./TestimonialAdmin/TestimonialAdmin";
 import HotelsRegistration from "./HotelsRegistration/HotelsRegistration";
+import LandingPageSpeakers from "./LandingPageSpeakers/LandingPageSpeakers";
 import ScientificProgramAdmin from "./ScientificProgramAdmin/ScientificProgramAdmin";
+import Location from "./Location/Location";
 import { Toast } from "primereact/toast";
 export default function ConferencePageAdmin({ selectedConferenceID }) {
   const toast = useRef(null);
@@ -19,6 +21,9 @@ export default function ConferencePageAdmin({ selectedConferenceID }) {
   const tabs = {
     "Landing Page": (
       <LandingPage selectedConferenceID={selectedConferenceID} toast={toast} />
+    ),
+    "Landing Page Speaker": (
+      <LandingPageSpeakers selectedConferenceID={selectedConferenceID} toast={toast} />
     ),
     "Welcome Content": (
       <WelcomeContent
@@ -32,10 +37,11 @@ export default function ConferencePageAdmin({ selectedConferenceID }) {
     FAQ: <FAQAdmin />,
     "Past Gallery": <PastGallery />,
     Topics: <TopicsAdmin />,
+    Location: <Location />,
     "Supporting Journal": <SupportingJournalAdmin />,
     Testimonial: <TestimonialAdmin />,
     "Scientific Program": <ScientificProgramAdmin />,
-    "Hotels Registration": <HotelsRegistration />,
+    // "Hotels Registration": <HotelsRegistration />,
   };
   const handleEditClick = (e) => {
     setIsDisabled(false);

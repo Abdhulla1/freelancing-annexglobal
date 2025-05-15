@@ -7,27 +7,44 @@ import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 const topicData = [
   {
-    image: "/icons/DefaultPreviewImage.png", // Optional
-    topicName: "Benefits of attending the conference",
+    image: "/icons/DefaultPreviewImage.png",
+    topicName: "Keynote Sessions",
     content:
-      "Attendees gain insights from industry leaders, network with professionals, and get access to exclusive content and resources.",
+      "Hear from renowned leaders across industries as they share transformative ideas and future trends.",
   },
   {
     image: "/icons/DefaultPreviewImage.png",
-    topicName: "How to register",
+    topicName: "Live Q&A Opportunities",
     content:
-      "Register on our website by clicking the 'Register Now' button. Early bird discounts are available.",
+      "Get your questions answered in real time during live Q&A segments after each session.",
   },
   {
     image: "/icons/DefaultPreviewImage.png",
-    topicName: "Session recordings",
+    topicName: "Networking Lounge",
     content:
-      "All sessions will be recorded and available to registered participants within a week after the event.",
+      "Connect with like-minded professionals and industry peers through our virtual networking spaces.",
   },
-  // ... add the rest
+  {
+    image: "/icons/DefaultPreviewImage.png",
+    topicName: "Hands-On Demos",
+    content:
+      "Experience live demonstrations of cutting-edge technology and innovative products.",
+  },
+  {
+    image: "/icons/DefaultPreviewImage.png",
+    topicName: "Certificate of Participation",
+    content:
+      "Receive a digital certificate upon completing the event, great for showcasing on your resume or LinkedIn.",
+  },
+  {
+    image: "/icons/DefaultPreviewImage.png",
+    topicName: "Event Mobile App",
+    content:
+      "Stay updated with the agenda, speakers, and live notifications using our dedicated event app.",
+  },
 ];
 
-export default function TopicsTabelAdmin({ visibleDetails, setVisibleDetails }) {
+export default function EssentialInnovationTable({ visibleDetails, setVisibleDetails }) {
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
