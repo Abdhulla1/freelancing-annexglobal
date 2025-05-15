@@ -154,14 +154,14 @@ export default function TestimonialTabelAdmin({
         className="custom-sidebar"
       >
         <>
-          <div className="d-flex flex-column justify-content-between k h-100">
+          <div className="d-flex flex-column justify-content-between h-100">
             {/* Content Area */}
 
             {sidebarState.content}
 
             {/* Sticky Button Area */}
             {sidebarState.header !== "View Topic" && (
-              <div className="bg-secondary bg-opacity-10 p-2 d-flex justify-content-center align-items-center z-3  gap-3 w-100">
+              <div className="bg-secondary bg-opacity-10 p-2 d-flex justify-content-center align-items-center mt-auto  gap-3 w-100">
                 <button
                   className="btn px-5 bg-white border"
                   onClick={() => setIsVisible(false)}
@@ -254,7 +254,7 @@ function Edit({ data }) {
     const [statusChecked, setStatusChecked] = useState(false);
 
   return (
-    <div className="d-flex gap-3 container flex-column h-100 ">
+    <div className="d-flex gap-3 container flex-column ">
       <FileUpload title={"Image Upload*"} showBorder={true} />
       <div className="mt-4">
         <div className="d-flex justify-content-between align-items-center mb-2">
@@ -307,7 +307,7 @@ function Add({ data }) {
   const [statusChecked, setStatusChecked] = useState(false);
 
   return (
-    <div className="d-flex gap-3 container flex-column h-100 ">
+    <div className="d-flex gap-3 container flex-column">
       <FileUpload title={"Image Upload*"} showBorder={true} />
       <div className="mt-4">
         <div className="d-flex justify-content-between align-items-center mb-2">
@@ -388,7 +388,7 @@ function Delete({ data = null }) {
   return (
     <div className="d-flex flex-column align-items-center text-center">
       <Image src="/icons/delete.png" width={80} height={80} alt="DeleteIcon" />
-      <h5 className="mt-3">Delete Speaker</h5>
+      <h5 className="mt-3">Delete Testimonial</h5>
       <p className="mb-0 col-md-8">
         Are you sure you want to delete this Program File? This action cannot be
         undone.

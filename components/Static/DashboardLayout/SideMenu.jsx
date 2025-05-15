@@ -15,19 +15,20 @@ const SideMenu = () => {
   const menuItems = [
   { label: 'Dashboard', icon: 'bx bxs-dashboard', path: '/admin-annex-global-conferences/dashboard' },
   { label: 'Controlled Access', icon: 'bx bxs-lock', path: '/admin-annex-global-conferences/dashboard/controlled-access' },
+  { label: 'Main Page', icon: 'bx bxs-home', path: '/admin-annex-global-conferences/dashboard/main-page' },
   { label: 'Conference', icon: 'bx bxs-home-alt-2', path: '/admin-annex-global-conferences/dashboard/conference/' },
   { label: 'OCM', icon: 'bx bxs-user-circle', path: '/admin-annex-global-conferences/dashboard/organizing-committee-members' },
   { label: 'Speakers', icon: 'pi pi-users', path: '/admin-annex-global-conferences/dashboard/admin-speakers' },
-  { label: 'PDF Uploads', icon: 'pi pi-calendar', path: '/admin-annex-global-conferences/dashboard/uploads' },
+  { label: 'PDF Uploads', icon: 'pi pi-calendar', path: '/admin-annex-global-conferences/dashboard/pdf-uploads' },
   { label: 'Testimonial', icon: 'pi pi-calendar', path: '/admin-annex-global-conferences/dashboard/testimonial' },
   {
-    label: 'Registration', icon: 'pi pi-cog', children: [
+    label: 'Registration', icon: 'pi pi-cog', path: '/admin-annex-global-conferences/dashboard/registration' 
+  },
+  { label: 'Footer', icon: 'bx bxs-inbox' ,children: [
       { label: 'Attendee', path: '/admin-annex-global-conferences/dashboard/registration/attendee' },
       { label: 'Delegate', path: '/admin-annex-global-conferences/dashboard/registration/delegate' },
-      { label: 'Exhibitor', path: '/admin-annex-global-conferences/dashboard/registration/exhibitor' },
-    ]
-  },
-  { label: 'Footer', icon: 'bx bxs-inbox', path: '/admin-annex-global-conferences/dashboard/footer' },
+  
+    ]},
 ];
 
 

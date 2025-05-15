@@ -73,7 +73,7 @@ export default function FileUpload({
 
         {/* File upload UI */}
         <div className="w-100">
-          <p className="fw-light text-black mb-2" style={{ fontSize: "14px" }}>
+          <p className="fw-light text-black mb-2" style={{ fontSize: "13px" }}>
             <em>Please upload square image, size less than 100KB</em>
           </p>
           <input

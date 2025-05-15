@@ -2,7 +2,7 @@ import React from "react";
 import TestimonialTabelAdmin from "./TestimonialTabelAdmin/TestimonialTabelAdmin";
 export default function AdminTestimonial() {
   return (
-    <div className="container p-2">
+    <div className=" p-2">
       <div className="d-flex col-12 justify-content-between align-items-start flex-wrap gap-2 mb-4">
         {/* Title */}
         <h5 className="fw-bold m-0">Testimonial</h5>

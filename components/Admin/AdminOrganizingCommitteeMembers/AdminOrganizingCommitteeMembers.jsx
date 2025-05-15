@@ -2,7 +2,7 @@ import React from "react";
 import OCMTabelAdmin from "./OCMTabelAdmin/OCMTabelAdmin";
 export default function AdminAdminOrganizingCommitteeMembersConferences() {
   return (
-    <div className="container p-2">
+    <div className=" p-2">
       <div className="d-flex col-12 justify-content-between align-items-start flex-wrap gap-2 mb-4">
         {/* Title */}
         <h5 className="fw-bold m-0">All Organizing Committee Members</h5>
