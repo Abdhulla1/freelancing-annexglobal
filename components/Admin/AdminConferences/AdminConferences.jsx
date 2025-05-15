@@ -226,7 +226,7 @@ export default function AdminConferences() {
 
           {/* Add New Conference Button */}
           <button
-            className="btn btn-warning text-white col-12 col-md-6 col-lg-6 col-xl-4"
+            className="btn btn-warning text-white col-12 col-md-7 col-lg-5 col-xl-4"
             onClick={handleAddConference}
           >
             + Add New Conference
