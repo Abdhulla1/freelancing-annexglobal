@@ -21,7 +21,7 @@ const SideMenu = () => {
   { label: 'Speakers', icon: 'pi pi-users', path: '/admin-annex-global-conferences/dashboard/admin-speakers' },
   { label: 'Contact Us', icon: 'bx bx-envelope', path: '/admin-annex-global-conferences/dashboard/contact-us' },
   { label: 'News Letter', icon: 'bx  bxs-news', path: '/admin-annex-global-conferences/dashboard/news-letter' },
-  { label: 'PDF Uploads', icon: 'pi pi-calendar', path: '/admin-annex-global-conferences/dashboard/pdf-uploads' },
+  { label: 'PDF Uploads', icon: 'pi pi-file-pdf', path: '/admin-annex-global-conferences/dashboard/pdf-uploads' },
   { label: 'Testimonial', icon: 'pi pi-calendar', path: '/admin-annex-global-conferences/dashboard/testimonial' },
   {
     label: 'Registration', icon: 'pi pi-cog', path: '/admin-annex-global-conferences/dashboard/registration' 

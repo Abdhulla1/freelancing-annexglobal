@@ -27,6 +27,7 @@ export default function AdminConferences() {
         const data = await getAllConference();
         setConferenceData(data);
       } catch (error) {
+        console.log(error)
         toast.current.show({
           severity: "error",
           summary: "Failed to Load Conferences",
@@ -225,7 +226,7 @@ export default function AdminConferences() {
 
           {/* Add New Conference Button */}
           <button
-            className="btn btn-warning text-white col-12 col-md-4"
+            className="btn btn-warning text-white col-12 col-md-6 col-lg-6 col-xl-4"
             onClick={handleAddConference}
           >
             + Add New Conference
@@ -251,7 +252,7 @@ export default function AdminConferences() {
           ) : (
             <div className="row gx-4 gy-4">
               {filteredData.map((item, index) => (
-                <div key={index} className="col-12 col-md-4">
+                <div key={index} className="col-12 col-md-6 col-lg-6 col-xl-4 ">
                   <div
                     className={`p-3 rounded d-flex align-items-center justify-content-between ${styles["conference-card"]}`}
                   >
