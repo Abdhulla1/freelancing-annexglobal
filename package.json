@@ -14,7 +14,7 @@
     "@fontsource/inter": "^5.2.5",
     "@fontsource/manrope": "^5.2.5",
     "@fontsource/montserrat": "^5.2.5",
-    "@netlify/plugin-nextjs": "^5.10.6",
+    "@netlify/plugin-nextjs": "^5.11.1",
     "@reduxjs/toolkit": "^2.6.1",
     "@tinymce/tinymce-react": "^6.1.0",
     "animate.css": "^4.1.1",
