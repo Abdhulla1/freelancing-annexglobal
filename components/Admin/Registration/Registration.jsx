@@ -5,7 +5,7 @@ import RegistrationTabelAdmin from "./RegistrationTabelAdmin/RegistrationTabelAd
 import { useRouter } from "next/navigation";
 import CouponTable from "./CouponTable/CouponTable";
 export default function Registration() {
-  const [activeMenu, setActiveMenu] = useState("Registration Form");
+  const [activeMenu, setActiveMenu] = useState("Register Details");
   const router = useRouter();
 
   const navItems = [{ item: "Register Details" }, { item: "Coupons" }];
