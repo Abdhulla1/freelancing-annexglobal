@@ -12,6 +12,7 @@ import TestimonialAdmin from "./TestimonialAdmin/TestimonialAdmin";
 import HotelsRegistration from "./HotelsRegistration/HotelsRegistration";
 import LandingPageSpeakers from "./LandingPageSpeakers/LandingPageSpeakers";
 import ScientificProgramAdmin from "./ScientificProgramAdmin/ScientificProgramAdmin";
+import UploadBrochure from "./UploadBrochure/UploadBrochure";
 import Location from "./Location/Location";
 import { Toast } from "primereact/toast";
 export default function ConferencePageAdmin({ selectedConferenceID }) {
@@ -41,6 +42,7 @@ export default function ConferencePageAdmin({ selectedConferenceID }) {
     "Supporting Journal": <SupportingJournalAdmin />,
     Testimonial: <TestimonialAdmin />,
     "Scientific Program": <ScientificProgramAdmin />,
+    "Upload Brochure": <UploadBrochure />,
     // "Hotels Registration": <HotelsRegistration />,
   };
   const handleEditClick = (e) => {

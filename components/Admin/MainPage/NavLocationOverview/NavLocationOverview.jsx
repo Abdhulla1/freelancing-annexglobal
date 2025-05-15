@@ -145,7 +145,7 @@ export default function NavLocationOverview({ selectedConferenceID, toast }) {
               className="form-control"
               value={formData.latitude}
               onChange={handleInputChange}
-              placeholder="Category Name"
+              placeholder="13.0843° N"
               required
             />
           </div>
@@ -157,7 +157,7 @@ export default function NavLocationOverview({ selectedConferenceID, toast }) {
               className="form-control"
               value={formData.longitude}
               onChange={handleInputChange}
-              placeholder="Category Name"
+              placeholder="80.2705° E"
               required
             />
           </div>
@@ -171,7 +171,7 @@ export default function NavLocationOverview({ selectedConferenceID, toast }) {
               className="form-control"
               value={formData.loation}
               onChange={handleInputChange}
-              placeholder="Category Name"
+              placeholder="Dubai, UAE"
               required
             />
           </div>
@@ -183,11 +183,22 @@ export default function NavLocationOverview({ selectedConferenceID, toast }) {
               className="form-control"
               value={formData.dates}
               onChange={handleInputChange}
-              placeholder="Category Name"
+              placeholder="26-27 February 2025"
               required
             />
           </div>
-        </div>
+        </div> <div className="col-md-6 ">
+            <label className="form-label">Header Texting</label>
+            <input
+              type="text"
+              name="address"
+              className="form-control"
+              value={formData.dates}
+              onChange={handleInputChange}
+              placeholder="Join more than 7,000 + Marketers in Budapest 4-5 September 2025 "
+              required
+            />
+          </div>
       </div>
 
       <div className="bg-secondary bg-opacity-10 mt-5 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
