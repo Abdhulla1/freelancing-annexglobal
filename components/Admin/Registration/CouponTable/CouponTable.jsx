@@ -4,50 +4,35 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import Image from "next/image";
 import { InputSwitch } from "primereact/inputswitch";
 import { Dialog } from "primereact/dialog";
-const registerDetails = [
+const couponData = [
   {
-    fullName: "John Doe",
-    email: "john.doe@example.com",
-    contactNumber: "+1 555-1234",
-    country: "USA",
-    address: "123 Main St, New York, NY",
-    conferenceName: "Global Health Summit 2026",
+    couponCode: "CONF2025",
+    discountType: "Fixed Amount",
+    expiryDate: "15 Mar 2025",
   },
   {
-    fullName: "Aisha Khan",
-    email: "aisha.khan@example.com",
-    contactNumber: "+91 9876543210",
-    country: "India",
-    address: "45 MG Road, Bengaluru",
-    conferenceName: "Primary Healthcare Congress",
+    couponCode: "VIPACCESS",
+    discountType: "Percentage",
+    expiryDate: "15 Mar 2025",
   },
   {
-    fullName: "Liam Smith",
-    email: "liam.smith@example.co.uk",
-    contactNumber: "+44 7700 900123",
-    country: "UK",
-    address: "10 Downing St, London",
-    conferenceName: "International Gynecology Meet",
+    couponCode: "CONF2025",
+    discountType: "Fixed Amount",
+    expiryDate: "15 Mar 2025",
   },
   {
-    fullName: "Emma Brown",
-    email: "emma.brown@example.com",
-    contactNumber: "+61 401 234 567",
-    country: "Australia",
-    address: "250 George St, Sydney",
-    conferenceName: "Healthcare Innovations Expo",
+    couponCode: "VIPACCESS",
+    discountType: "Percentage",
+    expiryDate: "15 Mar 2025",
   },
   {
-    fullName: "Carlos Gomez",
-    email: "carlos.gomez@example.mx",
-    contactNumber: "+52 55 1234 5678",
-    country: "Mexico",
-    address: "Avenida Reforma 101, CDMX",
-    conferenceName: "Cancer Research Conference",
+    couponCode: "CONF2025",
+    discountType: "Fixed Amount",
+    expiryDate: "15 Mar 2025",
   },
 ];
 
-export default function RegistrationTabelAdmin({
+export default function CouponTable({
   visibleDetails,
   setVisibleDetails,
 }) {
@@ -119,45 +104,48 @@ export default function RegistrationTabelAdmin({
       <table className="tabel w-100  table-striped-columns">
         <thead>
           <tr>
-            <td className="p-2 table-heading">Full Name</td>
-            <td className="p-2 table-heading">Email</td>
-            <td className="p-2 table-heading">Contact Number</td>
-            <td className="p-2 table-heading">Country</td>
-            <td className="p-2 table-heading">Confernce Name</td>
+            <td className="p-2 table-heading">Coupon Code</td>
+            <td className="p-2 table-heading">Discount Type</td>
+            <td className="p-2 table-heading">Expiry Date</td>
+            <td className="p-2 table-heading">Status</td>
             <td className="p-2 table-heading">Action</td>
           </tr>
         </thead>
         <tbody>
-          {registerDetails.map((element, i) => (
+          {couponData.map((element, i) => (
             <tr key={i}>
-              <td className="p-3 table-data">{element.fullName}</td>
-              <td className="p-3 table-data">{element.email}</td>
-              <td className="p-3 table-data">{element.contactNumber}</td>
-              <td className="p-3 table-data">{element.country}</td>
-              <td className="p-3 table-data">{element.conferenceName}</td>
-
+              <td className="p-3 table-data">{element.couponCode}</td>
+              <td className="p-3 table-data">{element.discountType}</td>
+              <td className="p-3 table-data">{element.expiryDate}</td>
+              <td className="p-3 table-data">
+                <InputSwitch
+                  checked={statusChecked}
+                  onChange={(e) => setStatusChecked(e.value)}
+                  style={{ scale: "0.7" }}
+                />
+              </td>
               <td className="p-3 table-data">
                 <div className="d-flex gap-1 justify-content-center flex-nowrap">
-                  {/* <button
+                  <button
                     name="edit"
                     className="btn btn-outline-secondary rounded"
                     onClick={(e) => handleModel(e.target.name, element)}
                   >
                     <i className="bx bx-edit-alt"></i>
-                  </button> */}
-                  {/* <button
+                  </button>
+                  <button
                     className="btn btn-outline-secondary rounded"
                     onClick={confirmDelete}
                   >
                     <i className="bx bx-trash-alt"></i>
-                  </button> */}
-                  <button
+                  </button>
+                  {/* <button
                     name="view"
                     className="btn btn-outline-warning rounded"
                     onClick={(e) => handleModel(e.target.name, element)}
                   >
                     <i className="bx bx-chevron-right"></i>
-                  </button>
+                  </button> */}
                 </div>
               </td>
             </tr>
@@ -182,7 +170,7 @@ function Edit({ data }) {
       <div className="row">
         <div className="col-6">
           <label htmlFor="couponCode" className="form-label">
-            Coupon Code
+          Coupon Code
           </label>
           <input
             type="text"
@@ -196,26 +184,25 @@ function Edit({ data }) {
           />
         </div>
         <div className="col-6">
-          <label htmlFor="discountType" className="form-label">
-            Discount Type*
-          </label>
-          <select
-            name="discountType"
-            id="discountType"
-            className="form-control"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          >
-            <option value="">Select Discount Type</option>
-            <option value="Percentage">Percentage</option>
-            <option value="Fixed Rate">Fixed Rate</option>
-          </select>
-        </div>
+  <label htmlFor="discountType" className="form-label">Discount Type*</label>
+  <select
+    name="discountType"
+    id="discountType"
+    className="form-control"
+    onChange={(e) => console.log(e.target.value)}
+    required
+  >
+    <option value="">Select Discount Type</option>
+    <option value="Percentage">Percentage</option>
+    <option value="Fixed Rate">Fixed Rate</option>
+  </select>
+</div>
+
       </div>
       <div className="row">
         <div className="col-6">
           <label htmlFor="discountValue" className="form-label">
-            Discount Value
+          Discount Value
           </label>
           <input
             type="text"
@@ -228,7 +215,7 @@ function Edit({ data }) {
         </div>
         <div className="col-6">
           <label htmlFor="date" className="form-label">
-            Start & End Date*
+          Start & End Date*
           </label>
           <input
             type="text"
@@ -241,11 +228,12 @@ function Edit({ data }) {
             required
           />
         </div>
+
       </div>
       <div className="row">
         <div className="col-6">
           <label htmlFor="discountValue" className="form-label">
-            Applicable Registration type
+          Applicable Registration type
           </label>
           <input
             type="text"
@@ -259,6 +247,7 @@ function Edit({ data }) {
           />
         </div>
       </div>
+
     </div>
   );
 }
@@ -268,7 +257,7 @@ function Add({ data }) {
       <div className="row">
         <div className="col-6">
           <label htmlFor="couponCode" className="form-label">
-            Coupon Code
+          Coupon Code
           </label>
           <input
             type="text"
@@ -281,26 +270,25 @@ function Add({ data }) {
           />
         </div>
         <div className="col-6">
-          <label htmlFor="discountType" className="form-label">
-            Discount Type*
-          </label>
-          <select
-            name="discountType"
-            id="discountType"
-            className="form-control"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          >
-            <option value="">Select Discount Type</option>
-            <option value="Percentage">Percentage</option>
-            <option value="Fixed Rate">Fixed Rate</option>
-          </select>
-        </div>
+  <label htmlFor="discountType" className="form-label">Discount Type*</label>
+  <select
+    name="discountType"
+    id="discountType"
+    className="form-control"
+    onChange={(e) => console.log(e.target.value)}
+    required
+  >
+    <option value="">Select Discount Type</option>
+    <option value="Percentage">Percentage</option>
+    <option value="Fixed Rate">Fixed Rate</option>
+  </select>
+</div>
+
       </div>
       <div className="row">
         <div className="col-6">
           <label htmlFor="discountValue" className="form-label">
-            Discount Value
+          Discount Value
           </label>
           <input
             type="text"
@@ -313,7 +301,7 @@ function Add({ data }) {
         </div>
         <div className="col-6">
           <label htmlFor="date" className="form-label">
-            Start & End Date*
+          Start & End Date*
           </label>
           <input
             type="text"
@@ -325,11 +313,12 @@ function Add({ data }) {
             required
           />
         </div>
+
       </div>
       <div className="row">
         <div className="col-6">
           <label htmlFor="discountValue" className="form-label">
-            Applicable Registration type
+          Applicable Registration type
           </label>
           <input
             type="text"
@@ -342,52 +331,37 @@ function Add({ data }) {
           />
         </div>
       </div>
+
     </div>
   );
 }
 
+
 function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
-      <div className="row">
-        <div className="col-6">
-          <label className="form-label  mb-2">Full Name</label>
-          <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-            {data.fullName}
-          </p>
-        </div>
-        <div  className="col-6">
-          <label className="form-label  mb-2">Email</label>
-          <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-            {data.email}
-          </p>
-        </div>
-      </div>
-      <div className="row">
-      <div className="col-6">
-        <label className="form-label mb-2">Contact Number</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.contactNumber}
-        </p>
-      </div>
-      <div className="col-6">
-        <label className="form-label mb-2">Country</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.country}
-        </p>
-      </div>
-
+      <div>
+        <label className="form-label  mb-2">Name</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.name}</p>
       </div>
       <div>
-        <label className="form-label mb-2">Confernce Name</label>
+        <label className="form-label  mb-2">Title</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.title}</p>
+      </div>
+      <label className="form-label">Speaker Image</label>
+      <div>
+        <label className="form-label mb-2">Bio-Data</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.conferenceName}
+          Dubai, a charming city in the United Arab Emirates, skillfully
+          combines contemporary and heritage. Recognized for the 
+          world’s tallest structure, the Burj Khalifa, Dubai offers contemporary
+          architecture,
         </p>
       </div>
-        <div>
-        <label className="form-label  mb-2">Address</label>
+      <div>
+        <label className="form-label mb-2">Company</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.address}
+          {data.company}
         </p>
       </div>
     </div>
