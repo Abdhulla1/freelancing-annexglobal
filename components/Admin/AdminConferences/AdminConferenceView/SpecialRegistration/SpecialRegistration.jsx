@@ -21,6 +21,9 @@ export default function SpecialRegistration({ selectedConferenceID }) {
 
       <div className="d-flex justify-content-between">
         <h5>Special Registration Form</h5>
+            <button className="btn btn-warning text-white">
+  Publish
+        </button>
       </div>
       <div className="mt-4 ">
         {/*Tabs */}

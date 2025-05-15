@@ -126,6 +126,7 @@ const ConferenceDetails = ({
               <div
                 className={`col-md-12 col-lg-9    ${ConferenceDetailsStyles["heading"]}`}
               >
+                {/* <h3 className="text-uppercase text-white">Speakers</h3> */}
                 <h6 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
                   2nd International Conference On
                 </h6>

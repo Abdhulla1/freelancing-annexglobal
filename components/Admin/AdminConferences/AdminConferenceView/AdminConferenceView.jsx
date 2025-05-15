@@ -11,6 +11,7 @@ import RegistrationAdmin from "./RegistrationAdmin/RegistrationAdmin";
 import { getSelectedConference } from "@/service/adminConference";
 import { useRouter } from "next/navigation";
 import { ProgressSpinner } from "primereact/progressspinner";
+import SpecialRegistration from "./SpecialRegistration/SpecialRegistration";
 import { Toast } from "primereact/toast";
 export default function AdminConferenceView({ conference }) {
   const [activeMenu, setActiveMenu] = useState("Conference");
@@ -25,6 +26,7 @@ export default function AdminConferenceView({ conference }) {
     { item: "Topics" },
     { item: "Venue" },
     { item: "Registration" },
+    { item: "Special Registration" },
   ];
 
   const componentMap = {
@@ -37,6 +39,7 @@ export default function AdminConferenceView({ conference }) {
     Topics: <TopicsAdmin />,
     Venue: <VenuePageAdmin />,
     Registration: <RegistrationAdmin />,
+    'Special Registration': <SpecialRegistration />,
   };
 
   useEffect(() => {

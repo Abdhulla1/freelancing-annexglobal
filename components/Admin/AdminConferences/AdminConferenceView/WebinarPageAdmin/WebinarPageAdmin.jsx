@@ -27,8 +27,9 @@ export default function WebinarPageAdmin() {
       <div className="d-flex justify-content-between">
         <h5>Webinar</h5>
         <button className="btn btn-warning text-white">
-          <i className="pi pi-eye px-2"></i> Preview
+  Publish
         </button>
+                {/* <i className="pi pi-eye px-2"></i>  */}
       </div>
       <div className="mt-4 ">
         {/*Tabs */}
