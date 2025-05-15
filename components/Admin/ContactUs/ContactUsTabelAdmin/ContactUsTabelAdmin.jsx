@@ -8,65 +8,48 @@ import { Dialog } from "primereact/dialog";
 const contactFormDataArray = [
   {
     name: "Alex Johnson",
+    organizationName: "Annex",
     email: "alex.johnson@example.com",
-    event: "Pediatrics Conference",
+    contactNumber: "98765543210",
     message: "I would like to know more details about the Pediatrics Conference schedule and registration process."
   },
   {
-    name: "Maria Lopez",
-    email: "maria.lopez@example.com",
-    event: "Gynecology Conference",
-    message: "Is there any early bird discount available for the Gynecology Conference?"
+    name: "Maria Chen",
+    organizationName: "HealthBridge",
+    email: "maria.chen@healthbridge.org",
+    contactNumber: "91234567890",
+    message: "Is there a discount for group registrations? We're planning to bring a team of five."
   },
   {
-    name: "David Kim",
-    email: "david.kim@example.com",
-    event: "Cardiology Workshop",
-    message: "Please share the list of keynote speakers for the Cardiology Workshop."
+    name: "David Kumar",
+    organizationName: "MediSphere",
+    email: "david.kumar@medisphere.com",
+    contactNumber: "99887766554",
+    message: "Will the conference sessions be available for replay after the event?"
   },
   {
-    name: "Sara Mehta",
-    email: "sara.mehta@example.com",
-    event: "Neuroscience Summit",
-    message: "I’m interested in volunteering. Whom should I contact?"
+    name: "Priya Nair",
+    organizationName: "WellCare India",
+    email: "priya.nair@wellcare.in",
+    contactNumber: "98760011223",
+    message: "Please share details about the keynote speakers and the main agenda."
   },
   {
-    name: "James Wang",
-    email: "james.wang@example.com",
-    event: "Pediatrics Conference",
-    message: "Can I get a participation certificate for attending the Pediatrics Conference?"
+    name: "Liam Smith",
+    organizationName: "GlobalMed",
+    email: "liam.smith@globalmed.co.uk",
+    contactNumber: "94455667788",
+    message: "I would like to exhibit at the event. How can I register as a vendor?"
   },
   {
-    name: "Emma Brown",
-    email: "emma.brown@example.com",
-    event: "Oncology Symposium",
-    message: "Are there any networking sessions at the Oncology Symposium?"
-  },
-  {
-    name: "Liam Garcia",
-    email: "liam.garcia@example.com",
-    event: "Gynecology Conference",
-    message: "Will there be virtual attendance options for this event?"
-  },
-  {
-    name: "Chloe Patel",
-    email: "chloe.patel@example.com",
-    event: "Neuroscience Summit",
-    message: "I have dietary restrictions. Can that be accommodated during the summit?"
-  },
-  {
-    name: "Ethan Rossi",
-    email: "ethan.rossi@example.com",
-    event: "Cardiology Workshop",
-    message: "Is there a deadline for paper submissions?"
-  },
-  {
-    name: "Olivia Smith",
-    email: "olivia.smith@example.com",
-    event: "Oncology Symposium",
-    message: "I'd like to present a case study. How can I apply?"
+    name: "Sofia Ramirez",
+    organizationName: "MedConnect",
+    email: "sofia.ramirez@medconnect.net",
+    contactNumber: "95544556677",
+    message: "Is accommodation included in the registration fee?"
   }
 ];
+
 
 export default function ContactUsTabelAdmin({
   visibleDetails,
@@ -180,9 +163,10 @@ export default function ContactUsTabelAdmin({
         <thead>
           <tr>
             <td className="p-2 table-heading">Name</td>
+            <td className="p-2 table-heading">Organization</td>
             <td className="p-2 table-heading">Email</td>
-            <td className="p-2 table-heading">Event</td>
-            <td className="p-2 table-heading">message</td>
+            {/* <td className="p-2 table-heading">Contact Number</td> */}
+            <td className="p-2 table-heading">Message</td>
             <td className="p-2 table-heading">Action</td>
 
           </tr>
@@ -192,8 +176,9 @@ export default function ContactUsTabelAdmin({
             <tr key={i}>
               
               <td className="p-3 table-data">{element.name}</td>
+              <td className="p-3 table-data">{element.organizationName}</td>
               <td className="p-3 table-data">{element.email}</td>
-              <td className="p-3  table-data ">{element.event}</td>
+              {/* <td className="p-3  table-data ">{element.contactNumber}</td> */}
               <td className="p-3  table-data  ">{element.message}</td>
 
               <td className="p-3 table-data ">
@@ -370,13 +355,17 @@ function View({ data }) {
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.name}</p>
       </div>
       <div>
+        <label className="form-label  mb-2">Organization Name</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.organizationName}</p>
+      </div>
+      <div>
         <label className="form-label  mb-2">Email</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.email}</p>
       </div>
       <div>
-        <label className="form-label  mb-2">Event</label>
+        <label className="form-label  mb-2">Contact Number</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.event}
+          {data.contactNumber}
         </p>
       </div>
 

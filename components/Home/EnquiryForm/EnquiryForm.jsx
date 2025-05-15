@@ -11,7 +11,6 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email format")
     .required("Email is required"),
-  event: Yup.string().required("Please select an event"),
   message: Yup.string()
     .min(10, "Must be at least 10 characters")
     .required("Message is required"),
@@ -26,7 +25,7 @@ const EnquiryForm = () => {
       </p>
       <div className="mt-4">
         <Formik
-          initialValues={{ name: "", email: "", event: "", message: "" }}
+          initialValues={{ name: "", email: "", message: "" }}
           validationSchema={validationSchema}
           onSubmit={(values, { resetForm }) => {
             console.log("Form Data:", values);
@@ -74,36 +73,14 @@ const EnquiryForm = () => {
 
               <div className="mb-4">
                 <label className="block text-white mb-2 font-semibold">
-                  Events
-                </label>
-                <br />
-                <Field
-                  as="select"
-                  name="event"
-                  className="border p-2 form-control rounded"
-                >
-                  <option value="">Select events</option>
-                  <option value="conference">Conference</option>
-                  <option value="workshop">Workshop</option>
-                  <option value="webinar">Webinar</option>
-                </Field>
-                <ErrorMessage
-                  name="event"
-                  component="div"
-                  className="text-danger mt-2 text-sm"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-white mb-2 font-semibold">
-                  How Can We Help?
+                  Comment
                 </label>
                 <br />
                 <Field
                   as="textarea"
                   name="message"
                   rows="4"
-                  placeholder="Enter message"
+                  placeholder="Enter Comment"
                   className="border p-2 form-control rounded"
                 />
                 <ErrorMessage
