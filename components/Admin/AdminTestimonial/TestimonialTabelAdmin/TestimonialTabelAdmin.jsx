@@ -130,7 +130,7 @@ export default function TestimonialTabelAdmin({
       },
       edit: {
         header: "Edit Testimonial",
-        content: <Edit data={data} />,
+        content: <Edit data={data} setIsVisible={setIsVisible}/>,
       },
       add: {
         header: "Add Testimonial",
@@ -161,7 +161,7 @@ export default function TestimonialTabelAdmin({
             {sidebarState.content}
 
             {/* Sticky Button Area */}
-            {sidebarState.header !== "View Topic" && (
+            {/* {sidebarState.header !== "View Topic" && (
               <div className="bg-secondary bg-opacity-10 p-2 d-flex justify-content-center align-items-center mt-auto  gap-3 w-100">
                 <button
                   className="btn px-5 bg-white border"
@@ -173,7 +173,7 @@ export default function TestimonialTabelAdmin({
                   Save
                 </button>
               </div>
-            )}
+            )} */}
           </div>
         </>
       </Sidebar>
@@ -334,13 +334,20 @@ function Edit({ data }) {
     </div>
   );
 }
-function Add({ data }) {
+function Add({ data ,setIsVisible}) {
   const [isvideoLinkEnable, setIsvideoLinkEnable] = useState(false);
   const [ratings, setRatings] = useState(null);
   console.log(ratings)
   return (
-    <div className="d-flex gap-3 flex-column">
-      <FileUpload title={"Image Upload"} showBorder={true} />
+     <div className="position-relative" style={{ height: "100vh" }}>
+      <div
+        className="p-3"
+        style={{
+          overflowY: "auto",
+          height: "calc(100vh - 200px)", // adjust 80px based on button height
+        }}
+      >
+  <FileUpload title={"Image Upload"} showBorder={true} />
 
       <label htmlFor="title" className="form-label d-flex align-items-center">
         Ratings
@@ -415,6 +422,26 @@ function Add({ data }) {
         initialValue={""}
         onChange={(content) => console.log("Edited content:", content)}
       />
+      </div>
+    
+           {/* Fixed Buttons */}
+      <div
+        className="bg-secondary position-absolute z-2 bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100"
+        style={{
+          bottom: 0,
+          left: 0,
+          height: "80px",
+
+        }}
+      >
+        <button
+          className="btn px-5 bg-white border"
+          onClick={() => setIsVisible(false)}
+        >
+          Close
+        </button>
+        <button className="btn px-5 btn-warning text-white">Save</button>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import styles from "./PricingTable.module.css";
-import FlipNumbers from "react-flip-numbers";
 
 
 

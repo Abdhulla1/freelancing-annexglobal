@@ -214,13 +214,13 @@ export default function PersonalDetails({ toast }) {
               <option value="INR">INR - Indian Rupee</option>
               <option value="GBP">GBP - British Pound</option>
             </select>
-            <button
+            {/* <button
               name="editCurrency"
               className="btn btn-outline-secondary rounded"
               onClick={(e) => handleModel(e.target.name)}
             >
               <i className="bx bx-edit-alt"></i>
-            </button>
+            </button> */}
           </div>
         </div>
            <div className="col-6 mb-3">
