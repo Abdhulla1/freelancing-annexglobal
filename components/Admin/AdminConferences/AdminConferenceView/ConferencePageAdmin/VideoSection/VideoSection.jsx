@@ -10,6 +10,7 @@ export default function VideoSection({selectedConferenceID,toast}) {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
+    videoUrl:"",
   });
   // Fetch data on component mount or ID change
   useEffect(() => {
@@ -119,9 +120,26 @@ export default function VideoSection({selectedConferenceID,toast}) {
 
   return (
     <div>
-      <FileUploadVideo onFileChange={setVideo} />
-
-      <div className="mb-4 mt-4">
+      {/* <FileUploadVideo onFileChange={setVideo} /> */}
+       <div className="mt-4 mb-4">
+        <label htmlFor="title" className="form-label">
+          Video Link(Youtube)
+         </label>
+         <div className='input-group border rounded p-1'>
+         <span className="btn rounded-2 text-white me-1" id="basic-addon1" style={{backgroundColor:"#111880"}}><i className='bx bx-link-alt'></i></span>
+         <input
+          type="link"
+          name="mapLink"
+          className={`form-control border border-0`}
+          id="link"
+          placeholder="https://www.youtube.com/watch?v=19eIVnOI9Do"
+          required
+          autoComplete="off"
+        />
+         </div>
+        
+      </div>
+      {/* <div className="mb-4 mt-4">
         <label htmlFor="title" className="form-label">
           Title
         </label>
@@ -140,7 +158,7 @@ export default function VideoSection({selectedConferenceID,toast}) {
           }
           autoComplete="off"
         />
-      </div>
+      </div> */}
 
       <RichTextEditor
         labelName={"Content"}

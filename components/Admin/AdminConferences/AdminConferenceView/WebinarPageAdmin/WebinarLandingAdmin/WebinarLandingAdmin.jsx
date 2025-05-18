@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import FileUploadVideo from "@/components/Reusable/Admin/FileUpload/FileUploadVideo";
+import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 export default function WebinarLandingAdmin() {
   const [uploads, setUploads] = useState([{ id: Date.now() }]);
   
@@ -28,23 +28,23 @@ export default function WebinarLandingAdmin() {
     </div>
     
     <div className="border rounded p-2 d-flex flex-column gap-3">
-        {uploads.map((upload) => (
-          <div
-            key={upload.id}
-            className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 px-2"
-          >
-            <div className="flex-grow-1 w-100">
-              <FileUploadVideo showBorder={false} showTitle={false} />
-            </div>
-            <button
-              className="btn btn-sm btn-outline-danger"
-              onClick={() => handleRemoveUpload(upload.id)}
-              title="Delete"
-            >
-              <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>
-            </button>
-          </div>
-        ))}
+           {uploads.map((upload) => (
+             <div
+               key={upload.id}
+               className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 px-2"
+             >
+               <div className="flex-grow-1 w-100">
+                 <FileUpload showBorder={false} showTitle={false} />
+               </div>
+               <button
+                 className="btn btn-sm btn-outline-danger"
+                 onClick={() => handleRemoveUpload(upload.id)}
+                 title="Delete"
+               >
+                 <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>
+               </button>
+             </div>
+           ))}
       </div>
     </>
   );

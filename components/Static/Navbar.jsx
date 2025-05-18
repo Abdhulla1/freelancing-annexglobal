@@ -83,14 +83,34 @@ export default function Navbar() {
     { label: "HOME", url: conferenceId ? `/conference/${conferenceId}` : "/" },
     {
       label: "WEBINAR",
-      url: conferenceId ? `/conference/${conferenceId}/webinar` : "#",
       items: [
         {
+          label: "ABOUT WEBINAR",
+          url: conferenceId ? `/conference/${conferenceId}/webinar` : "#",
+        },
+         {
           label: "WEBINAR PROGRAM",
           url: conferenceId
             ? `/conference/${conferenceId}/webinar-program`
             : "#",
         },
+         {
+          label: "SUBMIT ABSTRACT",
+          url: conferenceId
+            ? `/conference/${conferenceId}/submit-abstract`
+            : "#",
+        },
+        {
+      label: "REGISTRATION",
+      url: conferenceId ? `/conference/${conferenceId}/registration` : "#",
+    },
+        {
+          label: "WEBINAR SPEAKERS",
+          url: conferenceId ? `/conference/${conferenceId}/speakers` : "#",
+        },
+       
+      
+       
       ],
     },
     {
@@ -98,59 +118,51 @@ export default function Navbar() {
       url: conferenceId ? `/conference/${conferenceId}/topics` : "#",
     },
     {
-      label: "OCM",
-      url: conferenceId
-        ? `/conference/${conferenceId}/organizing-committee-members`
-        : "#",
+      label: "ATTENDEES",
+      items: [
+        {
+          label: "OCM",
+          url: conferenceId
+            ? `/conference/${conferenceId}/organizing-committee-members`
+            : "#",
+        },
+        {
+          label: "SPEAKERS",
+          url: conferenceId ? `/conference/${conferenceId}/speakers` : "#",
+        },
+      ],
     },
-    {
-      label: "SPEAKERS",
-      url: conferenceId ? `/conference/${conferenceId}/speakers` : "#",
-    },
+ {
+          label: "SUBMIT ABSTRACT",
+          url: conferenceId
+            ? `/conference/${conferenceId}/submit-abstract`
+            : "#",
+        },
     {
       label: "REGISTRATION",
       url: conferenceId ? `/conference/${conferenceId}/registration` : "#",
     },
     {
       label: "MORE",
-      url: "",
       items: [
+      
         {
-          label: "SUBMIT ABSTRACT",
-          url: conferenceId
-            ? `/conference/${conferenceId}/submit-abstract`
-            : "#",
+          label: "VENUE",
+          url: conferenceId ? `/conference/${conferenceId}/venue` : "#",
         },
-        {
-          label: "WEBINAR PROGRAM",
-          url: conferenceId
-            ? `/conference/${conferenceId}/webinar-program`
-            : "#",
-        },
-        {
+           {
           label: "SCIENTIFIC PROGRAM",
           url: conferenceId
             ? `/conference/${conferenceId}/scientific-program`
             : "#",
         },
-        {
+         {
           label: "SPONSORS EXHIBITORS",
           url: conferenceId
             ? `/conference/${conferenceId}/sponsors-exhibitors`
             : "#",
         },
-        {
-          label: "VENUE",
-          url: conferenceId ? `/conference/${conferenceId}/venue` : "#",
-        },
-        {
-          label: "FAQ",
-          url: conferenceId ? `/conference/${conferenceId}/faq` : "#",
-        },
-        {
-          label: "TERMS & CONDITIONS",
-          url: "/terms-and-conditions",
-        },
+        { label: "CONTACT US", url: "/contact-us" },
       ],
     },
   ];
@@ -204,14 +216,14 @@ export default function Navbar() {
       <nav
         className={`${NavbarStyles.navbar} navbar navbar-expand-md navbar-light bg-white shadow animate__animated p-0 `}
       >
-        <div className="container-fluid d-flex justify-content-between align-items-center w-100">
+        <div className="container-fluid d-flex justify-content-around align-items-center w-100">
           <div className={`d-flex align-items-center ${NavbarStyles.logo}`}>
             <Link href={"/"} className="text-decoration-none">
               <img src="/icons/annexWithText.png" alt="Logo" />
             </Link>
             <div className="mt-2">
               {/* Location/Weather*/}
-              <p className={`${NavbarStyles["sub-title"]}`}>
+              <p className={`d-none  d-xl-block ${NavbarStyles["sub-title"]}`}>
                 Dubai, UAE &nbsp;•&nbsp;26-27 February 2025&nbsp;•&nbsp;
                 <i className="bx bxs-sun text-warning" /> 36.1°C
               </p>
@@ -230,21 +242,18 @@ export default function Navbar() {
             ref={menuRef}
             className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}
           >
-            <ul
-              className={`navbar-nav ms-4 ${isOpen ? " gap-3 " : " gap-4 "}`}
-            >
+            <ul className={`navbar-nav ms-4 ${isOpen ? " gap-3 " : " gap-4 "}`}>
               {Menuitems.map((item, index) => {
                 const isActive = activeItem === item.label;
                 return (
                   <li
                     key={index}
                     className={`nav-item ${item.items ? "dropdown" : ""}`}
-                    onClick={() => setIsOpen(false)}
                   >
                     {item.items ? (
                       <>
                         <Link
-                          href={item.url}
+                          href="#"
                           className={`${NavbarStyles["nav-link"]} dropdown-toggle `}
                           id={`dropdown${index}`}
                           role="button"
@@ -282,21 +291,21 @@ export default function Navbar() {
             </ul>
           </div>
 
-          <div className="d-none d-md-flex gap-2">
+          <div className="d-none d-lg-flex gap-2">
             <button className={` ${NavbarStyles["sponsor"]}`}>
               <Link
-                href={"/"}
-                className="text-center mb-0 text-decoration-none text-white fw-normal"
+                href={"/conference/${conferenceId}/scientific-program"}
+                className="text-center text-uppercase mb-0 text-decoration-none text-white fw-normal"
               >
-                SPONSOR
+                Program 
               </Link>
             </button>
             <button className={NavbarStyles["buy-ticket"]}>
               <Link
                 href={"/conferences"}
-                className="text-center mb-0 text-decoration-none  text-white fw-normal"
+                className="text-uppercase text-center mb-0 text-decoration-none  text-white fw-normal"
               >
-                Buy Tickets
+                Get Brochure
               </Link>
             </button>
           </div>

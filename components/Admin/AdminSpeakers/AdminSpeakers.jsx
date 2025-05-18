@@ -21,9 +21,9 @@ export default function AdminSpeakers() {
         <h5 className="fw-bold m-0">All Speakers</h5>
 
         {/* Add New Conference Button */}
-        <button className="btn btn-warning text-white col-12 col-md-1">
+        {/* <button className="btn btn-warning text-white col-12 col-md-1">
           Publish
-        </button>
+        </button> */}
       </div>
 <div className="row gap-2 gap-md-0 p-3">
         <div className="col-12 col-md-3">

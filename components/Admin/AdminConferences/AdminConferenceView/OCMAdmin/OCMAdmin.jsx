@@ -5,10 +5,10 @@ import LandingPage from "./LandingPage/LandingPage";
 import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/ScrollableTabs";
 
 export default function OCMAdmin() {
- const [activeTab, setActiveTab] = useState("Speakers"); // default to first tab
+ const [activeTab, setActiveTab] = useState("Organizing Committee Members"); // default to first tab
   const tabs = {
-    "Speakers": <OCMTabelAdmin/>,
-    "Landing Page": <LandingPage/>,
+    "Organizing Committee Members": <OCMTabelAdmin/>,
+    "Header Panel Images": <LandingPage/>,
   };
   
   return (

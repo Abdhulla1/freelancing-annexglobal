@@ -141,12 +141,12 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
                   >
                     <i className="bx bx-edit-alt"></i>
                   </button>
-                  <button
+                  {/* <button
                     className="btn btn-outline-secondary rounded"
                     onClick={confirmDelete}
                   >
                     <i className="bx bx-trash-alt"></i>
-                  </button>
+                  </button> */}
                   <button
                     name="view"
                     className="btn btn-outline-warning rounded"
@@ -160,14 +160,14 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
           ))}
         </tbody>
       </table>
-      <button
+      {/* <button
         name="add"
         className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
         style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
         onClick={(e) => handleSidebar(e.target.name)}
       >
         +
-      </button>
+      </button> */}
     </div>
   );
 }

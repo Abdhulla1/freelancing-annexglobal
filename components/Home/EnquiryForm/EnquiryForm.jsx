@@ -15,6 +15,15 @@ const validationSchema = Yup.object({
     .min(10, "Must be at least 10 characters")
     .required("Message is required"),
 });
+const conferneceData = [
+  "Innovations In Diabetes Diagnosis",
+  "Diabetes Management And Treatment",
+  "Infectious Diseases And Preventive",
+  "Advance In Clinical Medicine",
+  "Mental Health And Psychological",
+  "Global Health And Internal Medicine",
+  "Public Health And Nutrition",
+];
 
 const EnquiryForm = () => {
   return (
@@ -70,7 +79,27 @@ const EnquiryForm = () => {
                   className="text-danger mt-2 text-sm"
                 />
               </div>
-
+              <div className="mb-4">
+                   <label className="block text-white mb-2 font-semibold">
+                  Conference Name
+                </label>
+                <select
+                  className="form-control"
+                  id="assignUser"
+                  value={""}
+                  onChange={(e)=>console.log(e.value)}
+                  required
+                >
+                  <option value="" disabled>
+                    Select Conference
+                  </option>
+                  {conferneceData.map((conference, i) => (
+                    <option key={i} value={conference}>
+                      {conference}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="mb-4">
                 <label className="block text-white mb-2 font-semibold">
                   Comment

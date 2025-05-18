@@ -25,36 +25,7 @@ const faqData = [
     answer:
       "Yes, certificates of participation will be emailed to all attendees after the event concludes.",
   },
-  {
-    question: "Are there any group discounts available?",
-    answer:
-      "Yes, we offer discounts for groups of 5 or more. Please contact our support team for details.",
-  },
-  {
-    question: "Is the event open to international participants?",
-    answer:
-      "Absolutely. Our event is open to participants from all over the world. We also provide translation support in select languages.",
-  },
-  {
-    question: "What is the refund policy?",
-    answer:
-      "Full refunds are available if canceled at least 7 days before the event. No refunds will be issued after that.",
-  },
-  {
-    question: "How do I become a speaker at the event?",
-    answer:
-      "You can submit your speaker application through the 'Call for Speakers' section on our website.",
-  },
-  {
-    question: "Are meals provided during the conference?",
-    answer:
-      "Yes, lunch and light refreshments will be provided on all days of the conference.",
-  },
-  {
-    question: "Is there accommodation provided?",
-    answer:
-      "Accommodation is not included, but we have partnered with nearby hotels to offer discounted rates for attendees.",
-  },
+ 
 ];
 
 export default function WebinarFAQAdmin({ visibleDetails, setVisibleDetails }) {
@@ -160,9 +131,9 @@ export default function WebinarFAQAdmin({ visibleDetails, setVisibleDetails }) {
                   >
                     <i className="bx bx-edit-alt"></i>
                   </button>
-                  <button className="btn btn-outline-secondary rounded"    onClick={confirmDelete}>
+                  {/* <button className="btn btn-outline-secondary rounded"    onClick={confirmDelete}>
                     <i className="bx bx-trash-alt"></i>
-                  </button>
+                  </button> */}
                   <button
                     name="view"
                     className="btn btn-outline-warning rounded"
@@ -176,14 +147,14 @@ export default function WebinarFAQAdmin({ visibleDetails, setVisibleDetails }) {
           ))}
         </tbody>
       </table>
-      <button
+      {/* <button
       name="add"
               className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
               style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
               onClick={(e) => handleSidebar(e.target.name)}
             >
               +
-            </button>
+            </button> */}
     </div>
   );
 }

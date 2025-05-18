@@ -7,7 +7,7 @@ export default function SpeakerAdmin() {
   const [activeTab, setActiveTab] = useState("Speakers"); // default to first tab
   const tabs = {
     "Speakers": <SpeakerTabelAdmin/>,
-    "Landing Page": <LandingPage/>,
+    "Header Panel Images": <LandingPage/>,
   };
   
   return (

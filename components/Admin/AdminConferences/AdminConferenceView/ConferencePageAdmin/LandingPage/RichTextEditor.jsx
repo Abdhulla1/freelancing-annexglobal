@@ -61,6 +61,14 @@ const RichTextEditor = ({
       <span className="ql-formats">
         <button className="ql-link" />
       </span>
+        <span className="ql-formats">
+      <select className="ql-align" defaultValue="">
+        <option value="" />
+        <option value="center" />
+        <option value="right" />
+        <option value="justify" />
+      </select>
+    </span>
     </>
   );
 

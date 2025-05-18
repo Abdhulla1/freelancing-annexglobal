@@ -9,14 +9,15 @@ import Link from "next/link";
 import { uploadImage } from "@/service/mediaManagemnt";
 import { Toast } from "primereact/toast";
 import { ProgressSpinner } from "primereact/progressspinner"; 
-
+import {fetchAdmins} from "@/service/adminService";
 export default function AdminConferences() {
   const [query, setQuery] = useState("");
   const [filterBy, setFilterBy] = useState("title");
   const [showDropdown, setShowDropdown] = useState(false);
   const [conferenceData, setConferenceData] = useState([]);
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [newConferenceData, setNewConferenceData] = useState({name: "",file: null,});
+  const [newConferenceData, setNewConferenceData] = useState({name: "",file: null,conferenceBg:null,assignedUserId:''});
+  const [adminsData, setAdminsData] = useState([]);
   const [loading, setLoading] = useState(false); 
   const toast = useRef(null);
 
@@ -24,7 +25,12 @@ export default function AdminConferences() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const data = await getAllConference();
+        // const data = await getAllConference();
+        // const userList = await fetchAdmins();
+        const [data,userList]=await
+        Promise.all([getAllConference(),fetchAdmins()]
+      )
+        setAdminsData(userList);        
         setConferenceData(data);
       } catch (error) {
         console.log(error)
@@ -72,11 +78,27 @@ export default function AdminConferences() {
           return;
         }
       }
-
+ // Step 1 (additional): Upload background image if bgFile is present
+    if (newConferenceData.bgFile) {
+      try {
+        const bgUploadResponse = await uploadImage(newConferenceData.conferenceBg);
+        bgUrl = bgUploadResponse.url || "";
+      } catch (bgError) {
+        toast.current.show({
+          severity: "error",
+          summary: "Background Upload Error",
+          detail: "Failed to upload background image. Please try again.",
+          life: 3000,
+        });
+        return;
+      }
+    }
       // Step 2: Save the conference data
       const payload = {
         name: newConferenceData.name,
         logoUrl: imageUrl,
+        conferenceBgUrl:bgUrl,
+        assignedUserId:newConferenceData.assignedUserId
       };
 
       const response = await saveConference(payload);
@@ -129,6 +151,7 @@ export default function AdminConferences() {
           <AddNewConference
             data={newConferenceData}
             setData={setNewConferenceData}
+            userList={adminsData}
           />
         }
         header="Add New Conference"
@@ -144,7 +167,7 @@ export default function AdminConferences() {
               className="btn px-5 btn-warning fw-normal text-white shadow-none"
               onClick={handleSaveConference}
               disabled={
-                !newConferenceData.name.trim() || !newConferenceData.file
+                !newConferenceData.name.trim() || !newConferenceData.file || !newConferenceData.conferenceBg|| !newConferenceData.assignedUserId
               }
             >
               Upload
@@ -286,7 +309,7 @@ export default function AdminConferences() {
   );
 }
 
-export function AddNewConference({ data, setData }) {
+export function AddNewConference({ data, setData ,userList}) {
   const handleNameChange = (e) => {
     setData((prev) => ({ ...prev, name: e.target.value }));
   };
@@ -294,14 +317,15 @@ export function AddNewConference({ data, setData }) {
   const handleFileChange = (file) => {
     setData((prev) => ({ ...prev, file }));
   };
-
+ const handleConferenceBgChange = (conferenceBg) => {
+  setData((prev) => ({ ...prev, conferenceBg }));
+};
+const handleUserSelect = (e) => {
+  setData((prev) => ({ ...prev, assignedUserId: e.target.value }));
+};
   return (
     <>
-      <FileUpload
-        title={"Add Conference Logo"}
-        onFileChange={handleFileChange}
-      />
-      <div className="mb-4 mt-4">
+       <div className="mb-4 mt-4">
         <label htmlFor="conferenceName" className="form-label">
           Conference Name*
         </label>
@@ -316,6 +340,35 @@ export function AddNewConference({ data, setData }) {
           autoComplete="off"
         />
       </div>
+        <div className="mb-4">
+        <label htmlFor="assignUser" className="form-label">
+          Assign to User*
+        </label>
+        <select
+          className="form-control"
+          id="assignUser"
+          onChange={handleUserSelect}
+          required
+          value={data.assignedUserId || ""}
+        >
+          <option value="" disabled>Select a user</option>
+          {userList.map((user,i) => (
+            <option key={i} value={user._id}>
+              {user.email}
+            </option>
+          ))}
+        </select>
+      </div>
+      <FileUpload
+        title={"Add Conference Logo *"}
+        onFileChange={handleFileChange}
+      />
+      <FileUpload
+        title={"Add Conference Card Background *"}
+        onFileChange={handleConferenceBgChange}
+      />
+   
+      
     </>
   );
 }

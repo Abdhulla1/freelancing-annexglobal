@@ -83,10 +83,19 @@ export default function UploadBrochure({ selectedConferenceID, toast }) {
 
   return (
     <div className="mt-5 ">
-      <div>
+       <div className="d-flex justify-content-between">
+              {/* <h5>Brochure</h5> */}
+              {/* <button className="btn btn-warning text-white">
+                 Publish
+              </button> */}
+            </div>
+            <div >
+               <div>
         <label className="form-label">Upload Brochure</label>
         <DropZoneFile />
       </div>
+            </div>
+    
     </div>
   );
 }

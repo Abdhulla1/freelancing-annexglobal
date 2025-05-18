@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import RichTextEditor from "../../AdminConferences/AdminConferenceView/ConferencePageAdmin/LandingPage/RichTextEditor";
-import Image from "next/image";
 import { InputSwitch } from "primereact/inputswitch";
 import { Dialog } from "primereact/dialog";
-
+import { ProgressSpinner } from "primereact/progressspinner";
+import { updateMediaLinkStatus,updateMediaLink} from "@/service/footerService";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 const mediaLinks = [
   {
     name: "LinkedIn",
@@ -37,20 +38,32 @@ const mediaLinks = [
     url: "https://wa.me/1234567890",
     isEnable: true,
   },
- 
+  {
+    name: "Email1",
+    url: "gynecology@annexglobalconferences.com",
+    isEnable: true,
+  },
+  {
+    name: "Email 2",
+    url: "gynecology@annexglobalconferences.com",
+    isEnable: true,
+  },
 ];
 
 export default function FooterTabelAdmin({
-  visibleDetails,
-  setVisibleDetails,
+  toast,
+  footertable,
+  footertableUpdate,
 }) {
   const [isVisible, setIsVisible] = useState(false);
+
   const [sidebarState, setSidebarState] = useState({
     header: null,
     content: null,
   });
 
   const [statusChecked, setStatusChecked] = useState(false);
+
   const confirmDelete = () => {
     const accept = () => {
       console.log("accepted");
@@ -71,7 +84,6 @@ export default function FooterTabelAdmin({
     });
   };
 
-
   const handleModel = (type, data = null) => {
     const componentsMap = {
       view: {
@@ -80,9 +92,8 @@ export default function FooterTabelAdmin({
       },
       edit: {
         header: "Edit Media Link",
-        content: <Edit data={data} />,
+        content: <Edit data={data} handleURLChange={handleURLChange} setIsVisible={setIsVisible} />,
       },
-     
     };
 
     const selected = componentsMap[type];
@@ -91,6 +102,78 @@ export default function FooterTabelAdmin({
       setIsVisible(true);
     }
   };
+
+  const handleStatusChange = async (newStatus, id) => {
+    try {
+      const response = await updateMediaLinkStatus(id, newStatus);
+
+      if (response.status === 200) {
+        // Update local state
+        const updatedTable = footertable.map((item) =>
+          item._id === id ? { ...item, status: newStatus } : item
+        );
+        footertableUpdate(updatedTable); // see note below
+
+        toast.current?.show({
+          severity: "success",
+          summary: "Updated",
+          detail: response.data.detail[0].msg || "Status updated successfully",
+        });
+      } else {
+        console.log(response.response.data.detail[0].msg);
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail:
+            response.response.data.detail[0].msg || "Status update failed",
+        });
+      }
+    } catch (err) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Status update failed",
+      });
+    }
+  };
+
+  const handleURLChange = async (data, newUrl) => {
+    const payLoad={
+      ...data,url:newUrl
+    }
+    console.log(payLoad)
+    try {
+      const response = await updateMediaLink(data._id, payLoad);
+      console.log(response)
+      if (response.status === 200) {
+        const updatedTable = footertable.map((item) =>
+  item._id === data._id ? { ...item, url: newUrl } : item
+);
+
+        footertableUpdate(updatedTable); // see note below
+
+        toast.current?.show({
+          severity: "success",
+          summary: "Updated",
+          detail: response.data.detail[0].msg || "Status updated successfully",
+        });
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail:
+             "URL update failed",
+        });
+      }
+    } catch (err) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Status update failed",
+      });
+    }
+  };
+
   return (
     <div className="table-responsive">
       <Dialog
@@ -116,22 +199,20 @@ export default function FooterTabelAdmin({
             <td className="p-2 table-heading">Url</td>
             <td className="p-2 table-heading">Enable/Disable</td>
             <td className="p-2 table-heading text-center">Action</td>
-
           </tr>
         </thead>
         <tbody>
-          {mediaLinks.map((element, i) => (
+          {footertable.map((element, i) => (
             <tr key={i}>
-              
-              <td className="p-3 table-data">{i+1}</td>
+              <td className="p-3 table-data">{i + 1}</td>
               <td className="p-3 table-data">{element.name}</td>
               <td className="p-3  table-data ">{element.url}</td>
-          
- <td className="p-3  table-data ">
+
+              <td className="p-3  table-data ">
                 {" "}
                 <InputSwitch
-                  checked={element.isEnable}
-                  onChange={(e) => console.log(e.value)}
+                  checked={element.status}
+                  onChange={(e) => handleStatusChange(e.value, element._id)}
                   style={{ scale: "0.7" }}
                 />
               </td>
@@ -163,36 +244,76 @@ export default function FooterTabelAdmin({
           ))}
         </tbody>
       </table>
-    
     </div>
   );
 }
 
-function Edit({ data }) {
+function Edit({ data, handleURLChange, setIsVisible }) {
+  const formik = useFormik({
+    initialValues: {
+      url: data.url || "",
+    },
+    validationSchema: Yup.object({
+      url: Yup.string()
+        .matches(/^https?:\/\/.+/, "Enter a valid URL (must start with http:// or https://)")
+        .required("URL is required"),
+    }),
+    onSubmit: (values) => {
+      handleURLChange(data, values.url);
+      setIsVisible(false);
+    },
+  });
+
   return (
-    <div className="d-flex gap-3 container flex-column h-100">
-        <div className="mt-2">
-        <label htmlFor="title" className="form-label">
-        {data.name} 
-         </label>
-         <div className='input-group border rounded p-1'>
-         <span className="btn rounded-2 text-white me-1" id="basic-addon1" style={{backgroundColor:"#111880"}}><i className='bx bx-link-alt'></i></span>
-         <input
-          type="link"
-          name="mapLink"
-          value={data.url}
-          className={`form-control border border-0`}
-          id="link"
-          placeholder="Enter Map Link"
-          required
-          autoComplete="off"
-          onChange={(e)=>console.log(e.target.value)}
-        />
-         </div>
-        
+    <form
+      onSubmit={formik.handleSubmit}
+      className="d-flex gap-3 container flex-column h-100"
+    >
+      <div className="mt-2">
+        <label htmlFor="url" className="form-label">
+          {data.name}
+        </label>
+        <div className="input-group border rounded p-1">
+          <span
+            className="btn rounded-2 text-white me-1"
+            id="basic-addon1"
+            style={{ backgroundColor: "#111880" }}
+          >
+            <i className="bx bx-link-alt"></i>
+          </span>
+          <input
+            id="url"
+            name="url"
+            type="text"
+            className={`form-control border-0 ${
+              formik.touched.url && formik.errors.url ? "is-invalid" : ""
+            }`}
+            placeholder="Please enter a valid URL."
+            autoComplete="off"
+            value={formik.values.url}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+        </div>
+        {formik.touched.url && formik.errors.url && (
+          <div className="text-danger mt-1">{formik.errors.url}</div>
+        )}
       </div>
-  
-    </div>
+
+      <div className="bg-secondary bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
+        <button
+          type="button"
+          className="btn px-5 bg-white border"
+          onClick={() => setIsVisible(false)}
+         
+        >
+          Close
+        </button>
+        <button type="submit" className="btn px-5 btn-warning text-white" disabled={!formik.dirty}>
+          Save
+        </button>
+      </div>
+    </form>
   );
 }
 function View({ data }) {
@@ -208,32 +329,15 @@ function View({ data }) {
       </div>
       <div>
         <label className="form-label  mb-2">Event</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.event}
-        </p>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.event}</p>
       </div>
-
 
       <div>
         <label className="form-label mb-2">message</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-         {data.message}
+          {data.message}
         </p>
       </div>
-    
-    </div>
-  );
-}
-
-function Delete({ data = null }) {
-  return (
-    <div className="d-flex flex-column align-items-center text-center">
-      <Image src="/icons/delete.png" width={80} height={80} alt="DeleteIcon" />
-      <h5 className="mt-3">Delete Contact Request</h5>
-      <p className="mb-0 col-md-8">
-        Are you sure you want to delete this Program File? This action cannot be
-        undone.
-      </p>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { InputSwitch } from "primereact/inputswitch";
 import { classNames } from "primereact/utils";
+import { Rating } from "primereact/rating";
 const testimonialData = [
   {
     image: "/icons/DefaultPreviewImage.png", // Optional
@@ -21,21 +22,21 @@ const testimonialData = [
     name: "Guna",
     designation: "CEO",
     status: false,
-    content:
-      "Register on our website by clicking the",
+    content: "Register on our website by clicking the",
   },
   {
     image: "/icons/DefaultPreviewImage.png",
     name: "Pam Beesaley",
     designation: "Researcher",
     status: false,
-    content:
-      "All sessions will be recorded and available",
+    content: "All sessions will be recorded and available",
   },
-
 ];
 
-export default function TestimonialAdmin({ visibleDetails, setVisibleDetails }) {
+export default function TestimonialAdmin({
+  visibleDetails,
+  setVisibleDetails,
+}) {
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
@@ -143,7 +144,14 @@ export default function TestimonialAdmin({ visibleDetails, setVisibleDetails }) 
               <td className="p-3 table-data">{element.name}</td>
               <td className="p-3 table-data">{element.designation}</td>
               <td className="p-3  table-data ">{element.content}</td>
-              <td className="p-3  table-data ">  <InputSwitch checked={statusChecked} onChange={(e) => setStatusChecked(e.value) }            style={{scale:"0.7"}}/></td>
+              <td className="p-3  table-data ">
+                {" "}
+                <InputSwitch
+                  checked={statusChecked}
+                  onChange={(e) => setStatusChecked(e.value)}
+                  style={{ scale: "0.7" }}
+                />
+              </td>
               <td className="p-3 table-data ">
                 <div className="d-flex gap-1  justify-content-center flex-nowrap">
                   <button
@@ -185,33 +193,81 @@ export default function TestimonialAdmin({ visibleDetails, setVisibleDetails }) 
 }
 
 function Edit({ data }) {
+  const [isvideoLinkEnable, setIsvideoLinkEnable] = useState(false);
+ const [ratings, setRatings] = useState(null);
   return (
     <div className="d-flex gap-3 flex-column">
-        <FileUpload   title ={ "Logo Image Upload"} showBorder = {true}/>
+      <FileUpload title={"Logo Image Upload"} showBorder={true} />
+       <label htmlFor="title" className="form-label d-flex align-items-center">
+        Ratings
+      </label>
+      <Rating value={ratings} onChange={(e) => setRatings(e.value)} />
+      <div className="mt-4">
+        <label htmlFor="title" className="form-label d-flex align-items-center">
+          Video Link(Youtube) &nbsp;{" "}
+          <InputSwitch
+            checked={isvideoLinkEnable}
+            onChange={(e) => setIsvideoLinkEnable(e.value)}
+            style={{ scale: "0.7" }}
+          />
+        </label>
+        <div className="input-group border rounded p-1">
+          <span
+            className="btn rounded-2 text-white me-1"
+            id="basic-addon1"
+            style={{ backgroundColor: "#111880" }}
+          >
+            <i className="bx bx-link-alt"></i>
+          </span>
+          <input
+            type="link"
+            name="mapLink"
+            className={`form-control border border-0`}
+            id="link"
+            placeholder="https://www.youtube.com/watch?v=19eIVnOI9Do"
+            required
+            autoComplete="off"
+            disabled={!isvideoLinkEnable}
+          />
+        </div>
+      </div>
+      <div className=" mb-3">
+        <label htmlFor="eventLocation" className="form-label">
+          Name*
+        </label>
+        <input
+          type="text"
+          name="eventLocation"
+          value={data.name}
+          className="form-control"
+          id="eventLocation"
+          placeholder="Enter Name"
+          onChange={(e) => console.log(e.target.value)}
+          required
+        />
+      </div>
+      <div className=" mb-3">
+        <label htmlFor="eventLocation" className="form-label">
+          Designation*
+        </label>
+        <input
+          type="text"
+          name="eventLocation"
+          value={data.designation}
+          className="form-control"
+          id="eventLocation"
+          placeholder="Enter Designation"
+          onChange={(e) => console.log(e.target.value)}
+          required
+        />
+      </div>
 
-          <div className=" mb-3">
-            <label htmlFor="eventLocation" className="form-label">
-            Name
-            </label>
-            <input
-              type="text"
-              name="eventLocation"
-              value={data.name}
-              className="form-control"
-              id="eventLocation"
-              placeholder="Enter Name"
-              onChange={(e)=>console.log(e.target.value)}
-              required
-            />
-          </div>
-
-     
-      <RichTextEditor
+      {/* <RichTextEditor
         labelName={"Designation"}
         height="120px"
         initialValue={data.designation}
         onChange={(content) => console.log("Edited content:", content)}
-      />
+      /> */}
       <RichTextEditor
         labelName={"Content"}
         initialValue={data.content}
@@ -221,57 +277,106 @@ function Edit({ data }) {
   );
 }
 function Add({ data }) {
+  const [isvideoLinkEnable, setIsvideoLinkEnable] = useState(false);
+  const [ratings, setRatings] = useState(null);
+  console.log(ratings)
   return (
     <div className="d-flex gap-3 flex-column">
-    <FileUpload   title ={ "Logo Image Upload"} showBorder = {true}/>
+      <FileUpload title={"Image Upload"} showBorder={true} />
 
+      <label htmlFor="title" className="form-label d-flex align-items-center">
+        Ratings
+      </label>
+      <Rating value={ratings} onChange={(e) => setRatings(e.value)} />
+
+      <div className="mt-4">
+        <label htmlFor="title" className="form-label d-flex align-items-center">
+          Video Link(Youtube) &nbsp;{" "}
+          <InputSwitch
+            checked={isvideoLinkEnable}
+            onChange={(e) => setIsvideoLinkEnable(e.value)}
+            style={{ scale: "0.7" }}
+          />
+        </label>
+        <div className="input-group border rounded p-1">
+          <span
+            className="btn rounded-2 text-white me-1"
+            id="basic-addon1"
+            style={{ backgroundColor: "#111880" }}
+          >
+            <i className="bx bx-link-alt"></i>
+          </span>
+          <input
+            type="link"
+            name="mapLink"
+            className={`form-control border border-0`}
+            id="link"
+            placeholder="https://www.youtube.com/watch?v=19eIVnOI9Do"
+            required
+            autoComplete="off"
+            disabled={!isvideoLinkEnable}
+          />
+        </div>
+      </div>
       <div className=" mb-3">
         <label htmlFor="eventLocation" className="form-label">
-        Name
+          Name
         </label>
         <input
           type="text"
           name="eventLocation"
-
           className="form-control"
           id="eventLocation"
           placeholder="Enter Name"
-
           required
         />
       </div>
 
- 
-  <RichTextEditor
-    labelName={"Designation"}
-    height="120px"
-    initialValue={''}
-    onChange={(content) => console.log("Edited content:", content)}
-  />
-  <RichTextEditor
-    labelName={"Content"}
-    initialValue={''}
-    onChange={(content) => console.log("Edited content:", content)}
-  />
-</div>
+  <div className=" mb-3">
+        <label htmlFor="eventLocation" className="form-label">
+          Designation*
+        </label>
+        <input
+          type="text"
+          name="eventLocation"
+          className="form-control"
+          id="eventLocation"
+          placeholder="Enter Designation"
+          onChange={(e) => console.log(e.target.value)}
+          required
+        />
+      </div>
+      {/* <RichTextEditor
+        labelName={"Designation"}
+        height="120px"
+        initialValue={""}
+        onChange={(content) => console.log("Edited content:", content)}
+      /> */}
+      <RichTextEditor
+        labelName={"Content"}
+        initialValue={""}
+        onChange={(content) => console.log("Edited content:", content)}
+      />
+    </div>
   );
 }
 function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
       <label className="form-label">Image</label>
+
       <Image src={data.image} width={120} height={120} alt="DeleteIcon" />
+ <label htmlFor="title" className="form-label d-flex align-items-center">
+        Ratings
+      </label>
+      <Rating value={5} disabled cancel={false} />
       <div>
         <label className="form-label  mb-2">Name</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.name}
-        </p>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.name}</p>
       </div>
       <div>
         <label className="form-label  mb-2">Designation</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.name}
-        </p>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.name}</p>
       </div>
       <div>
         <label className="form-label mb-2">Content</label>

@@ -9,7 +9,7 @@ export default function Gallery() {
     <>
     <ConferenceDetails/>
     <EventsSection/>
-    <Prospectus/>
+    {/* <Prospectus/> */}
 
     </>
   )

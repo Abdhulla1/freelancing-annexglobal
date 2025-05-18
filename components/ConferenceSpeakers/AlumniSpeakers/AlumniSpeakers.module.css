@@ -1,13 +1,13 @@
 .header {
-  background-color: #eee;
-  padding: 10px;
+  background: linear-gradient(90deg, #A1A1A1 0%, #3B3B3B 100%);
+  border: 1px solid #000000;
+  padding: 5px;
   text-align: center;
-  color: #04BF68;
-  font-weight: 500;
+  color: white;
+  font-weight: 600;
   font-size: 20px;
   border-radius: 20px;
 }
-
 .card {
   width: 100%;
   background: white;
@@ -28,7 +28,7 @@
 }
 .profile-img {
   width: auto;
-  height: 280px  ;
+  height: 200px   ;
   cursor: pointer;
   object-fit: cover;
 }

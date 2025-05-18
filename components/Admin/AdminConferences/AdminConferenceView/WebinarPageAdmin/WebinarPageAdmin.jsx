@@ -4,7 +4,7 @@ import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/Scrollabl
 import WebinarLandingAdmin from "./WebinarLandingAdmin/WebinarLandingAdmin";
 import WebinarWelcomeContent from "./WebinarWelcomeContent/WebinarWelcomeContent";
 import WebinarVideoSection from "./WebinarVideoSection/WebinarVideoSection";
-import WebinarProgramAdmin from "./WebinarProgramAdmin/WebinarProgramAdmin";
+// import WebinarProgramAdmin from "./WebinarProgramAdmin/WebinarProgramAdmin";
 
 import WebinarFAQAdmin from "./WebinarFAQAdmin/WebinarFAQAdmin";
 
@@ -12,13 +12,12 @@ import WebinarFAQAdmin from "./WebinarFAQAdmin/WebinarFAQAdmin";
 
 
 export default function WebinarPageAdmin() {
-  const [activeTab, setActiveTab] = useState("Landing Page"); // default to first tab
+  const [activeTab, setActiveTab] = useState("Header Panel Images"); // default to first tab
   const tabs = {
-    "Landing Page": <WebinarLandingAdmin/>,
+    "Header Panel Images": <WebinarLandingAdmin/>,
     "Welcome Content": <WebinarWelcomeContent/>,
     "Video Section": <WebinarVideoSection/>,
-    "Webinar Program": <WebinarProgramAdmin/> ,
-    "FAQ":<WebinarFAQAdmin/> ,
+    "Queries Answered":<WebinarFAQAdmin/> ,
   };
   
   return (

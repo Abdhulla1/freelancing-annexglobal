@@ -14,6 +14,7 @@ import LandingPageSpeakers from "./LandingPageSpeakers/LandingPageSpeakers";
 import ScientificProgramAdmin from "./ScientificProgramAdmin/ScientificProgramAdmin";
 import UploadBrochure from "./UploadBrochure/UploadBrochure";
 import Location from "./Location/Location";
+import EventDetailsSection from "./EventDetailsSection/EventDetailsSection";
 import { Toast } from "primereact/toast";
 export default function ConferencePageAdmin({ selectedConferenceID }) {
   const toast = useRef(null);
@@ -35,14 +36,15 @@ export default function ConferencePageAdmin({ selectedConferenceID }) {
     "Video Section": (
       <VideoSection selectedConferenceID={selectedConferenceID} toast={toast} />
     ),
-    FAQ: <FAQAdmin />,
-    "Past Gallery": <PastGallery />,
+    // FAQ: <FAQAdmin />,
     Topics: <TopicsAdmin />,
-    Location: <Location />,
-    "Supporting Journal": <SupportingJournalAdmin />,
+    "Past Gallery": <PastGallery />,
     Testimonial: <TestimonialAdmin />,
-    "Scientific Program": <ScientificProgramAdmin />,
-    "Upload Brochure": <UploadBrochure />,
+    "Supporting Journal": <SupportingJournalAdmin />,
+    Location: <Location />,
+    'Event Details Section': <EventDetailsSection />,
+    // "Scientific Program": <ScientificProgramAdmin />,
+    // "Upload Brochure": <UploadBrochure />,
     // "Hotels Registration": <HotelsRegistration />,
   };
   const handleEditClick = (e) => {

@@ -2,7 +2,8 @@ import React from 'react'
 import TermsAndConditionsDetails from './TermsAndConditionsDetails/TermsAndConditionsDetails';
 import TermsAndConditionsContent from './TermsAndConditionsContent/TermsAndConditionsContent';
 
-  const TermsAndConditions=()=> {
+  const TermsAndConditions= ()=> {
+
   return (
     <>
      <TermsAndConditionsDetails/>

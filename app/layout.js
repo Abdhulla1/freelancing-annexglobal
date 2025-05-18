@@ -1,6 +1,5 @@
 import "./globals.css";
 import 'boxicons/css/boxicons.min.css';
-
 export const metadata = {
   title: "WELCOME TO ANNEX GLOBAL CONFERENCES ",
   description:
@@ -11,7 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body> 
-       {children}     
+         {children}
       </body>
     </html>
   );

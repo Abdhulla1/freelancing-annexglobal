@@ -8,7 +8,7 @@ export default function VenuePageAdmin() {
   const [activeTab, setActiveTab] = useState("Venue Content"); // default to first tab
   const tabs = {
     "Venue Content": <VenueWelcomeContent/>,
-    "Image Uploads": <VenueImageUploads/>,
+    "Header Panel Images": <VenueImageUploads/>,
     "Map Uploads": <VenueMapUploads/>,
 
   };

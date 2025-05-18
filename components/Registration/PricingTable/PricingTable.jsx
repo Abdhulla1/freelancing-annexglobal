@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import styles from "./PricingTable.module.css";
+import FlipNumbers from "react-flip-numbers";
+
+
 
 const pricingOptions = [
   {
@@ -54,7 +57,46 @@ const FormSelect = ({
   );
 };
 
-export default function PricingTable({ onTotalChange }) {
+export default function PricingTable({ onTotalChange ,selectedCurrency,getSymbol}) {
+    const [result, setResult] = useState(null);
+  const [exchangeRate, setExchangeRate] = useState(1);
+  const [convertedPrices, setConvertedPrices] = useState([]);
+  useEffect(() => {
+    async function fetchExchangeRate() {
+      try {
+        if (!selectedCurrency || selectedCurrency === 'USD') {
+          setExchangeRate(1); // No conversion needed for USD
+          return;
+        }
+        const res = await fetch(`https://api.frankfurter.app/latest?from=USD&to=${selectedCurrency}`);
+        const data = await res.json();
+            console.log("Exchange rate API response:", data);
+        const rate = data.rates[selectedCurrency];
+        setExchangeRate(rate);
+      } catch (error) {
+        console.error("Error fetching exchange rate:", error);
+        setExchangeRate(1); // fallback to 1 if error
+      }
+    }
+    fetchExchangeRate();
+  }, [selectedCurrency]);
+
+  // Convert pricing options whenever exchangeRate changes
+  useEffect(() => {
+    const converted = pricingOptions.map(({ type, early, mid, final }) => ({
+      type,
+      early: early * exchangeRate,
+      mid: mid * exchangeRate,
+      final: final * exchangeRate,
+    }));
+    setConvertedPrices(converted);
+  }, [exchangeRate]);
+
+
+  // const getSymbol = (currency) => {
+  //   return currencySymbols[currency] || '';
+  // };
+
   const [selected, setSelected] = useState(() => {
     const stored = sessionStorage.getItem("pricingSelected");
     return stored ? JSON.parse(stored) : {};
@@ -129,7 +171,7 @@ export default function PricingTable({ onTotalChange }) {
       const category = activeSelection[type];
       if (!category || qty === 0) return total;
 
-      const option = pricingOptions.find((opt) => opt.type === type);
+      const option = convertedPrices.find((opt) => opt.type === type);
       const price = option?.[category] || 0;
       return total + price * qty;
     }, 0);
@@ -151,8 +193,8 @@ export default function PricingTable({ onTotalChange }) {
       week: 7,
     };
 
-    const occupancyCost = basePrices[occupancy] || 0;
-    const nights = periodMultiplier[period] || 0;
+    const occupancyCost =  parseInt(occupancy)|| 0;
+    const nights =  parseInt(period) || 0;
     const rooms = parseInt(room) || 0;
 
     return occupancyCost * nights * rooms;
@@ -189,7 +231,7 @@ export default function PricingTable({ onTotalChange }) {
             </tr>
           </thead>
           <tbody>
-            {pricingOptions.map(({ type, early, mid, final }) => (
+            {convertedPrices.map(({ type, early, mid, final }) => (
               <tr key={type}>
                 <td className={`fw-bold text-start ${styles.td}`}>{type}</td>
                 <td
@@ -201,7 +243,7 @@ export default function PricingTable({ onTotalChange }) {
                     className={styles.tdButton}
                     onClick={() => handleSelection(type, "early")}
                   >
-                    ${early}
+                    {getSymbol(selectedCurrency)}{early.toFixed(2)}
                   </button>
                 </td>
                 <td
@@ -213,7 +255,7 @@ export default function PricingTable({ onTotalChange }) {
                     className={styles.tdButton}
                     onClick={() => handleSelection(type, "mid")}
                   >
-                    ${mid}
+                    {getSymbol(selectedCurrency)}{mid.toFixed(2)}
                   </button>
                 </td>
                 <td
@@ -225,7 +267,7 @@ export default function PricingTable({ onTotalChange }) {
                     className={styles.tdButton}
                     onClick={() => handleSelection(type, "final")}
                   >
-                    ${final}
+                    {getSymbol(selectedCurrency)}{final.toFixed(2)}
                   </button>
                 </td>
                 <td className={styles.td}>
@@ -262,9 +304,9 @@ export default function PricingTable({ onTotalChange }) {
             onChange={handleChange}
             options={[
               { value: "", label: "Select occupancy" },
-              { value: "single", label: "Single" },
-              { value: "double", label: "Double" },
-              { value: "suite", label: "Suite" },
+              { value: "120", label: "Single ($120)" },
+              { value: "150", label: "Double ($150)" },
+      
             ]}
           />
         </div>
@@ -276,9 +318,9 @@ export default function PricingTable({ onTotalChange }) {
             onChange={handleChange}
             options={[
               { value: "", label: "Select period" },
-              { value: "one_night", label: "One Night" },
-              { value: "two_nights", label: "Two Nights" },
-              { value: "week", label: "One Week" },
+              { value: "1", label: "One Night" },
+              { value: "2", label: "Two Nights" },
+              { value: "3", label: "Three Nights" },
             ]}
           />
           <FormSelect
@@ -299,16 +341,16 @@ export default function PricingTable({ onTotalChange }) {
         <div className={styles.pricingItem}>
           <span>Your Ticket Price</span>
           <div className={styles.line}></div>
-          <span className={styles.amount}>${ticketTotal.toFixed(2)}</span>
+          <span className={styles.amount}>{getSymbol(selectedCurrency)}{ticketTotal.toFixed(2)}</span>
         </div>
         <div className={styles.pricingItem}>
           <span>Accommodation Cost</span>
           <div className={styles.line}></div>
-          <span className={styles.amount}>${accommodationTotal.toFixed(2)}</span>
+          <span className={styles.amount}>{getSymbol(selectedCurrency)}{accommodationTotal.toFixed(2)}</span>
         </div>
         <div className={styles.netTotal}>
           <span>Net Total</span>
-          <span className={styles.totalAmount}>${netTotal.toFixed(2)}</span>
+          <span className={styles.totalAmount}>{getSymbol(selectedCurrency)}{netTotal.toFixed(2)}</span>
         </div>
       </div>
     </div>

@@ -132,10 +132,16 @@ export default function RightPannel() {
           <small>gynecology@annexglobalconferences.com</small>
         </div>
       </div>
-      <span className="bg-white py-2 px-3 mt-3 rounded text-warning ">
-        <i className="bx bxs-bookmark text-center me-1"></i>CPD Accredited
-        Conference
-      </span>
+   <div className="d-flex justify-content-end gap-3 mt-3">
+     <span className="bg-white py-2 px-3 rounded text-warning">
+    <i className="bx bxs-bookmark text-center me-1"></i>CPD Accredited Conference
+  </span>
+  <span className="bg-white py-2 px-3 rounded text-warning">
+    Past Conferences
+  </span>
+ 
+</div>
+
     </div>
   );
 }

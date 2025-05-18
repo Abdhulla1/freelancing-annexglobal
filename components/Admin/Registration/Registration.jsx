@@ -8,11 +8,11 @@ export default function Registration() {
   const [activeMenu, setActiveMenu] = useState("Register Details");
   const router = useRouter();
 
-  const navItems = [{ item: "Register Details" }, { item: "Coupons" }];
+  const navItems = [{ item: "Register Details" }, ];//{ item: "Coupons" }
 
   const componentMap = {
     ["Register Details"]: <RegistrationTabelAdmin />,
-    ["Coupons"]: <CouponTable />,
+    // ["Coupons"]: <CouponTable />,
   };
 
   // useEffect(() => {

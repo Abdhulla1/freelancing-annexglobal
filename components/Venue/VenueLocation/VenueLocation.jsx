@@ -18,8 +18,8 @@ const VenueLocation = ({ conference }) => {
             <Image
               src="/images/conferences/map.png"
               alt="Venue Location"
-              width={300}
-              height={200}
+              width={400}
+              height={300}
               className={`img-fluid `}/>
           </div>
         </div>

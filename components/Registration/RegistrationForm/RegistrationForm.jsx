@@ -70,7 +70,16 @@ const FormSelect = ({
     </div>
   );
 };
-
+const currencySymbols = {
+  USD: '$',
+  INR: '₹',
+  EUR: '€',
+  GBP: '£',
+  JPY: '¥',
+  CAD: 'C$',
+  AUD: 'A$',
+  CNY: '¥',
+};
 // === 👇 Main Component ===
 export default function RegistrationForm() {
   const [step, setStep] = useState(1);
@@ -93,7 +102,9 @@ export default function RegistrationForm() {
       return styles.stepsBtns;
     }
   };
-
+  const getSymbol = (currency) => {
+    return currencySymbols[currency] || '';
+  };
   const validationSchema = Yup.object({
     firstName: Yup.string().required("First name is required"),
     lastName: Yup.string().required("Last name is required"),
@@ -208,7 +219,7 @@ export default function RegistrationForm() {
                 { value: "", label: "Select Currency" },
                 { value: "USD", label: "USD" },
                 { value: "EUR", label: "EUR" },
-                { value: "INR", label: "INR" },
+                { value: "GBP", label: "GBP" },
               ]}
             />
           </div>
@@ -222,7 +233,7 @@ export default function RegistrationForm() {
 
       {step === 2 && (
         <div>
-          <PricingTable onTotalChange={handleTotalChange} />
+          <PricingTable onTotalChange={handleTotalChange} selectedCurrency={formik.values.currency} getSymbol={getSymbol}/>
         </div>
       )}
 
@@ -262,12 +273,27 @@ export default function RegistrationForm() {
                     style={{ width: "80px" }}
                   />
                 </label>
-                <select className="form-select">
+                <label className="d-flex align-items-center border p-2 rounded">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="netbanking"
+                    className="me-2"
+                  />
+                  <span className="flex-grow-1">Net Banking</span>
+                  {/* <img
+                    src="/images/conferences/razorpay.png"
+                    alt="Razorpay"
+                    className="img-fluid"
+                    style={{ width: "80px" }}
+                  /> */}
+                </label>
+                {/* <select className="form-select">
                   <option>Net Banking</option>
                   <option value="hdfc">HDFC Bank</option>
                   <option value="sbi">SBI Bank</option>
                   <option value="icici">ICICI Bank</option>
-                </select>
+                </select> */}
               </div>
             </div>
 

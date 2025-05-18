@@ -1,8 +1,9 @@
 import CountdownBanner from "@/components/AboutConference/CountdownBanner/CountdownBanner";
-export default function layout({ children }) {
+export default function layout({ children,params  }) {
+    const { slug } = params;
   return (
     <div>
-      <CountdownBanner />
+      <CountdownBanner conferenceId={slug} />
       {children}
     </div>
   );

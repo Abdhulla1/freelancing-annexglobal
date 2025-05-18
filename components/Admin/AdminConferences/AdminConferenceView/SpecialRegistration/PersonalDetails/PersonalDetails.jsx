@@ -198,20 +198,7 @@ export default function PersonalDetails({ toast }) {
         </button>
       </label>
       <div className="row">
-        <div className="col-6 mb-3">
-        <label className="form-label">
-          Registration Fee <span className="text-danger">*</span>
-        </label>
-        <input
-          type="number"
-          name="couponCode"
-          className="form-control"
-          id="couponCode"
-          placeholder="Enter Amount"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />{" "}
-      </div>
+     
         <div className="col-md-6 mb-3">
           <label className="form-label">Set Currency</label>
           <div className="d-flex align-items-center gap-2">
@@ -236,6 +223,20 @@ export default function PersonalDetails({ toast }) {
             </button>
           </div>
         </div>
+           <div className="col-6 mb-3">
+        <label className="form-label">
+          Registration Fee <span className="text-danger">*</span>
+        </label>
+        <input
+          type="number"
+          name="couponCode"
+          className="form-control"
+          id="couponCode"
+          placeholder="Enter Amount"
+          onChange={(e) => console.log(e.target.value)}
+          required
+        />{" "}
+      </div>
       </div>
     </div>
   );

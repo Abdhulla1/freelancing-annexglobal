@@ -10,6 +10,7 @@ import {
 export default function LandingPage({ selectedConferenceID, toast }) {
   const [uploads, setUploads] = useState([{ id: Date.now(), file: null }]);
   const [formData, setFormData] = useState({
+    title:"",
     conference: "",
     theme: "",
     startDate: "",
@@ -31,6 +32,7 @@ export default function LandingPage({ selectedConferenceID, toast }) {
         }
         if (landing) {
           setFormData({
+                title: landing.title || "",
             conference: landing.conference || "",
             theme: landing.theme || "",
             startDate: landing.startDate || "",
@@ -64,6 +66,7 @@ export default function LandingPage({ selectedConferenceID, toast }) {
   }, [selectedConferenceID]);
 
   const isFormFilled =
+    formData.title &&
     formData.conference &&
     formData.theme &&
     formData.startDate &&
@@ -203,7 +206,20 @@ export default function LandingPage({ selectedConferenceID, toast }) {
       </div> */}
 
       <div className="mt-4">
+        
         <div className="row">
+                    <div className="col-md-6 mb-3">
+            <label className="form-label">Title</label>
+            <input
+              type="text"
+              name="title"
+              className="form-control"
+              value={formData.title}
+              onChange={handleInputChange}
+              placeholder="2nd International Conference On"
+              required
+            />
+          </div>
           <div className="col-md-6 mb-3">
             <label className="form-label">Conference</label>
             <input
@@ -212,12 +228,15 @@ export default function LandingPage({ selectedConferenceID, toast }) {
               className="form-control"
               value={formData.conference}
               onChange={handleInputChange}
-              placeholder="Enter Conference Name"
+              placeholder="Primary Healthcare, Pain Management & Functional Structure"
               required
             />
           </div>
 
-          <div className="col-md-6 mb-3">
+   
+        </div>
+        <div className="row">
+                 <div className="col-md-6 mb-3">
             <label className="form-label">Theme</label>
             <input
               type="text"
@@ -225,12 +244,10 @@ export default function LandingPage({ selectedConferenceID, toast }) {
               className="form-control"
               value={formData.theme}
               onChange={handleInputChange}
-              placeholder="Enter Theme"
+              placeholder="Theme: “Enhancing Women’s Health: Improvement, Difficulties, and Innovative Thoughts in Obstetrics and Gynecology”"
               required
             />
           </div>
-        </div>
-        <div className="row">
           <div className="col-md-6 mb-3">
             <label className="form-label">Start Date of Conference</label>
             <input
@@ -243,7 +260,11 @@ export default function LandingPage({ selectedConferenceID, toast }) {
             />
           </div>
 
-          <div className="col-md-6 mb-3">
+    
+        </div>
+
+        <div className="row">
+                <div className="col-md-6 mb-3">
             <label className="form-label">End Date of Conference</label>
             <input
               type="date"
@@ -254,9 +275,6 @@ export default function LandingPage({ selectedConferenceID, toast }) {
               required
             />
           </div>
-        </div>
-
-        <div className="row">
           <div className="col-md-6 mb-3">
             <label className="form-label">Event Location</label>
             <input
@@ -270,7 +288,11 @@ export default function LandingPage({ selectedConferenceID, toast }) {
             />
           </div>
 
-          <div className="col-md-6 mb-3">
+ 
+        </div>
+
+        <div className="row">
+                   <div className="col-md-6 mb-3">
             <label className="form-label">Event Address</label>
             <input
               type="text"
@@ -282,9 +304,6 @@ export default function LandingPage({ selectedConferenceID, toast }) {
               required
             />
           </div>
-        </div>
-
-        <div className="row">
           <div className="col-md-6 mb-3">
             <label className="form-label">Event Start Time</label>
             <input

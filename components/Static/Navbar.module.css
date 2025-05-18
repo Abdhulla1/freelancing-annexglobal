@@ -58,8 +58,8 @@
    background: var(--btn-gradient);
 
   color: white;
-  padding: 5px 10px;
-  font-size: 19px;
+  padding: 5px 30px;
+  font-size: 16px;
   border: 1px solid #f4a300;
   border-radius: 62px;
   cursor: pointer;
@@ -70,8 +70,8 @@
   background: linear-gradient(90deg, #000000 0%, #4E4E4E 100%);
   border: 1px solid #000000;
   color: white;
-  padding: 5px 10px;
-  font-size: 19px;
+  padding: 5px 30px;
+  font-size: 16px;
   border-radius: 62px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -113,6 +113,8 @@
 
   .buy-ticket {
     font-size: 10px;
+      padding: 2px 10px;
+
     /* Adjust padding for smaller screens */
   }
   .sponsor {

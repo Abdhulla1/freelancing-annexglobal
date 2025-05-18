@@ -11,7 +11,15 @@ const ContactForm = () => {
     contact: "",
     message: "",
   });
-
+const conferneceData = [
+  "Innovations In Diabetes Diagnosis",
+  "Diabetes Management And Treatment",
+  "Infectious Diseases And Preventive",
+  "Advance In Clinical Medicine",
+  "Mental Health And Psychological",
+  "Global Health And Internal Medicine",
+  "Public Health And Nutrition",
+];
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -59,7 +67,6 @@ const ContactForm = () => {
             <label className="form-label">Organization Name*</label>
             <input type="text" name="organization" className="form-control" placeholder="Enter Organization" onChange={handleChange} required />
           </div>
-
           <div className="mb-3">
             <label className="form-label">Email ID*</label>
             <input type="email" name="email" className="form-control" placeholder="Enter Email ID" onChange={handleChange} required />
@@ -69,7 +76,27 @@ const ContactForm = () => {
             <label className="form-label">Contact Number*</label>
             <input type="text" name="contact" className="form-control" placeholder="Enter Contact Number" onChange={handleChange} required />
           </div>
-
+       <div className="mb-4">
+                   <label className="block text-white mb-2 font-semibold">
+                  Conference Name
+                </label>
+                <select
+                  className="form-control"
+                  id="assignUser"
+                  value={""}
+                  onChange={(e)=>console.log(e.value)}
+                  required
+                >
+                  <option value="" disabled>
+                    Select Conference
+                  </option>
+                  {conferneceData.map((conference, i) => (
+                    <option key={i} value={conference}>
+                      {conference}
+                    </option>
+                  ))}
+                </select>
+              </div>
           <div className="mb-3">
             <label className="form-label">How can we help?</label>
             <textarea name="message" className="form-control" placeholder="Enter Message" rows="4" onChange={handleChange}></textarea>

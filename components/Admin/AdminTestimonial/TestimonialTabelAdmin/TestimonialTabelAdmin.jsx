@@ -7,6 +7,7 @@ import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { InputSwitch } from "primereact/inputswitch";
 import { Dialog } from "primereact/dialog";
 import { Sidebar } from "primereact/sidebar";
+import { Rating } from "primereact/rating";
 
 const testimonialData = [
   {
@@ -124,15 +125,15 @@ export default function TestimonialTabelAdmin({
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
       view: {
-        header: "View Topic",
+        header: "View Testimonial",
         content: <View data={data} />,
       },
       edit: {
-        header: "Edit Topic",
+        header: "Edit Testimonial",
         content: <Edit data={data} />,
       },
       add: {
-        header: "Add Topic",
+        header: "Add Testimonial",
         content: <Add />,
       },
     };
@@ -249,25 +250,25 @@ export default function TestimonialTabelAdmin({
     </div>
   );
 }
-
 function Edit({ data }) {
-    const [statusChecked, setStatusChecked] = useState(false);
-
+  const [isvideoLinkEnable, setIsvideoLinkEnable] = useState(false);
+ const [ratings, setRatings] = useState(null);
   return (
-    <div className="d-flex gap-3 container flex-column ">
-      <FileUpload title={"Image Upload*"} showBorder={true} />
+    <div className="d-flex gap-3 flex-column">
+      <FileUpload title={"Logo Image Upload"} showBorder={true} />
+       <label htmlFor="title" className="form-label d-flex align-items-center">
+        Ratings
+      </label>
+      <Rating value={ratings} onChange={(e) => setRatings(e.value)} />
       <div className="mt-4">
-        <div className="d-flex justify-content-between align-items-center mb-2">
-          <label htmlFor="title" className="form-label">
-            Upload Video Link
-          </label>
+        <label htmlFor="title" className="form-label d-flex align-items-center">
+          Video Link(Youtube) &nbsp;{" "}
           <InputSwitch
-            checked={statusChecked}
-            onChange={(e) => setStatusChecked(e.value)}
+            checked={isvideoLinkEnable}
+            onChange={(e) => setIsvideoLinkEnable(e.value)}
             style={{ scale: "0.7" }}
           />
-        </div>
-
+        </label>
         <div className="input-group border rounded p-1">
           <span
             className="btn rounded-2 text-white me-1"
@@ -281,22 +282,52 @@ function Edit({ data }) {
             name="mapLink"
             className={`form-control border border-0`}
             id="link"
-            placeholder="Enter Video Link"
+            placeholder="https://www.youtube.com/watch?v=19eIVnOI9Do"
             required
             autoComplete="off"
+            disabled={!isvideoLinkEnable}
           />
         </div>
       </div>
-      
-      <RichTextEditor
-        labelName={"Designation*"}
-        height="100px"
+      <div className=" mb-3">
+        <label htmlFor="eventLocation" className="form-label">
+          Name*
+        </label>
+        <input
+          type="text"
+          name="eventLocation"
+          value={data.name}
+          className="form-control"
+          id="eventLocation"
+          placeholder="Enter Name"
+          onChange={(e) => console.log(e.target.value)}
+          required
+        />
+      </div>
+      <div className=" mb-3">
+        <label htmlFor="eventLocation" className="form-label">
+          Designation*
+        </label>
+        <input
+          type="text"
+          name="eventLocation"
+          value={data.designation}
+          className="form-control"
+          id="eventLocation"
+          placeholder="Enter Designation"
+          onChange={(e) => console.log(e.target.value)}
+          required
+        />
+      </div>
+
+      {/* <RichTextEditor
+        labelName={"Designation"}
+        height="120px"
         initialValue={data.designation}
         onChange={(content) => console.log("Edited content:", content)}
-      />
+      /> */}
       <RichTextEditor
-        labelName={"Content*"}
-        height="100px"
+        labelName={"Content"}
         initialValue={data.content}
         onChange={(content) => console.log("Edited content:", content)}
       />
@@ -304,23 +335,27 @@ function Edit({ data }) {
   );
 }
 function Add({ data }) {
-  const [statusChecked, setStatusChecked] = useState(false);
-
+  const [isvideoLinkEnable, setIsvideoLinkEnable] = useState(false);
+  const [ratings, setRatings] = useState(null);
+  console.log(ratings)
   return (
-    <div className="d-flex gap-3 container flex-column">
-      <FileUpload title={"Image Upload*"} showBorder={true} />
+    <div className="d-flex gap-3 flex-column">
+      <FileUpload title={"Image Upload"} showBorder={true} />
+
+      <label htmlFor="title" className="form-label d-flex align-items-center">
+        Ratings
+      </label>
+      <Rating value={ratings} onChange={(e) => setRatings(e.value)} />
+
       <div className="mt-4">
-        <div className="d-flex justify-content-between align-items-center mb-2">
-          <label htmlFor="title" className="form-label">
-            Upload Video Link
-          </label>
+        <label htmlFor="title" className="form-label d-flex align-items-center">
+          Video Link(Youtube) &nbsp;{" "}
           <InputSwitch
-            checked={statusChecked}
-            onChange={(e) => setStatusChecked(e.value)}
+            checked={isvideoLinkEnable}
+            onChange={(e) => setIsvideoLinkEnable(e.value)}
             style={{ scale: "0.7" }}
           />
-        </div>
-
+        </label>
         <div className="input-group border rounded p-1">
           <span
             className="btn rounded-2 text-white me-1"
@@ -334,48 +369,75 @@ function Add({ data }) {
             name="mapLink"
             className={`form-control border border-0`}
             id="link"
-            placeholder="Enter Video Link"
+            placeholder="https://www.youtube.com/watch?v=19eIVnOI9Do"
             required
             autoComplete="off"
+            disabled={!isvideoLinkEnable}
           />
         </div>
       </div>
-      
-      <RichTextEditor
-        labelName={"Designation*"}
-        height="100px"
+      <div className=" mb-3">
+        <label htmlFor="eventLocation" className="form-label">
+          Name
+        </label>
+        <input
+          type="text"
+          name="eventLocation"
+          className="form-control"
+          id="eventLocation"
+          placeholder="Enter Name"
+          required
+        />
+      </div>
+
+  <div className=" mb-3">
+        <label htmlFor="eventLocation" className="form-label">
+          Designation*
+        </label>
+        <input
+          type="text"
+          name="eventLocation"
+          className="form-control"
+          id="eventLocation"
+          placeholder="Enter Designation"
+          onChange={(e) => console.log(e.target.value)}
+          required
+        />
+      </div>
+      {/* <RichTextEditor
+        labelName={"Designation"}
+        height="120px"
         initialValue={""}
         onChange={(content) => console.log("Edited content:", content)}
-      />
+      /> */}
       <RichTextEditor
-        labelName={"Content*"}
-        height="100px"
+        labelName={"Content"}
         initialValue={""}
         onChange={(content) => console.log("Edited content:", content)}
       />
     </div>
   );
 }
-
 function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
-      <label className="form-label"> Image</label>
-      <Image src={data.image} width={100} height={100} alt="image" />
-      <div>
-        <label className="form-label  mb-2">Video Link</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.name}</p>
-      </div>
+      <label className="form-label">Image</label>
+
+      <Image src={data.image} width={120} height={120} alt="DeleteIcon" />
+ <label htmlFor="title" className="form-label d-flex align-items-center">
+        Ratings
+      </label>
+      <Rating value={5} disabled cancel={false} />
       <div>
         <label className="form-label  mb-2">Name</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.name}</p>
       </div>
       <div>
         <label className="form-label  mb-2">Designation</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.designation}</p>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.name}</p>
       </div>
       <div>
-        <label className="form-label  mb-2">Content</label>
+        <label className="form-label mb-2">Content</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
           {data.content}
         </p>
@@ -383,6 +445,7 @@ function View({ data }) {
     </div>
   );
 }
+
 
 function Delete({ data = null }) {
   return (

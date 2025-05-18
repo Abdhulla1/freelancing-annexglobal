@@ -180,7 +180,7 @@ export default function OCMTabelAdmin({
       <table className="tabel w-100  table-striped-columns">
         <thead>
           <tr>
-            <td className="p-2 table-heading">Speaker Image</td>
+            <td className="p-2 table-heading">OCM Image</td>
             <td className="p-2 table-heading">Name</td>
             <td className="p-2 table-heading">Company</td>
             <td className="p-2 table-heading">Status</td>

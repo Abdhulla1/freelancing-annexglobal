@@ -11,42 +11,48 @@ const contactFormDataArray = [
     organizationName: "Annex",
     email: "alex.johnson@example.com",
     contactNumber: "98765543210",
-    message: "I would like to know more details about the Pediatrics Conference schedule and registration process."
+    message: "I would like to know more details about the Pediatrics Conference schedule and registration process.",
+    conferenceName: "Pediatrics Global Summit 2024"
   },
   {
     name: "Maria Chen",
     organizationName: "HealthBridge",
     email: "maria.chen@healthbridge.org",
     contactNumber: "91234567890",
-    message: "Is there a discount for group registrations? We're planning to bring a team of five."
+    message: "Is there a discount for group registrations? We're planning to bring a team of five.",
+    conferenceName: "World Conference on Medical Innovation"
   },
   {
     name: "David Kumar",
     organizationName: "MediSphere",
     email: "david.kumar@medisphere.com",
     contactNumber: "99887766554",
-    message: "Will the conference sessions be available for replay after the event?"
+    message: "Will the conference sessions be available for replay after the event?",
+    conferenceName: "Annex Digital Health Conference"
   },
   {
     name: "Priya Nair",
     organizationName: "WellCare India",
     email: "priya.nair@wellcare.in",
     contactNumber: "98760011223",
-    message: "Please share details about the keynote speakers and the main agenda."
+    message: "Please share details about the keynote speakers and the main agenda.",
+    conferenceName: "Annex Global Healthcare Leadership Forum"
   },
   {
     name: "Liam Smith",
     organizationName: "GlobalMed",
     email: "liam.smith@globalmed.co.uk",
     contactNumber: "94455667788",
-    message: "I would like to exhibit at the event. How can I register as a vendor?"
+    message: "I would like to exhibit at the event. How can I register as a vendor?",
+    conferenceName: "Annex International Medical Expo 2024"
   },
   {
     name: "Sofia Ramirez",
     organizationName: "MedConnect",
     email: "sofia.ramirez@medconnect.net",
     contactNumber: "95544556677",
-    message: "Is accommodation included in the registration fee?"
+    message: "Is accommodation included in the registration fee?",
+    conferenceName: "Annex Global Wellness Conference"
   }
 ];
 
@@ -165,6 +171,7 @@ export default function NewsLetterTable({
           <tr>
             <td className="p-2 table-heading">Name</td>
             <td className="p-2 table-heading">Email</td>
+            <td className="p-2 table-heading">Conference Name</td>
             <td className="p-2 table-heading">Message</td>
             <td className="p-2 table-heading">Subscriber</td>
             <td className="p-2 table-heading">Action</td>
@@ -177,6 +184,7 @@ export default function NewsLetterTable({
               
               <td className="p-3 table-data">{element.name}</td>
               <td className="p-3 table-data">{element.email}</td>
+              <td className="p-3 table-data">{element.conferenceName}</td>
               <td className="p-3  table-data  ">{element.message}</td>
               <td className="p-3  table-data  ">  <button
                     className="btn text-danger"
@@ -357,6 +365,10 @@ function View({ data }) {
       <div>
         <label className="form-label  mb-2">Email</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.email}</p>
+      </div>
+      <div>
+        <label className="form-label  mb-2">Conference Name</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.conferenceName}</p>
       </div>
       <div>
         <label className="form-label mb-2">message</label>
