@@ -14,6 +14,7 @@ const submissionData = [
     address: "123 Main Street, New York",
     country: "USA",
     submissionDate: "2025-05-13",
+    conferenceName: "Global Medical Innovations Summit 2025"
   },
   {
     firstName: "Jane",
@@ -23,6 +24,7 @@ const submissionData = [
     address: "456 Oak Avenue, London",
     country: "UK",
     submissionDate: "2025-05-14",
+    conferenceName: "International Conference on Medical Technology 2025"
   },
   {
     firstName: "Alice",
@@ -32,6 +34,7 @@ const submissionData = [
     address: "789 Pine Road, Sydney",
     country: "Australia",
     submissionDate: "2025-05-15",
+    conferenceName: "World Congress on Healthcare AI 2025"
   },
   {
     firstName: "Bob",
@@ -41,6 +44,7 @@ const submissionData = [
     address: "101 Maple Lane, Mumbai",
     country: "India",
     submissionDate: "2025-05-16",
+    conferenceName: "Medical Technology and Innovation Forum 2025"
   },
   {
     firstName: "Charlie",
@@ -50,8 +54,10 @@ const submissionData = [
     address: "202 Cedar Street, Tokyo",
     country: "Japan",
     submissionDate: "2025-05-17",
+    conferenceName: "Asian Medical Science Conference 2025"
   },
 ];
+
 
 
 export default function BrochureTableAdmin({
@@ -130,7 +136,7 @@ export default function BrochureTableAdmin({
             <td className="p-2 table-heading text-nowrap">Last Name</td>
             <td className="p-2 table-heading">Email ID</td>
             <td className="p-2 table-heading text-nowrap">Phone Number</td>
-            <td className="p-2 table-heading">Address</td>
+            <td className="p-2 table-heading">Conference Name</td>
             <td className="p-2 table-heading text-nowrap">Submission Date</td>
             <td className="p-2 table-heading">Action</td>
           </tr>
@@ -142,7 +148,7 @@ export default function BrochureTableAdmin({
               <td className="p-3 table-data">{element.lastName}</td>
               <td className="p-3 table-data">{element.emailId}</td>
               <td className="p-3 table-data  text-nowrap">{element.phoneNumber}</td>
-              <td className="p-3 table-data">{element.address}</td>
+              <td className="p-3 table-data">{element.conferenceName}</td>
               <td className="p-3 table-data">{element.submissionDate}</td>
               <td className="p-3 table-data">
                 <div className="d-flex gap-1 justify-content-center flex-nowrap">
@@ -388,16 +394,26 @@ function View({ data }) {
         <div className="col-4">
           <label className="form-label col-3 mb-2">Contact</label>
           <p className="text-black rounded-2 p-2">
-            {data.contact}
+            {data.phoneNumber}
           </p>
         </div>
+      
       </div>
-   <div className="col-7">
+      <div className="row">
+  <div className="col-7">
           <label className="form-label col-3 mb-2">Full Address</label>
           <p className="text-black rounded-2 p-2">
             {data.address}
           </p>
         </div>
+          <div className="col-4">
+          <label className="form-label  mb-2">Conference Name</label>
+          <p className="text-black rounded-2 p-2">
+            {data.conferenceName}
+          </p>
+        </div>
+      </div>
+ 
     
     </div>
   );

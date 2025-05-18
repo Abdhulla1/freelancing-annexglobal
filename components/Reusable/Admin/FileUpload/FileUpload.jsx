@@ -96,7 +96,7 @@ export default function FileUpload({
               className="mb-0 text-muted small text-truncate"
               style={{
                 maxWidth: "100%",
-                width: "200px",
+                width: "150px",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",

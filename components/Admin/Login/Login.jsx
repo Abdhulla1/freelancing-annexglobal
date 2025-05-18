@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { Toast } from 'primereact/toast';
+import { Button } from 'primereact/button';
 
 const loginSchema = Yup.object({
     email: Yup.string().email('Invalid email address').required('Email is required'),
@@ -24,6 +25,7 @@ export default function Login() {
     const router = useRouter();
     const toast = useRef(null);
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     const loginFormik = useFormik({
         initialValues: {
@@ -32,7 +34,9 @@ export default function Login() {
         },
         validationSchema: loginSchema,
         onSubmit: async (values) => {
+          
             try {
+                  setButtonLoading(true)
                 const response = await axios.post("/api/login", values);
                 const data = response.data;
                 localStorage.setItem("token", data.token);
@@ -49,6 +53,8 @@ export default function Login() {
                     detail: error.response?.data?.message || 'Something went wrong during login.',
                     life: 3000,
                 });
+            }finally{
+                  setButtonLoading(false)
             }
         },
     });
@@ -88,7 +94,7 @@ export default function Login() {
     return (
         <div className={`container-fluid ${style["login-container"]}`}>
             <Toast ref={toast} />
-            <div className="row p-5 d-flex justify-content-center align-items-center h-100">
+            <div className="row p-5 d-flex justify-content-center align-items-center vh-100">
                 <div className="container col-12 col-md-6 d-flex justify-content-center align-items-center flex-column">
                     <Image
                         src={"/icons/annex-global-logo.png"}
@@ -198,13 +204,14 @@ export default function Login() {
                                         Remember me
                                     </label>
                                 </div>
-                                <button
+                                {/* <button
                                     type="submit"
                                     className={`p-1 d-block text-center text-decoration-none text-white rounded mt-5 w-100 text-white main-btn }`}
                                     disabled={loginFormik.isSubmitting || !loginFormik.isValid}
                                 >
                                     Login
-                                </button>
+                                </button> */}
+                                  <Button label="Login" type="submit"  className={`p-1 d-block text-center text-decoration-none text-white rounded mt-5 w-100 text-white main-btn }`} loading={buttonLoading}   disabled={loginFormik.isSubmitting || !loginFormik.isValid} style={{ outline: 'none', boxShadow: 'none' }}/>
                             </form>
                         </>
                     ) : (

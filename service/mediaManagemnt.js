@@ -8,7 +8,8 @@ export async function uploadImage(file){
               "Content-Type": "multipart/form-data",
             },
           });
-        return response.data?.detail.message[0];
+        // return response.data?.detail.message[0];
+         return response;
     
       } catch (error) {
         throw new Error(error.response?.data || "Failed to fetch Conference");

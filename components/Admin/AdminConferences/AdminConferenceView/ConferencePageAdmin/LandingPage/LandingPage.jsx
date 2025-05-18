@@ -206,7 +206,10 @@ export default function LandingPage({ selectedConferenceID, toast }) {
       </div> */}
 
       <div className="mt-4">
-        
+            <FileUpload
+                title={'Upload Certificate Image'}
+                showBorder={true}
+              />
         <div className="row">
                     <div className="col-md-6 mb-3">
             <label className="form-label">Title</label>

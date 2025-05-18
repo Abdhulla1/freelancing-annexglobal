@@ -5,43 +5,84 @@ import Image from "next/image";
 import { InputSwitch } from "primereact/inputswitch";
 import { Dialog } from "primereact/dialog";
 import Link from "next/link";
-const submissionData = [
+const detailedSubmissionData = [
   {
     firstName: "John",
+    lastName: "Doe",
     emailId: "john.doe@example.com",
-    address: "123 Main Street, City, Country",
+    alternateEmail: "j.doe@altmail.com",
+    country: "USA",
+    contactNumber: "+1 123-456-7890",
+    affiliation: "University of Technology",
     titleOfAbstract: "A Study on AI and Its Future Impact",
+    address: "123 Main Street, Springfield, USA",
+    addonName: "Emily Doe",
+    addonEmail: "emily.doe@example.com",
+    addonContactNumber: "+1 321-654-0987",
     submissionDate: "2025-05-13",
   },
   {
     firstName: "Jane",
-    emailId: "jane.doe@example.com",
-    address: "456 Oak Avenue, City, Country",
+    lastName: "Smith",
+    emailId: "jane.smith@example.com",
+    alternateEmail: "jane.alt@example.com",
+    country: "UK",
+    contactNumber: "+44 20 7946 0958",
+    affiliation: "Imperial College London",
     titleOfAbstract: "Blockchain: The Future of Secure Transactions",
+    address: "456 Oak Avenue, London, UK",
+    addonName: "Mark Smith",
+    addonEmail: "mark.smith@example.com",
+    addonContactNumber: "+44 20 7123 4567",
     submissionDate: "2025-05-14",
   },
   {
     firstName: "Alice",
-    emailId: "alice.smith@example.com",
-    address: "789 Pine Road, City, Country",
+    lastName: "Johnson",
+    emailId: "alice.johnson@example.com",
+    alternateEmail: "alice.j@example.net",
+    country: "Canada",
+    contactNumber: "+1 416-555-1234",
+    affiliation: "University of Toronto",
     titleOfAbstract: "The Role of AI in Healthcare",
+    address: "789 Pine Road, Toronto, Canada",
+    addonName: "Michael Johnson",
+    addonEmail: "michael.j@example.com",
+    addonContactNumber: "+1 647-321-4321",
     submissionDate: "2025-05-15",
   },
   {
     firstName: "Bob",
-    emailId: "bob.jones@example.com",
-    address: "101 Maple Lane, City, Country",
+    lastName: "Williams",
+    emailId: "bob.williams@example.com",
+    alternateEmail: "bob.w@altmail.org",
+    country: "Australia",
+    contactNumber: "+61 2 9876 5432",
+    affiliation: "University of Sydney",
     titleOfAbstract: "5G Technology and Its Global Impact",
+    address: "101 Maple Lane, Sydney, Australia",
+    addonName: "Anna Williams",
+    addonEmail: "anna.w@example.com",
+    addonContactNumber: "+61 2 8765 4321",
     submissionDate: "2025-05-16",
   },
   {
     firstName: "Charlie",
+    lastName: "Brown",
     emailId: "charlie.brown@example.com",
-    address: "202 Cedar Street, City, Country",
+    alternateEmail: "c.brown@altmail.com",
+    country: "Germany",
+    contactNumber: "+49 30 1234 5678",
+    affiliation: "Technical University of Munich",
     titleOfAbstract: "Quantum Computing: The Next Big Leap",
+    address: "202 Cedar Street, Berlin, Germany",
+    addonName: "Lucy Brown",
+    addonEmail: "lucy.b@example.com",
+    addonContactNumber: "+49 30 8765 4321",
     submissionDate: "2025-05-17",
   },
 ];
+
 
 export default function SubmitAbstractTableAdmin({
   visibleDetails,
@@ -79,14 +120,6 @@ export default function SubmitAbstractTableAdmin({
         header: "View Submit Abstract Form",
         content: <View data={data} />,
       },
-      edit: {
-        header: "Edit Coupons",
-        content: <Edit data={data} />,
-      },
-      add: {
-        header: "Add Coupons",
-        content: <Add />,
-      },
     };
 
     const selected = componentsMap[type];
@@ -112,63 +145,56 @@ export default function SubmitAbstractTableAdmin({
         {sidebarState.content}
       </Dialog>
       <ConfirmDialog draggable={false} />
-      <table className="tabel w-100  table-striped-columns">
-        <thead>
-          <tr>
-            <td className="p-2 table-heading text-nowrap">First Name</td>
-            <td className="p-2 table-heading">Email ID</td>
-            <td className="p-2 table-heading">Address</td>
-            <td className="p-2 table-heading text-nowrap">Title of Abstract</td>
-            <td className="p-2 table-heading text-nowrap">Submission Date</td>
-            <td className="p-2 table-heading">Download</td>
-            <td className="p-2 table-heading">Action</td>
-          </tr>
-        </thead>
-        <tbody>
-          {submissionData.map((element, i) => (
-            <tr key={i}>
-              <td className="p-3 table-data">{element.firstName}</td>
-              <td className="p-3 table-data">{element.emailId}</td>
-              <td className="p-3 table-data">{element.address}</td>
-              <td className="p-3 table-data">{element.titleOfAbstract}</td>
-              <td className="p-3 table-data">{element.submissionDate}</td>
-              <td className="p-3 table-data">
-                <Link
-                  href={"#"}
-                  className="text-decoration-none btn btn-outline-secondary rounded"
-                >
-                  <i className="bx bxs-download "></i>
-                </Link>
-              </td>
+     <table className="tabel w-100 table-striped-columns">
+  <thead>
+    <tr>
+      <td className="p-2 table-heading text-nowrap">First Name</td>
+      <td className="p-2 table-heading text-nowrap">Last Name</td>
+      <td className="p-2 table-heading">Email ID</td>
+      <td className="p-2 table-heading text-nowrap">Title of Abstract</td>
+      <td className="p-2 table-heading text-nowrap">Submission Date</td>
+      <td className="p-2 table-heading">Download</td>
+      <td className="p-2 table-heading">Action</td>
+    </tr>
+  </thead>
+  <tbody>
+    {detailedSubmissionData.map((element, i) => (
+      <tr key={i}>
+        <td className="p-3 table-data">{element.firstName}</td>
+        <td className="p-3 table-data">{element.lastName}</td>
+        <td className="p-3 table-data">{element.emailId}</td>
+        <td className="p-3 table-data">{element.titleOfAbstract}</td>
+        <td className="p-3 table-data">{element.submissionDate}</td>
+        <td className="p-3 table-data">
+          <Link
+            href="#"
+            className="text-decoration-none btn btn-outline-secondary rounded"
+          >
+            <i className="bx bxs-download"></i>
+          </Link>
+        </td>
+        <td className="p-3 table-data">
+          <div className="d-flex gap-1 justify-content-center flex-nowrap">
+            <button
+              className="btn btn-outline-secondary rounded"
+              onClick={confirmDelete}
+            >
+              <i className="bx bx-trash-alt"></i>
+            </button>
+            <button
+              name="view"
+              className="btn btn-outline-warning rounded"
+              onClick={(e) => handleModel(e.target.name, element)}
+            >
+              <i className="bx bx-chevron-right"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
-              <td className="p-3 table-data">
-                <div className="d-flex gap-1 justify-content-center flex-nowrap">
-                  {/* <button
-                    name="edit"
-                    className="btn btn-outline-secondary rounded"
-                    onClick={(e) => handleModel(e.target.name, element)}
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button> */}
-                  <button
-                    className="btn btn-outline-secondary rounded"
-                    onClick={confirmDelete}
-                  >
-                    <i className="bx bx-trash-alt"></i>
-                  </button>
-                  <button
-                    name="view"
-                    className="btn btn-outline-warning rounded"
-                    onClick={(e) => handleModel(e.target.name, element)}
-                  >
-                    <i className="bx bx-chevron-right"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
       {/* <button
         name="add"
         className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
@@ -181,224 +207,86 @@ export default function SubmitAbstractTableAdmin({
   );
 }
 
-function Edit({ data }) {
+
+function View({ data }) {
   return (
-    <div className="d-flex gap-3 container flex-column h-100">
+    <div className="d-flex gap-4 flex-column">
       <div className="row">
-        <div className="col-6">
-          <label htmlFor="couponCode" className="form-label">
-            Coupon Code
-          </label>
-          <input
-            type="text"
-            name="couponCode"
-            value={data.couponCode}
-            className="form-control"
-            id="couponCode"
-            placeholder="Enter Coupon Code"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
+        <div className="col-md-4">
+          <label className="form-label mb-2">First Name</label>
+          <p className="text-black rounded-2 p-2">{data.firstName}</p>
         </div>
-        <div className="col-6">
-          <label htmlFor="discountType" className="form-label">
-            Discount Type*
-          </label>
-          <select
-            name="discountType"
-            id="discountType"
-            className="form-control"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          >
-            <option value="">Select Discount Type</option>
-            <option value="Percentage">Percentage</option>
-            <option value="Fixed Rate">Fixed Rate</option>
-          </select>
+        <div className="col-md-4">
+          <label className="form-label mb-2">Last Name</label>
+          <p className="text-black rounded-2 p-2">{data.lastName}</p>
+        </div>
+        <div className="col-md-4">
+          <label className="form-label mb-2">Country</label>
+          <p className="text-black rounded-2 p-2">{data.country}</p>
         </div>
       </div>
+
       <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Discount Value
-          </label>
-          <input
-            type="text"
-            name="discountValue"
-            className="form-control"
-            id="discountValue"
-            placeholder="Enter Discount Value"
-            required
-          />
+        <div className="col-md-6">
+          <label className="form-label mb-2">Email ID</label>
+          <p className="text-black rounded-2 p-2">{data.emailId}</p>
         </div>
-        <div className="col-6">
-          <label htmlFor="date" className="form-label">
-            Start & End Date*
-          </label>
-          <input
-            type="text"
-            name="date"
-            value={data.expiryDate}
-            className="form-control"
-            id="date"
-            placeholder="Enter Discount Value"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
+        <div className="col-md-6">
+          <label className="form-label mb-2">Alternate Email</label>
+          <p className="text-black rounded-2 p-2">{data.alternateEmail}</p>
         </div>
       </div>
+
       <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Applicable Registration type
-          </label>
-          <input
-            type="text"
-            name="registrationtype"
-            value={data.name}
-            className="form-control"
-            id="registrationtype"
-            placeholder="Enter Applicable Registration type"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
+        <div className="col-md-6">
+          <label className="form-label mb-2">Contact Number</label>
+          <p className="text-black rounded-2 p-2">{data.contactNumber}</p>
+        </div>
+        <div className="col-md-6">
+          <label className="form-label mb-2">Affiliation</label>
+          <p className="text-black rounded-2 p-2">{data.affiliation}</p>
         </div>
       </div>
-    </div>
-  );
-}
-function Add({ data }) {
-  return (
-    <div className="d-flex gap-3 container flex-column h-100">
+
       <div className="row">
-        <div className="col-6">
-          <label htmlFor="couponCode" className="form-label">
-            Coupon Code
-          </label>
-          <input
-            type="text"
-            name="couponCode"
-            className="form-control"
-            id="couponCode"
-            placeholder="Enter Coupon Code"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="discountType" className="form-label">
-            Discount Type*
-          </label>
-          <select
-            name="discountType"
-            id="discountType"
-            className="form-control"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          >
-            <option value="">Select Discount Type</option>
-            <option value="Percentage">Percentage</option>
-            <option value="Fixed Rate">Fixed Rate</option>
-          </select>
+        <div className="col-md-12">
+          <label className="form-label mb-2">Full Address</label>
+          <p className="text-black rounded-2 p-2">{data.address}</p>
         </div>
       </div>
+
       <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Discount Value
-          </label>
-          <input
-            type="text"
-            name="discountValue"
-            className="form-control"
-            id="discountValue"
-            placeholder="Enter Discount Value"
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="date" className="form-label">
-            Start & End Date*
-          </label>
-          <input
-            type="text"
-            name="date"
-            className="form-control"
-            id="date"
-            placeholder="Enter Discount Value"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
+        <div className="col-md-12">
+          <label className="form-label mb-2">Title of Abstract</label>
+          <p className="text-black rounded-2 p-2">{data.titleOfAbstract}</p>
         </div>
       </div>
+
       <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Applicable Registration type
-          </label>
-          <input
-            type="text"
-            name="registrationtype"
-            className="form-control"
-            id="registrationtype"
-            placeholder="Enter Applicable Registration type"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
+        <div className="col-md-4">
+          <label className="form-label mb-2">Addon Name</label>
+          <p className="text-black rounded-2 p-2">{data.addonName}</p>
+        </div>
+        <div className="col-md-4">
+          <label className="form-label mb-2">Addon Email</label>
+          <p className="text-black rounded-2 p-2">{data.addonEmail}</p>
+        </div>
+        <div className="col-md-4">
+          <label className="form-label mb-2">Addon Contact Number</label>
+          <p className="text-black rounded-2 p-2">{data.addonContactNumber}</p>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-md-4">
+          <label className="form-label mb-2">Submission Date</label>
+          <p className="text-black rounded-2 p-2">{data.submissionDate}</p>
         </div>
       </div>
     </div>
   );
 }
 
-function View({ data }) {
-  return (
-    <div className="d-flex gap-4 flex-column">
-      <div className="row">
-        <div className="col-4">
-          <label className="form-label  mb-2">First Name</label>
-          <p className="text-black rounded-2 p-2">
-            {data.firstName}
-          </p>
-        </div>
-        <div className="col-4">
-          <label className="form-label   mb-2">Last Name</label>
-          <p className="text-black rounded-2 p-2">
-            {data.lastName}
-          </p>
-        </div>
-        <div className="col-4">
-          <label className="form-label col-3 mb-2">Country</label>
-          <p className="text-black rounded-2 p-2">
-            {data.country}
-          </p>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-7">
-          <label className="form-label  mb-2">Email ID</label>
-          <p className="text-black rounded-2 p-2">
-            {data.emailId}
-          </p>
-        </div>
-  
-        <div className="col-4">
-          <label className="form-label col-3 mb-2">Contact</label>
-          <p className="text-black rounded-2 p-2">
-            {data.contact}
-          </p>
-        </div>
-      </div>
-   <div className="col-7">
-          <label className="form-label col-3 mb-2">Full Address</label>
-          <p className="text-black rounded-2 p-2">
-            {data.address}
-          </p>
-        </div>
-    
-    </div>
-  );
-}
 
 function Delete({ data = null }) {
   return (

@@ -388,7 +388,7 @@ function View({ data }) {
         <div className="col-4">
           <label className="form-label col-3 mb-2">Contact</label>
           <p className="text-black rounded-2 p-2">
-            {data.contact}
+            {data.phoneNumber}
           </p>
         </div>
       </div>

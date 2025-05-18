@@ -1,14 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useRef} from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import RichTextEditor from "../../AdminConferences/AdminConferenceView/ConferencePageAdmin/LandingPage/RichTextEditor";
 import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
+import { Toast } from "primereact/toast";
+import { ProgressSpinner } from "primereact/progressspinner"; 
 import { InputSwitch } from "primereact/inputswitch";
 import { Dialog } from "primereact/dialog";
 import { Sidebar } from "primereact/sidebar";
 import { Rating } from "primereact/rating";
-
+import { useFormik } from "formik";
+import { uploadImage } from "@/service/mediaManagemnt";
+import * as Yup from "yup";
+import { saveTestiMonial } from "@/service/testimonialService";
+import { Button } from 'primereact/button';
 const testimonialData = [
   {
     image: "/icons/DefaultPreviewImage.png",
@@ -91,10 +97,10 @@ const testimonialData = [
   },
 ];
 
-export default function TestimonialTabelAdmin({
-  visibleDetails,
-  setVisibleDetails,
-}) {
+export default function TestimonialTabelAdmin() {
+    const toast = useRef(null);
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null);
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
@@ -130,11 +136,11 @@ export default function TestimonialTabelAdmin({
       },
       edit: {
         header: "Edit Testimonial",
-        content: <Edit data={data} setIsVisible={setIsVisible}/>,
+        content: <Edit data={data} toast={toast} setIsVisible={setIsVisible}/>,
       },
       add: {
         header: "Add Testimonial",
-        content: <Add />,
+        content: <Add  toast={toast} setIsVisible={setIsVisible}/>,
       },
     };
 
@@ -146,6 +152,8 @@ export default function TestimonialTabelAdmin({
   };
   return (
     <div className="table-responsive">
+            <Toast ref={toast} />
+      
       <Sidebar
         visible={isVisible}
         header={<h5 className="text-black">{sidebarState.header}</h5>}
@@ -334,115 +342,240 @@ function Edit({ data }) {
     </div>
   );
 }
-function Add({ data ,setIsVisible}) {
+
+function Add({ data, setIsVisible ,toast}) {
   const [isvideoLinkEnable, setIsvideoLinkEnable] = useState(false);
   const [ratings, setRatings] = useState(null);
-  console.log(ratings)
+  const [upload, setUpload] = useState({ file: null });
+  const [imageError, setImageError] = useState(null);
+    const [buttonLoading, setButtonLoading] = useState(false);
+const submitTestimonial = async (data) => {
+  setButtonLoading(true)
+  try {
+    // STEP 1: Check if image is present
+    if (!data.image) {
+      throw new Error("Image is required");
+    }
+
+    // STEP 2: Upload image
+    const res = await uploadImage(data.image);
+
+    // STEP 3: Check if upload was successful and get image URL
+    if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
+      throw new Error("Failed to upload image");
+    }
+
+    const imageUrl = res.data.detail.message[0].url;
+
+    // STEP 4: Prepare payload and call API
+    const payLoad = {
+      name: data.name,
+      designation: data.designation,
+      content: data.content,
+      imageUrl: imageUrl,
+      videoUrl: data.videoUrl,
+    };
+
+    const response = await saveTestiMonial(payLoad);
+
+    if (response.status === 201) {
+
+      toast.current?.show({
+        severity: "success",
+        summary: "Saved",
+        detail: response.data.detail[0].msg || "Testimonial created successfully",
+      });
+      setIsVisible(false)
+    } else {
+      setButtonLoading(false);
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Testimonial creation failed",
+      });
+    }
+  } catch (err) {
+    setButtonLoading(false);
+    toast.current?.show({
+      severity: "error",
+      summary: "Error",
+      detail:  err || "Something went wrong!",
+    });
+  }finally{
+    setButtonLoading(false);
+  }
+};
+
+
+  const handleFileChange = (file) => {
+    setUpload({ file });
+    setImageError(null); // Clear error on file selection
+  };
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      designation: "",
+      videoUrl: "",
+      content: "",
+    },
+ validationSchema: Yup.object({
+  name: Yup.string().required("Name is required"),
+  designation: Yup.string().required("Designation is required"),
+  content: Yup.string().required("Content is required"),
+  videoUrl: Yup.string()
+    .when([], {
+      is: () => isvideoLinkEnable,
+      then: (schema) =>
+        schema
+          .required("YouTube link is required")
+          .matches(
+            /^https?:\/\/.+/,
+            "Enter a valid URL (must start with http:// or https://)"
+          )
+          .url("Enter a valid URL"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
+})
+,
+    onSubmit: (values) => {
+      if (!upload.file) {
+        setImageError("Image is required");
+        return;
+      }
+
+      setImageError(null); // Clear any previous image error
+
+      const finalData = {
+        ...values,
+        ratings,
+        image: upload.file,
+        videoUrl: isvideoLinkEnable ? values.videoUrl : "	https://www.linkedin.com/in/annex",
+      };
+      submitTestimonial(finalData);
+    },
+  });
+    
+
+
   return (
-     <div className="position-relative" style={{ height: "100vh" }}>
-      <div
-        className="p-3"
-        style={{
-          overflowY: "auto",
-          height: "calc(100vh - 200px)", // adjust 80px based on button height
-        }}
-      >
-  <FileUpload title={"Image Upload"} showBorder={true} />
+    <form onSubmit={formik.handleSubmit} className="position-relative" style={{ height: "100vh" }}>
+      <div className="p-3" style={{ overflowY: "auto", height: "calc(100vh - 200px)" }}>
+        <FileUpload
+          title={"Image Upload*"}
+          showBorder={true}
+          onFileChange={handleFileChange}
+          imageUrl={upload.file?.preview}
+        />
+        {imageError && <div className="text-danger mt-2">{imageError}</div>}
 
-      <label htmlFor="title" className="form-label d-flex align-items-center">
-        Ratings
-      </label>
-      <Rating value={ratings} onChange={(e) => setRatings(e.value)} />
-
-      <div className="mt-4">
-        <label htmlFor="title" className="form-label d-flex align-items-center">
-          Video Link(Youtube) &nbsp;{" "}
-          <InputSwitch
-            checked={isvideoLinkEnable}
-            onChange={(e) => setIsvideoLinkEnable(e.value)}
-            style={{ scale: "0.7" }}
-          />
+        <label htmlFor="ratings" className="form-label d-flex align-items-center">
+          Ratings
         </label>
-        <div className="input-group border rounded p-1">
-          <span
-            className="btn rounded-2 text-white me-1"
-            id="basic-addon1"
-            style={{ backgroundColor: "#111880" }}
-          >
-            <i className="bx bx-link-alt"></i>
-          </span>
+        <Rating value={ratings} onChange={(e) => setRatings(e.value)} />
+
+        <div className="mt-4">
+          <label htmlFor="videoLink" className="form-label d-flex align-items-center">
+            Video Link (YouTube) &nbsp;
+            <InputSwitch
+              checked={isvideoLinkEnable}
+              onChange={(e) => setIsvideoLinkEnable(e.value)}
+              style={{ scale: "0.7" }}
+            />
+          </label>
+          <div className="input-group border rounded p-1">
+            <span
+              className="btn rounded-2 text-white me-1"
+              id="basic-addon1"
+              style={{ backgroundColor: "#111880" }}
+            >
+              <i className="bx bx-link-alt"></i>
+            </span>
+            <input
+              type="text"
+              name="videoUrl"
+              className={`form-control border-0 ${
+                formik.touched.videoUrl && formik.errors.videoUrl ? "is-invalid" : ""
+              }`}
+              placeholder="https://www.youtube.com/watch?v=xxxx"
+              disabled={!isvideoLinkEnable}
+              value={formik.values.videoUrl}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </div>
+          {formik.touched.videoUrl && formik.errors.videoUrl && (
+            <div className="text-danger">{formik.errors.videoUrl}</div>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="name" className="form-label">Name*</label>
           <input
-            type="link"
-            name="mapLink"
-            className={`form-control border border-0`}
-            id="link"
-            placeholder="https://www.youtube.com/watch?v=19eIVnOI9Do"
-            required
-            autoComplete="off"
-            disabled={!isvideoLinkEnable}
+            type="text"
+            name="name"
+            className={`form-control ${
+              formik.touched.name && formik.errors.name ? "is-invalid" : ""
+            }`}
+            placeholder="Enter Name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
+          {formik.touched.name && formik.errors.name && (
+            <div className="text-danger">{formik.errors.name}</div>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="designation" className="form-label">Designation*</label>
+          <input
+            type="text"
+            name="designation"
+            className={`form-control ${
+              formik.touched.designation && formik.errors.designation ? "is-invalid" : ""
+            }`}
+            placeholder="Enter Designation"
+            value={formik.values.designation}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.designation && formik.errors.designation && (
+            <div className="text-danger">{formik.errors.designation}</div>
+          )}
+        </div>
+
+        <div className="mb-3">
+          <RichTextEditor
+            labelName={"Content*"}
+            height="120px"
+            initialValue={formik.values.content}
+            onChange={(content) => formik.setFieldValue("content", content)}
+          />
+          {formik.touched.content && formik.errors.content && (
+            <div className="text-danger">{formik.errors.content}</div>
+          )}
         </div>
       </div>
-      <div className=" mb-3">
-        <label htmlFor="eventLocation" className="form-label">
-          Name
-        </label>
-        <input
-          type="text"
-          name="eventLocation"
-          className="form-control"
-          id="eventLocation"
-          placeholder="Enter Name"
-          required
-        />
-      </div>
 
-  <div className=" mb-3">
-        <label htmlFor="eventLocation" className="form-label">
-          Designation*
-        </label>
-        <input
-          type="text"
-          name="eventLocation"
-          className="form-control"
-          id="eventLocation"
-          placeholder="Enter Designation"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />
-      </div>
-      {/* <RichTextEditor
-        labelName={"Designation"}
-        height="120px"
-        initialValue={""}
-        onChange={(content) => console.log("Edited content:", content)}
-      /> */}
-      <RichTextEditor
-        labelName={"Content"}
-        initialValue={""}
-        onChange={(content) => console.log("Edited content:", content)}
-      />
-      </div>
-    
-           {/* Fixed Buttons */}
+      {/* Fixed Buttons */}
       <div
         className="bg-secondary position-absolute z-2 bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100"
         style={{
           bottom: 0,
           left: 0,
           height: "80px",
-
         }}
       >
-        <button
-          className="btn px-5 bg-white border"
-          onClick={() => setIsVisible(false)}
-        >
+        <button className="btn px-5 bg-white border" onClick={() => setIsVisible(false)} type="button">
           Close
         </button>
-        <button className="btn px-5 btn-warning text-white">Save</button>
+        {/* <button className="btn px-5 btn-warning text-white" type="submit">
+          Save
+        </button> */}
+                    <Button label="Save" type="submit" className="btn px-5 btn-warning text-white" loading={buttonLoading}   style={{ outline: 'none', boxShadow: 'none' }}/>
       </div>
-    </div>
+    </form>
   );
 }
 function View({ data }) {

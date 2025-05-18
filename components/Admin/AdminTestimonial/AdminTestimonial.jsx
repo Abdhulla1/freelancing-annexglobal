@@ -1,5 +1,6 @@
 import React from "react";
 import TestimonialTabelAdmin from "./TestimonialTabelAdmin/TestimonialTabelAdmin";
+
 export default function AdminTestimonial() {
   return (
     <div className=" p-2">
@@ -8,9 +9,9 @@ export default function AdminTestimonial() {
         <h5 className="fw-bold m-0">Testimonial</h5>
 
         {/* Add New Conference Button */}
-        <button className="btn btn-warning text-white col-12 col-md-1">
+        {/* <button className="btn btn-warning text-white col-12 col-md-1">
           Publish
-        </button>
+        </button> */}
       </div>
 
       <div className="row p-1 justify-content-center">

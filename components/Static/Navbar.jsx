@@ -214,7 +214,7 @@ export default function Navbar() {
         </span>
       </div>
       <nav
-        className={`${NavbarStyles.navbar} navbar navbar-expand-md navbar-light bg-white shadow animate__animated p-0 `}
+        className={`${NavbarStyles.navbar} navbar navbar-expand-xxl navbar-light bg-white shadow animate__animated p-0 `}
       >
         <div className="container-fluid d-flex justify-content-around align-items-center w-100">
           <div className={`d-flex align-items-center ${NavbarStyles.logo}`}>
@@ -233,7 +233,7 @@ export default function Navbar() {
           <button
             className={`navbar-toggler border-0 ${NavbarStyles["navbar-noShadow"]} ms-auto`}
             type="button"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => setIsOpen(!isOpen)}style={{ outline: 'none', boxShadow: 'none' }}
           >
             <span className="navbar-toggler-icon"> </span>
           </button>
@@ -291,10 +291,10 @@ export default function Navbar() {
             </ul>
           </div>
 
-          <div className="d-none d-lg-flex gap-2">
+          <div className="d-none d-xxl-flex gap-2">
             <button className={` ${NavbarStyles["sponsor"]}`}>
               <Link
-                href={"/conference/${conferenceId}/scientific-program"}
+                href={conferenceId ? `/conference/${conferenceId}/scientific-program` : "#"}
                 className="text-center text-uppercase mb-0 text-decoration-none text-white fw-normal"
               >
                 Program 
