@@ -50,8 +50,8 @@ const ConnectWithOthers = () => {
                   Connect with other members
                 </h3>
                 <h6 className="text-white fw-normal mt-3">
-                  The Annex Global Conference Fosters Innovation And
-                  Collaboration Across Diverse Industries Worldwide
+                The Annex Global Conference stands as a premier international forum that brings together visionaries, industry leaders, entrepreneurs, and changemakers from around the world. Focused on driving transformative innovation, the conference serves as a catalyst for groundbreaking ideas, disruptive technologies, and collaborative strategies that transcend traditional industry boundaries.
+Spanning multiple sectors — including technology, healthcare, finance, sustainability, education, and manufacturin
                 </h6>
               </div>
             </div>

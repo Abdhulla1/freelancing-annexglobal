@@ -12,6 +12,20 @@ const registerDetails = [
     country: "USA",
     address: "123 Main St, New York, NY",
     conferenceName: "Global Health Summit 2026",
+    registration: [
+      { type: "Delegate Registration", tier: "Mid Term", price: 390.23, quantity: 2 }
+    ],
+    accommodation: {
+      occupancy: "Single ($120)",
+      period: "Two Nights",
+      room: "One",
+      accommodationCost: 240.00
+    },
+    summary: {
+      ticketPrice: 780.46,
+      accommodationCost: 240.00,
+      netTotal: 1020.46
+    }
   },
   {
     fullName: "Aisha Khan",
@@ -20,6 +34,21 @@ const registerDetails = [
     country: "India",
     address: "45 MG Road, Bengaluru",
     conferenceName: "Primary Healthcare Congress",
+    registration: [
+      { type: "Student Registration", tier: "Final Call", price: 399.74, quantity: 1 },
+      { type: "E-Poster Presentation", tier: "Final Call", price: 399.74, quantity: 1 }
+    ],
+    accommodation: {
+      occupancy: "Single ($120)",
+      period: "One Night",
+      room: "One",
+      accommodationCost: 120.00
+    },
+    summary: {
+      ticketPrice: 799.48,
+      accommodationCost: 120.00,
+      netTotal: 919.48
+    }
   },
   {
     fullName: "Liam Smith",
@@ -28,6 +57,21 @@ const registerDetails = [
     country: "UK",
     address: "10 Downing St, London",
     conferenceName: "International Gynecology Meet",
+    registration: [
+      { type: "Speaker Registration - 1 Days Entry Ticket", tier: "Early Bird", price: 240.71, quantity: 1 },
+      { type: "Poster Registration", tier: "Mid Term", price: 390.23, quantity: 1 }
+    ],
+    accommodation: {
+      occupancy: "Single ($120)",
+      period: "Two Nights",
+      room: "Two",
+      accommodationCost: 480.00
+    },
+    summary: {
+      ticketPrice: 630.94,
+      accommodationCost: 480.00,
+      netTotal: 1110.94
+    }
   },
   {
     fullName: "Emma Brown",
@@ -36,6 +80,20 @@ const registerDetails = [
     country: "Australia",
     address: "250 George St, Sydney",
     conferenceName: "Healthcare Innovations Expo",
+    registration: [
+      { type: "Webinar/Virtual Conference Registration ", tier: "Mid Term", price: 390.23, quantity: 1 }
+    ],
+    accommodation: {
+      occupancy: "Single ($120)",
+      period: "One Night",
+      room: "One",
+      accommodationCost: 120.00
+    },
+    summary: {
+      ticketPrice: 390.23,
+      accommodationCost: 120.00,
+      netTotal: 510.23
+    }
   },
   {
     fullName: "Carlos Gomez",
@@ -44,8 +102,24 @@ const registerDetails = [
     country: "Mexico",
     address: "Avenida Reforma 101, CDMX",
     conferenceName: "Cancer Research Conference",
-  },
+    registration: [
+      { type: "Speaker Registration - 2 Days Entry Ticket", tier: "Final Call", price: 399.74, quantity: 2 },
+      { type: "Video Presentation", tier: "Final Call", price: 399.74, quantity: 1 }
+    ],
+    accommodation: {
+      occupancy: "Single ($120)",
+      period: "Two Nights",
+      room: "Two",
+      accommodationCost: 480.00
+    },
+    summary: {
+      ticketPrice: 1199.22,
+      accommodationCost: 480.00,
+      netTotal: 1679.22
+    }
+  }
 ];
+
 
 export default function RegistrationTabelAdmin({
   visibleDetails,
@@ -80,17 +154,10 @@ export default function RegistrationTabelAdmin({
   const handleModel = (type, data = null) => {
     const componentsMap = {
       view: {
-        header: "View Coupons",
+        header: "View Register Details",
         content: <View data={data} />,
       },
-      edit: {
-        header: "Edit Coupons",
-        content: <Edit data={data} />,
-      },
-      add: {
-        header: "Add Coupons",
-        content: <Add />,
-      },
+   
     };
 
     const selected = componentsMap[type];
@@ -164,184 +231,7 @@ export default function RegistrationTabelAdmin({
           ))}
         </tbody>
       </table>
-      <button
-        name="add"
-        className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
-        style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
-        onClick={(e) => handleModel(e.target.name)}
-      >
-        +
-      </button>
-    </div>
-  );
-}
 
-function Edit({ data }) {
-  return (
-    <div className="d-flex gap-3 container flex-column h-100">
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="couponCode" className="form-label">
-            Coupon Code
-          </label>
-          <input
-            type="text"
-            name="couponCode"
-            value={data.couponCode}
-            className="form-control"
-            id="couponCode"
-            placeholder="Enter Coupon Code"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="discountType" className="form-label">
-            Discount Type*
-          </label>
-          <select
-            name="discountType"
-            id="discountType"
-            className="form-control"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          >
-            <option value="">Select Discount Type</option>
-            <option value="Percentage">Percentage</option>
-            <option value="Fixed Rate">Fixed Rate</option>
-          </select>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Discount Value
-          </label>
-          <input
-            type="text"
-            name="discountValue"
-            className="form-control"
-            id="discountValue"
-            placeholder="Enter Discount Value"
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="date" className="form-label">
-            Start & End Date*
-          </label>
-          <input
-            type="text"
-            name="date"
-            value={data.expiryDate}
-            className="form-control"
-            id="date"
-            placeholder="Enter Discount Value"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Applicable Registration type
-          </label>
-          <input
-            type="text"
-            name="registrationtype"
-            value={data.name}
-            className="form-control"
-            id="registrationtype"
-            placeholder="Enter Applicable Registration type"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-function Add({ data }) {
-  return (
-    <div className="d-flex gap-3 container flex-column h-100">
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="couponCode" className="form-label">
-            Coupon Code
-          </label>
-          <input
-            type="text"
-            name="couponCode"
-            className="form-control"
-            id="couponCode"
-            placeholder="Enter Coupon Code"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="discountType" className="form-label">
-            Discount Type*
-          </label>
-          <select
-            name="discountType"
-            id="discountType"
-            className="form-control"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          >
-            <option value="">Select Discount Type</option>
-            <option value="Percentage">Percentage</option>
-            <option value="Fixed Rate">Fixed Rate</option>
-          </select>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Discount Value
-          </label>
-          <input
-            type="text"
-            name="discountValue"
-            className="form-control"
-            id="discountValue"
-            placeholder="Enter Discount Value"
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="date" className="form-label">
-            Start & End Date*
-          </label>
-          <input
-            type="text"
-            name="date"
-            className="form-control"
-            id="date"
-            placeholder="Enter Discount Value"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Applicable Registration type
-          </label>
-          <input
-            type="text"
-            name="registrationtype"
-            className="form-control"
-            id="registrationtype"
-            placeholder="Enter Applicable Registration type"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-      </div>
     </div>
   );
 }
@@ -351,48 +241,107 @@ function View({ data }) {
     <div className="d-flex gap-4 flex-column">
       <div className="row">
         <div className="col-6">
-          <label className="form-label  mb-2">Full Name</label>
+          <label className="form-label mb-2">Full Name</label>
           <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
             {data.fullName}
           </p>
         </div>
-        <div  className="col-6">
-          <label className="form-label  mb-2">Email</label>
+        <div className="col-6">
+          <label className="form-label mb-2">Email</label>
           <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
             {data.email}
           </p>
         </div>
       </div>
+
       <div className="row">
-      <div className="col-6">
-        <label className="form-label mb-2">Contact Number</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.contactNumber}
-        </p>
-      </div>
-      <div className="col-6">
-        <label className="form-label mb-2">Country</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.country}
-        </p>
+        <div className="col-6">
+          <label className="form-label mb-2">Contact Number</label>
+          <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+            {data.contactNumber}
+          </p>
+        </div>
+        <div className="col-6">
+          <label className="form-label mb-2">Country</label>
+          <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+            {data.country}
+          </p>
+        </div>
       </div>
 
-      </div>
       <div>
-        <label className="form-label mb-2">Confernce Name</label>
+        <label className="form-label mb-2">Conference Name</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
           {data.conferenceName}
         </p>
       </div>
-        <div>
-        <label className="form-label  mb-2">Address</label>
+
+      <div>
+        <label className="form-label mb-2">Address</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
           {data.address}
         </p>
       </div>
+
+      {/* Registration Details */}
+{data.registration?.length > 0 && (
+  <div>
+    <label className="form-label mb-2 ">Registration Details</label>
+
+    {/* Header row */}
+    <div className="row fw-bold text-secondary border-bottom pb-2 mb-2 mt-2">
+      <div className="col-5">Type</div>
+      <div className="col-3">Tier</div>
+      <div className="col-2">Price ($)</div>
+      <div className="col-2">Qty</div>
+    </div>
+
+    {/* Data rows */}
+    {data.registration.map((item, index) => (
+      <div
+        key={index}
+        className="row align-items-center bg-light rounded-2 p-2 mb-2 shadow-sm"
+      >
+        <div className="col-5">{item.type || '—'}</div>
+        <div className="col-3">{item.tier || '—'}</div>
+        <div className="col-2">${item.price?.toFixed(2) || '0.00'}</div>
+        <div className="col-2">{item.quantity || '0'}</div>
+      </div>
+    ))}
+  </div>
+)}
+
+
+
+
+      {/* Accommodation */}
+      {data.accommodation && (
+        <div>
+          <label className="form-label mb-2">Accommodation Details</label>
+          <div className="bg-secondary bg-opacity-10 rounded-2 p-2">
+            <p className="mb-1"><strong>Occupancy:</strong> {data.accommodation.occupancy}</p>
+            <p className="mb-1"><strong>Period:</strong> {data.accommodation.period}</p>
+            <p className="mb-1"><strong>Room:</strong> {data.accommodation.room}</p>
+            <p className="mb-0"><strong>Cost:</strong> ${data.accommodation.accommodationCost.toFixed(2)}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Summary / Net Total */}
+      {data.summary && (
+        <div>
+          <label className="form-label mb-2">Payment Summary</label>
+          <div className="bg-secondary bg-opacity-10 rounded-2 p-2">
+            <p className="mb-1"><strong>Ticket Price:</strong> ${data.summary.ticketPrice.toFixed(2)}</p>
+            <p className="mb-1"><strong>Accommodation Cost:</strong> ${data.summary.accommodationCost.toFixed(2)}</p>
+            <p className="mb-0"><strong>Net Total:</strong> <span className="fw-bold text-primary">${data.summary.netTotal.toFixed(2)}</span></p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
 
 function Delete({ data = null }) {
   return (

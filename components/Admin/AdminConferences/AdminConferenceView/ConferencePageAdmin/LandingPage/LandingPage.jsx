@@ -6,11 +6,11 @@ import {
   saveConferenceLandingPage,
   getSelectedConference,
 } from "@/service/adminConference";
-
+import RichTextEditor from "./RichTextEditor";
 export default function LandingPage({ selectedConferenceID, toast }) {
   const [uploads, setUploads] = useState([{ id: Date.now(), file: null }]);
   const [formData, setFormData] = useState({
-    title:"",
+    title: "",
     conference: "",
     theme: "",
     startDate: "",
@@ -32,7 +32,7 @@ export default function LandingPage({ selectedConferenceID, toast }) {
         }
         if (landing) {
           setFormData({
-                title: landing.title || "",
+            title: landing.title || "",
             conference: landing.conference || "",
             theme: landing.theme || "",
             startDate: landing.startDate || "",
@@ -206,12 +206,9 @@ export default function LandingPage({ selectedConferenceID, toast }) {
       </div> */}
 
       <div className="mt-4">
-            <FileUpload
-                title={'Upload Certificate Image'}
-                showBorder={true}
-              />
+        <FileUpload title={"Upload Certificate Image"} showBorder={true} />
         <div className="row">
-                    <div className="col-md-6 mb-3">
+          <div className="col-md-6 mb-3">
             <label className="form-label">Title</label>
             <input
               type="text"
@@ -235,11 +232,9 @@ export default function LandingPage({ selectedConferenceID, toast }) {
               required
             />
           </div>
-
-   
         </div>
         <div className="row">
-                 <div className="col-md-6 mb-3">
+          <div className="col-md-6 mb-3">
             <label className="form-label">Theme</label>
             <input
               type="text"
@@ -262,12 +257,10 @@ export default function LandingPage({ selectedConferenceID, toast }) {
               required
             />
           </div>
-
-    
         </div>
 
         <div className="row">
-                <div className="col-md-6 mb-3">
+          <div className="col-md-6 mb-3">
             <label className="form-label">End Date of Conference</label>
             <input
               type="date"
@@ -290,12 +283,10 @@ export default function LandingPage({ selectedConferenceID, toast }) {
               required
             />
           </div>
-
- 
         </div>
 
         <div className="row">
-                   <div className="col-md-6 mb-3">
+          <div className="col-md-6 mb-3">
             <label className="form-label">Event Address</label>
             <input
               type="text"
@@ -318,17 +309,22 @@ export default function LandingPage({ selectedConferenceID, toast }) {
               required
             />
           </div>
-
-          <div className="col-md-6 mb-3">
-            <label className="form-label">Event End Time</label>
-            <input
-              type="time"
-              name="endTime"
-              className="form-control"
-              value={formData.endTime}
-              onChange={handleInputChange}
-              required
-            />
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Event End Time</label>
+              <input
+                type="time"
+                name="endTime"
+                className="form-control"
+                value={formData.endTime}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+      <RichTextEditor
+        labelName={"Conference OverView"}
+        height="130px"
+      />
           </div>
         </div>
 

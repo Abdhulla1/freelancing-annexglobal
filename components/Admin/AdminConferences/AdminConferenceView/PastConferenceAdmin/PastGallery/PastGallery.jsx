@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 
-export default function    PastGallery() {
+export default function PastGallery() {
   const [uploads, setUploads] = useState([{ id: Date.now() }]);
   
   const handleAddUpload = () => {
@@ -18,7 +18,7 @@ export default function    PastGallery() {
   return (
     <>
     <div className="mb-2">
-    <label className="form-label">Upload Landing page images</label>
+    <label className="form-label">Gallery images</label>
       <button
         name="view"
         className="btn btn-outline-warning rounded ms-2"

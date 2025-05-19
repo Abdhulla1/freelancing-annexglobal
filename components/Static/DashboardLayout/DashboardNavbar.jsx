@@ -63,9 +63,9 @@ export default function DashboardNavbar() {
             </span>
           </div> */}
 
-          <div className={styles.bell}>
+          {/* <div className={styles.bell}>
             <i className="bx bxs-bell bx-sm" title="Notifications"></i>
-          </div>
+          </div> */}
 
           {/* Custom Dropdown */}
           <div className="position-relative" ref={dropdownRef}>

@@ -138,7 +138,7 @@ const UpcomingConference = () => {
 
   return (
     <div className={`p-4 ${UpcomingConferenceStyle.container}`}>
-      <h3 className="text-uppercase text-center mt-5">
+      <h3 className="text-uppercase fw-bold text-center mt-5">
         Select the upcoming events categorized
       </h3>
       <HoneycombTabs />

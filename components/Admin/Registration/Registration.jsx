@@ -53,9 +53,6 @@ export default function Registration() {
     <div className=" p-2">
        <div className="d-flex justify-content-between">
         <h5 className="fw-bold">Registration</h5>
-        <button className="btn btn-warning text-white">
-           Publish
-        </button>
       </div>
       <div className="row gap-2 gap-md-0 p-3">
         <div className="col-12 col-md-3">

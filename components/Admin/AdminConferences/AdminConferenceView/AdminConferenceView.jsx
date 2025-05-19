@@ -25,6 +25,7 @@ import SubmitAbstractAdmin from "./BrochureAdmin/SubmitAbstractAdmin";
 import WebinarProgramAdmin from "./WebinarPageAdmin/WebinarProgramAdmin/WebinarProgramAdmin";
 import ScientificProgramAdmin from "./ConferencePageAdmin/ScientificProgramAdmin/ScientificProgramAdmin";
 import FAQPageAdmin from "./FAQPageAdmin/FAQPageAdmin";
+import PastConferenceAdmin from "./PastConferenceAdmin/PastConferenceAdmin";
 export default function AdminConferenceView({ conference }) {
   const [activeMenu, setActiveMenu] = useState("Conference");
   const [selectedConference, setSelectedConference] = useState(null);
@@ -54,6 +55,7 @@ export default function AdminConferenceView({ conference }) {
     { item: "Venue" },
     { item: "Registration" },
     { item: "Special Registration" },
+    { item: "Past Conference" },
   ];
 
   const componentMap = {
@@ -70,7 +72,7 @@ export default function AdminConferenceView({ conference }) {
     Topics: <TopicsAdmin />,
     Venue: <VenuePageAdmin />,
     Registration: <RegistrationAdmin />,
-
+"Past Conference":<PastConferenceAdmin/>,
     "Special Registration": <SpecialRegistration />,
        "Scientific Program": <ScientificProgramAdmin />,
   };
