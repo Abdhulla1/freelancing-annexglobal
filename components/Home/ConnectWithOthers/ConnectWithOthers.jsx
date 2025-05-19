@@ -46,13 +46,13 @@ const ConnectWithOthers = () => {
           <div className="row p-0 p-md-3">
             <div className="col-md-3 ps-5 p-4 d-flex align-items-center">
               <div>
-                <h4 className="text-white text-capitalize">
+                <h3 className="text-white text-capitalize">
                   Connect with other members
-                </h4>
-                <h5 className="text-white fw-normal mt-3">
+                </h3>
+                <h6 className="text-white fw-normal mt-3">
                   The Annex Global Conference Fosters Innovation And
                   Collaboration Across Diverse Industries Worldwide
-                </h5>
+                </h6>
               </div>
             </div>
             <div className="col-md-9">

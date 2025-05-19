@@ -30,7 +30,9 @@
   --btn-gradient: linear-gradient(90deg, #F4A300 0%, #FFEA61 100%);
   --btn-hover-gradient: linear-gradient(90deg, #da9100 0%, #decc56 100%);
 }
-
+*{
+      outline: red;
+}
 body {
   font-family: "Inter", sans-serif;
 

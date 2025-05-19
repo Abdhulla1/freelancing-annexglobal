@@ -74,7 +74,7 @@ export default function PricingTable({ onTotalChange ,selectedCurrency,getSymbol
         setExchangeRate(rate);
       } catch (error) {
         console.error("Error fetching exchange rate:", error);
-        setExchangeRate(1); // fallback to 1 if error
+        setExchangeRate(1);
       }
     }
     fetchExchangeRate();
@@ -84,9 +84,9 @@ export default function PricingTable({ onTotalChange ,selectedCurrency,getSymbol
   useEffect(() => {
     const converted = pricingOptions.map(({ type, early, mid, final }) => ({
       type,
-      early: early * exchangeRate,
-      mid: mid * exchangeRate,
-      final: final * exchangeRate,
+      early: Math.round(early * exchangeRate * 100) / 100,
+  mid: Math.round(mid * exchangeRate * 100) / 100,
+  final: Math.round(final * exchangeRate * 100) / 100,
     }));
     setConvertedPrices(converted);
   }, [exchangeRate]);

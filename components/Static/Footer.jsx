@@ -29,7 +29,7 @@ const Footer = () => {
               href={"#"}
               className="text-decoration-none text-warning ms-3 text-center"
             >
-              Back to top
+              Back to top  <i className="pi text-warning pi-angle-double-up"></i>
             </Link>{" "}
           </div>
         </div>

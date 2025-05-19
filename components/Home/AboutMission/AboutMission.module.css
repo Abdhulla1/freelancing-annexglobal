@@ -11,7 +11,7 @@
 .lineheight {
   line-height: 1.6;
   font-weight: 300;
-  font-family: "Barlow Condensed", sans-serif;
+  /* font-family: "Barlow Condensed", sans-serif; */
   font-size: 22px;
 }
 

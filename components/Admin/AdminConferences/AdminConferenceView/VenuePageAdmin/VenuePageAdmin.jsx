@@ -4,12 +4,14 @@ import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/Scrollabl
 import VenueImageUploads from "./VenueImageUploads/VenueImageUploads";
 import VenueWelcomeContent from "./VenueWelcomeContent/VenueWelcomeContent";
 import VenueMapUploads from "./VenueMapUploads/VenueMapUploads";
+import EventTimings from "./EventTimings/EventTimings";
 export default function VenuePageAdmin() {
   const [activeTab, setActiveTab] = useState("Venue Content"); // default to first tab
   const tabs = {
     "Venue Content": <VenueWelcomeContent/>,
     "Header Panel Images": <VenueImageUploads/>,
     "Map Uploads": <VenueMapUploads/>,
+        "Event Timings": <EventTimings/>,
 
   };
   

@@ -16,9 +16,9 @@ const QueriesAnswered = () => {
   const headerGen = (data, index) => {
     const isActive = activeIndex === index; // Check if this tab is open
     return (
-      <div className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center justify-content-around">
        
-        <div className="ms-3">
+        <div className="ms-3 text-start col-7">
           <h4>{data}</h4>
         </div>
         <div >

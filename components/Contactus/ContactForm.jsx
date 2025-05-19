@@ -107,15 +107,15 @@ const conferneceData = [
       </div>
       <footer className={`${styles.footer} mt-5`}>
         <div className="text-center text-white">
-          <div className={styles.footerHeader}>Contact Info</div>
-          <div className={`${styles.footerContent} d-flex justify-content-center align-items-center`}>
-            <div className="d-flex align-items-center mx-3">
+                      {/* <div className={styles.footerHeader}>Contact Info</div> */}
+          <div className={`${styles.footerContent} d-flex justify-content-center align-items-center gap-3`}>
+                 <div className="text-bold">Contact Info :</div>
+            <div className="d-flex align-items-center ms-2">
             
               <img  className={`${styles.icon}`} src="/images/home/mobile.png" alt="mobile"></img>
               <span className="ms-2">+684-708-3090</span>
             </div>
-           
-            <div className="d-flex align-items-center mx-3">
+            <div className="d-flex align-items-center ">
             <img  className={`${styles.icon}`} src="/images/home/gmail.png" alt="mobile"></img>
             <span className="ms-2">annexglobalconferemce@gmail.com</span>
             </div>

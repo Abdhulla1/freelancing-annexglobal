@@ -61,7 +61,7 @@ const CountdownBanner = ({conferenceId}) => {
 <div className="d-flex gap-2">
  <Link href={ `/conference/${conferenceId}/registration`} className="mt-2 mt-md-0">
           <button className={` text-uppercase ${styles.brochure}`}>
-            GET brochure
+            brochure
           </button>
         </Link>
         <Link href={ `/conference/${conferenceId}/registration`} className="mt-2 mt-md-0">

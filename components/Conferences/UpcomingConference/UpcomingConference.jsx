@@ -118,7 +118,7 @@ const UpcomingConference = () => {
             <div className="container">
               <div className="row">
                 {upcomingConferences.map((event, i) => (
-                  <div className="col-md-6 col-lg-4 mb-3" key={i}>
+                  <Link  href={`/conference/${event.id}`}  className="text-decoration-none col-md-6 col-lg-4 mb-3" key={i}>
                     <div
                       className={
                         UpcomingConferenceStyle["upcoming-events-card"]
@@ -136,14 +136,14 @@ const UpcomingConference = () => {
                           {event.location}
                         </div>
                       </div>
-                      <Link
+                      <div
                         href={`/conference/${event.id}`}
                         className={UpcomingConferenceStyle["buy-button"]}
                       >
                         BUY TICKETS
-                      </Link>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>

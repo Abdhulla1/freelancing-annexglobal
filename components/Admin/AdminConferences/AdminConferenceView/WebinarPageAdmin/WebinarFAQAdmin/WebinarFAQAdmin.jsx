@@ -57,11 +57,11 @@ export default function WebinarFAQAdmin({ visibleDetails, setVisibleDetails }) {
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
       view: {
-        header: "View Frequently asked questions",
+        header: "View Queries Answered",
         content: <View data={data} />,
       },
       edit: {
-        header: "Edit Frequently asked questions",
+        header: "Edit Queries Answered",
         content: <Edit data={data} />,
       },
       add: {
@@ -162,12 +162,24 @@ export default function WebinarFAQAdmin({ visibleDetails, setVisibleDetails }) {
 function Edit({ data }) {
   return (
     <div className="d-flex gap-3 flex-column">
-      <RichTextEditor
+      {/* <RichTextEditor
         labelName={"Question"}
         height="120px"
         initialValue={data.question}
         onChange={(content) => console.log("Edited content:", content)}
-      />
+      /> */}
+               <div className=" mb-3">
+        <label className="form-label">Question</label>
+        <input
+          type="text"
+          name="question"
+          className="form-control"
+          value={data.question}
+          onChange={(e) => console.log("Edited content:", e.value)}
+          placeholder="2nd International Conference On"
+          required
+        />
+      </div>
       <RichTextEditor
         labelName={"Answer"}
         initialValue={data.answer}

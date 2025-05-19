@@ -168,6 +168,15 @@ const AlumniSpeakers = () => {
     slidesToScroll: 1,
     prevArrow: <CustomArrow direction="left" />,
     nextArrow: <CustomArrow direction="right" />,
+    responsive: [
+    {
+      breakpoint: 768,
+      settings: {
+        arrows: false, // hide arrows on mobile
+        dots: true,
+      },
+    },
+  ],
   };
 
   const handleSpeakerClick = (speaker) => {
@@ -187,7 +196,7 @@ const AlumniSpeakers = () => {
         {selectedSpeaker && (
           <>
             <div className="row">
-              <div className="col-md-4">
+              <div className="col-4">
                 <div className={AlumniSpeakerStyles["card-header"]}>
                   <img
                     onClick={() => setVisibleDetails(true)}
@@ -197,7 +206,7 @@ const AlumniSpeakers = () => {
                   />
                 </div>
               </div>
-              <div className="col-md-8 d-flex align-items-center">
+              <div className="col-8 d-flex align-items-center">
                 <div>
                   <h4 className="text-black">{selectedSpeaker.name}</h4>
                   <h5>
@@ -226,7 +235,7 @@ const AlumniSpeakers = () => {
         </div>
       </div>
 
-      <div className=" p-5 container-fluid">
+      <div className=" p-5 container-fluid flex-wrap">
       <Slider {...settings}>
   {[...Array(Math.ceil(speakerData.length / 8))].map((_, index) => (
     <div key={index}>

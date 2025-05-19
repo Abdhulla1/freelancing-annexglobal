@@ -97,11 +97,11 @@ export default function Accommodation({ toast }) {
       label: "Occupancy",
       name: "occupancy",
       values: [
-        { label: "USD - US Dollar", value: "USD" },
-        { label: "EUR - Euro", value: "EUR" },
-        { label: "INR - Indian Rupee", value: "INR" },
-        { label: "GBP - British Pound", value: "GBP" },
-      ],
+    { label: "Single Occupancy", value: "1" },
+    { label: "Double Occupancy", value: "2" },
+    { label: "Triple Occupancy", value: "3" },
+    { label: "Quad Occupancy", value: "4" },
+  ],
     },
     {
       label: "Rooms",
@@ -208,8 +208,7 @@ function EditCurrency({ data }) {
   };
   return (
     <div className="p-3">
-      <div className="row mb-3 justify-content-between align-items-end">
-        {/* Left side: Input field */}
+      {/* <div className="row mb-3 justify-content-between align-items-end">
         <div className="col-md-8">
           <label className="form-label">
             Enter {data.label} dropdown name{" "}
@@ -226,8 +225,6 @@ function EditCurrency({ data }) {
             required
           />
         </div>
-
-        {/* Right side: InputSwitch with "Required" label and outline */}
         <div className="col-md-4 mt-4 mt-md-0">
           <div className="btn btn-outline-secondary rounded d-inline-flex align-items-center  gap-2">
             <span>Required</span>
@@ -238,10 +235,10 @@ function EditCurrency({ data }) {
             />
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className=" mb-3">
-        <label className="form-label">Currency List</label>
+        <label className="form-label">{data.label} List</label>
         <button
           type="button"
           className="btn btn-outline-warning rounded ms-2"

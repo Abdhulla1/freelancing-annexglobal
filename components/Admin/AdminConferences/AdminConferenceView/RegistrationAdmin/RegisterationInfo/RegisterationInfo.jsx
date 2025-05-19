@@ -2,33 +2,45 @@
 import React, { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import RichTextEditor from "../LandingPage/RichTextEditor";
+import RichTextEditor from "../../ConferencePageAdmin/LandingPage/RichTextEditor";
 import Image from "next/image";
-import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-
-const journalData = [
+const faqData = [
   {
-    image: "/icons/DefaultPreviewImage.png", // Optional
-    topicName: "Benefits of attending the conference",
+    title: "What are the benefits of attending our conference?",
     content:
       "Attendees gain insights from industry leaders, network with professionals, and get access to exclusive content and resources.",
   },
   {
-    image: "/icons/DefaultPreviewImage.png",
-    topicName: "How to register",
+    title: "How can I register for the conference?",
     content:
-      "Register on our website by clicking the 'Register Now' button. Early bird discounts are available.",
+      "You can register by visiting our official website and clicking on the 'Register Now' button. Early bird discounts are also available.",
   },
   {
-    image: "/icons/DefaultPreviewImage.png",
-    topicName: "Session recordings",
+    title: "Will the sessions be recorded?",
     content:
-      "All sessions will be recorded and available to registered participants within a week after the event.",
+      "Yes, all sessions will be recorded and made available to registered participants within a week after the event.",
   },
-  // ... add the rest
+  {
+    title: "Can I get a certificate for attending?",
+    content:
+      "Yes, certificates of participation will be emailed to all attendees after the event concludes.",
+  },
+  {
+    title: "Will the sessions be recorded?",
+    content:
+      "Yes, all sessions will be recorded and made available to registered participants within a week after the event.",
+  },
+  {
+    title: "Can I get a certificate for attending?",
+    content:
+      "Yes, certificates of participation will be emailed to all attendees after the event concludes.",
+  },
 ];
 
-export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDetails }) {
+export default function RegisterationInfo({
+  visibleDetails,
+  setVisibleDetails,
+}) {
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
@@ -56,15 +68,15 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
       view: {
-        header: "View Supporting Journal",
+        header: "View Registeration Info",
         content: <View data={data} />,
       },
       edit: {
-        header: "Edit Supporting Journal",
+        header: "Edit Registeration Info",
         content: <Edit data={data} />,
       },
       add: {
-        header: "Add Supporting Journal",
+        header: "Add New FAQ",
         content: <Add />,
       },
     };
@@ -93,7 +105,7 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
             {sidebarState.content}
 
             {/* Sticky Button Area */}
-            {sidebarState.header !== "View Supporting Journal" && (
+            {sidebarState.header !== "View Frequently asked questions" && (
               <div className="bg-secondary bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
                 <button
                   className="btn px-5 bg-white border"
@@ -113,24 +125,15 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
       <table className="tabel w-100  table-striped-columns">
         <thead>
           <tr>
-            <td className="p-2 table-heading">Logo Image</td>
-            <td className="p-2 table-heading">Topic Name</td>
+            <td className="p-2 table-heading">Title</td>
             <td className="p-2 table-heading">Content</td>
             <td className="p-2 table-heading">Action</td>
           </tr>
         </thead>
         <tbody>
-          {journalData.map((element, i) => (
+          {faqData.map((element, i) => (
             <tr key={i}>
-              <td className="p-3 table-data">
-                <Image
-                  src={element.image}
-                  height={80}
-                  width={80}
-                  alt="TopicImage"
-                />{" "}
-              </td>
-              <td className="p-3 table-data">{element.topicName}</td>
+              <td className="p-3 table-data">{element.title}</td>
               <td className="p-3  table-data ">{element.content}</td>
               <td className="p-3 table-data ">
                 <div className="d-flex gap-1  justify-content-center flex-nowrap">
@@ -141,10 +144,7 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
                   >
                     <i className="bx bx-edit-alt"></i>
                   </button>
-                  {/* <button
-                    className="btn btn-outline-secondary rounded"
-                    onClick={confirmDelete}
-                  >
+                  {/* <button className="btn btn-outline-secondary rounded"    onClick={confirmDelete}>
                     <i className="bx bx-trash-alt"></i>
                   </button> */}
                   <button
@@ -161,13 +161,13 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
         </tbody>
       </table>
       {/* <button
-        name="add"
-        className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
-        style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
-        onClick={(e) => handleSidebar(e.target.name)}
-      >
-        +
-      </button> */}
+      name="add"
+              className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
+              style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
+              onClick={(e) => handleSidebar(e.target.name)}
+            >
+              +
+            </button> */}
     </div>
   );
 }
@@ -175,27 +175,26 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
 function Edit({ data }) {
   return (
     <div className="d-flex gap-3 flex-column">
-        <FileUpload   title ={ "Logo Image Upload"} showBorder = {true}/>
       {/* <RichTextEditor
-        labelName={"Topic"}
+        labelName={"Question"}
         height="120px"
-        initialValue={data.topicName}
+        initialValue={data.title}
         onChange={(content) => console.log("Edited content:", content)}
       /> */}
-              <div className=" mb-3">
-        <label className="form-label">Topic</label>
+      <div className=" mb-3">
+        <label className="form-label">Title</label>
         <input
           type="text"
-          name="topic"
+          name="title"
           className="form-control"
-          value={data.topicName}
+          value={data.title}
           onChange={(e) => console.log("Edited content:", e.value)}
           placeholder="2nd International Conference On"
           required
         />
       </div>
       <RichTextEditor
-        labelName={"Content"}
+        labelName={"Answer"}
         initialValue={data.content}
         onChange={(content) => console.log("Edited content:", content)}
       />
@@ -205,22 +204,17 @@ function Edit({ data }) {
 function Add({ data }) {
   return (
     <div className="d-flex gap-3 flex-column">
-           <FileUpload   title ={ "Logo Image Upload"} showBorder = {true}/>
-      <RichTextEditor labelName={"Topic"} height="120px" initialValue={""} />
-      <RichTextEditor labelName={"Content"} initialValue={""} />
+      <RichTextEditor labelName={"Question"} height="120px" initialValue={""} />
+      <RichTextEditor labelName={"Answer"} initialValue={""} />
     </div>
   );
 }
 function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
-      <label className="form-label fw-bold">Image</label>
-      <Image src={data.image} width={120} height={120} alt="DeleteIcon" />
       <div>
-        <label className="form-label fw-bold mb-2">Topic</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.topicName}
-        </p>
+        <label className="form-label fw-bold mb-2">Title</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.title}</p>
       </div>
       <div>
         <label className="form-label fw-bold mb-2">Content</label>
@@ -236,7 +230,7 @@ function Delete({ data = null }) {
   return (
     <div className="d-flex flex-column align-items-center text-center">
       <Image src="/icons/delete.png" width={80} height={80} alt="DeleteIcon" />
-      <h5 className="mt-3">Delete Supporting Journal</h5>
+      <h5 className="mt-3">Delete Frequently asked question</h5>
       <p className="mb-0 col-md-8">
         Are you sure you want to delete this Program File? This action cannot be
         undone.

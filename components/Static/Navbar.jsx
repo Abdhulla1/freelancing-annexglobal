@@ -163,6 +163,9 @@ export default function Navbar() {
             : "#",
         },
         { label: "CONTACT US", url: "/contact-us" },
+        { label: "FAQ", url: conferenceId
+            ? `/conference/${conferenceId}/faq`
+            : "#", },
       ],
     },
   ];
@@ -303,9 +306,9 @@ export default function Navbar() {
             <button className={NavbarStyles["buy-ticket"]}>
               <Link
                 href={"/conferences"}
-                className="text-uppercase text-center mb-0 text-decoration-none  text-white fw-normal"
+                className="text-uppercase text-center mb-0 text-decoration-none  text-black fw-normal "
               >
-                Get Brochure
+                Brochure
               </Link>
             </button>
           </div>

@@ -151,7 +151,7 @@ const UpcomingConference = () => {
                   {upcomingConferences
                     .slice(index * 6, index * 6 + 6)
                     .map((event, i) => (
-                      <div className="col-md-6 col-lg-4 mb-3" key={i}>
+                      <Link href={`/conference/${event.id}`} className="text-decoration-none col-md-6 col-lg-4 mb-3" key={i}>
                         <div className={UpcomingConferenceStyle["upcoming-events-card"]}>
                           <span className={UpcomingConferenceStyle["date"]}>
                             {event.date}
@@ -165,14 +165,14 @@ const UpcomingConference = () => {
                               {event.location}
                             </div>
                           </div>
-                          <Link
+                          <div
                             href={`/conference/${event.id}`}
                             className={UpcomingConferenceStyle["buy-button"]}
                           >
                             BUY TICKETS
-                          </Link>
+                          </div>
                         </div>
-                      </div>
+                      </Link>
                     ))}
                 </div>
               </div>
@@ -181,7 +181,15 @@ const UpcomingConference = () => {
         </Slider>
       </div>
       <div className="mb-4 d-flex align-items-center justify-content-center">
-        <Button label="View More" href="/conferences" />
+        {/* <Button label="View More" href="/conferences" /> */}
+          <button className="brand-btn ">
+        <Link
+          href={'/conferences'}
+          className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
+        >
+          View More &nbsp; <i className={'pi-arrow-right pi'}></i>
+        </Link>
+      </button>
       </div>
     </div>
   );

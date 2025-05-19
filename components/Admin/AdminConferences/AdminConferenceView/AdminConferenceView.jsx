@@ -24,6 +24,7 @@ import BrochureAdmin from "./BrochureAdmin/BrochureAdmin";
 import SubmitAbstractAdmin from "./BrochureAdmin/SubmitAbstractAdmin";
 import WebinarProgramAdmin from "./WebinarPageAdmin/WebinarProgramAdmin/WebinarProgramAdmin";
 import ScientificProgramAdmin from "./ConferencePageAdmin/ScientificProgramAdmin/ScientificProgramAdmin";
+import FAQPageAdmin from "./FAQPageAdmin/FAQPageAdmin";
 export default function AdminConferenceView({ conference }) {
   const [activeMenu, setActiveMenu] = useState("Conference");
   const [selectedConference, setSelectedConference] = useState(null);
@@ -44,6 +45,7 @@ export default function AdminConferenceView({ conference }) {
     { item: "Webinar" },
     { item: "Speakers" },
     { item: "OCM" },
+    { item: "FAQ" },
     { item: "Brochure"},
     { item: "Abstract" },
     { item: "Scientific Program" },
@@ -61,12 +63,14 @@ export default function AdminConferenceView({ conference }) {
     Webinar: <WebinarPageAdmin />,
     Speakers: <SpeakerAdmin />,
     OCM: <OCMAdmin />,
+    FAQ: <FAQPageAdmin />,
     "Brochure": <BrochureAdmin />,
     "Abstract": <SubmitAbstractAdmin />,
     "Webinar Program": <WebinarProgramAdmin/> ,
     Topics: <TopicsAdmin />,
     Venue: <VenuePageAdmin />,
     Registration: <RegistrationAdmin />,
+
     "Special Registration": <SpecialRegistration />,
        "Scientific Program": <ScientificProgramAdmin />,
   };

@@ -24,8 +24,9 @@ const FormField = ({
       <input
         type={type}
         name={name}
-        className={`form-control ${formik.touched[name] && formik.errors[name] ? "is-invalid" : ""
-          }`}
+        className={`form-control ${
+          formik.touched[name] && formik.errors[name] ? "is-invalid" : ""
+        }`}
         value={formik.values[name]}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
@@ -38,13 +39,7 @@ const FormField = ({
   );
 };
 
-const FormSelect = ({
-  label,
-  name,
-  options,
-  formik,
-  colSpan = "col-md-6",
-}) => {
+const FormSelect = ({ label, name, options, formik, colSpan = "col-md-6" }) => {
   return (
     <div className={`mb-3 ${colSpan}`}>
       <label className="form-label">
@@ -52,8 +47,9 @@ const FormSelect = ({
       </label>
       <select
         name={name}
-        className={`form-select ${formik.touched[name] && formik.errors[name] ? "is-invalid" : ""
-          }`}
+        className={`form-select ${
+          formik.touched[name] && formik.errors[name] ? "is-invalid" : ""
+        }`}
         value={formik.values[name]}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
@@ -71,14 +67,14 @@ const FormSelect = ({
   );
 };
 const currencySymbols = {
-  USD: '$',
-  INR: '₹',
-  EUR: '€',
-  GBP: '£',
-  JPY: '¥',
-  CAD: 'C$',
-  AUD: 'A$',
-  CNY: '¥',
+  USD: "$",
+  INR: "₹",
+  EUR: "€",
+  GBP: "£",
+  JPY: "¥",
+  CAD: "C$",
+  AUD: "A$",
+  CNY: "¥",
 };
 // === 👇 Main Component ===
 export default function RegistrationForm() {
@@ -103,7 +99,7 @@ export default function RegistrationForm() {
     }
   };
   const getSymbol = (currency) => {
-    return currencySymbols[currency] || '';
+    return currencySymbols[currency] || "";
   };
   const validationSchema = Yup.object({
     firstName: Yup.string().required("First name is required"),
@@ -115,6 +111,10 @@ export default function RegistrationForm() {
     country: Yup.string().required("Country is required"),
     address: Yup.string().required("Address is required"),
     currency: Yup.string().required("Currency is required"),
+    termsAccepted: Yup.boolean().oneOf(
+      [true],
+      "You must accept the terms and conditions"
+    ),
   });
 
   const formik = useFormik({
@@ -126,6 +126,7 @@ export default function RegistrationForm() {
       country: "",
       address: "",
       currency: "",
+      termsAccepted: false,
     },
     validationSchema,
     onSubmit: () => {
@@ -223,6 +224,28 @@ export default function RegistrationForm() {
               ]}
             />
           </div>
+          <div className="form-check my-3">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              id="termsAccepted"
+              name="termsAccepted"
+              checked={formik.values.termsAccepted}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <label className="form-check-label" htmlFor="termsAccepted">
+              I agree to the{" "}
+              <Link href={'/terms-and-conditions'}>Terms and Conditions</Link>
+           
+            </label>
+            {formik.touched.termsAccepted && formik.errors.termsAccepted && (
+              <div className="text-danger small">
+                {formik.errors.termsAccepted}
+              </div>
+            )}
+          </div>
+
           <div className="d-flex justify-content-end">
             <button type="submit" className={`btn ${styles["brand-btn"]}`}>
               Continue
@@ -233,7 +256,11 @@ export default function RegistrationForm() {
 
       {step === 2 && (
         <div>
-          <PricingTable onTotalChange={handleTotalChange} selectedCurrency={formik.values.currency} getSymbol={getSymbol}/>
+          <PricingTable
+            onTotalChange={handleTotalChange}
+            selectedCurrency={formik.values.currency}
+            getSymbol={getSymbol}
+          />
         </div>
       )}
 
@@ -301,11 +328,15 @@ export default function RegistrationForm() {
               <h5 className="pb-4 border-bottom">Ticket Summary</h5>
               <div className="d-flex justify-content-between">
                 <span className="mt-2">Your Ticket Price</span>
-                <span className="fw-bold mt-2">${totals.ticketTotal.toFixed(2)}</span>
+                <span className="fw-bold mt-2">
+                  ${totals.ticketTotal.toFixed(2)}
+                </span>
               </div>
               <div className="d-flex justify-content-between">
                 <span className="mt-2">Accommodation Cost</span>
-                <span className="fw-bold mt-2">${totals.accommodationTotal.toFixed(2)}</span>
+                <span className="fw-bold mt-2">
+                  ${totals.accommodationTotal.toFixed(2)}
+                </span>
               </div>
               <hr />
               <div className="d-flex justify-content-between fw-bold fs-5">
@@ -368,7 +399,8 @@ export default function RegistrationForm() {
                   Annual Congress On Gynecology, Obstetrics and Women's Health
                 </span>
                 . <br />
-                We appreciate your participation and look forward to an insightful event.
+                We appreciate your participation and look forward to an
+                insightful event.
               </p>
               <p className="text-muted mt-5">
                 You will receive a confirmation email with further details soon.

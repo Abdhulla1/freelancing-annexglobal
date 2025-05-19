@@ -139,7 +139,7 @@ export default function LandingPage({ selectedConferenceID, toast }) {
       />
 
       <div className="mt-4">
-        <div className="col-md-8 mb-3">
+        {/* <div className="col-md-8 mb-3">
           <label className="form-label">Title</label>
           <input
             type="text"
@@ -152,7 +152,7 @@ export default function LandingPage({ selectedConferenceID, toast }) {
           />
 
           
-        </div>
+        </div> */}
         <div className="col-md-8 mb-3">
             <label className="form-label">Heading</label>
             <input

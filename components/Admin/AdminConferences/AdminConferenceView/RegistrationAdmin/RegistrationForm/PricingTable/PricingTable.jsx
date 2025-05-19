@@ -83,7 +83,7 @@ export default function PricingTable({ onTotalChange }) {
               <th className={`text-start p-2 pe-4 ${styles.th} col-6 `}>
                 <div className="d-flex align-items-center justify-content-between">
                   Registration Type &nbsp;{" "}
-                  <button
+                  {/* <button
                     name="editRegistrationTitle"
                     className="btn btn-outline-secondary rounded ms-auto"
                     onClick={(e) =>
@@ -91,7 +91,7 @@ export default function PricingTable({ onTotalChange }) {
                     }
                   >
                     <i className="bx bx-edit-alt"></i>
-                  </button>
+                  </button> */}
                 </div>
               </th>
               <th className={`text-start p-2 ${styles.th} col-4`}>
@@ -115,13 +115,13 @@ export default function PricingTable({ onTotalChange }) {
               <th className={`text-start p-2 ${styles.th} col-2`}>
                 <div className="d-flex align-items-center justify-content-between">
                   Qty &nbsp;{" "}
-                  <button
+                  {/* <button
                     name="editQtyValue"
                     className="btn btn-outline-secondary rounded ms-auto"
                     onClick={(e) => handleModel(e.target.name, "Qty")}
                   >
                     <i className="bx bx-edit-alt"></i>
-                  </button>
+                  </button> */}
                 </div>
               </th>
             </tr>
@@ -312,7 +312,7 @@ function EditPriceValue({ data, onHide }) {
 function EditQtyValue({ data, onHide }) {
   return (
     <div className="p-3">
-      <label className="form-label">Enter Quntity name</label>
+      {/* <label className="form-label">Enter Quntity name</label>
       <input
         type="text"
         name="couponCode"
@@ -321,7 +321,7 @@ function EditQtyValue({ data, onHide }) {
         placeholder="Enter Quntity name"
         onChange={(e) => console.log(e.target.value)}
         required
-      />
+      /> */}
 
       <div className="mt-4 mb-3">
         <label className="form-label">Number</label>
@@ -371,9 +371,9 @@ function EditPricingLevelList({ data, onHide }) {
   return (
     <div className="p-3">
       <div className="mb-2">
-        <label className="form-label">Level 1</label>
+        <label className="form-label">Early Bird (Ending Date)</label>
         <input
-          type="text"
+          type="date"
           name="couponCode"
           value={'Early Bird'}
           className="form-control"
@@ -383,9 +383,9 @@ function EditPricingLevelList({ data, onHide }) {
         />
       </div>
       <div className="mb-2">
-        <label className="form-label">Level 2</label>
+        <label className="form-label">Mid Term (Ending Date)</label>
         <input
-          type="text"
+          type="date"
           name="couponCode"
           value={'Mid Team'}
           className="form-control"
@@ -395,9 +395,9 @@ function EditPricingLevelList({ data, onHide }) {
         />
       </div>
       <div className="mb-2">
-        <label className="form-label">Level 3</label>
+        <label className="form-label">Final Call (Ending Date)</label>
         <input
-          type="text"
+          type="date"
           name="couponCode"
           value={'Final Call'}
           className="form-control"

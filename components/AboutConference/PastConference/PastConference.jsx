@@ -40,7 +40,7 @@ const PastConference = () => {
 
   return (
     <div className="container-fluid px-5 py-5">
-      <h3 className="text-center">Past Conference Ethereal Frames</h3>
+      <h3 className="text-center fw-bold">Past Conference Ethereal Frames</h3>
       <div className="mt-5">
         <Slider ref={sliderRef} {...settings}>
           <div>

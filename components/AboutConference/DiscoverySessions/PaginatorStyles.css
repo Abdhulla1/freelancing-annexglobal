@@ -19,9 +19,9 @@
 /* Active Page */
 .p-paginator .p-paginator-pages .p-highlight {
   /* background-color: #f4a300a2 !important; */
-  background: linear-gradient(90deg, #f4a300b9 0%, #ffea61 100%) !important;
-
-  color: white !important;
+  /* background: linear-gradient(90deg, #f4a300b9 0%, #ffea61 100%) !important; */
+background: white;
+  color: black !important;
   font-weight: bold;
 }
 /* Prev & Next Buttons */

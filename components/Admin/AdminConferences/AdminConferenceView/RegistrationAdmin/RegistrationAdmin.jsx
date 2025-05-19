@@ -5,12 +5,14 @@ import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/Scrollabl
 import PersonalDetails from "./RegistrationForm/PersonalDetails/PersonalDetails";
 import PricingTable from "./RegistrationForm/PricingTable/PricingTable";
 import Accommodation from "./RegistrationForm/Accommodation/Accommodation";
+import RegisterationInfo from "./RegisterationInfo/RegisterationInfo";
 export default function RegistrationAdmin() {
   const [activeTab, setActiveTab] = useState("Personal Details"); // default to first tab
   const tabs = {
     "Personal Details": <PersonalDetails  />,
     Pricing: <PricingTable />,
     Accommodation: <Accommodation />,
+    "Rigistration Info": <RegisterationInfo />,
   };
 
   return (

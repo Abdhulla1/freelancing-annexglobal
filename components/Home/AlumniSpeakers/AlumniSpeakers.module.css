@@ -25,8 +25,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+    transition: box-shadow 0.3s ease; /* Smooth transition */
 
 }
+.card-header:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.325); /* Example box-shadow */
+}
+
 .profile-img {
   width: auto;
   height: 200px   ;
@@ -34,7 +39,7 @@
   object-fit: cover;
 }
 .profile-img2{
-  
+  width: auto;
   height: 100px;
   cursor: pointer;
   object-fit: cover;
@@ -115,3 +120,5 @@
 .about-content-height::-webkit-scrollbar-thumb:hover {
   background: #dc9300;
 }
+
+

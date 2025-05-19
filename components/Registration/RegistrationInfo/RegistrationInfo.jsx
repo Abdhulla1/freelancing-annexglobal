@@ -30,13 +30,13 @@ const RegistrationInfo = () => {
   const headerGen = (data, index) => {
     const isActive = activeIndex === index; // Check if this tab is open
     return (
-      <div className="d-flex align-items-center justify-content-between">
+      <div className="d-flex align-items-center justify-content-around">
         <div>
           <h4 className="text-muted">{data.id}</h4>
         </div>
-        <div className="ms-3">
+        <div className="ms-3 text-start col-7">
           <h4>{data.title}</h4>
-          <p className={`text-muted text-capitalize ${SupportingJournalsStyles['lineheight']} `}>{data.description}</p>
+          <p className={`text-muted text-capitalize  text-truncate  ${SupportingJournalsStyles['lineheight']} `}>{data.description}</p>
         </div>
         <div >
           <button className={`btn ${SupportingJournalsStyles['accordion-button']} h-100`}>
