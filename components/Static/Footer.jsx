@@ -19,7 +19,7 @@ const Footer = () => {
             # Annex Global conference{" "}
           </small>
           <div className="d-inline-flex justify-content-center gap-3">
-            <i className="bx bxl-facebook text-white fs-6"></i>
+            <i className="pi pi-facebook text-white fs-6"></i>
             <i className="bx bxl-instagram text-white fs-6"></i>
             <i className="pi pi-linkedin text-white fs-6"></i>
             <i className="bx bxl-whatsapp text-white fs-6"></i>

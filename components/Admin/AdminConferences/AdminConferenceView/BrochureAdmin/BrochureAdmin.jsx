@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/ScrollableTabs";
-import BrochureTableAdmin from "./BrochureTableAdmin/BrochureTableAdmin";
 import UploadBrochure from "../ConferencePageAdmin/UploadBrochure/UploadBrochure";
 export default function BrochureAdmin() {
  const [activeTab, setActiveTab] = useState("Upload Brochure"); // default to first tab
@@ -10,9 +9,7 @@ export default function BrochureAdmin() {
       "Upload Brochure": (
         <UploadBrochure/>
       ),
-      "Brochure Details List": (
-        <BrochureTableAdmin/>
-      ),
+
     };
 
     

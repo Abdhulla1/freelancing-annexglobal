@@ -1,4 +1,6 @@
 "use client";
+import { Sidebar } from "primereact/sidebar";
+
 import { useState, useRef, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -15,26 +17,8 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    }
-
-    function handleResize() {
-      if (window.innerWidth >= 768) {
-        setIsOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    setIsOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     function handleScroll() {
@@ -88,29 +72,26 @@ export default function Navbar() {
           label: "ABOUT WEBINAR",
           url: conferenceId ? `/conference/${conferenceId}/webinar` : "#",
         },
-         {
+        {
           label: "WEBINAR PROGRAM",
           url: conferenceId
             ? `/conference/${conferenceId}/webinar-program`
             : "#",
         },
-         {
+        {
           label: "SUBMIT ABSTRACT",
           url: conferenceId
             ? `/conference/${conferenceId}/submit-abstract`
             : "#",
         },
         {
-      label: "REGISTRATION",
-      url: conferenceId ? `/conference/${conferenceId}/registration` : "#",
-    },
+          label: "REGISTRATION",
+          url: conferenceId ? `/conference/${conferenceId}/registration` : "#",
+        },
         {
           label: "WEBINAR SPEAKERS",
           url: conferenceId ? `/conference/${conferenceId}/speakers` : "#",
         },
-       
-      
-       
       ],
     },
     {
@@ -132,40 +113,38 @@ export default function Navbar() {
         },
       ],
     },
- {
-          label: "SUBMIT ABSTRACT",
-          url: conferenceId
-            ? `/conference/${conferenceId}/submit-abstract`
-            : "#",
-        },
     {
-      label: "REGISTRATION",
+      label: "ABSTRACT",
+      url: conferenceId ? `/conference/${conferenceId}/submit-abstract` : "#",
+    },
+    {
+      label: "REGISTER",
       url: conferenceId ? `/conference/${conferenceId}/registration` : "#",
     },
     {
       label: "MORE",
       items: [
-      
         {
           label: "VENUE",
           url: conferenceId ? `/conference/${conferenceId}/venue` : "#",
         },
-           {
+        {
           label: "SCIENTIFIC PROGRAM",
           url: conferenceId
             ? `/conference/${conferenceId}/scientific-program`
             : "#",
         },
-         {
+        {
           label: "SPONSORS EXHIBITORS",
           url: conferenceId
             ? `/conference/${conferenceId}/sponsors-exhibitors`
             : "#",
         },
         { label: "CONTACT US", url: "/contact-us" },
-        { label: "FAQ", url: conferenceId
-            ? `/conference/${conferenceId}/faq`
-            : "#", },
+        {
+          label: "FAQ",
+          url: conferenceId ? `/conference/${conferenceId}/faq` : "#",
+        },
       ],
     },
   ];
@@ -226,7 +205,7 @@ export default function Navbar() {
             </Link>
             <div className="mt-2">
               {/* Location/Weather*/}
-              <p className={`d-none  d-xl-block ${NavbarStyles["sub-title"]}`}>
+              <p className={`d-none  d-xxl-block ${NavbarStyles["sub-title"]}`}>
                 Dubai, UAE &nbsp;•&nbsp;26-27 February 2025&nbsp;•&nbsp;
                 <i className="bx bxs-sun text-warning" /> 36.1°C
               </p>
@@ -236,16 +215,23 @@ export default function Navbar() {
           <button
             className={`navbar-toggler border-0 ${NavbarStyles["navbar-noShadow"]} ms-auto`}
             type="button"
-            onClick={() => setIsOpen(!isOpen)}style={{ outline: 'none', boxShadow: 'none' }}
+            onClick={() => setIsOpen(!isOpen)}
+            style={{ outline: "none", boxShadow: "none" }}
           >
             <span className="navbar-toggler-icon"> </span>
           </button>
 
           <div
             ref={menuRef}
-            className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}
+            className={`d-none d-xxl-flex justify-content-center collapse navbar-collapse ${
+              isOpen ? "show" : ""
+            }`}
           >
-            <ul className={`navbar-nav ms-4 ${isOpen ? " gap-3 " : " gap-4 "}`}>
+            <ul
+              className={`navbar-nav d-flex justify-content-around w-100 ms-4 ${
+                isOpen ? " gap-3 " : " gap-4 "
+              }`}
+            >
               {Menuitems.map((item, index) => {
                 const isActive = activeItem === item.label;
                 return (
@@ -294,48 +280,82 @@ export default function Navbar() {
             </ul>
           </div>
 
-          <div className="d-none d-xxl-flex gap-2">
-            <button className={` ${NavbarStyles["sponsor"]}`}>
+          <div className="d-none d-xxl-flex gap-2 ms-3 ">
+
               <Link
-                href={conferenceId ? `/conference/${conferenceId}/scientific-program` : "#"}
-                className="text-center text-uppercase mb-0 text-decoration-none text-white fw-normal"
+                href={
+                  conferenceId
+                    ? `/conference/${conferenceId}/scientific-program`
+                    : "#"
+                }
+                className={`text-center text-uppercase mb-0 fw-bold text-decoration-none  ${NavbarStyles["sponsor"]}`}
               >
-                Program 
+                Program
               </Link>
-            </button>
-            <button className={NavbarStyles["buy-ticket"]}>
+
               <Link
                 href={"/conferences"}
-                className="text-uppercase text-center mb-0 text-decoration-none  text-black fw-normal "
+                className={`text-uppercase text-center fw-bold mb-0 text-decoration-none ${NavbarStyles["buy-ticket"]}`}
               >
                 Brochure
               </Link>
-            </button>
+
           </div>
         </div>
-        {/* 
-        {isOpen && (
-          <>     <button className={NavbarStyles["sponsor"]}>
-          <Link
-            href={"/"}
-            className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
-          >
-            SPONSOR
-          </Link>
-        </button>
-        <button className={`w-100 text-center ${NavbarStyles["buy-ticket"]}`}>
-            
-            <Link
-              href={"/#newsletter"}
-              className="mb-0 text-decoration-none h6 fw-normal w-100"
-            >
-              Subscribe
-            </Link>
-          </button>
-          </>
-       
-        )} */}
+  
       </nav>
+      {/* PrimeReact Sidebar for Mobile */}
+      <Sidebar
+        visible={isOpen}
+        onHide={() => setIsOpen(false)}
+        position="right"
+        className="p-sidebar"
+        style={{ zIndex: 1050 }}
+        ref={menuRef}
+      >
+        <ul className="list-unstyled ps-0 ">
+          {Menuitems.map((item, idx) => {
+            const isActive = activeItem === item.label;
+            return (
+              <li key={idx} className="mb-2">
+                {item.items ? (
+                  <div>
+                    <span className="fw-bold">{item.label}</span>
+                    <ul className="list-unstyled ps-3 mt-1">
+                      {item.items.map((sub, i) => {
+                        const isActive = activeItem === sub.label;
+                        return (
+                          <li key={i}>
+                            <Link
+                              href={sub.url}
+                              className={`d-block py-1 text-decoration-none ${
+                                isActive ? "fw-bold text-primary" : "text-dark"
+                              }`}
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {sub.label}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ) : (
+                  <Link
+                    href={item.url}
+                    className={`d-block py-1 text-decoration-none ${
+                      isActive ? NavbarStyles.active : "text-dark"
+                    }`}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      </Sidebar>
     </div>
   );
 }

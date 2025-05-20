@@ -29,7 +29,9 @@
 
 }
 .card-header:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.325); /* Example box-shadow */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.512);
+    transform: translateY(-2px);
+
 }
 
 .profile-img {

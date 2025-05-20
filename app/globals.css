@@ -59,8 +59,9 @@ body {
 
   background: var(--btn-gradient);
   border: 2px solid #F4A300;
-  color: white;
+  color: black;
   padding: 10px 20px;
+  font-weight: 700;
   font-size: 16px;
   border: none;
   border-radius: 8px;
@@ -89,7 +90,10 @@ body {
   background: var(--btn-hover-gradient);
     transition-duration: 0.3s;
   color: white;
+    transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+
 
 .main-btn{
 background: var(--btn-hover-gradient);

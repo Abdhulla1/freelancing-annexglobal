@@ -4,7 +4,7 @@ import connectWithOthers from "./ConnectWithOthers.module.css";
 import Slider from "react-slick";
 import { useRef } from "react";
 import Ratings from "./Ratings";
-
+import Link from "next/link";
 var settings = {
   dots: true,
   infinite: true,
@@ -50,8 +50,15 @@ const ConnectWithOthers = () => {
                   Connect with other members
                 </h3>
                 <h6 className="text-white fw-normal mt-3">
-                The Annex Global Conference stands as a premier international forum that brings together visionaries, industry leaders, entrepreneurs, and changemakers from around the world. Focused on driving transformative innovation, the conference serves as a catalyst for groundbreaking ideas, disruptive technologies, and collaborative strategies that transcend traditional industry boundaries.
-Spanning multiple sectors — including technology, healthcare, finance, sustainability, education, and manufacturin
+                  The Annex Global Conference stands as a premier international
+                  forum that brings together visionaries, industry leaders,
+                  entrepreneurs, and changemakers from around the world. Focused
+                  on driving transformative innovation, the conference serves as
+                  a catalyst for groundbreaking ideas, disruptive technologies,
+                  and collaborative strategies that transcend traditional
+                  industry boundaries. Spanning multiple sectors — including
+                  technology, healthcare, finance, sustainability, education,
+                  and manufacturin
                 </h6>
               </div>
             </div>
@@ -71,9 +78,16 @@ Spanning multiple sectors — including technology, healthcare, finance, sustain
                           <div className={connectWithOthers["card-body"]}>
                             <div className={connectWithOthers["quote-icon"]}>
                               {el ? (
-                                <div className={`rounded-circle ${connectWithOthers["video"]}`}>
-                                  <i className="bx bx-play fs-2 shadow"></i>
-                                </div>
+                                <a
+                                  href="https://youtu.be/19eIVnOI9Do?si=Cd1ONhNjHtrYgG-H"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={`text-decoration-none rounded-circle ${connectWithOthers["video"]}`}
+                                >
+                                  <i
+                                    className={`bx bx-play fs-1 ${connectWithOthers["play-icon"]}`}
+                                  ></i>
+                                </a>
                               ) : (
                                 <i className="bx bxs-quote-left"></i>
                               )}

@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/ScrollableTabs";
 import UploadAbstract from "../ConferencePageAdmin/UploadAbstract/UploadAbstract";
-import SubmitAbstractTableAdmin from "./SubmitAbstractTableAdmin/SubmitAbstractTableAdmin";
 
 export default function SubmitAbstractAdmin() {
 
@@ -12,9 +11,7 @@ export default function SubmitAbstractAdmin() {
         "Upload Abstract": (
           <UploadAbstract/>
         ),
-        "Abstract Details List": (
-          <SubmitAbstractTableAdmin/>
-        ),
+
       };
   
   return (
