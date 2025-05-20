@@ -84,7 +84,7 @@ function EventsSection() {
             )}
           </div>
           <ImageGalleryComponent />
-          <div className={styles.buttons}>
+          <div className={`mt-4 mb-5 ${styles.buttons}`}>
             <button onClick={handleBackButtonClick} className={styles.backbutton}>
               ← Back
             </button>

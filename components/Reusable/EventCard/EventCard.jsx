@@ -6,10 +6,10 @@ function EventCard({ event,onClick}) {
   return (
     <div className="mt-5">
       <div className={`card ${styles.cardStyle}`} onClick={onClick}> 
-        <div className="card-body">
-          <h5 className={`card-title ${styles.cardTitle}`}>
+        <div className="card-body ">
+          <h6 className={`card-title mt-2 ${styles.cardTitle}`}>
             {event.title}
-          </h5>
+          </h6>
           <p className="card-text text-uppercase">
             {`${event.date}  |  ${event.location}`}
           </p>
