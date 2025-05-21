@@ -14,6 +14,10 @@ const faqData = {
     { question: "Target audience for gynecology conference ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
     { question: "What are the advantages for speaker participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
     { question: "What are the advantages for speaker participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
+     {
+    question: "Anything else?",
+    answer: 'If you have any other queries or require further information, please feel free to <a href="/contact-us" style="color: blue; text-decoration: underline;">contact us</a>. We’re here to help!'
+  }
   ],
   TICKETS: [
     { question: "What Is The Refund Policy?", answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos exercitationem culpa totam adipisci eligendi, nam rem, ad porro, nostrum asperiores amet modi quod voluptate corrupti cumque! Alias, quas exercitationem." },

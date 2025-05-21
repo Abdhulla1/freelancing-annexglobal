@@ -21,7 +21,7 @@ const ResearchCarouusel = ({conferenceId}) => {
   };
 
   return (
-    <div className={`h-auto ${DiscoverySessionsStyles["container"]} d-flex flex-column flex-md-row`}>
+    <div className={`h-auto container  ${DiscoverySessionsStyles["container"]} d-flex flex-column flex-md-row`}>
       <div className="mt-4 col-12 col-md-3 d-flex flex-column align-items-center justify-content-center p-4">
         <div className="pe-md-5 mb-4">
           <h2 className={`text-center mb-0 fs-1 ${DiscoverySessionsStyles["research"]}`}>Research</h2>

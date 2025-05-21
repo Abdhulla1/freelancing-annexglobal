@@ -64,7 +64,7 @@ const ResearchPaperForm = () => {
         <form onSubmit={formik.handleSubmit}>
           {/* First and Last Name */}
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>
                 First Name <span className="text-danger">*</span>
               </label>
@@ -80,7 +80,7 @@ const ResearchPaperForm = () => {
               <div className="invalid-feedback">{formik.errors.firstName}</div>
             </div>
 
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>
                 Last Name <span className="text-danger">*</span>
               </label>
@@ -99,7 +99,7 @@ const ResearchPaperForm = () => {
 
           {/* Email and Alternate Email */}
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>
                 Email ID <span className="text-danger">*</span>
               </label>
@@ -115,7 +115,7 @@ const ResearchPaperForm = () => {
               <div className="invalid-feedback">{formik.errors.email}</div>
             </div>
 
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>Alternate Email</label>
               <input
                 type="email"
@@ -129,7 +129,7 @@ const ResearchPaperForm = () => {
 
           {/* Country and Contact */}
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>
                 Country <span className="text-danger">*</span>
               </label>
@@ -145,7 +145,7 @@ const ResearchPaperForm = () => {
               <div className="invalid-feedback">{formik.errors.country}</div>
             </div>
 
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>
                 Contact Number <span className="text-danger">*</span>
               </label>
@@ -164,7 +164,7 @@ const ResearchPaperForm = () => {
 
           {/* Affiliation and Title */}
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>
                 Affiliation <span className="text-danger">*</span>
               </label>
@@ -180,7 +180,7 @@ const ResearchPaperForm = () => {
               <div className="invalid-feedback">{formik.errors.affiliation}</div>
             </div>
 
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>
                 Title of the Abstract <span className="text-danger">*</span>
               </label>
@@ -199,7 +199,7 @@ const ResearchPaperForm = () => {
 
           {/* Optional Fields */}
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>Address</label>
               <input
                 type="text"
@@ -210,7 +210,7 @@ const ResearchPaperForm = () => {
               />
             </div>
 
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>Addon Name</label>
               <input
                 type="text"
@@ -223,7 +223,7 @@ const ResearchPaperForm = () => {
           </div>
 
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>Addon Email</label>
               <input
                 type="email"
@@ -234,7 +234,7 @@ const ResearchPaperForm = () => {
               />
             </div>
 
-            <div className="col-md-6">
+            <div className="col-md-6 mb-2">
               <label className={styles.label}>Addon Contact Number</label>
               <input
                 type="text"

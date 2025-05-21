@@ -35,7 +35,7 @@ const RegistrationInfo = () => {
           <h4 className="text-muted">{data.id}</h4>
         </div>
         <div className="ms-3 text-start col-7">
-          <h4>{data.title}</h4>
+          <h4 className={`${SupportingJournalsStyles['title']} `}>{data.title}</h4>
           <p className={`text-muted text-capitalize  text-truncate  ${SupportingJournalsStyles['lineheight']} `}>{data.description}</p>
         </div>
         <div >

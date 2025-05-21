@@ -4,7 +4,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    /* height: 100vh; */
+
   }
   
   .contentWrapper {
@@ -92,7 +93,7 @@
       height: auto;
       margin-top: 10rem;
       position: relative;
-      top: 250px;
+      top: 220px;
       left: 35%;
     }
   

@@ -1,11 +1,11 @@
 import React from 'react'
-import UpcomingConference from './UpcomingConference/UpcomingConference'
+import PastConference from './PastConferenceCards/PastConference'
 import UpcomingConferences from './UpcomingConferences/UpcomingConferences'
 const PastConferenceMain = () => {
   return (
     <>
     <UpcomingConferences  />
-    <UpcomingConference/>
+    <PastConference/>
     </>
   )
 }

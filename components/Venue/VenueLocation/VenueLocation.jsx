@@ -6,7 +6,7 @@ import Image from "next/image";
 const VenueLocation = ({ conference }) => {
 
   return (
-    <div className={ConferenceDetailsStyles.container}>
+    <div className={`container ${ConferenceDetailsStyles.container}`}>
       <div className="row g-0 h-100 overflow-x-hidden">
         {/* Left Section with Text & Navigatio
         n */}

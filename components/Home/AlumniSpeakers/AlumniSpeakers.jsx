@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import AlumniSpeakerStyles from "./AlumniSpeakers.module.css";
 import Slider from "react-slick";
 import { Sidebar } from "primereact/sidebar";
@@ -34,15 +34,6 @@ const CustomArrow = ({ className, style, onClick, direction }) => {
   );
 };
 
-// var settings = {
-//   dots: true,
-//   infinite: true,
-//   speed: 500,
-//   slidesToShow: 1,
-//   slidesToScroll: 1,
-//   prevArrow: <CustomArrow direction="left" />,
-//   nextArrow: <CustomArrow direction="right" />,
-// };
 
 const AlumniSpeakers = () => {
   const [visibleDetails, setVisibleDetails] = useState(false);
@@ -168,21 +159,43 @@ const AlumniSpeakers = () => {
     slidesToScroll: 1,
     prevArrow: <CustomArrow direction="left" />,
     nextArrow: <CustomArrow direction="right" />,
-    responsive: [
-    {
-      breakpoint: 768,
-      settings: {
-        arrows: false, // hide arrows on mobile
-        dots: true,
+     responsive: [
+      {
+        breakpoint: 1024, // Tablet
+        settings: { slidesToShow: 1 },
       },
-    },
-  ],
+      {
+        breakpoint: 768, // Mobile
+        settings: { slidesToShow: 1 },
+      },
+    ],
   };
 
   const handleSpeakerClick = (speaker) => {
     setSelectedSpeaker(speaker);
     setVisibleDetails(true);
   };
+const chunkArray = (arr, size) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+};
+const [isMobile, setIsMobile] = useState(false);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  handleResize(); // set initial
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+const slides = isMobile
+  ? chunkArray(speakerData, 1)
+  : chunkArray(speakerData, 8);
 
   return (
     <div className="alumni-speakers">
@@ -235,13 +248,13 @@ const AlumniSpeakers = () => {
         </div>
       </div>
 
-      <div className=" p-5 container-fluid flex-wrap">
+      <div className=" p-5 container flex-wrap">
       <Slider {...settings}>
-  {[...Array(Math.ceil(speakerData.length / 8))].map((_, index) => (
+  {slides.map((slide, index) => (
     <div key={index}>
-      <div className="container">
+      <div className="container p-5">
         <div className="row">
-          {speakerData.slice(index * 8, index * 8 + 8).map((speaker, i) => (
+            {slide.map((speaker, i) => (
             <div className="col-md-6 col-lg-4 col-xl-3 mb-3" key={i}>
               <div className={AlumniSpeakerStyles["card"]}>
                 <div className={AlumniSpeakerStyles["card-header"]}>

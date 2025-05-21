@@ -15,6 +15,7 @@
   text-align: center;
   overflow: hidden;
 }
+
 .card-header {
   background: url("/icons/bg.png")
     no-repeat center/cover;
@@ -25,8 +26,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+    transition: all 0.3s ease; /* Smooth transition */
 
 }
+.card-header:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.512);
+    transform: translateY(-2px);
+
+}
+
 .profile-img {
   width: auto;
   height: 200px  ;

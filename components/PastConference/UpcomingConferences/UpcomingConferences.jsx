@@ -84,7 +84,7 @@ const UpcomingConferences = () => {
         >
           <div className={UpcomingConferencesStyle.headingContainer}>
           <h4 className="text-center text-white">Upcoming Conference</h4>
-          <Link href={'/upcoming-conference'} className={UpcomingConferencesStyle.viewMorwButton}>
+          <Link href={'/upcoming-conference'} className={`text-decoration-none fw-bold ${UpcomingConferencesStyle.viewMorwButton}`}>
             View More <span className="fw-bold fs-5"> →</span>
           </Link>
           </div>

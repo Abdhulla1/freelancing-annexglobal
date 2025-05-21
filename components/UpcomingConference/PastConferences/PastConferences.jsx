@@ -82,7 +82,7 @@ const PastConferences = () => {
       >
              <div className={UpcomingConferencesStyle.headingContainer}>
           <h4 className="text-center text-white">Past Conference</h4>
-          <Link href={'/past-conference'} className={UpcomingConferencesStyle.viewMorwButton}>
+          <Link href={'/past-conference'} className={`text-decoration-none fw-bold ${UpcomingConferencesStyle.viewMorwButton}`}>
             View More <span className="fw-bold fs-5"> →</span>
           </Link>
           </div>

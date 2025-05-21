@@ -1,89 +1,8 @@
 import React from "react";
-// import Slider from "react-slick";
 import ConferenceDetailsStyles from "./ConferenceDetails.module.css";
 import bgImageDefault from "@/public/images/conferences/upcoming-bg.webp";
-// import annexLogo from "@/public/images/conferences/annex.png";
-// import speakerBg from "@/public/images/conferences/conferenceAlumniSpeakers.png";
 import Link from "next/link";
 import Image from "next/image";
-var settings = {
-  dots: true,
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  adaptiveHeight: true,
-  variableWidth: false, // disable variableWidth for consistent card layout
-  responsive: [
-    {
-      breakpoint: 1024, // Tablets & small desktops
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        adaptiveHeight: true,
-      },
-    },
-    {
-      breakpoint: 768, // Tablets & large phones
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        adaptiveHeight: true,
-      },
-    },
-    {
-      breakpoint: 600, // Mobile screens (disable adaptiveHeight & variableWidth)
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        adaptiveHeight: false,
-        variableWidth: false,
-      },
-    },
-    {
-      breakpoint: 480, // Smaller mobile screens
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        adaptiveHeight: false,
-        variableWidth: false,
-      },
-    },
-  ],
-};
-
-const speakerData = [
-  {
-    imgSrc: "/images/home/speakers/member.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/membertwo.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/speaker.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/member.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/membertwo.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/speaker.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-];
 
 const ConferenceDetails = ({
   conference,
@@ -128,7 +47,7 @@ const ConferenceDetails = ({
                 className={`col-md-12 col-lg-9    ${ConferenceDetailsStyles["heading"]}`}
               >
                 <div className="">
-  <h5 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
+  <h5 className="text-uppercase text-warning opacity-75 mb-3  text-md-start mb-md-1">
                   2nd International Conference On
                 </h5>
                 <h4 className="text-uppercase text-white mb-3 mb-md-1">
@@ -185,14 +104,14 @@ const ConferenceDetails = ({
                 <div className="mt-4 gap-3 d-flex flex-column flex-md-row">
                   <Link
                     href={`/conference/${conference.id}/registration`}
-                    className={`text-decoration-none ${ConferenceDetailsStyles["brand-btn"]}`}
+                    className={`text-decoration-none fw-bold ${ConferenceDetailsStyles["brand-btn"]}`}
                   >
                     Grab Your Seats Now
                   </Link>
                   {buttonProps.name && buttonProps.href && (
                     <Link
                       href={buttonProps.href}
-                      className={`text-decoration-none ${ConferenceDetailsStyles["program-btn"]}`}
+                      className={`text-decoration-none fw-bold ${ConferenceDetailsStyles["program-btn"]}`}
                     >
                       {buttonProps.name}
                     </Link>
@@ -213,24 +132,3 @@ const ConferenceDetails = ({
 };
 
 export default ConferenceDetails;
-
-function SpeakerCard({ imgSrc, name, location }) {
-  return (
-    <div
-      className="ms-3 d-flex flex-column align-items-center justify-content-center"
-      style={{ width: "auto", flex: "1" }}
-    >
-      <div className="rounded-circle border border-2 border-primary p-1 overflow-hidden mb-2">
-        <Image
-          src={imgSrc}
-          width={100}
-          height={100}
-          alt="speaker"
-          className="rounded-circle bg-white"
-        />
-      </div>
-      <h5 className="text-center">{name}</h5>
-      <small className="text-center">{location}</small>
-    </div>
-  );
-}

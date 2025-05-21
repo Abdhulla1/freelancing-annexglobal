@@ -21,6 +21,22 @@ const WebinarProgramCarousel = () => {
       title: "Annual Congress On Gynecology, Obstetrics Health",
     },
    
+    {
+      image: "/images/conferences/program-one.png",
+      date: "March 17-18 2025",
+      title: "Annual Congress On Gynecology, Obstetrics, And Women's Health",
+    },
+    {
+      image: "/images/conferences/program-two.png",
+      date: "March 15-18 2025",
+      title: "Scientific committee will undertake a thorough review process. Rest assured",
+    },
+    {
+      image: "/images/conferences/program-three.png",
+      date: "March 17-05 2025",
+      title: "Annual Congress On Gynecology, Obstetrics Health",
+    },
+   
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -40,7 +56,7 @@ const WebinarProgramCarousel = () => {
   }, [currentIndex]);
 
   return (
-    <div className={styles.containerWrapper}>
+    <div className={`container p-5 mt-3 ${styles.containerWrapper}`}>
       <div className={styles.contentWrapper}>
         {/* Left Side - Scrollable Text Section */}
         <div className={`col-md-6 ${styles.textSection}`} ref={textSectionRef}>

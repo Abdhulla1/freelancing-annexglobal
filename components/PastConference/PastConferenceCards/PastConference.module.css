@@ -26,11 +26,19 @@
     border-radius: 10px;
     overflow: hidden;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border: 3px solid #3CCDE4;
+    /* border: 3px solid #3CCDE4; */
+    border: 2px solid #3F5A6499;
+    box-shadow: 
+  0px -5px 9px 0px #00000040, /* top shadow */
+  -5px 0px 9px 0px #00000040, /* left shadow */
+  0px 5px 9px 0px #00000040,  /* bottom shadow */
+  5px 0px 9px 0px #00000040;  /* right shadow */
+backdrop-filter: blur(4px);
+
+ 
 }
 
-.upcoming-events-card::before {
+/* .upcoming-events-card::before {
     content: "";
     position: absolute;
     top: 0;
@@ -39,7 +47,24 @@
     height: 100%;
     background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.1) 80%, rgba(0, 0, 0, 0) 100%);
     z-index: 1;
-}
+    
+} */
+.upcoming-events-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+    background: linear-gradient(45deg, #00004d, #0000a6);
+      transition: all 0.5s ease-in-out;
+      border-bottom-left-radius: 15rem;
+      z-index: 0;
+    }
+  .upcoming-events-card:hover::before {
+      width: 150%;
+      height: 150%;
+    }
 
 
 .upcoming-events-card .date {
@@ -63,7 +88,7 @@
     transition: all 0.3s ease-in-out;
     z-index: 2;
     left: 50%;
-    bottom: 40%;
+    bottom: 50%;
     transform: translate(-50%, 50%);
     text-align: center;
     width: 100%;
@@ -87,22 +112,9 @@
     transition: all 0.3s ease-in-out;
 }
 
-.upcoming-events-card:hover {
-    background: linear-gradient(45deg, #00004d, #0000a6);
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
-}
-
 .upcoming-events-card:hover img {
     opacity: 0;
 }
-
-/* .upcoming-events-card:hover .content {
-    left: 50%;
-    bottom: 50%;
-    transform: translate(-50%, 50%);
-    text-align: center;
-    width: 100%;
-} */
 
 .upcoming-events-card:hover .buy-button {
     display: block;
@@ -114,7 +126,7 @@
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgb(255, 180, 40);
+     background: var(--btn-gradient);
     color: black;
     font-weight: bold;
     padding: 10px 20px;
@@ -123,4 +135,10 @@
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     z-index: 2;
+}
+.buy-button:hover{
+    color: white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+
+
 }

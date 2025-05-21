@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 import Slider from "react-slick";
 import Link from "next/link";
 import UpcomingConferenceStyle from "./UpcomingConference.module.css";
@@ -116,6 +116,28 @@ const UpcomingConference = () => {
       </div>
     );
   };
+  const chunkArray = (arr, size) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+};
+const [isMobile, setIsMobile] = useState(false);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  handleResize(); // set initial
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+const slides = isMobile
+  ? chunkArray(upcomingConferences, 1)
+  : chunkArray(upcomingConferences, 6);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -142,50 +164,53 @@ const UpcomingConference = () => {
         Select the upcoming events categorized
       </h3>
       <HoneycombTabs />
-      <div className="mt-4 container-fluid">
-        <Slider {...settings}>
-          {[...Array(Math.ceil(upcomingConferences.length / 6))].map((_, index) => (
-            <div key={index}>
-              <div className="container p-5">
-                <div className="row">
-                  {upcomingConferences
-                    .slice(index * 6, index * 6 + 6)
-                    .map((event, i) => (
-                      <Link href={`/conference/${event.id}`} className="text-decoration-none col-md-6 col-lg-4 mb-3" key={i}>
-                        <div className={UpcomingConferenceStyle["upcoming-events-card"]}>
-                          <span className={UpcomingConferenceStyle["date"]}>
-                            {event.date}
-                          </span>
-                          <img src={event.image} alt="Event Image" />
-                          <div className={UpcomingConferenceStyle["content"]}>
-                            <div className={UpcomingConferenceStyle["event-title"]}>
-                              {event.title}
-                            </div>
-                            <div className={UpcomingConferenceStyle["location"]}>
-                              {event.location}
-                            </div>
-                          </div>
-                          <div
-                            href={`/conference/${event.id}`}
-                            className={UpcomingConferenceStyle["buy-button"]}
-                          >
-                            BUY TICKETS
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
+      <div className="mt-4 container">
+  <Slider {...settings}>
+  {slides.map((slide, index) => (
+    <div key={index}>
+      <div className="container p-5">
+        <div className="row">
+          {slide.map((event, i) => (
+            <Link
+              href={`/conference/${event.id}`}
+              className="text-decoration-none col-12 col-sm-12 col-md-6 col-lg-4 mb-3"
+              key={i}
+            >
+              <div className={UpcomingConferenceStyle["upcoming-events-card"]}>
+                <span className={UpcomingConferenceStyle["date"]}>
+                  {event.date}
+                </span>
+                <img src={event.image} alt="Event Image" />
+                <div className={UpcomingConferenceStyle["content"]}>
+                  <div className={UpcomingConferenceStyle["event-title"]}>
+                    {event.title}
+                  </div>
+                  <div className={UpcomingConferenceStyle["location"]}>
+                    {event.location}
+                  </div>
+                </div>
+                <div
+                  href={`/conference/${event.id}`}
+                  className={` ${UpcomingConferenceStyle["buy-button"]}`}
+                >
+                  BUY TICKETS
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
-        </Slider>
+        </div>
+      </div>
+    </div>
+  ))}
+</Slider>
+
       </div>
       <div className="mb-4 d-flex align-items-center justify-content-center">
         {/* <Button label="View More" href="/conferences" /> */}
           <button className="brand-btn ">
         <Link
-          href={'/conferences'}
-          className="d-flex align-items-center mb-0 text-decoration-none h5 fw-normal"
+          href={'/upcoming-conference'}
+          className="d-flex align-items-center mb-0 text-decoration-none h5 fw-bold"
         >
           View More &nbsp; <i className={'pi-arrow-right pi'}></i>
         </Link>

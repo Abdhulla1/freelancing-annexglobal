@@ -1,12 +1,14 @@
-z.iframe {
+.iframe {
   width: 100%;
-  height: 60vh;
+  /* height: 60vh; */
+  /* overflow: hidden; */
 }
 
 .swiper-content {
   position: absolute;
   right: 18px;
   width: 43%;
+  
 }
 
 .content {
@@ -19,13 +21,24 @@ z.iframe {
 
 .videoplayer-container {
   border-radius: 20px;
+  /* height: 60vh; */
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 8; /* Ensures the player and thumbnail stay consistent */
   overflow: hidden;
-  height: 60vh;
 }
 
 .conference-img {
   width: 100%;
-  height: 60vh;
+  height: 100%;
+  object-fit: cover;
+}
+.conference-img {
+  width: 100%;
+
+ aspect-ratio: 16 / 8;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -138,4 +151,4 @@ z.iframe {
   .iframe {
     height: 100%;
   }
-}
+} 

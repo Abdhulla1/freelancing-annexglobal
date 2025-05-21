@@ -15,7 +15,7 @@ const TopicCentric = ({topicId,conferenceId}) => {
   
   return (
     <div
-      className={` ${DiscoverySessionsStyles["container"]} d-flex flex-column flex-md-row`}
+      className={`container  ${DiscoverySessionsStyles["container"]} d-flex flex-column flex-md-row`}
     >
       <div
         className={`col-md-5 rounded p-5 ${DiscoverySessionsStyles["topics"]}`}

@@ -41,12 +41,12 @@ const ConnectWithOthers = () => {
 
   return (
     <div className={connectWithOthers["container"]}>
-      <div className="col-xl-11 col-lg-12 ">
+      <div className="container col-xl-11 col-lg-12 ">
         <div className={connectWithOthers["members-section"]}>
           <div className="row p-0 p-md-3">
             <div className="col-md-3 ps-5 p-4 d-flex align-items-center">
               <div>
-                <h3 className="text-white text-capitalize">
+                <h3 className="text-white text-capitalize fw-bold">
                   Connect with other members
                 </h3>
                 <h6 className="text-white fw-normal mt-3">
@@ -78,7 +78,7 @@ const ConnectWithOthers = () => {
                           <div className={connectWithOthers["card-body"]}>
                             <div className={connectWithOthers["quote-icon"]}>
                               {el ? (
-                                <a
+                                <Link
                                   href="https://youtu.be/19eIVnOI9Do?si=Cd1ONhNjHtrYgG-H"
                                   target="_blank"
                                   rel="noopener noreferrer"
@@ -87,7 +87,7 @@ const ConnectWithOthers = () => {
                                   <i
                                     className={`bx bx-play fs-1 ${connectWithOthers["play-icon"]}`}
                                   ></i>
-                                </a>
+                                </Link>
                               ) : (
                                 <i className="bx bxs-quote-left"></i>
                               )}

@@ -107,7 +107,7 @@
 }
 .brand-btn {
   background: linear-gradient(90deg, #F4A300 0%, #FFEA61 100%);
-  color: white;
+  color: black;
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -119,24 +119,26 @@
 
 .brand-btn:hover {
   background: linear-gradient(90deg, #da9100 0%, #FFEA61 100%);
-  transition-duration: 0.3s;
+    transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   color: white;
 }
 .program-btn {
-  background: #FFFFFF1A;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+border: 1px solid #F4A300;
   color: #F4A300;
   padding: 10px 20px;
   font-size: 16px;
-  border: none;
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition-duration: 0.3s;
+  transition-duration:all  0.3s;
 }
 
 .program-btn:hover {
-  background: #b47800;
-  transition-duration: 0.3s;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.303) 0%, rgba(0, 0, 0, 0.1) 100%);
+    transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   color: white;
 }
 .icons {

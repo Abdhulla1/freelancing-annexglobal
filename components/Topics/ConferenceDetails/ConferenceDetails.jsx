@@ -31,7 +31,7 @@ const ConferenceDetails = ({
                   />
                 </Link>
                 <div
-                  className={`rounded mt-3 text-center position-relative d-none d-md-block ${ConferenceDetailsStyles["certification"]}`}
+                  className={`rounded mt-3 text-center d-none d-md-block position-relative ${ConferenceDetailsStyles["certification"]}`}
                 >
                   <Image
                     src={"/images/conferences/certificate.jpg"}
@@ -42,21 +42,25 @@ const ConferenceDetails = ({
                 </div>
               </div>
               {/* &nbsp; */}
+              
               <div
-                className={`col-md-12 col-lg-9 ${ConferenceDetailsStyles["heading"]}`}
+                className={`col-md-12 col-lg-9    ${ConferenceDetailsStyles["heading"]}`}
               >
-                <h6 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
+                <div className="">
+  <h5 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
                   2nd International Conference On
-                </h6>
-                <h5 className="text-uppercase text-white mb-3 mb-md-1">
-                  {conference.title}
                 </h5>
+                <h4 className="text-uppercase text-white mb-3 mb-md-1">
+                  {conference.title}
+                </h4>
                 <p className="text-white fst-italic">
                   {
                     "Theme: “Enhancing Women’s Health: Improvement, Difficulties, and Innovative Thoughts in Obstetrics and Gynecology”"
                   }
                 </p>
-                <div className={`mt-1 ${ConferenceDetailsStyles["timings"]}`}>
+                </div>
+              
+                <div className={`mt-4 ${ConferenceDetailsStyles["timings"]}`}>
                   <div className="d-inline-flex flex-nowrap align-items-center justify-content-center  gap-2 p-1">
                     <div>
                       {/* <i
@@ -89,7 +93,7 @@ const ConferenceDetails = ({
                       {/* <i
                           className={`pi h6 pi-clipboard  ${ConferenceDetailsStyles["icons"]}`}
                         ></i> */}
-                      <span className="fs-5 text-center">🛏️</span>
+                      <span className="fs-5 text-center">🏨</span>
                     </div>
                     <div className="text-white mt-3">
                       <b>City Seasons Hotel, Deira</b>
@@ -100,18 +104,11 @@ const ConferenceDetails = ({
                 <div className="mt-4 gap-3 d-flex flex-column flex-md-row">
                   <Link
                     href={`/conference/${conference.id}/registration`}
-                    className={`text-decoration-none ${ConferenceDetailsStyles["brand-btn"]}`}
+                    className={`text-decoration-none fw-bold ${ConferenceDetailsStyles["brand-btn"]}`}
                   >
                     Grab Your Seats Now
                   </Link>
-                  {buttonProps.name && buttonProps.href && (
-                    <Link
-                      href={buttonProps.href}
-                      className={`text-decoration-none ${ConferenceDetailsStyles["program-btn"]}`}
-                    >
-                      {buttonProps.name}
-                    </Link>
-                  )}
+               
                 </div>
               </div>
             </div>

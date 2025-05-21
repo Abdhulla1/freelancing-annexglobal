@@ -140,7 +140,7 @@ backdrop-filter: blur(4px);
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
-     background: var(--btn-gradient);
+    background: var(--btn-gradient);
     color: black;
     font-weight: bold;
     padding: 10px 20px;
@@ -149,10 +149,28 @@ backdrop-filter: blur(4px);
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     z-index: 2;
+    font-size: 16px; /* Default font size */
 }
-.buy-button:hover{
+
+.buy-button:hover {
     color: white;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-
-
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+
+
+/* Large tablets and below (e.g., landscape tablets) */
+@media (max-width: 1130px) {
+    .buy-button {
+        font-size: 14px;
+        padding: 9px 18px;
+    }
+}
+
+/* Small tablets and large phones */
+@media (max-width: 768px) {
+    .buy-button {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+}
+

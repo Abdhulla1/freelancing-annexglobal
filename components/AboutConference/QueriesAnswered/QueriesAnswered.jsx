@@ -18,8 +18,8 @@ const QueriesAnswered = () => {
     return (
       <div className="d-flex align-items-center justify-content-around">
        
-        <div className="ms-3 text-start col-7">
-          <h4>{data}</h4>
+        <div className="ms-3 text-start col-8 ">
+          <h5 className={`${QueriesAnsweredStyles['title']} `}>{data}</h5>
         </div>
         <div >
           <button className={`btn ${QueriesAnsweredStyles['accordion-button']} h-100`}>

@@ -2,6 +2,7 @@
   background-image: url("/images/conferences/sponsors-exhibitors-bg.png");
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 }
 
 .conferencelogo {

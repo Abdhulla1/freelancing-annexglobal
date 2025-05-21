@@ -32,7 +32,7 @@ const VenueDetails = ({ conference }) => {
   };
 
   return (
-    <div className={ConferenceDetailsStyles.container}>
+    <div className={`mb-4 ${ConferenceDetailsStyles.container}`}>
       <div className="row g-0 h-100 overflow-x-hidden">
         {/* Left Section with Text & Navigatio
         n */}

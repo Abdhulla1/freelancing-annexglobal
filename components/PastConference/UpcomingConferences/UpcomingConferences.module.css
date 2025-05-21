@@ -22,14 +22,25 @@
     
 }
 .viewMorwButton{
-    color: #F4A300;
-    border:none;
-    text-align: right;
-    background-color: transparent;
     position: absolute;
     right: 30px;
-    text-decoration: none;
+     background: #FFFFFF1A;
+  color: #F4A300;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.3s;
     
+}
+.viewMorwButton:hover{
+     background: #b47800;
+    transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition-duration: 0.3s;
+  color: white;
 }
 .headingContainer{
     padding: 10px;

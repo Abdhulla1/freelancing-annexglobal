@@ -9,25 +9,25 @@ const Counter = () => {
       <div className="container">
         <div className="col-lg-8 col-md-12 mx-auto">
           <div className="mt-4 row ">
-            <div className="col-md-3  col-6 d-flex justify-content-center align-items-center text-white">
+            <div className="col-3   d-flex justify-content-center align-items-center text-white">
               <div>
                 <h3 className="fw-bold"><Countup value={500} /> +</h3>
                 <p className="h5 fw-normal">Speakers</p>
               </div>
             </div>
-            <div className="col-md-3  col-6 d-flex justify-content-center align-items-center text-white">
+            <div className="col-3   d-flex justify-content-center align-items-center text-white">
               <div>
                 <h3 className="fw-bold"><Countup value={100} /> +</h3>
                 <p className="h5 fw-normal">Events</p>
               </div>
             </div>
-            <div className="col-md-3 mt-5 mt-md-0 col-6 d-flex justify-content-center align-items-center text-white">
+            <div className="col-3 d-flex justify-content-center align-items-center text-white">
               <div>
                 <h3 className="fw-bold"><Countup value={1000} /> +</h3>
                 <p className="h5 fw-normal">Participants</p>
               </div>
             </div>
-            <div className="col-md-3 mt-5 mt-md-0 col-6 d-flex justify-content-center align-items-center text-white">
+            <div className="col-3 d-flex justify-content-center align-items-center text-white">
               <div>
                 <h3 className="fw-bold"><Countup value={80} /> +</h3>
                 <p className="h5 fw-normal">Countries</p>

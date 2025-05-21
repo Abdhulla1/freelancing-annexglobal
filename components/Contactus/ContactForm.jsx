@@ -43,7 +43,7 @@ const conferneceData = [
         </h2>
 
       {/* Contact Section */}
-      <div className={`col-lg-6 col-md-8 col-11 p-5 mt-3 text-white rounded ${styles.contactForm}`}>
+      <div className={`col-lg-6 col-md-8 col-11 p-5 mt-3 text-white container rounded ${styles.contactForm}`}>
         
         {/* Updated Heading */}
         <h2 className="text-center mb-3">
@@ -102,7 +102,7 @@ const conferneceData = [
             <textarea name="message" className="form-control" placeholder="Enter Message" rows="4" onChange={handleChange}></textarea>
           </div>
 
-          <button type="submit" className={`btn w-100 ${styles.submitButton}`}>Send</button>
+          <button type="submit" className={`brand-btn w-100 ${styles.submitButton}`}>Send</button>
         </form>
       </div>
       <footer className={`${styles.footer} mt-5`}>

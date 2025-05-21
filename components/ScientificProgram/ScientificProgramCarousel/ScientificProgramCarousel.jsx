@@ -21,6 +21,28 @@ const ScientificProgramCarousel = () => {
       date: "March 17-05 2025",
       title: "Annual Congress On Gynecology, Obstetrics Health",
     },
+    {
+      image: "/images/conferences/scientific-program-one.png",
+      date: "March 15-18 2025",
+      title:
+        "Scientific committee will undertake a thorough review process. ",
+    },
+    {
+      image: "/images/conferences/scientific-program-two.png",
+      date: "March 17-05 2025",
+      title: "Annual Congress On Gynecology, Obstetrics Health",
+    },
+    {
+      image: "/images/conferences/scientific-program-one.png",
+      date: "March 15-18 2025",
+      title:
+        "Scientific committee will undertake a thorough review process. ",
+    },
+    {
+      image: "/images/conferences/scientific-program-two.png",
+      date: "March 17-05 2025",
+      title: "Annual Congress On Gynecology, Obstetrics Health",
+    },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -49,7 +71,7 @@ const ScientificProgramCarousel = () => {
   }, [currentIndex]);
 
   return (
-    <div className={styles.containerWrapper}>
+    <div className={`container ${styles.containerWrapper}`}>
       <div className={`col-md-6 ${styles.textSection}`} ref={textSectionRef}>
         <h2 className="fw-bold text-center mb-5">
           Annex Global Conference Programs
@@ -129,7 +151,7 @@ const ScientificProgramCarousel = () => {
           </div>
         </div>
         <button
-          className={`col-md-6 btn btn-warning text-white ${styles.downloadButton}`}
+          className={`col-md-6 brand-btn btn-warning  ${styles.downloadButton}`}
         >
           {conferencePrograms[currentIndex].date} | Download
         </button>

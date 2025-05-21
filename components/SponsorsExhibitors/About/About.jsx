@@ -7,7 +7,7 @@ const About= ({title,content}) => {
       <h3 className="text-center fw-bold">{title}</h3>
 
       <div className="mt-4 container-md">
-        <p className={AboutAnnexStyles["about-content"]}>
+        <p className={`text-capitalize ${AboutAnnexStyles["about-content"]}`}>
       {content}
         </p>
       </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 const LocationandServices = ({conference}) => {
   return (
     <div className={LocationandServicesStyles["container"]}>
-      <div className="px-3 px-md-5">
+      <div className="container px-3 px-md-5">
         <div className="row py-5">
           <div className="col-md-5 d-flex justify-content-center align-items-stretch">
             <img

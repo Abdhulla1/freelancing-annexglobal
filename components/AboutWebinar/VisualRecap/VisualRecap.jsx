@@ -36,7 +36,7 @@ const VisualRecap = () => {
     {
       id: 2,
       videoUrl: "https://www.youtube.com/watch?v=P3SAl5fg-Ek",
-      thumbnail: "/images/conferences/past-conference.webp",
+      thumbnail: "/images/conferences/yt-thumb.png",
       yt_title: "Join Us At The Upcoming Conference In June 2025",
       title: "International Conference on Cardiology & Cardiovascular Research",
       description:
@@ -45,7 +45,7 @@ const VisualRecap = () => {
     {
       id: 3,
       videoUrl: "https://www.youtube.com/watch?v=3zdncBs-lM0",
-      thumbnail: "/images/conferences/past-conference-2.webp",
+      thumbnail: "/images/conferences/yt-thumb.png",
       yt_title: "Join Us At The Upcoming Conference In July 2025",
       title: "Global Summit on Digital Transformation in Healthcare",
       description:
@@ -54,7 +54,7 @@ const VisualRecap = () => {
   ];
 
   return (
-    <div className="container my-5">
+    <div className="container my-5 overflow-hidden">
       <div className="row">
         <div className="col-lg-9">
           <Slider ref={sliderRef} {...settings}>
@@ -66,11 +66,12 @@ const VisualRecap = () => {
               >
                 {playingIndex === index ? (
                   <ReactPlayer
-                    playing
                     controls
                     url={data.videoUrl}
                     width="100%"
-                    height="60vh"
+                    height="100%" 
+                    style={{ aspectRatio: "16/9" }} 
+                    
                   />
                 ) : (
                   <div className="position-relative w-100">
@@ -100,19 +101,25 @@ const VisualRecap = () => {
             ))}
           </Slider>
           <div className={VisualRecapStyles["sub-thumbnail-container"]}>
-            {recapData.map((data,i) => (
+            {recapData.map((data, i) => (
               <div key={i}>
-                <img  onClick={() => sliderRef.current?.slickGoTo(i)}
+                <img
+                  onClick={() => sliderRef.current?.slickGoTo(i)}
                   src={data.thumbnail}
-                  className={`${i == currentIndex ? VisualRecapStyles['sub-thumb-highlight'] : ''} ${VisualRecapStyles["sub-thumbnail"]}`}
+                  className={`${
+                    i == currentIndex
+                      ? VisualRecapStyles["sub-thumb-highlight"]
+                      : ""
+                  } ${VisualRecapStyles["sub-thumbnail"]}`}
                   alt=""
-                /> &nbsp; &nbsp;
+                />{" "}
+                &nbsp; &nbsp;
               </div>
             ))}
           </div>
         </div>
-        <div className="col-lg-3 d-flex align-items-end">
-          <div className={VisualRecapStyles["swiper-content"]}>
+        <div className={`d-flex align-items-end`}>
+          <div className={` ${VisualRecapStyles["swiper-content"]}`}>
             <div className={VisualRecapStyles["btn-container"]}>
               <button
                 className={`${VisualRecapStyles["swipe-btn"]} btn btn-dark`}
@@ -127,7 +134,7 @@ const VisualRecap = () => {
                 <i className="pi pi-angle-right text-white"></i>
               </button>
             </div>
-            <div className={VisualRecapStyles["content"]}>
+            <div className={` ${VisualRecapStyles["content"]}`}>
               <h5>{recapData[currentIndex].title}</h5>
               <p className="mt-3">{recapData[currentIndex].description}</p>
             </div>

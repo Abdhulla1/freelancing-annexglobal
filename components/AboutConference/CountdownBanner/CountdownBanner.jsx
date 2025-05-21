@@ -60,12 +60,12 @@ const CountdownBanner = ({conferenceId}) => {
 
 <div className="d-flex gap-2">
  <Link href={ `/conference/${conferenceId}/registration`} className="mt-2 mt-md-0">
-          <button className={` text-uppercase ${styles.brochure}`}>
+          <button className={` fw-bold text-uppercase ${styles.brochure}`}>
             brochure
           </button>
         </Link>
         <Link href={ `/conference/${conferenceId}/registration`} className="mt-2 mt-md-0">
-          <button className={` ${styles.ticketBtn}`}>
+          <button className={`fw-bold ${styles.ticketBtn}`}>
             GET TICKET <img src="/icons/arrow-circle-up.png" alt="Arrow Icon" />
           </button>
         </Link>

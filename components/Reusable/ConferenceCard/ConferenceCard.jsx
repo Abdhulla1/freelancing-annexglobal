@@ -12,7 +12,7 @@ const ConferenceCard = ({
   slug,
 }) => {
   return (
-    <div className={ConferenceCardStyle["container"]}>
+    <div className={`${ConferenceCardStyle["container"]}`}>
       <div className={ConferenceCardStyle["image-section"]}>
         <img src={image} alt={heading} />
         <div className={ConferenceCardStyle["overlay"]}>

@@ -13,13 +13,13 @@ const prospectusData = [
     image: "/images/conferences/conference-prospectus-one.png",
   },
   {
-    title: "Scientific committee",
+    title: "Gynecology Conference 2025",
     description:
       "Gynecology Conference Serves As A Platform To Explore Recent Advancements In The Field, Exchange Knowledge, And Collaborate On Addressing Global Challenges In Women's Health. Encompassing Diverse Subjects Such As Health Research, Public Health, Healthcare Delivery, And The Implementation Of Gynecological Policies, The Conference Facilitates Comprehensive Discussions.",
     image: "/images/conferences/past-conference.webp",
   },
   {
-    title: "Annual Congress On Gynecology",
+    title: "Gynecology Conference 2025",
     description:
       "Gynecology Conference Serves As A Platform To Explore Recent Advancements In The Field, Exchange Knowledge, And Collaborate On Addressing Global Challenges In Women's Health. Encompassing Diverse Subjects Such As Health Research, Public Health, Healthcare Delivery, And The Implementation Of Gynecological Policies, The Conference Facilitates Comprehensive Discussions.",
     image: "/images/conferences/conference-prospectus-one.png",
@@ -27,7 +27,7 @@ const prospectusData = [
 ];
 
 const Prospectus = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleNext = () => {

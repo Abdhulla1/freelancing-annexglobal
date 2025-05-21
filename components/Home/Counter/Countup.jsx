@@ -1,5 +1,4 @@
 'use client'
-
 import CountUp from 'react-countup';
 import React from 'react'
 

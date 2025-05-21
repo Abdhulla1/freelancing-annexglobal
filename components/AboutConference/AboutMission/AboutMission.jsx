@@ -6,11 +6,11 @@ const AboutMission = () => {
     <div className={`my-5 container ${AboutMissionStyles[""]}`}>
       <div className="row">
         <div className="col-lg-6 col-md-12 d-flex d-md-block justify-content-center">
-          <div>
+          <div className="me-3">
             <h1 className={AboutMissionStyles["heading"]}>ABOUT</h1>
             <div className={AboutMissionStyles["sub-heading"]}>
               <h3 className="fw-bold">OUR MISSION</h3>
-              <div className="pe-4">
+              <div className="pe-4 me-5">
                 <p className={AboutMissionStyles["about-content"]}>
                   The Annex Global Conference Fosters Innovation And
                   Collaboration Across Diverse Industries Worldwide. By Bringing

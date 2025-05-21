@@ -27,8 +27,9 @@ const conferneceData = [
 
 const EnquiryForm = () => {
   return (
-    <div className={EnquiryStyles["enquiry-container"]}>
-      <h3 className="text-center text-white">Never Miss an Update</h3>
+    <div className={` ${EnquiryStyles["enquiry-container"]}`}>
+      <div className={`container`}>
+ <h3 className="text-center text-white fw-bold ">Never Miss an Update</h3>
       <p className="text-capitalize text-center text-white">
         Could you provide more details about the newsletter's theme or purpose
       </p>
@@ -122,7 +123,7 @@ const EnquiryForm = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="brand-btn d-flex align-items-center"
+                  className="brand-btn d-flex align-items-center fw-bold"
                 >
                   {isSubmitting ? "Please Wait..." : "Subscribe"} &nbsp;
                   <i className="pi-arrow-right pi"></i>
@@ -132,6 +133,8 @@ const EnquiryForm = () => {
           )}
         </Formik>
       </div>
+      </div>
+     
     </div>
   );
 };

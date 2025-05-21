@@ -36,16 +36,7 @@
     margin-bottom: 50px;
   }
   
-  .submitButton {
-    background-color: #FFA500;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: bold;
-    border: none;
-    padding: 10px;
-    transition: 0.3s;
-  }
-  
+
   .submitButton:hover {
     background-color: #ff9100;
   }
