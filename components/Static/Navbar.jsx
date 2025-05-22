@@ -190,7 +190,7 @@ export default function Navbar() {
   }, [pathname, Menuitems, setActiveItem]);
 
   return (
-    <div className={`${isFixed ? "fixed-top animate__fadeInDown" : ""}`}>
+    <div className={`sticky-top`}>
       <div
         className={` d-none d-md-flex fw-bold justify-content-center p-2 align-items-center w-100 ${NavbarStyles.announcementBar}`}
       >

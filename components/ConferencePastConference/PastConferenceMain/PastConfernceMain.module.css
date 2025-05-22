@@ -1,0 +1,15 @@
+.wrapper-container{
+      background: linear-gradient(to right, #d1f0ff, #ffe6fd,#e3eaf4);
+      min-height: 100vh;
+}
+.card{
+    height: 355px;
+    border-radius: 32px;
+    box-shadow: 4px 0px 4px 0px #0000001F;
+    text-decoration: none;
+}
+.bottombar{
+    background-color: #F4A300;
+    height: 8px;
+    border-radius: 22px;
+}

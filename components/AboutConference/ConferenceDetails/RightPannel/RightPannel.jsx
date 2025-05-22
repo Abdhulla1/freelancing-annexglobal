@@ -1,12 +1,11 @@
 "use client";
 import React, { useRef } from "react";
-
 import RightPannelStyles from "./RightPannel.module.css";
 import annexLogo from "@/public/images/conferences/annex.png";
 import speakerBg from "@/public/images/conferences/conferenceAlumniSpeakers.png";
 import Slider from "react-slick";
 import Image from "next/image";
-
+import Link from "next/link";
 var settings = {
   dots: true,
   infinite: true,
@@ -85,7 +84,8 @@ const speakerData = [
     location: "India",
   },
 ];
-export default function RightPannel() {
+export default function RightPannel({conference}) {
+
   const sliderRef = useRef(null);
   return (
     <div>
@@ -136,9 +136,9 @@ export default function RightPannel() {
      <span className="bg-white py-2 px-3 rounded text-warning">
     <i className="bx bxs-bookmark text-center me-1"></i>CPD Accredited Conference
   </span>
-  <span className="bg-white py-2 px-3 rounded text-warning">
+  <Link href={`/conference/${conference.id}/past-conferences`}className="bg-white py-2 px-3 text-decoration-none rounded text-warning">
     Past Conferences Reports
-  </span>
+  </Link>
  
 </div>
 

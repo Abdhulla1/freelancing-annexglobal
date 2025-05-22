@@ -1,0 +1,52 @@
+.p-paginator {
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+
+}
+
+/* Page Numbers */
+.p-paginator .p-paginator-pages .p-paginator-page {
+  width: 40px;
+  /* height: 40px; */
+  line-height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: bold;
+  background-color: #f3f3f3;
+  color: #121989;
+  border: none;
+  transition: all 0.2s ease-in-out;
+  margin: 0 6px;
+
+}
+
+/* Active Page */
+.p-paginator .p-paginator-pages .p-highlight {
+  background: linear-gradient(53.73deg, #121a894c 5.63%, #05062353 94.37%);
+  color: black !important;
+  font-weight: bold;
+}
+
+/* Prev & Next Buttons */
+.p-paginator .p-paginator-prev,
+.p-paginator .p-paginator-next {
+  width: 40px;
+  /* height: 40px; */
+  line-height: 40px;
+  border-radius: 50%;
+  color: #ffffff;
+  background: linear-gradient(53.73deg, #121989 5.63%, #050623 94.37%);
+  margin: 0 12px;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+/* Hover Effects */
+.p-paginator .p-paginator-prev:hover,
+.p-paginator .p-paginator-next:hover {
+  background: linear-gradient(90deg, #121989 5.63%, #050623 94.37%);
+}

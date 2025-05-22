@@ -1,0 +1,63 @@
+.topics {
+  background: linear-gradient(0.1deg, #002C65 0.09%, #001530 46.98%, #000D1F 99.91%);
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  
+}
+
+
+.topics-wraper{
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #F4A300  #DADADA66; /* Firefox (thumb color, track color) */
+}
+
+/* Chrome, Edge, Safari */
+.topics-wraper::-webkit-scrollbar {
+  width: 2px !important;
+}
+
+.topics-wraper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.topics-wraper::-webkit-scrollbar-thumb {
+  background-color: #F4A300; /* Scrollbar color */
+  border-radius: 10px;
+}
+
+.card {
+    background: #FFFFFF1A;
+    border-radius: 5px;
+    border: 1px solid  #35A4DBB2;
+    padding: 15px 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.card .text {
+    color: white;
+    font-weight: 500;
+}
+
+.card .icon {
+    /* background-color: #fdb913;  */
+        background: var(--btn-gradient);
+    color: white;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+}
+

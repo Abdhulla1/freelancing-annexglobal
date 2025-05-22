@@ -23,7 +23,7 @@ const AboutConference = ({ conference }) => {
     <>
       <ConferenceDetails
         conference={conference}
-        Component={RightPannel}
+       Component={() => <RightPannel conference={conference} />}
         bgImage={bgImage}
         buttonProps={{
           name: "Scientific Program",
