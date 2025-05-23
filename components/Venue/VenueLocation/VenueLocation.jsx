@@ -13,7 +13,7 @@ const VenueLocation = ({ conference }) => {
         <div
           className={`col-md-12 col-lg-4 col-xl-5 ml-6 mx-auto order-2 order-lg-1  d-flex justify-content-center align-items-center  `}
         >
-          <div className={`p-5 w-100 text-center `}>
+          <div className={`p-4 w-100 text-center `}>
             <h5 className="mb-3 text-black">Explorer’s Route</h5>
             <Image
               src="/images/conferences/map.png"

@@ -15,25 +15,16 @@ var settings = {
   variableWidth: true,
   responsive: [
     {
-      breakpoint: 1024, // Tablets & small desktops
+      breakpoint: 1024,
       settings: {
         slidesToShow: 2,
         slidesToScroll: 1,
         adaptiveHeight: true,
-        variableWidth: true,
+        variableWidth: false, // changed
       },
     },
     {
-      breakpoint: 768, // Tablets & large phones
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        adaptiveHeight: true,
-        variableWidth: true,
-      },
-    },
-    {
-      breakpoint: 600, // Mobile screens (disable adaptiveHeight & variableWidth)
+      breakpoint: 768,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -42,7 +33,16 @@ var settings = {
       },
     },
     {
-      breakpoint: 480, // Smaller mobile screens
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: false,
+        variableWidth: false,
+      },
+    },
+    {
+      breakpoint: 480,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -52,7 +52,6 @@ var settings = {
     },
   ],
 };
-
 
 const PastConferences = () => {
   const sliderRef = useRef(null);
@@ -69,31 +68,38 @@ const PastConferences = () => {
 
   return (
     <div className={`px-0 ${UpcomingConferencesStyle["container"]}`}>
-    <div className={UpcomingConferencesStyle["topspacer"]}>
-      <div className="text-center text-white">
-        <h3 className="text-uppercase">Upcoming Conference</h3>
-        <p className={`mt-4 h5 ${UpcomingConferencesStyle["greytext"]}`}>
-          "Exploring New Realms, Challenging Constraints, Fostering
-          Collaboration"
-        </p>
-      </div>
-      <div
-        className={`pb-5 p-4  ${UpcomingConferencesStyle["topspacer"]} ${UpcomingConferencesStyle["upcoming-conferences"]}`}
-      >
-             <div className={UpcomingConferencesStyle.headingContainer}>
-          <h4 className="text-center text-white">Past Conference</h4>
-          <Link href={'/past-conference'} className={`text-decoration-none fw-bold ${UpcomingConferencesStyle.viewMorwButton}`}>
-            View More <span className="fw-bold fs-5"> →</span>
-          </Link>
+      <div className={UpcomingConferencesStyle["topspacer"]}>
+        <div className="text-center text-white">
+          <h3 className="text-uppercase">Upcoming Conference</h3>
+          <p className={`mt-4 h5 ${UpcomingConferencesStyle["greytext"]}`}>
+            "Exploring New Realms, Challenging Constraints, Fostering
+            Collaboration"
+          </p>
+        </div>
+        <div
+          className={`pb-5 p-4  ${UpcomingConferencesStyle["topspacer"]} ${UpcomingConferencesStyle["upcoming-conferences"]}`}
+        >
+          <div
+            className={`${UpcomingConferencesStyle.headingContainer} justify-content-between justify-content-md-center `}
+          >
+            <h4 className="text-center text-white">Past Conference</h4>
+            <Link
+              href={"/past-conference"}
+              className={`text-decoration-none fw-bold ${UpcomingConferencesStyle.viewMorwButton}`}
+            >
+              View More <span className="fw-bold fs-5"> →</span>
+            </Link>
           </div>
+        
           <div className="mt-5 container-fluid">
             <Slider ref={sliderRef} {...settings}>
-              {[0, 0, 0, 0].map((el, i) => (
-                <div className="ms-3">
+              {[...Array(10)].map((_, i) => (
+                <div key={i} className="px-2">
                   <ConferenceCard {...conferenceData} />
                 </div>
               ))}
             </Slider>
+
             <div className="mt-3">
               <div className="d-flex justify-content-center align-items-center">
                 <button
@@ -112,9 +118,9 @@ const PastConferences = () => {
               </div>
             </div>
           </div>
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 

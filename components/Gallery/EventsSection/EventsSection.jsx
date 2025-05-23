@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EventCard from '@/components/Reusable/EventCard/EventCard';
-import styles from './EventsSection.module.css'
+import styles from './EventsSection.module.css';
 import ImageGalleryComponent from '../ImageGallery/ImageGalleryComponent';
 
 function EventsSection() {
@@ -26,19 +26,37 @@ function EventsSection() {
       image: '/images/conferences/image.png',
     },
     {
-      title: "Nursing 2024",
+      title: "Nursing 2022",
       date: "March 10/11/2025",
       location: "Dubai, UAE",
       image: '/images/conferences/image.png',
     },
     {
-      title: "Nursing 2024",
+      title: "Nursing 2021",
       date: "March 10/11/2025",
       location: "Dubai, UAE",
       image: '/images/conferences/image.png',
     },
     {
-      title: "Nursing 2024",
+      title: "Nursing 2020",
+      date: "March 10/11/2025",
+      location: "Dubai, UAE",
+      image: '/images/conferences/image.png',
+    },
+    {
+      title: "Nursing 2022",
+      date: "March 10/11/2025",
+      location: "Dubai, UAE",
+      image: '/images/conferences/image.png',
+    },
+    {
+      title: "Nursing 2021",
+      date: "March 10/11/2025",
+      location: "Dubai, UAE",
+      image: '/images/conferences/image.png',
+    },
+    {
+      title: "Nursing 2020",
       date: "March 10/11/2025",
       location: "Dubai, UAE",
       image: '/images/conferences/image.png',
@@ -46,36 +64,49 @@ function EventsSection() {
   ];
 
   const [showGallery, setShowGallery] = useState(false);
-  const [activeEvent, setActiveEvent] = useState(null); // Changed to null initially
-  const [activeEventIndex, setActiveEventIndex] = useState(0); // Add index state
+  const [activeEvent, setActiveEvent] = useState(null);
+  const [activeEventIndex, setActiveEventIndex] = useState(0);
+
+  // New toggle logic
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [isExpanded, setIsExpanded] = useState(false);
+
   const handleCardClick = (event) => {
     setShowGallery(true);
-    setActiveEvent(event); // Store the entire event object
-    setActiveEventIndex(events.indexOf(event)); // Set initial index
+    setActiveEvent(event);
+    setActiveEventIndex(events.indexOf(event));
   };
 
   const handleBackButtonClick = () => {
     setShowGallery(false);
-    setActiveEvent(null); // Reset active event when going back
+    setActiveEvent(null);
   };
+
   const handleNextButtonClick = () => {
-    if (events && events.length > 0) {
-      let nextIndex = activeEventIndex + 1;
-      if (nextIndex >= events.length) {
-        nextIndex = 0; // Loop back to the first event
-      }
-      setActiveEvent(events[nextIndex]);
-      setActiveEventIndex(nextIndex);
+    let nextIndex = activeEventIndex + 1;
+    if (nextIndex >= events.length) {
+      nextIndex = 0;
     }
+    setActiveEvent(events[nextIndex]);
+    setActiveEventIndex(nextIndex);
+  };
+
+  const toggleVisibility = () => {
+    if (isExpanded) {
+      setVisibleCount(6);
+    } else {
+      setVisibleCount(events.length);
+    }
+    setIsExpanded(!isExpanded);
   };
 
   return (
-    <div className={`container mt-5 ${styles.wrapper} text-center`}>
+    <div className={`container mt-5 p-3 ${styles.wrapper} text-center`}>
       {showGallery ? (
         <div className='container'>
           <div className='mb-4'>
             <h3 className="text-capitalize text-black text-center fw-semibold">
-             {activeEvent.title}
+              {activeEvent.title}
             </h3>
             {activeEvent && (
               <p className="text-center text-black">
@@ -88,7 +119,9 @@ function EventsSection() {
             <button onClick={handleBackButtonClick} className={styles.backbutton}>
               ← Back
             </button>
-            <button onClick={handleNextButtonClick} className={styles.nextbutton}>Next</button>
+            <button onClick={handleNextButtonClick} className={styles.nextbutton}>
+              Next
+            </button>
           </div>
         </div>
       ) : (
@@ -96,11 +129,16 @@ function EventsSection() {
           <h3 className="text-black text-center fw-semibold">
             Past Conference Programs
           </h3>
-          {events.map((e, index) => (
+          {events.slice(0, visibleCount).map((e, index) => (
             <div key={index} className="col-md-4 mb-4">
               <EventCard event={e} onClick={() => handleCardClick(e)} />
             </div>
           ))}
+          <div className="text-center mt-3">
+            <button className="brand-btn" onClick={toggleVisibility}>
+              {isExpanded ? 'Show Less' : 'Load More'}
+            </button>
+          </div>
         </div>
       )}
     </div>

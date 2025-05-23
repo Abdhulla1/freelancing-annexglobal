@@ -16,25 +16,16 @@ var settings = {
   variableWidth: true,
   responsive: [
     {
-      breakpoint: 1024, // Tablets & small desktops
+      breakpoint: 1024,
       settings: {
         slidesToShow: 2,
         slidesToScroll: 1,
         adaptiveHeight: true,
-        variableWidth: true,
+        variableWidth: false, // changed
       },
     },
     {
-      breakpoint: 768, // Tablets & large phones
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        adaptiveHeight: true,
-        variableWidth: true,
-      },
-    },
-    {
-      breakpoint: 600, // Mobile screens (disable adaptiveHeight & variableWidth)
+      breakpoint: 768,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -43,7 +34,16 @@ var settings = {
       },
     },
     {
-      breakpoint: 480, // Smaller mobile screens
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: false,
+        variableWidth: false,
+      },
+    },
+    {
+      breakpoint: 480,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -66,7 +66,7 @@ const UpcomingConferences = () => {
     heading: "Primary Healthcare, Pain Management & Functional Structure",
     desc: `We have the pleasure of inviting you to the "Annual Congress on Obstetrics and Women's Health 2025," which will be held in Dubai, United Arab Emirates, from March 10-11, 2025. This conference aims to provide a forum for the sharing of concepts, expertise.`,
     buylink: "#",
-    slug:'primary-healthcare-pain-management-and-functional-structure'
+    slug: "primary-healthcare-pain-management-and-functional-structure",
   };
 
   return (
@@ -82,21 +82,28 @@ const UpcomingConferences = () => {
         <div
           className={`pb-5 p-4  ${UpcomingConferencesStyle["topspacer"]} ${UpcomingConferencesStyle["upcoming-conferences"]}`}
         >
-          <div className={UpcomingConferencesStyle.headingContainer}>
-          <h4 className="text-center text-white">Upcoming Conference</h4>
-          <Link href={'/upcoming-conference'} className={`text-decoration-none fw-bold ${UpcomingConferencesStyle.viewMorwButton}`}>
-            View More <span className="fw-bold fs-5"> →</span>
-          </Link>
-          </div>
-         
+  <div
+  className={`${UpcomingConferencesStyle.headingContainer} justify-content-between justify-content-md-center `}
+>
+  <h4 className="text-white mb-2 mb-md-0">Upcoming Conference</h4>
+  <Link
+    href={"/upcoming-conference"}
+    className={`text-decoration-none fw-bold ${UpcomingConferencesStyle.viewMorwButton}`}
+  >
+    View More <span className="fw-bold fs-5"> →</span>
+  </Link>
+</div>
+
+
           <div className="mt-5 container-fluid">
             <Slider ref={sliderRef} {...settings}>
-              {[0, 0, 0, 0].map((el, i) => (
-                <div className="ms-3">
+              {[...Array(10)].map((_, i) => (
+                <div key={i} className="px-2">
                   <ConferenceCard {...conferenceData} />
                 </div>
-              ))} 
+              ))}
             </Slider>
+
             <div className="mt-3">
               <div className="d-flex justify-content-center align-items-center">
                 <button

@@ -9,7 +9,7 @@ import useSessionStorageState from "use-local-storage-state"; // Using session s
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
-   const [expandedItem, setExpandedItem] = useState(null);
+  const [expandedItem, setExpandedItem] = useState(null);
 
   const toggleExpand = (label) => {
     setExpandedItem(expandedItem === label ? null : label);
@@ -287,102 +287,106 @@ export default function Navbar() {
           </div>
 
           <div className="d-none d-xxl-flex gap-2 ms-3 ">
+            <Link
+              href={
+                conferenceId
+                  ? `/conference/${conferenceId}/scientific-program`
+                  : "#"
+              }
+              className={`text-center text-uppercase mb-0 fw-bold text-decoration-none  ${NavbarStyles["sponsor"]}`}
+            >
+              Program
+            </Link>
 
-              <Link
-                href={
-                  conferenceId
-                    ? `/conference/${conferenceId}/scientific-program`
-                    : "#"
-                }
-                className={`text-center text-uppercase mb-0 fw-bold text-decoration-none  ${NavbarStyles["sponsor"]}`}
-              >
-                Program
-              </Link>
-
-              <Link
-                href={"/conferences"}
-                className={`text-uppercase text-center fw-bold mb-0 text-decoration-none ${NavbarStyles["buy-ticket"]}`}
-              >
-                Brochure
-              </Link>
-
+            <Link
+              href={"/conferences"}
+              className={`text-uppercase text-center fw-bold mb-0 text-decoration-none ${NavbarStyles["buy-ticket"]}`}
+            >
+              Brochure
+            </Link>
           </div>
         </div>
-  
       </nav>
       {/* PrimeReact Sidebar for Mobile */}
- <Sidebar
-      visible={isOpen}
-      onHide={() => setIsOpen(false)}
-      position="right"
-      className="p-sidebar"
-      style={{ 
-        zIndex: 1050,
-        borderTopLeftRadius: '15px',
-        borderBottomLeftRadius: '15px',
-        overflow: 'hidden', 
+      <Sidebar
+        visible={isOpen}
+        onHide={() => setIsOpen(false)}
+        position="right"
+        className="p-sidebar"
+        style={{
+          zIndex: 1050,
+          borderTopLeftRadius: "15px",
+          borderBottomLeftRadius: "15px",
+          overflow: "hidden",
+        }}
+        ref={menuRef}
+      >
+        <div className="container p-4">
+          <ul className="list-unstyled ps-0">
+            {Menuitems.map((item, idx) => {
+              const isActive = expandedItem === item.label;
+              return (
+                <li key={idx} className="mb-2">
+                  {item.items ? (
+                    <div>
+                      <span
+                        className="fw-bold fs-5"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => toggleExpand(item.label)}
+                      >
+                        {item.label}
+                        <i
+                          className={`${isActive ? "pi pi-angle-up" : "pi pi-angle-down"}`}
+                          style={{ marginLeft: 8 }}
+                        ></i>
+                      </span>
+           <hr/>
+                      {isActive && (
+                        <ul className="list-unstyled ps-3 fs-5 mt-1">
+                          {item.items.map((sub, i) => {
+                            const isSubActive = false; // or implement your own active logic for subitems
+                            return (
+                              <li key={i}>
+                                <Link
+                                  href={sub.url}
+                                  className={`d-block py-1 text-decoration-none ${
+                                    isSubActive
+                                      ? "fw-bold text-primary"
+                                      : "text-dark"
+                                  }`}
+                                  onClick={() => setIsOpen(false)}
+                                >
+                                  {sub.label}
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      )}
 
-      }}
-      ref={menuRef}
-    >
-      <div className="container p-4">
-  <ul className="list-unstyled ps-0">
-        {Menuitems.map((item, idx) => {
-          const isActive = expandedItem === item.label;
-          return (
-            <li key={idx} className="mb-2">
-              {item.items ? (
-                <div>
-                  <span  
-                    className="fw-bold fs-5" 
-                    style={{ cursor: 'pointer' }} 
-                    onClick={() => toggleExpand(item.label)}
-                  >
-                    {item.label} 
-                    <i className={`${isActive ? '▲' : '▼'}`} style={{ marginLeft: 8 }}>
-                      
-                    </i>
-                  </span>
-
-                  {isActive && (
-                    <ul className="list-unstyled ps-3 fs-5 mt-1">
-                      {item.items.map((sub, i) => {
-                        const isSubActive = false; // or implement your own active logic for subitems
-                        return (
-                          <li key={i}>
-                            <Link
-                              href={sub.url}
-                              className={`d-block py-1 text-decoration-none ${
-                                isSubActive ? "fw-bold text-primary" : "text-dark"
-                              }`}
-                              onClick={() => setIsOpen(false)}
-                            >
-                              {sub.label}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
+                    </div>
+                    
+                  ) : (
+                    <>
+                         <Link
+                      href={item.url}
+                      className={`d-block py-1 fs-4 text-decoration-none ${
+                        isActive ? "fw-bold text-primary" : "text-dark"
+                      }`}
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                    <hr/>
+                    </>
+               
                   )}
-                </div>
-              ) : (
-                <Link
-                  href={item.url}
-                  className={`d-block py-1 fs-4 text-decoration-none ${
-                    isActive ? 'fw-bold text-primary' : 'text-dark'
-                  }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-      </div>
-    
-    </Sidebar>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </Sidebar>
     </div>
   );
 }
