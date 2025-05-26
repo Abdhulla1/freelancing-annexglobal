@@ -1,11 +1,14 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import style from "./Dashboard.module.css";
 import { Chart } from "primereact/chart";
 import ConferenceConductedChart from "./Chart/ConferenceConductedChart";
 import VenueBookingsChart from "./Chart/VenueBookingsChart";
 import CardStats from "./CardStats";
-import 'chart.js/auto';
+import { Toast } from "primereact/toast";
+import "chart.js/auto";
+import { getAdminDashboardData } from "@/service/adminDashboard";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 const events = [
   {
@@ -70,6 +73,32 @@ export default function Dashboard() {
   const [tab, setTab] = useState("upcoming");
   const [chartData, setChartData] = useState({});
   const [chartOptions, setChartOptions] = useState({});
+  const toast = useRef(null);
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await getAdminDashboardData();
+        setDashboardData(res.data.detail);
+      
+      } catch (err) {
+         setError(err);
+        const errorMsg = typeof err === "string" ? err : "Failed to load data";
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: errorMsg,
+    
+        });
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
   useEffect(() => {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue("--text-color");
@@ -95,9 +124,7 @@ export default function Dashboard() {
       datasets: [
         {
           label: "First Dataset",
-          data: [
-            0, 292, 303, 111, 216, 252, 120, 351, 292, 303, 111, 216,
-          ],
+          data: [0, 292, 303, 111, 216, 252, 120, 351, 292, 303, 111, 216],
           fill: false,
           borderColor: documentStyle.getPropertyValue("--blue-500"),
           tension: 0.4,
@@ -133,13 +160,35 @@ export default function Dashboard() {
         },
       },
     };
-    
+
     setChartData(data);
     setChartOptions(options);
   }, []);
+
   return (
     <div className="container">
-      <div className="row gap-3 justify-content-center">
+      <Toast ref={toast} />
+   {loading ? (
+        <div
+          className="d-flex justify-content-center align-items-center"
+          style={{ minHeight: "200px" }}
+        >
+          <ProgressSpinner
+            style={{ width: "50px", height: "50px" }}
+            strokeWidth="5"
+            fill="var(--surface-ground)"
+            animationDuration=".5s"
+          />
+        </div>
+      ) : !dashboardData ? (
+        <div className="p-4">
+          <div className="alert alert-danger text-center" role="alert">
+            {error ? error : "No data available"}
+          </div>
+        </div>
+      ) : (
+        <>
+             <div className="row gap-3 justify-content-center">
         <div className=" bg-black  col-12 col-md-7 p-3 rounded-4 bg-white">
           <div className="d-flex justify-content-between">
             <h4 className={`fw-bold d-inline event-heading`}>Events</h4>
@@ -213,23 +262,23 @@ export default function Dashboard() {
         <div className="col-12 p-3  rounded-4 bg-white ">
           <div className="row gap-4 justify-content-center ">
             <div className="col-md-6 col-lg-5">
-              <CardStats title="Total Speakers" value={25} showAvatars />
+              <CardStats title="Total Speakers" value={dashboardData.ocm.counts} showAvatars />
             </div>
             <div className="col-md-6 col-lg-5">
-              <CardStats title="Total OCM" value={18} showAvatars />
+              <CardStats title="Total OCM" value={dashboardData.speakers.counts} showAvatars />
             </div>
             <div className="col-md-6 col-lg-5">
-              <CardStats title="Total Conference" value="07" chart />
+              <CardStats title="Total Conference" value={dashboardData.conferences} chart />
             </div>
             <div className="col-md-6 col-lg-5">
-              <CardStats title="Total Webinar" value={35} chart />
+              <CardStats title="Total Webinar" value={dashboardData.webinar} chart />
             </div>
           </div>
         </div>
       </div>
+        </>
+      )}
+  
     </div>
   );
 }
-
-
-

@@ -8,12 +8,12 @@ import axiosInstance from "./axiosInstance";
 // });
 
 //GET request
-export async function getAllConference() {
+export async function getAllConference(page, limit) {
   try {
-    const response = await axiosInstance.get("/conference/data");
-    return response.data?.detail.data;
+    const response = await axiosInstance.get(`/conference/data?page=${page}&limit=${limit}`);
+    return response;
   } catch (error) {
-    throw new Error(error.response?.data || "Failed to fetch Conference");
+   Promise.reject(error.response.data.detail[0].msg || "Failed to fetch Conference" );
   }
 }
 export async function getSelectedConference(id) {
@@ -29,9 +29,19 @@ export async function getSelectedConference(id) {
 export async function saveConference(formdata) {
   try {
     const response = await axiosInstance.post(`/conference/create`, formdata);
-    return response.data?.detail;
+    // return response.data?.detail;
+     return response;
   } catch (error) {
-    throw new Error(error.response?.data || "Failed to Save Conference");
+   return Promise.reject(error.response.data.detail[0].msg || "Failed to Save Conference" );
+
+  }
+}
+export async function updateConference(id,formdata) {
+  try {
+    const response = await axiosInstance.patch(`/conference/${id}/update`, formdata);
+    return response;
+  } catch (error) {
+      return Promise.reject(error.response.data.detail[0].msg || "Failed to Update Conference" );
   }
 }
 export async function saveConferenceLandingPage(formdata, id) {

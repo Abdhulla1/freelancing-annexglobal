@@ -8,44 +8,60 @@ import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import Link from "next/link";
 import { uploadImage } from "@/service/mediaManagemnt";
 import { Toast } from "primereact/toast";
-import { ProgressSpinner } from "primereact/progressspinner"; 
-import {fetchAdmins} from "@/service/adminService";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { fetchAdmins } from "@/service/adminService";
+import { Paginator } from "primereact/paginator";
+import { set } from "nprogress";
+import { Button } from 'primereact/button';
+
 export default function AdminConferences() {
   const [query, setQuery] = useState("");
   const [filterBy, setFilterBy] = useState("title");
   const [showDropdown, setShowDropdown] = useState(false);
   const [conferenceData, setConferenceData] = useState([]);
   const [showAddDialog, setShowAddDialog] = useState(false);
-  const [newConferenceData, setNewConferenceData] = useState({name: "",file: null,conferenceBg:null,assignedUserId:''});
+  const [newConferenceData, setNewConferenceData] = useState({
+    name: "",
+    file: null,
+    conferenceBg: null,
+    assignedUser: "",
+  });
   const [adminsData, setAdminsData] = useState([]);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const toast = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(9); // Cards per page
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [buttonLoading, setButtonLoading] = useState(false);
+
+  const fetchData = async (page = 1, limit = rowsPerPage) => {
+    setLoading(true);
+    try {
+      const [data, userList] = await Promise.all([
+        getAllConference(page, limit),
+        fetchAdmins(),
+      ]);
+      setAdminsData(userList);
+      setConferenceData(data.data?.detail.data || []); // Assuming data has { results, total }
+      setTotalRecords(data.data?.detail.total || 0); // Set total items
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Failed to Load Conferences",
+        detail: "Failed to Load Conferences. Please try again.",
+        life: 3000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchData(currentPage);
+  }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        // const data = await getAllConference();
-        // const userList = await fetchAdmins();
-        const [data,userList]=await
-        Promise.all([getAllConference(),fetchAdmins()]
-      )
-        setAdminsData(userList);        
-        setConferenceData(data);
-      } catch (error) {
-        console.log(error)
-        toast.current.show({
-          severity: "error",
-          summary: "Failed to Load Conferences",
-          detail: "Failed to Load Conferences. Please try again.",
-          life: 3000, // Toast duration
-        });
-      } finally {
-        setLoading(false); 
-      }
-    };
-    fetchData();
-  }, []);
+    fetchData(currentPage);
+  }, [currentPage]);
 
   // Handle search query
   const handleSearch = (e) => setQuery(e.target.value.toLowerCase());
@@ -60,29 +76,54 @@ export default function AdminConferences() {
 
   // Handle saving new conference
   const handleSaveConference = async () => {
+    setButtonLoading(true)
     try {
       let imageUrl = "";
+      let bgUrl = "";
 
-      // Step 1: Upload image if file is present
-      if (newConferenceData.file) {
-        try {
-          const imageUploadResponse = await uploadImage(newConferenceData.file);
-          imageUrl = imageUploadResponse.url || "";
-        } catch (imageError) {
-          toast.current.show({
-            severity: "error",
-            summary: "Image Upload Error",
-            detail: "Failed to upload conference logo. Please try again.",
-            life: 3000, // Toast duration
-          });
-          return;
-        }
+      // Check if both files are present
+      if (!newConferenceData.file) {
+        toast.current.show({
+          severity: "warn",
+          summary: "Missing Logo",
+          detail: "Please upload the conference logo.",
+          life: 3000,
+        });
+        return; // stop if logo missing
       }
- // Step 1 (additional): Upload background image if bgFile is present
-    if (newConferenceData.bgFile) {
+
+      if (!newConferenceData.conferenceBg) {
+        toast.current.show({
+          severity: "warn",
+          summary: "Missing Background Image",
+          detail: "Please upload the background image.",
+          life: 3000,
+        });
+        return; // stop if background missing
+      }
+
+      // Upload logo image
       try {
-        const bgUploadResponse = await uploadImage(newConferenceData.conferenceBg);
-        bgUrl = bgUploadResponse.url || "";
+        const imageUploadResponse = await uploadImage(newConferenceData.file);
+        imageUrl = imageUploadResponse.data?.detail?.message?.[0]?.url || "";
+        if (!imageUrl) throw new Error("Empty logo URL");
+      } catch (imageError) {
+        toast.current.show({
+          severity: "error",
+          summary: "Image Upload Error",
+          detail: "Failed to upload conference logo. Please try again.",
+          life: 3000,
+        });
+        return;
+      }
+
+      // Upload background image
+      try {
+        const bgUploadResponse = await uploadImage(
+          newConferenceData.conferenceBg
+        );
+        bgUrl = bgUploadResponse.data?.detail?.message?.[0]?.url || "";
+        if (!bgUrl) throw new Error("Empty background URL");
       } catch (bgError) {
         toast.current.show({
           severity: "error",
@@ -92,36 +133,55 @@ export default function AdminConferences() {
         });
         return;
       }
-    }
-      // Step 2: Save the conference data
+
+      // Now, only if both URLs exist, save the conference
+      if (!imageUrl || !bgUrl) {
+        toast.current.show({
+          severity: "warn",
+          summary: "Upload Error",
+          detail: "Both images must be uploaded successfully.",
+          life: 3000,
+        });
+        return;
+      }
+
       const payload = {
         name: newConferenceData.name,
+        user: newConferenceData.assignedUser,
         logoUrl: imageUrl,
-        conferenceBgUrl:bgUrl,
-        assignedUserId:newConferenceData.assignedUserId
+        cardBgImage: bgUrl,
       };
-
       const response = await saveConference(payload);
-
-      if (response[0].msg === "Conference created successfully") {
-        // Step 3: Update the conference data list
-        const data = await getAllConference();
-        setConferenceData(data); 
+      if (
+        response.status === 201 ||
+        response.data?.detail[0]?.msg === "Conference created successfully"
+      ) {
+        fetchData(currentPage);
         setShowAddDialog(false);
         toast.current.show({
           severity: "success",
           summary: "Success",
           detail: "Conference saved successfully!",
-          life: 3000, // Toast duration
+          life: 3000,
+        });
+      } else {
+        toast.current.show({
+          severity: "error",
+          summary: "Update Failed",
+          detail:
+            response.data?.detail[0]?.msg || "Unexpected response from server.",
+          life: 3000,
         });
       }
     } catch (error) {
       toast.current.show({
         severity: "error",
         summary: "Conference Save Error",
-        detail: "Failed to save conference. Please try again.",
-        life: 3000, // Toast duration
+        detail: error || "Failed to save conference. Please try again.",
+        life: 3000,
       });
+    }finally{
+      setButtonLoading(false)
     }
   };
 
@@ -141,12 +201,12 @@ export default function AdminConferences() {
     }
     return true;
   });
-
   return (
     <div className="container p-2">
       <ConfirmDialog
         visible={showAddDialog}
         onHide={handleCancel}
+        draggable={false}
         message={
           <AddNewConference
             data={newConferenceData}
@@ -163,15 +223,12 @@ export default function AdminConferences() {
             >
               Cancel
             </button>
-            <button
-              className="btn px-5 btn-warning fw-normal text-white shadow-none"
-              onClick={handleSaveConference}
-              disabled={
-                !newConferenceData.name.trim() || !newConferenceData.file || !newConferenceData.conferenceBg|| !newConferenceData.assignedUserId
-              }
-            >
-              Upload
-            </button>
+                         <Button label="Upload" onClick={handleSaveConference} className="btn px-5 btn-warning fw-normal text-white shadow-none"  loading={buttonLoading}      disabled={
+                !newConferenceData.name.trim() ||
+                !newConferenceData.file ||
+                !newConferenceData.conferenceBg ||
+                !newConferenceData.assignedUser
+              } style={{ outline: 'none', boxShadow: 'none' }}/>            
           </div>
         }
         className="custom-confirm-dialog"
@@ -272,8 +329,13 @@ export default function AdminConferences() {
                 animationDuration=".5s"
               />
             </div>
+          ) : conferenceData.length === 0 ? (
+            <div className="text-center w-100 py-5">
+              <h5>No conferences found</h5>
+              <p>Try adding a new conference using the button above.</p>
+            </div>
           ) : (
-            <div className="row gx-4 gy-4">
+            <div className="row gx-4 gy-4" >
               {filteredData.map((item, index) => (
                 <div key={index} className="col-12 col-md-6 col-lg-6 col-xl-4 ">
                   <div
@@ -301,15 +363,25 @@ export default function AdminConferences() {
                   </div>
                 </div>
               ))}
+                <Paginator
+        first={(currentPage - 1) * rowsPerPage}
+        rows={rowsPerPage}
+        totalRecords={totalRecords}
+        onPageChange={(e) => setCurrentPage(Math.floor(e.first / e.rows) + 1)}
+        className="mt-5"
+      />
             </div>
           )}
+          
         </div>
+        
       </div>
+    
     </div>
   );
 }
 
-export function AddNewConference({ data, setData ,userList}) {
+export function AddNewConference({ data, setData, userList }) {
   const handleNameChange = (e) => {
     setData((prev) => ({ ...prev, name: e.target.value }));
   };
@@ -317,15 +389,15 @@ export function AddNewConference({ data, setData ,userList}) {
   const handleFileChange = (file) => {
     setData((prev) => ({ ...prev, file }));
   };
- const handleConferenceBgChange = (conferenceBg) => {
-  setData((prev) => ({ ...prev, conferenceBg }));
-};
-const handleUserSelect = (e) => {
-  setData((prev) => ({ ...prev, assignedUserId: e.target.value }));
-};
+  const handleConferenceBgChange = (conferenceBg) => {
+    setData((prev) => ({ ...prev, conferenceBg }));
+  };
+  const handleUserSelect = (e) => {
+    setData((prev) => ({ ...prev, assignedUser: e.target.value }));
+  };
   return (
     <>
-       <div className="mb-4 mt-4">
+      <div className="mb-4 mt-4">
         <label htmlFor="conferenceName" className="form-label">
           Conference Name*
         </label>
@@ -340,7 +412,7 @@ const handleUserSelect = (e) => {
           autoComplete="off"
         />
       </div>
-        <div className="mb-4">
+      <div className="mb-4">
         <label htmlFor="assignUser" className="form-label">
           Assign to User*
         </label>
@@ -349,11 +421,13 @@ const handleUserSelect = (e) => {
           id="assignUser"
           onChange={handleUserSelect}
           required
-          value={data.assignedUserId || ""}
+          value={data.assignedUser || ""}
         >
-          <option value="" disabled>Select a user</option>
-          {userList.map((user,i) => (
-            <option key={i} value={user._id}>
+          <option value="" disabled>
+            Select a user
+          </option>
+          {userList.map((user, i) => (
+            <option key={i} value={user.email}>
               {user.email}
             </option>
           ))}
@@ -367,8 +441,6 @@ const handleUserSelect = (e) => {
         title={"Add Conference Card Background *"}
         onFileChange={handleConferenceBgChange}
       />
-   
-      
     </>
   );
 }
