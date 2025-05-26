@@ -267,12 +267,12 @@ export default function Dashboard() {
             <div className="col-md-6 col-lg-5">
               <CardStats title="Total OCM" value={dashboardData.speakers.counts} showAvatars />
             </div>
-            <div className="col-md-6 col-lg-5">
+            {/* <div className="col-md-6 col-lg-5">
               <CardStats title="Total Conference" value={dashboardData.conferences} chart />
             </div>
             <div className="col-md-6 col-lg-5">
               <CardStats title="Total Webinar" value={dashboardData.webinar} chart />
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

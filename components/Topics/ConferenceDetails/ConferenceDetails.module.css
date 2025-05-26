@@ -6,10 +6,20 @@
   background-position: center;
 }
 
-.conferencelogo {
-  width: auto;
+.logoWrapper {
+  position: relative;
+  width: 210px;      /* Adjust based on your design */
   height: 210px;
+  border-radius: 50%;
+  overflow: hidden;
+  /* background-color: #fff;  */
 }
+
+.logoImage {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .certification{
   height: 140px;
   width: 110px;

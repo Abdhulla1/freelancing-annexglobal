@@ -217,7 +217,7 @@ export default function AdminConferenceView({ conference }) {
       toast.current.show({
         severity: "error",
         summary: "Error",
-        detail: error.msg|| "Something went wrong during update.",
+        detail: error|| "Something went wrong during update.",
         life: 3000,
       });
     }
@@ -239,7 +239,7 @@ const hasChanges = () => {
         onHide={handleCancel}
         draggable={false}
         message={
-          <AddNewConference
+          <AddUpdateConference
             data={newConferenceData}
             setData={setNewConferenceData}
             userList={adminsData}
@@ -296,7 +296,7 @@ const hasChanges = () => {
     </div>
   );
 }
-export function AddNewConference({ data, setData, userList }) {
+export function AddUpdateConference({ data, setData, userList }) {
   const handleNameChange = (e) => {
     setData((prev) => ({ ...prev, name: e.target.value }));
   };

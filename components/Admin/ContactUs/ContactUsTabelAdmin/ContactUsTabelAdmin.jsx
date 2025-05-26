@@ -1,80 +1,75 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import RichTextEditor from "../../AdminConferences/AdminConferenceView/ConferencePageAdmin/LandingPage/RichTextEditor";
 import Image from "next/image";
-import { InputSwitch } from "primereact/inputswitch";
 import { Dialog } from "primereact/dialog";
-const contactFormDataArray = [
-  {
-    name: "Alex Johnson",
-    organizationName: "Annex",
-    email: "alex.johnson@example.com",
-    contactNumber: "98765543210",
-    message: "I would like to know more details about the Pediatrics Conference schedule and registration process.",
-    conferenceName: "Pediatrics Global Summit 2024"
-  },
-  {
-    name: "Maria Chen",
-    organizationName: "HealthBridge",
-    email: "maria.chen@healthbridge.org",
-    contactNumber: "91234567890",
-    message: "Is there a discount for group registrations? We're planning to bring a team of five.",
-    conferenceName: "World Conference on Medical Innovation"
-  },
-  {
-    name: "David Kumar",
-    organizationName: "MediSphere",
-    email: "david.kumar@medisphere.com",
-    contactNumber: "99887766554",
-    message: "Will the conference sessions be available for replay after the event?",
-    conferenceName: "Annex Digital Health Conference"
-  },
-  {
-    name: "Priya Nair",
-    organizationName: "WellCare India",
-    email: "priya.nair@wellcare.in",
-    contactNumber: "98760011223",
-    message: "Please share details about the keynote speakers and the main agenda.",
-    conferenceName: "Annex Global Healthcare Leadership Forum"
-  },
-  {
-    name: "Liam Smith",
-    organizationName: "GlobalMed",
-    email: "liam.smith@globalmed.co.uk",
-    contactNumber: "94455667788",
-    message: "I would like to exhibit at the event. How can I register as a vendor?",
-    conferenceName: "Annex International Medical Expo 2024"
-  },
-  {
-    name: "Sofia Ramirez",
-    organizationName: "MedConnect",
-    email: "sofia.ramirez@medconnect.net",
-    contactNumber: "95544556677",
-    message: "Is accommodation included in the registration fee?",
-    conferenceName: "Annex Global Wellness Conference"
-  }
-];
+import { Paginator } from "primereact/paginator";
+import { getAllContactUS, deleteContactUS } from "@/service/cantactUs";
+import { Toast } from "primereact/toast";
+import { ProgressSpinner } from "primereact/progressspinner";
 
-
-export default function ContactUsTabelAdmin({
-  visibleDetails,
-  setVisibleDetails,
-}) {
+export default function ContactUsTabelAdmin() {
   const [isVisible, setIsVisible] = useState(false);
-  const [sidebarState, setSidebarState] = useState({
-    header: null,
-    content: null,
-  });
+  const [sidebarState, setSidebarState] = useState({ header: null, content: null });
+  const toast = useRef(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(10); // Fixed rows per page
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [ContactUsTabelData, setContactUsTabelData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const [statusChecked, setStatusChecked] = useState(false);
-  const confirmDelete = () => {
-    const accept = () => {
-      console.log("accepted");
-    };
-    const reject = () => {
-      console.log("rejectcted");
-    };
+  const fetchData = async (page = 1, limit = rowsPerPage) => {
+    setLoading(true);
+    try {
+      const data = await getAllContactUS(page, limit);
+      setContactUsTabelData(data.data?.detail.data || []);
+      setTotalRecords(data.data?.detail.total || 0);
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Failed to Load Contact Requests",
+        detail: error.message || "Please try again.",
+        life: 3000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage]);
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteContactUS(id);
+      toast.current.show({
+        severity: "success",
+        summary: "Deleted",
+        detail: "Contact request has been deleted.",
+        life: 3000,
+      });
+      fetchData(currentPage); 
+      // Estimate how many items will remain after deletion
+      const remainingItems = ContactUsTabelData.length - 1;
+
+      // If current page has no items left AND it's not the first page, go to previous page
+      if (remainingItems === 0 && currentPage > 1) {
+        setCurrentPage((prev) => prev - 1);
+      } else {
+        fetchData(currentPage); // refresh current page
+      }// Refresh after deletion
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: error.message || "Failed to delete. Please try again.",
+        life: 3000,
+      });
+    }
+  };
+
+  const confirmDelete = (id) => {
     confirmDialog({
       message: <Delete />,
       acceptLabel: "OK",
@@ -82,46 +77,8 @@ export default function ContactUsTabelAdmin({
       acceptClassName: "btn px-5 btn-warning text-white shadow-none",
       rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
       defaultFocus: "accept",
-      accept,
-      reject,
-      className: "custom-confirm-dialog",
-    });
-  };
-  const confirmEdit = (data) => {
-    const accept = () => {
-      console.log("accepted");
-    };
-    const reject = () => {
-      console.log("rejectcted");
-    };
-    confirmDialog({
-      message: <Edit data={data} />,
-      acceptLabel: "OK",
-      rejectLabel: "Cancel",
-      acceptClassName: "btn px-5 btn-warning text-white shadow-none",
-      rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
-      defaultFocus: "accept",
-      accept,
-      reject,
-      className: "custom-confirm-dialog",
-    });
-  };
-  const confirmView = (data) => {
-    const accept = () => {
-      console.log("accepted");
-    };
-    const reject = () => {
-      console.log("rejectcted");
-    };
-    confirmDialog({
-      message: <Edit data={data} />,
-      acceptLabel: "OK",
-      rejectLabel: "Cancel",
-      acceptClassName: "btn px-5 btn-warning text-white shadow-none",
-      rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
-      defaultFocus: "accept",
-      accept,
-      reject,
+      accept: () => handleDelete(id),
+      reject: () => {},
       className: "custom-confirm-dialog",
     });
   };
@@ -132,14 +89,6 @@ export default function ContactUsTabelAdmin({
         header: "View Contact Request",
         content: <View data={data} />,
       },
-      edit: {
-        header: "Edit Speaker",
-        content: <Edit data={data} />,
-      },
-      add: {
-        header: "Add Speaker",
-        content: <Add />,
-      },
     };
 
     const selected = componentsMap[type];
@@ -148,207 +97,90 @@ export default function ContactUsTabelAdmin({
       setIsVisible(true);
     }
   };
+
   return (
     <div className="table-responsive">
+      <Toast ref={toast} />
+
       <Dialog
         header={sidebarState.header}
         visible={isVisible}
         draggable={false}
-        onHide={() => {
-          if (!isVisible) return;
-          setIsVisible(false);
-        }}
+        onHide={() => setIsVisible(false)}
         style={{ width: "50vw" }}
         breakpoints={{ "960px": "75vw", "641px": "100vw" }}
       >
-        {/* Content Area */}
         {sidebarState.content}
       </Dialog>
+
       <ConfirmDialog draggable={false} />
-      <table className="tabel w-100  table-striped-columns">
-        <thead>
-          <tr>
-            <td className="p-2 table-heading">Name</td>
-            <td className="p-2 table-heading">Organization</td>
-            <td className="p-2 table-heading">Email</td>
-            <td className="p-2 table-heading">Conference Name</td>
-            <td className="p-2 table-heading">Message</td>
-            <td className="p-2 table-heading">Action</td>
 
-          </tr>
-        </thead>
-        <tbody>
-          {contactFormDataArray.map((element, i) => (
-            <tr key={i}>
-              
-              <td className="p-3 table-data">{element.name}</td>
-              <td className="p-3 table-data">{element.organizationName}</td>
-              <td className="p-3 table-data">{element.email}</td>
-              <td className="p-3  table-data ">{element.conferenceName}</td>
-              <td className="p-3  table-data  ">{element.message}</td>
+      {loading ? (
+        <div className="d-flex justify-content-center py-5">
+          <ProgressSpinner
+            style={{ width: "50px", height: "50px" }}
+            strokeWidth="5"
+            fill="var(--surface-ground)"
+            animationDuration=".5s"
+          />
+        </div>
+      ) : ContactUsTabelData.length === 0 ? (
+        <div className="text-center w-100 py-5">
+          <h5>No contact requests found</h5>
+          <p>Try adding a new contact using the form or wait for new submissions.</p>
+        </div>
+      ) : (
+        <>
+          <table className="tabel w-100 table-striped-columns">
+            <thead>
+              <tr>
+                <td className="p-2 table-heading">Name</td>
+                <td className="p-2 table-heading">Organization</td>
+                <td className="p-2 table-heading">Email</td>
+                <td className="p-2 table-heading">Conference</td>
+                <td className="p-2 table-heading">Message</td>
+                <td className="p-2 table-heading">Action</td>
+              </tr>
+            </thead>
+            <tbody>
+              {ContactUsTabelData.map((element, i) => (
+                <tr key={element.id || i}>
+                  <td className="p-3 table-data">{element.name}</td>
+                  <td className="p-3 table-data">{element.organization}</td>
+                  <td className="p-3 table-data">{element.email}</td>
+                  <td className="p-3 table-data">{element.conference}</td>
+                  <td className="p-3 table-data">{element.message}</td>
+                  <td className="p-3 table-data">
+                    <div className="d-flex gap-1 justify-content-center flex-nowrap">
+                      <button
+                        className="btn btn-outline-secondary rounded"
+                        onClick={() => confirmDelete(element._id)}
+                      >
+                        <i className="bx bx-trash-alt"></i>
+                      </button>
+                      <button
+                        name="view"
+                        className="btn btn-outline-warning rounded"
+                        onClick={(e) => handleModel(e.target.name, element)}
+                      >
+                        <i className="bx bx-chevron-right"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-              <td className="p-3 table-data ">
-                <div className="d-flex gap-1  justify-content-center flex-nowrap">
-                  {/* <button
-                    name="edit"
-                    className="btn btn-outline-secondary rounded"
-                    onClick={(e) => handleModel(e.target.name, element)}
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button> */}
-                  <button
-                    className="btn btn-outline-secondary rounded"
-                    onClick={confirmDelete}
-                  >
-                    <i className="bx bx-trash-alt"></i>
-                  </button>
-                  <button
-                    name="view"
-                    className="btn btn-outline-warning rounded"
-                    onClick={(e) => handleModel(e.target.name, element)}
-                  >
-                    <i className="bx bx-chevron-right"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* <button
-        name="add"
-        className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
-        style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
-        onClick={(e) => handleModel(e.target.name)}
-      >
-        +
-      </button> */}
-    </div>
-  );
-}
-
-function Edit({ data }) {
-  return (
-    <div className="d-flex gap-3 container flex-column h-100">
-      <div className="mb-3">
-        <label htmlFor="eventLocation" className="form-label">
-          Name*
-        </label>
-        <input
-          type="text"
-          name="eventLocation"
-          value={data.name}
-          className="form-control"
-          id="eventLocation"
-          placeholder="Enter Name"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="eventLocation" className="form-label">
-          Title*
-        </label>
-        <input
-          type="text"
-          name="eventLocation"
-          value={data.title}
-          className="form-control"
-          id="eventLocation"
-          placeholder="Enter Name"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="inputPassword5" className="form-label">
-          Author
-        </label>
-        <select
-          id="Author"
-          className="form-select no-outline"
-          onChange={(e) => console.log(e.target.value)}
-        >
-          <option value={""}>Select Author</option>
-          <option value={"Pediatrics Conference"}>Pediatrics Conference</option>
-          <option value={"Gynecology Conference"}>Gynecology Conference</option>
-        </select>
-      </div>
-      <FileUpload title={"Speaker Image Upload*"} showBorder={true} />
-   
-      <RichTextEditor
-        labelName={"Bio-Data*"}
-        height="120px"
-        initialValue={""}
-        onChange={(content) => console.log("Edited content:", content)}
-      />
-         <RichTextEditor
-        labelName={"Company Details*"}
-        initialValue={data.company}
-        onChange={(content) => console.log("Edited content:", content)}
-      />
-    </div>
-  );
-}
-function Add({ data }) {
-  return (
-    <div className="d-flex gap-3 container flex-column h-100">
-      <div className=" mb-3">
-        <label htmlFor="eventLocation" className="form-label">
-          Name*
-        </label>
-        <input
-          type="text"
-          name="eventLocation"
-          value=""
-          className="form-control"
-          id="eventLocation"
-          placeholder="Enter Name"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />
-      </div>
-      <div className=" mb-3">
-        <label htmlFor="eventLocation" className="form-label">
-          Title*
-        </label>
-        <input
-          type="text"
-          name="eventLocation"
-          value=""
-          className="form-control"
-          id="eventLocation"
-          placeholder="Enter Name"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="inputPassword5" className="form-label">
-          Author*
-        </label>
-        <select
-          id="Author"
-          className="form-select no-outline"
-          onChange={(e) => console.log(e.target.value)}
-        >
-          <option value={""}>Select Author</option>
-          <option value={"Pediatrics Conference"}>Pediatrics Conference</option>
-          <option value={"Gynecology Conference"}>Gynecology Conference</option>
-        </select>
-      </div>
-      <FileUpload title={"Speaker Image Upload*"} showBorder={true} />
-      <RichTextEditor
-        labelName={"Bio-Data*"}
-        height="120px"
-        initialValue={""}
-        onChange={(content) => console.log("Edited content:", content)}
-      />
-      <RichTextEditor
-        labelName={"Company Details*"}
-        initialValue={data.company}
-        onChange={(content) => console.log("Edited content:", content)}
-      />
+          <Paginator
+            first={(currentPage - 1) * rowsPerPage}
+            rows={rowsPerPage}
+            totalRecords={totalRecords}
+            onPageChange={(e) => setCurrentPage(Math.floor(e.first / e.rows) + 1)}
+            className="mt-4"
+          />
+        </>
+      )}
     </div>
   );
 }
@@ -357,50 +189,40 @@ function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
       <div>
-        <label className="form-label  mb-2">Name</label>
+        <label className="form-label mb-2">Name</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.name}</p>
       </div>
       <div>
-        <label className="form-label  mb-2">Organization Name</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.organizationName}</p>
+        <label className="form-label mb-2">Organization Name</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.organization}</p>
       </div>
       <div>
-        <label className="form-label  mb-2">Email</label>
+        <label className="form-label mb-2">Email</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.email}</p>
       </div>
       <div>
-        <label className="form-label  mb-2">Contact Number</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.contactNumber}
-        </p>
+        <label className="form-label mb-2">Contact Number</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.mobileNumber}</p>
       </div>
       <div>
-        <label className="form-label  mb-2">Conference Name</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.conferenceName}
-        </p>
+        <label className="form-label mb-2">Conference Name</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.conference}</p>
       </div>
-
-
       <div>
-        <label className="form-label mb-2">message</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-         {data.message}
-        </p>
+        <label className="form-label mb-2">Message</label>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.message}</p>
       </div>
-    
     </div>
   );
 }
 
-function Delete({ data = null }) {
+function Delete() {
   return (
     <div className="d-flex flex-column align-items-center text-center">
       <Image src="/icons/delete.png" width={80} height={80} alt="DeleteIcon" />
       <h5 className="mt-3">Delete Contact Request</h5>
       <p className="mb-0 col-md-8">
-        Are you sure you want to delete this Program File? This action cannot be
-        undone.
+        Are you sure you want to delete this contact request? This action cannot be undone.
       </p>
     </div>
   );

@@ -13,7 +13,8 @@ export async function getAllConference(page, limit) {
     const response = await axiosInstance.get(`/conference/data?page=${page}&limit=${limit}`);
     return response;
   } catch (error) {
-   Promise.reject(error.response.data.detail[0].msg || "Failed to fetch Conference" );
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to fetch Conference";
+    throw new Error(message);
   }
 }
 export async function getSelectedConference(id) {
@@ -32,8 +33,8 @@ export async function saveConference(formdata) {
     // return response.data?.detail;
      return response;
   } catch (error) {
-   return Promise.reject(error.response.data.detail[0].msg || "Failed to Save Conference" );
-
+   const message = error?.response?.data?.detail?.[0]?.msg || "Failed to fetch Conference";
+    throw new Error(message);
   }
 }
 export async function updateConference(id,formdata) {

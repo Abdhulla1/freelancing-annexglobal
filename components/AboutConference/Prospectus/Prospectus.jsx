@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useState } from "react";
 import { Dialog } from "primereact/dialog";
 import { Formik, Form, Field } from "formik";
@@ -39,7 +39,10 @@ const Prospectus = () => {
     lastName: Yup.string().required("Last name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
     country: Yup.string().required("Country is required"),
-    address: Yup.string(),
+    address: Yup.string().required("Address is required"),
+    contactNumber: Yup.string()
+  .matches(/^[0-9]{10}$/, "Contact number must be 10 digits")
+  .required("Contact number is required"),
   });
 
   const initialValues = {
@@ -48,6 +51,7 @@ const Prospectus = () => {
     email: "",
     country: "",
     address: "",
+    contactNumber: "",
   };
 
   const handleSubmit = (values, { resetForm }) => {
@@ -71,7 +75,6 @@ const Prospectus = () => {
             >
               Download Brochure
             </button>
-
           </div>
 
           <div className="col-md-7">
@@ -140,7 +143,9 @@ const Prospectus = () => {
                             type="text"
                             {...field}
                             placeholder="Enter First Name"
-                            className={`form-control ${meta.touched && meta.error ? "is-invalid" : ""}`}
+                            className={`form-control ${
+                              meta.touched && meta.error ? "is-invalid" : ""
+                            }`}
                           />
                           {meta.touched && meta.error && (
                             <div className="invalid-feedback">{meta.error}</div>
@@ -161,7 +166,9 @@ const Prospectus = () => {
                             type="text"
                             {...field}
                             placeholder="Enter Last Name"
-                            className={`form-control ${meta.touched && meta.error ? "is-invalid" : ""}`}
+                            className={`form-control ${
+                              meta.touched && meta.error ? "is-invalid" : ""
+                            }`}
                           />
                           {meta.touched && meta.error && (
                             <div className="invalid-feedback">{meta.error}</div>
@@ -184,7 +191,9 @@ const Prospectus = () => {
                             type="email"
                             {...field}
                             placeholder="Enter Email ID"
-                            className={`form-control ${meta.touched && meta.error ? "is-invalid" : ""}`}
+                            className={`form-control ${
+                              meta.touched && meta.error ? "is-invalid" : ""
+                            }`}
                           />
                           {meta.touched && meta.error && (
                             <div className="invalid-feedback">{meta.error}</div>
@@ -205,7 +214,9 @@ const Prospectus = () => {
                             type="text"
                             {...field}
                             placeholder="Enter Country"
-                            className={`form-control ${meta.touched && meta.error ? "is-invalid" : ""}`}
+                            className={`form-control ${
+                              meta.touched && meta.error ? "is-invalid" : ""
+                            }`}
                           />
                           {meta.touched && meta.error && (
                             <div className="invalid-feedback">{meta.error}</div>
@@ -216,23 +227,47 @@ const Prospectus = () => {
                   </div>
                 </div>
 
-                <div className="mt-3">
-                  <label className="form-label">Address</label>
-                  <Field name="address">
-                    {({ field, meta }) => (
-                      <>
-                        <input
-                          type="text"
-                          {...field}
-                          placeholder="Enter Address"
-                          className={`form-control ${meta.touched && meta.error ? "is-invalid" : ""}`}
-                        />
-                        {meta.touched && meta.error && (
-                          <div className="invalid-feedback">{meta.error}</div>
-                        )}
-                      </>
-                    )}
-                  </Field>
+                <div className="row mt-3">
+                  <div className="col-md-6">
+                    <label className="form-label">Contact Number  <span className="text-danger">*</span></label>
+                    <Field name="contactNumber">
+                      {({ field, meta }) => (
+                        <>
+                          <input
+                            type="text"
+                            {...field}
+                            placeholder="Enter Contact Number"
+                            className={`form-control ${
+                              meta.touched && meta.error ? "is-invalid" : ""
+                            }`}
+                          />
+                          {meta.touched && meta.error && (
+                            <div className="invalid-feedback">{meta.error}</div>
+                          )}
+                        </>
+                      )}
+                    </Field>
+                  </div>
+                  <div className="col-md-6">
+                    <label className="form-label">Address  <span className="text-danger">*</span> </label>
+                    <Field name="address">
+                      {({ field, meta }) => (
+                        <>
+                          <input
+                            type="text"
+                            {...field}
+                            placeholder="Enter Address"
+                            className={`form-control ${
+                              meta.touched && meta.error ? "is-invalid" : ""
+                            }`}
+                          />
+                          {meta.touched && meta.error && (
+                            <div className="invalid-feedback">{meta.error}</div>
+                          )}
+                        </>
+                      )}
+                    </Field>
+                  </div>
                 </div>
 
                 <div className="text-center mt-4">
@@ -243,7 +278,10 @@ const Prospectus = () => {
                   >
                     Cancel
                   </button>
-                  <button type="submit" className="btn main-btn text-white px-5">
+                  <button
+                    type="submit"
+                    className="btn main-btn text-white px-5"
+                  >
                     Submit
                   </button>
                 </div>

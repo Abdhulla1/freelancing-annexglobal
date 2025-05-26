@@ -1,364 +1,185 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import Image from "next/image";
-import { InputSwitch } from "primereact/inputswitch";
 import { Dialog } from "primereact/dialog";
-import Link from "next/link";
-const submissionData = [
-  {
-    firstName: "John",
-    lastName: "Doe",
-    emailId: "john.doe@example.com",
-    phoneNumber: "+1 555-123-4567",
-    address: "123 Main Street, New York",
-    country: "USA",
-    submissionDate: "2025-05-13",
-    conferenceName: "Global Medical Innovations Summit 2025"
-  },
-  {
-    firstName: "Jane",
-    lastName: "Smith",
-    emailId: "jane.smith@example.com",
-    phoneNumber: "+44 20 7946 0958",
-    address: "456 Oak Avenue, London",
-    country: "UK",
-    submissionDate: "2025-05-14",
-    conferenceName: "International Conference on Medical Technology 2025"
-  },
-  {
-    firstName: "Alice",
-    lastName: "Johnson",
-    emailId: "alice.johnson@example.com",
-    phoneNumber: "+61 2 9374 4000",
-    address: "789 Pine Road, Sydney",
-    country: "Australia",
-    submissionDate: "2025-05-15",
-    conferenceName: "World Congress on Healthcare AI 2025"
-  },
-  {
-    firstName: "Bob",
-    lastName: "Williams",
-    emailId: "bob.williams@example.com",
-    phoneNumber: "+91 98765 43210",
-    address: "101 Maple Lane, Mumbai",
-    country: "India",
-    submissionDate: "2025-05-16",
-    conferenceName: "Medical Technology and Innovation Forum 2025"
-  },
-  {
-    firstName: "Charlie",
-    lastName: "Brown",
-    emailId: "charlie.brown@example.com",
-    phoneNumber: "+81 3-1234-5678",
-    address: "202 Cedar Street, Tokyo",
-    country: "Japan",
-    submissionDate: "2025-05-17",
-    conferenceName: "Asian Medical Science Conference 2025"
-  },
-];
+import { Paginator } from "primereact/paginator";
+import { Toast } from "primereact/toast";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { getAllBrochures, deleteBrochure } from "@/service/pdfUploads";
+import Image from "next/image";
 
-
-
-export default function BrochureTableAdmin({
-  visibleDetails,
-  setVisibleDetails,
-}) {
+export default function BrochureTableAdmin({ visibleDetails, setVisibleDetails }) {
+  const [brochureData, setBrochureData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [sidebarState, setSidebarState] = useState({
-    header: null,
-    content: null,
-  });
+  const [sidebarState, setSidebarState] = useState({ header: null, content: null });
+  const toast = useRef(null);
 
-  const [statusChecked, setStatusChecked] = useState(false);
-  const confirmDelete = () => {
-    const accept = () => {
-      console.log("accepted");
-    };
-    const reject = () => {
-      console.log("rejectcted");
-    };
+  const fetchData = async (page = 1, limit = rowsPerPage) => {
+    setLoading(true);
+    try {
+      const res = await getAllBrochures(page, limit);
+      setBrochureData(res.data?.detail?.data || []);
+      setTotalRecords(res.data?.detail?.total || 0);
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: error.message || "Failed to load data.",
+        life: 3000,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage]);
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteBrochure(id);
+      toast.current.show({
+        severity: "success",
+        summary: "Deleted",
+        detail: "Brochure deleted successfully.",
+        life: 3000,
+      });
+
+      const remaining = brochureData.length - 1;
+      if (remaining === 0 && currentPage > 1) {
+        setCurrentPage((prev) => prev - 1);
+      } else {
+        fetchData(currentPage);
+      }
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Delete Failed",
+        detail: error.message || "Could not delete. Try again.",
+        life: 3000,
+      });
+    }
+  };
+
+  const confirmDelete = (id) => {
     confirmDialog({
       message: <Delete />,
       acceptLabel: "OK",
       rejectLabel: "Cancel",
       acceptClassName: "btn px-5 btn-warning text-white shadow-none",
       rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
-      defaultFocus: "accept",
-      accept,
-      reject,
+      accept: () => handleDelete(id),
+      reject: () => {},
       className: "custom-confirm-dialog",
     });
   };
+
   const handleModel = (type, data = null) => {
     const componentsMap = {
       view: {
-        header: "View Submit Abstract Form",
+        header: "View Brochure Form",
         content: <View data={data} />,
       },
-      edit: {
-        header: "Edit Coupons",
-        content: <Edit data={data} />,
-      },
-      add: {
-        header: "Add Coupons",
-        content: <Add />,
-      },
     };
-
     const selected = componentsMap[type];
     if (selected) {
       setSidebarState(selected);
       setIsVisible(true);
     }
   };
+
   return (
     <div className="table-responsive">
+      <Toast ref={toast} />
       <Dialog
         header={sidebarState.header}
         visible={isVisible}
         draggable={false}
-        onHide={() => {
-          if (!isVisible) return;
-          setIsVisible(false);
-        }}
+        onHide={() => setIsVisible(false)}
         style={{ width: "50vw" }}
         breakpoints={{ "960px": "75vw", "641px": "100vw" }}
       >
-        {/* Content Area */}
         {sidebarState.content}
       </Dialog>
       <ConfirmDialog draggable={false} />
-      <table className="tabel w-100  table-striped-columns">
-        <thead>
-          <tr>
-            <td className="p-2 table-heading text-nowrap">First Name</td>
-            <td className="p-2 table-heading text-nowrap">Last Name</td>
-            <td className="p-2 table-heading">Email ID</td>
-            <td className="p-2 table-heading text-nowrap">Phone Number</td>
-            <td className="p-2 table-heading">Conference Name</td>
-            <td className="p-2 table-heading text-nowrap">Submission Date</td>
-            <td className="p-2 table-heading">Action</td>
-          </tr>
-        </thead>
-        <tbody>
-          {submissionData.map((element, i) => (
-            <tr key={i}>
-              <td className="p-3 table-data">{element.firstName}</td>
-              <td className="p-3 table-data">{element.lastName}</td>
-              <td className="p-3 table-data">{element.emailId}</td>
-              <td className="p-3 table-data  text-nowrap">{element.phoneNumber}</td>
-              <td className="p-3 table-data">{element.conferenceName}</td>
-              <td className="p-3 table-data">{element.submissionDate}</td>
-              <td className="p-3 table-data">
-                <div className="d-flex gap-1 justify-content-center flex-nowrap">
-                  {/* <button
-                    name="edit"
-                    className="btn btn-outline-secondary rounded"
-                    onClick={(e) => handleModel(e.target.name, element)}
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button> */}
-                  <button
-                    className="btn btn-outline-secondary rounded"
-                    onClick={confirmDelete}
-                  >
-                    <i className="bx bx-trash-alt"></i>
-                  </button>
-                  <button
-                    name="view"
-                    className="btn btn-outline-warning rounded"
-                    onClick={(e) => handleModel(e.target.name, element)}
-                  >
-                    <i className="bx bx-chevron-right"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {/* <button
-        name="add"
-        className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
-        style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
-        onClick={(e) => handleModel(e.target.name)}
-      >
-        +
-      </button> */}
+
+      {loading ? (
+        <div className="d-flex justify-content-center py-5">
+          <ProgressSpinner
+            style={{ width: "50px", height: "50px" }}
+            strokeWidth="5"
+            fill="var(--surface-ground)"
+            animationDuration=".5s"
+          />
+        </div>
+      ) : brochureData.length === 0 ? (
+        <div className="text-center w-100 py-5">
+          <h5>No brochure requests found</h5>
+          <p>Waiting for new brochure submissions.</p>
+        </div>
+      ) : (
+        <>
+          <table className="tabel w-100 table-striped-columns">
+            <thead>
+              <tr>
+                <td className="p-2 table-heading text-nowrap">First Name</td>
+                <td className="p-2 table-heading text-nowrap">Last Name</td>
+                <td className="p-2 table-heading">Email ID</td>
+                <td className="p-2 table-heading text-nowrap">Phone Number</td>
+                <td className="p-2 table-heading">Conference Name</td>
+                <td className="p-2 table-heading text-nowrap">Submission Date</td>
+                <td className="p-2 table-heading">Action</td>
+              </tr>
+            </thead>
+            <tbody>
+              {brochureData.map((element, i) => (
+                <tr key={element._id || i}>
+                  <td className="p-3 table-data">{element.firstName}</td>
+                  <td className="p-3 table-data">{element.lastName}</td>
+                  <td className="p-3 table-data">{element.email}</td>
+                  <td className="p-3 table-data text-nowrap">{element.phoneNumber}</td>
+                  <td className="p-3 table-data">{element.conferenceName}</td>
+                  <td className="p-3 table-data">{element.submissionDate}</td>
+                  <td className="p-3 table-data">
+                    <div className="d-flex gap-1 justify-content-center flex-nowrap">
+                      <button
+                        className="btn btn-outline-secondary rounded"
+                        onClick={() => confirmDelete(element._id)}
+                      >
+                        <i className="bx bx-trash-alt"></i>
+                      </button>
+                      <button
+                        name="view"
+                        className="btn btn-outline-warning rounded"
+                        onClick={() => handleModel("view", element)}
+                      >
+                        <i className="bx bx-chevron-right"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <Paginator
+            first={(currentPage - 1) * rowsPerPage}
+            rows={rowsPerPage}
+            totalRecords={totalRecords}
+            onPageChange={(e) => setCurrentPage(Math.floor(e.first / e.rows) + 1)}
+            className="mt-4"
+          />
+        </>
+      )}
     </div>
   );
 }
 
-function Edit({ data }) {
-  return (
-    <div className="d-flex gap-3 container flex-column h-100">
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="couponCode" className="form-label">
-            Coupon Code
-          </label>
-          <input
-            type="text"
-            name="couponCode"
-            value={data.couponCode}
-            className="form-control"
-            id="couponCode"
-            placeholder="Enter Coupon Code"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="discountType" className="form-label">
-            Discount Type*
-          </label>
-          <select
-            name="discountType"
-            id="discountType"
-            className="form-control"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          >
-            <option value="">Select Discount Type</option>
-            <option value="Percentage">Percentage</option>
-            <option value="Fixed Rate">Fixed Rate</option>
-          </select>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Discount Value
-          </label>
-          <input
-            type="text"
-            name="discountValue"
-            className="form-control"
-            id="discountValue"
-            placeholder="Enter Discount Value"
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="date" className="form-label">
-            Start & End Date*
-          </label>
-          <input
-            type="text"
-            name="date"
-            value={data.expiryDate}
-            className="form-control"
-            id="date"
-            placeholder="Enter Discount Value"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Applicable Registration type
-          </label>
-          <input
-            type="text"
-            name="registrationtype"
-            value={data.name}
-            className="form-control"
-            id="registrationtype"
-            placeholder="Enter Applicable Registration type"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-function Add({ data }) {
-  return (
-    <div className="d-flex gap-3 container flex-column h-100">
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="couponCode" className="form-label">
-            Coupon Code
-          </label>
-          <input
-            type="text"
-            name="couponCode"
-            className="form-control"
-            id="couponCode"
-            placeholder="Enter Coupon Code"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="discountType" className="form-label">
-            Discount Type*
-          </label>
-          <select
-            name="discountType"
-            id="discountType"
-            className="form-control"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          >
-            <option value="">Select Discount Type</option>
-            <option value="Percentage">Percentage</option>
-            <option value="Fixed Rate">Fixed Rate</option>
-          </select>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Discount Value
-          </label>
-          <input
-            type="text"
-            name="discountValue"
-            className="form-control"
-            id="discountValue"
-            placeholder="Enter Discount Value"
-            required
-          />
-        </div>
-        <div className="col-6">
-          <label htmlFor="date" className="form-label">
-            Start & End Date*
-          </label>
-          <input
-            type="text"
-            name="date"
-            className="form-control"
-            id="date"
-            placeholder="Enter Discount Value"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-6">
-          <label htmlFor="discountValue" className="form-label">
-            Applicable Registration type
-          </label>
-          <input
-            type="text"
-            name="registrationtype"
-            className="form-control"
-            id="registrationtype"
-            placeholder="Enter Applicable Registration type"
-            onChange={(e) => console.log(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function View({ data }) {
   return (
@@ -379,7 +200,7 @@ function View({ data }) {
         <div className="col-4">
           <label className="form-label col-3 mb-2">Country</label>
           <p className="text-black rounded-2 p-2">
-            {data.country}
+            {data.contry}
           </p>
         </div>
       </div>
@@ -387,7 +208,7 @@ function View({ data }) {
         <div className="col-7">
           <label className="form-label  mb-2">Email ID</label>
           <p className="text-black rounded-2 p-2">
-            {data.emailId}
+            {data.email}
           </p>
         </div>
   

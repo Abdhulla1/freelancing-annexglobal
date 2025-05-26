@@ -12,7 +12,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { fetchAdmins } from "@/service/adminService";
 import { Paginator } from "primereact/paginator";
 import { set } from "nprogress";
-import { Button } from 'primereact/button';
+import { Button } from "primereact/button";
 
 export default function AdminConferences() {
   const [query, setQuery] = useState("");
@@ -48,7 +48,8 @@ export default function AdminConferences() {
       toast.current.show({
         severity: "error",
         summary: "Failed to Load Conferences",
-        detail: "Failed to Load Conferences. Please try again.",
+        detail:
+          error.message || "Failed to Load Conferences. Please try again.",
         life: 3000,
       });
     } finally {
@@ -76,7 +77,7 @@ export default function AdminConferences() {
 
   // Handle saving new conference
   const handleSaveConference = async () => {
-    setButtonLoading(true)
+    setButtonLoading(true);
     try {
       let imageUrl = "";
       let bgUrl = "";
@@ -177,11 +178,11 @@ export default function AdminConferences() {
       toast.current.show({
         severity: "error",
         summary: "Conference Save Error",
-        detail: error || "Failed to save conference. Please try again.",
+        detail:  error.message  || "Failed to save conference. Please try again.",
         life: 3000,
       });
-    }finally{
-      setButtonLoading(false)
+    } finally {
+      setButtonLoading(false);
     }
   };
 
@@ -223,12 +224,19 @@ export default function AdminConferences() {
             >
               Cancel
             </button>
-                         <Button label="Upload" onClick={handleSaveConference} className="btn px-5 btn-warning fw-normal text-white shadow-none"  loading={buttonLoading}      disabled={
+            <Button
+              label="Upload"
+              onClick={handleSaveConference}
+              className="btn px-5 btn-warning fw-normal text-white shadow-none"
+              loading={buttonLoading}
+              disabled={
                 !newConferenceData.name.trim() ||
                 !newConferenceData.file ||
                 !newConferenceData.conferenceBg ||
                 !newConferenceData.assignedUser
-              } style={{ outline: 'none', boxShadow: 'none' }}/>            
+              }
+              style={{ outline: "none", boxShadow: "none" }}
+            />
           </div>
         }
         className="custom-confirm-dialog"
@@ -335,7 +343,7 @@ export default function AdminConferences() {
               <p>Try adding a new conference using the button above.</p>
             </div>
           ) : (
-            <div className="row gx-4 gy-4" >
+            <div className="row gx-4 gy-4">
               {filteredData.map((item, index) => (
                 <div key={index} className="col-12 col-md-6 col-lg-6 col-xl-4 ">
                   <div
@@ -363,20 +371,19 @@ export default function AdminConferences() {
                   </div>
                 </div>
               ))}
-                <Paginator
-        first={(currentPage - 1) * rowsPerPage}
-        rows={rowsPerPage}
-        totalRecords={totalRecords}
-        onPageChange={(e) => setCurrentPage(Math.floor(e.first / e.rows) + 1)}
-        className="mt-5"
-      />
+              <Paginator
+                first={(currentPage - 1) * rowsPerPage}
+                rows={rowsPerPage}
+                totalRecords={totalRecords}
+                onPageChange={(e) =>
+                  setCurrentPage(Math.floor(e.first / e.rows) + 1)
+                }
+                className="mt-5"
+              />
             </div>
           )}
-          
         </div>
-        
       </div>
-    
     </div>
   );
 }

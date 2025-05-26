@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Sidebar } from "primereact/sidebar";
 import { ProgressSpinner } from "primereact/progressspinner";
+import { InputSwitch } from "primereact/inputswitch";
 import {
   fetchAdmins,
   createAdmin,
@@ -87,7 +88,6 @@ export default function AdminsTable() {
           detail: "No modifications found",
           life: 3000,
         });
-        
       }
     } catch (error) {
       let detailMessage = "Failed to reset admin";
@@ -161,6 +161,7 @@ export default function AdminsTable() {
               <td className="p-2 table-heading">Email ID</td>
               <td className="p-2 table-heading">Expiring In</td>
               <td className="p-2 table-heading text-nowrap">Last Logged In</td>
+              <td className="p-2 table-heading">Role</td>
               <td className="p-2 table-heading">Status</td>
               <td className="p-2 table-heading">Action</td>
             </tr>
@@ -176,6 +177,7 @@ export default function AdminsTable() {
                 <td className="p-3 text-nowrap table-data">
                   {element.lastLoggedIn}
                 </td>
+                <td className="p-3  table-data ">User</td>
                 <td
                   className={`p-3 text-nowrap table-data ${
                     element.status === "Active" ? "text-success" : "text-danger"
@@ -225,6 +227,8 @@ export default function AdminsTable() {
 
 // Add Admin Component
 function Add({ setVisibleDetails, toast }) {
+  const [isUser, setIsUser] = useState(true); // true = User, false = Admin
+
   const generatePassword = () => {
     const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$";
@@ -240,6 +244,7 @@ function Add({ setVisibleDetails, toast }) {
       email: "",
       password: "",
       expiringIn: "",
+      role: isUser ? "User" : "Admin",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Invalid email").required("Required"),
@@ -335,6 +340,17 @@ function Add({ setVisibleDetails, toast }) {
               </div>
             )}
           </div>
+          {/* Role Toggle */}
+          <div className="mb-4 d-flex align-items-center justify-content-between">
+            <label className="form-label mb-0">
+              Role: {isUser ? "User" : "Admin"}
+            </label>
+            <InputSwitch
+              checked={isUser}
+              onChange={(e) => setIsUser(e.value)}
+              style={{ scale: "0.9" }}
+            />
+          </div>
 
           {/* Expiring In */}
           <div className="mb-4">
@@ -385,6 +401,8 @@ function Add({ setVisibleDetails, toast }) {
 }
 // Edit Admin Component
 function Edit({ setVisibleDetails, toast, data }) {
+  const [isUser, setIsUser] = useState(true); // true = User, false = Admin
+
   const generatePassword = () => {
     const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$";
@@ -400,6 +418,7 @@ function Edit({ setVisibleDetails, toast, data }) {
       email: data?.email || "",
       password: data?.password || "",
       expiringIn: data?.expiringIn || "",
+      role: isUser ? "User" : "Admin" || "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -497,7 +516,17 @@ function Edit({ setVisibleDetails, toast, data }) {
               </div>
             )}
           </div>
-
+          {/* Role Toggle */}
+          <div className="mb-4 d-flex align-items-center justify-content-between">
+            <label className="form-label mb-0">
+              Role: {isUser ? "User" : "Admin"}
+            </label>
+            <InputSwitch
+              checked={isUser}
+              onChange={(e) => setIsUser(e.value)}
+              style={{ scale: "0.9" }}
+            />
+          </div>
           {/* Expiring In */}
           <div className="mb-4">
             <label htmlFor="expiringIn" className="form-label">

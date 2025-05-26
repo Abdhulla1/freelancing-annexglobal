@@ -13,10 +13,20 @@
   height: 140px;
   width: 110px;
 }
-.annexlogo{
-  width: auto;
-  height: 70px;
+.logoWrapper {
+  position: relative;
+  width: 210px;      /* Adjust based on your design */
+  height: 210px;
+  border-radius: 50%;
+  overflow: hidden;
+  /* background-color: #fff;  */
 }
+
+.logoImage {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 
 .heading h5{
     line-height: 1.5;

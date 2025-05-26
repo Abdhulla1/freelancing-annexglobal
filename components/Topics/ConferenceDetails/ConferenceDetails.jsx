@@ -22,13 +22,16 @@ const ConferenceDetails = ({
               <div className="row justify-content-center me-3 ">
                 <Link
                   href={`/conference/${conference.id}`}
-                  className="text-decoration-none"
+                  className={`text-decoration-none `}
                 >
-                  <img
-                    src={conference.icon}
-                    className={`mb-3 mb-md-0 ${ConferenceDetailsStyles["conferencelogo"]}`}
-                    alt="Conference Logo"
-                  />
+                  <div className={ConferenceDetailsStyles.logoWrapper}>
+                    <Image
+                      src={conference.icon} 
+                      alt="Conference Logo"
+                      fill
+                      className={ConferenceDetailsStyles.logoImage}
+                    />
+                  </div>
                 </Link>
                 <div
                   className={`rounded mt-3 text-center d-none d-md-block position-relative ${ConferenceDetailsStyles["certification"]}`}

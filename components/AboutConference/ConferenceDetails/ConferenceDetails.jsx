@@ -22,13 +22,16 @@ const ConferenceDetails = ({
               <div className="row justify-content-center me-3 ">
                 <Link
                   href={`/conference/${conference.id}`}
-                  className="text-decoration-none"
+                  className={`text-decoration-none `}
                 >
-                  <img
-                    src={conference.icon}
-                    className={`mb-3 mb-md-0 ${ConferenceDetailsStyles["conferencelogo"]}`}
-                    alt="Conference Logo"
-                  />
+                  <div className={ConferenceDetailsStyles.logoWrapper}>
+                    <Image
+                      src={conference.icon} // this is your uploaded image
+                      alt="Conference Logo"
+                      fill
+                      className={ConferenceDetailsStyles.logoImage}
+                    />
+                  </div>
                 </Link>
                 <div
                   className={`rounded mt-3 text-center d-none d-md-block position-relative ${ConferenceDetailsStyles["certification"]}`}
@@ -42,24 +45,24 @@ const ConferenceDetails = ({
                 </div>
               </div>
               {/* &nbsp; */}
-              
+
               <div
                 className={`col-md-12 col-lg-9    ${ConferenceDetailsStyles["heading"]}`}
               >
                 <div className="">
-  <h5 className="text-uppercase text-warning opacity-75 mb-3  text-md-start mb-md-1">
-                  2nd International Conference On
-                </h5>
-                <h4 className="text-uppercase text-white mb-3 mb-md-1">
-                  {conference.title}
-                </h4>
-                <p className="text-white fst-italic">
-                  {
-                    "Theme: “Enhancing Women’s Health: Improvement, Difficulties, and Innovative Thoughts in Obstetrics and Gynecology”"
-                  }
-                </p>
+                  <h5 className="text-uppercase text-warning opacity-75 mb-3  text-md-start mb-md-1">
+                    2nd International Conference On
+                  </h5>
+                  <h4 className="text-uppercase text-white mb-3 mb-md-1">
+                    {conference.title}
+                  </h4>
+                  <p className="text-white fst-italic">
+                    {
+                      "Theme: “Enhancing Women’s Health: Improvement, Difficulties, and Innovative Thoughts in Obstetrics and Gynecology”"
+                    }
+                  </p>
                 </div>
-              
+
                 <div className={`mt-4 ${ConferenceDetailsStyles["timings"]}`}>
                   <div className="d-inline-flex flex-nowrap align-items-center justify-content-center  gap-2 p-1">
                     <div>
