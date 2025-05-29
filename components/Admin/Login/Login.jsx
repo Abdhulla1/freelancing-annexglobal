@@ -40,6 +40,7 @@ export default function Login() {
                 const response = await axios.post("/api/login", values);
                 const data = response.data;
                 localStorage.setItem("token", data.token);
+                localStorage.setItem("id", data.id);
 
                 if (data.success) {
                     router.push("/admin-annex-global-conferences/dashboard");

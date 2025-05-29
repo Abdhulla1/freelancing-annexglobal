@@ -1,221 +1,153 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import { uploadImage } from "@/service/mediaManagemnt";
-import {
-  saveConferenceLandingPage,
-  getSelectedConference,
-} from "@/service/adminConference";
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { updateLocationOverview } from "@/service/mainPageService"; // Replace with your actual API function
+import { Button } from "primereact/button";
 
-export default function NavLocationOverview({ selectedConferenceID, toast }) {
-  const [formData, setFormData] = useState({
-   latitude: "",
-  longitude: "",
-  loation: "",
-  dates: ""
+export default function NavLocationOverview({ Location, toast, fetchData }) {
+  const [loading, setLoading] = useState(false);
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      latitude: Location.latitude || "",
+      longitude: Location.longitude || "",
+      location: Location.location || "", // Typo preserved as per original
+      dates: Location.dates || "",
+      headerTexting: Location.headerTexting || "", // Added for extra field
+    },
+    validationSchema: Yup.object({
+      latitude: Yup.string().required("Latitude is required"),
+      longitude: Yup.string().required("Longitude is required"),
+      location: Yup.string().required("Location is required"),
+      dates: Yup.string().required("Dates are required"),
+      headerTexting: Yup.string().required("Header Texting is required"),
+    }),
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        const response = await updateLocationOverview(values); // Call your backend service
+        if (response.status === 200) {
+          toast.current.show({
+            severity: "success",
+            summary: "Success!",
+            detail: response.data?.detail?.[0]?.msg || "Location updated successfully.",
+            life: 3000,
+          });
+          fetchData();
+        } else {
+          toast.current.show({
+            severity: "warn",
+            summary: "Warning!",
+            detail: response.data?.detail?.[0]?.msg || "Unexpected response.",
+            life: 3000,
+          });
+        }
+      } catch (error) {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Failed to update location. Please try again.",
+          life: 3000,
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
   });
 
-  // Fetch data on component mount or ID change
-  // useEffect(() => {
-  //   const fetchLandingPageData = async () => {
-  //     try {
-  //       const res= await getSelectedConference(selectedConferenceID);
-  //       const landing = res?.conference?.landingPage;
-  //       if (res.status === 404) {
-  //         router.push("/notFound");
-  //       }
-  //       if (landing) {
-  //         setFormData({
-  //           startDate: landing.startDate || "",
-  //           endDate: landing.endDate || "",
-  //           location: landing.location || "",
-  //           address: landing.address || "",
-  //           startTime: landing.startTime || "",
-  //           endTime: landing.endTime || "",
-  //         });
-
-  //         if (landing.images && landing.images.length > 0) {
-  //           setUploads(
-  //             landing.images.map((imgUrl) => ({
-  //               id: Date.now() + Math.random(),
-  //               file: { preview: imgUrl, isUploaded: true }, // Custom format for existing images
-  //             }))
-
-  //           );
-  //         }
-  //       }
-  //     } catch (error) {
-  //       toast.current?.show({
-  //         severity: "error",
-  //         summary: "Fetch Error",
-  //         detail: "Failed to load existing landing page data.",
-  //         life: 3000,
-  //       });
-  //     }
-  //   };
-
-  //   fetchLandingPageData();
-  // }, [selectedConferenceID]);
-
-  const isFormFilled = formData.title && formData.heading && formData.subTitle;
-
-  const formValid = isFormFilled;
-
-  const handleInputChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const hasFile = uploads.some((upload) => upload.file);
-    if (!hasFile) {
-      toast.current.show({
-        severity: "error",
-        summary: "Image Upload Error",
-        detail: "Please upload at least one landing image before submitting.",
-        life: 3000,
-      });
-      return;
-    }
-
-    try {
-      let imageUrls = [];
-
-      const uploadPromises = uploads.map(async (upload) => {
-        if (upload.file?.isUploaded) {
-          return { url: upload.file.preview };
-        } else if (upload.file) {
-          return await uploadImage(upload.file);
-        } else {
-          return null;
-        }
-      });
-
-      const responses = await Promise.all(uploadPromises);
-      imageUrls = responses.filter(Boolean).map((res) => res.url);
-
-      const finalPayload = {
-        images: imageUrls,
-        ...formData,
-      };
-
-      const response = await saveConferenceLandingPage(
-        finalPayload,
-        selectedConferenceID
-      );
-
-      if (response[0].msg === "Landing page updated successfully") {
-        toast.current.show({
-          severity: "success",
-          summary: "Success!",
-          detail: "The form has been submitted successfully.",
-          life: 3000,
-        });
-      } else if (response[0].msg === "No modifications found") {
-        toast.current.show({
-          severity: "warn",
-          summary: "Warning",
-          detail: "No modifications found",
-          life: 3000,
-        });
-      }
-    } catch (error) {
-      toast.current.show({
-        severity: "error",
-        summary: "Submission failed",
-        detail: "Failed to submit the form. Please try again.",
-        life: 3000,
-      });
-    }
-  };
+  const valuesChanged =
+    formik.values.latitude !== Location.latitude ||
+    formik.values.longitude !== Location.longitude ||
+    formik.values.location !== Location.loation ||
+    formik.values.dates !== Location.dates ||
+    formik.values.headerTexting !== Location.headerTexting;
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mt-4">
-
-        <div className="row mb-3">
-          <div className="col-md-6 ">
-            <label className="form-label">Latitude</label>
-            <input
-              type="text"
-              name="location"
-              className="form-control"
-              value={formData.latitude}
-              onChange={handleInputChange}
-              placeholder="13.0843° N"
-              required
-            />
-          </div>
-          <div className="col-md-6 ">
-            <label className="form-label">Longitude</label>
-            <input
-              type="text"
-              name="address"
-              className="form-control"
-              value={formData.longitude}
-              onChange={handleInputChange}
-              placeholder="80.2705° E"
-              required
-            />
-          </div>
+    <form onSubmit={formik.handleSubmit}>
+      <div className="mt-4 row">
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Latitude</label>
+          <input
+            type="text"
+            name="latitude"
+            className="form-control"
+            placeholder="13.0843° N"
+            {...formik.getFieldProps("latitude")}
+          />
+          {formik.touched.latitude && formik.errors.latitude && (
+            <div className="text-danger">{formik.errors.latitude}</div>
+          )}
         </div>
-        <div className="row mb-3">
-          <div className="col-md-6 ">
-            <label className="form-label">Loation</label>
-            <input
-              type="text"
-              name="location"
-              className="form-control"
-              value={formData.loation}
-              onChange={handleInputChange}
-              placeholder="Dubai, UAE"
-              required
-            />
-          </div>
-          <div className="col-md-6 ">
-            <label className="form-label">Dates</label>
-            <input
-              type="text"
-              name="address"
-              className="form-control"
-              value={formData.dates}
-              onChange={handleInputChange}
-              placeholder="26-27 February 2025"
-              required
-            />
-          </div>
-        </div> <div className="col-md-6 ">
-            <label className="form-label">Header Texting</label>
-            <input
-              type="text"
-              name="address"
-              className="form-control"
-              value={formData.dates}
-              onChange={handleInputChange}
-              placeholder="Join more than 7,000 + Marketers in Budapest 4-5 September 2025 "
-              required
-            />
-          </div>
+
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Longitude</label>
+          <input
+            type="text"
+            name="longitude"
+            className="form-control"
+            placeholder="80.2705° E"
+            {...formik.getFieldProps("longitude")}
+          />
+          {formik.touched.longitude && formik.errors.longitude && (
+            <div className="text-danger">{formik.errors.longitude}</div>
+          )}
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Location</label>
+          <input
+            type="text"
+            name="location"
+            className="form-control"
+            placeholder="Dubai, UAE"
+            {...formik.getFieldProps("location")}
+          />
+          {formik.touched.location && formik.errors.location && (
+            <div className="text-danger">{formik.errors.location}</div>
+          )}
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Dates</label>
+          <input
+            type="text"
+            name="dates"
+            className="form-control"
+            placeholder="26-27 February 2025"
+            {...formik.getFieldProps("dates")}
+          />
+          {formik.touched.dates && formik.errors.dates && (
+            <div className="text-danger">{formik.errors.dates}</div>
+          )}
+        </div>
+
+        <div className="col-md-12 mb-3">
+          <label className="form-label">Header Texting</label>
+          <input
+            type="text"
+            name="headerTexting"
+            className="form-control"
+            placeholder="Join more than 7,000+ Marketers in Budapest 4-5 September 2025"
+            {...formik.getFieldProps("headerTexting")}
+          />
+          {formik.touched.headerTexting && formik.errors.headerTexting && (
+            <div className="text-danger">{formik.errors.headerTexting}</div>
+          )}
+        </div>
       </div>
 
-      <div className="bg-secondary bg-opacity-10 mt-5 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
-        <button
-          type="button"
-          className="btn px-5 bg-white border"
-          disabled={!formValid}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="btn px-1 px-md-5 btn-warning text-white"
-          disabled={!formValid}
-        >
-          Save Changes
-        </button>
+      <div className="mt-5 p-2 d-flex justify-content-start gap-2">
+
+          <Button
+                         label="Save Changes"
+                         type="submit"
+                         className="btn px-5 btn-warning text-white"
+                         loading={loading}
+                        disabled={!formik.isValid || !valuesChanged}
+                         style={{ outline: "none", boxShadow: "none" }}
+                       />
       </div>
     </form>
   );

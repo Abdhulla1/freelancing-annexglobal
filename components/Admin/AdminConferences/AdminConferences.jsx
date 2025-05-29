@@ -9,9 +9,8 @@ import Link from "next/link";
 import { uploadImage } from "@/service/mediaManagemnt";
 import { Toast } from "primereact/toast";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { fetchAdmins } from "@/service/adminService";
+import { fetchAdminss } from "@/service/adminService";
 import { Paginator } from "primereact/paginator";
-import { set } from "nprogress";
 import { Button } from "primereact/button";
 
 export default function AdminConferences() {
@@ -39,7 +38,7 @@ export default function AdminConferences() {
     try {
       const [data, userList] = await Promise.all([
         getAllConference(page, limit),
-        fetchAdmins(),
+        fetchAdminss(),
       ]);
       setAdminsData(userList);
       setConferenceData(data.data?.detail.data || []); // Assuming data has { results, total }

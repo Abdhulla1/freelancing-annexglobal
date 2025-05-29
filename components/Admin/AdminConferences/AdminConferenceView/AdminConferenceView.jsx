@@ -11,14 +11,15 @@ import RegistrationAdmin from "./RegistrationAdmin/RegistrationAdmin";
 import {
   getSelectedConference,
   updateConference,
+  conferenceStatusToggle,
+  savePermalink,
 } from "@/service/adminConference";
 import { useRouter } from "next/navigation";
 import { ProgressSpinner } from "primereact/progressspinner";
 import SpecialRegistration from "./SpecialRegistration/SpecialRegistration";
-import { Toast } from "primereact/toast";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { fetchAdmins } from "@/service/adminService";
+import { fetchAdminss } from "@/service/adminService";
 import UploadAbstract from "./ConferencePageAdmin/UploadAbstract/UploadAbstract";
 import BrochureAdmin from "./BrochureAdmin/BrochureAdmin";
 import SubmitAbstractAdmin from "./BrochureAdmin/SubmitAbstractAdmin";
@@ -27,10 +28,20 @@ import ScientificProgramAdmin from "./ConferencePageAdmin/ScientificProgramAdmin
 import FAQPageAdmin from "./FAQPageAdmin/FAQPageAdmin";
 import PastConferenceAdmin from "./PastConferenceAdmin/PastConferenceAdmin";
 import { uploadImage } from "@/service/mediaManagemnt";
+import { Toast } from "primereact/toast";
+
 export default function AdminConferenceView({ conference }) {
   const [activeMenu, setActiveMenu] = useState("Conference");
   const [selectedConference, setSelectedConference] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [showStatusConfirm, setShowStatusConfirm] = useState(false);
+  const [nextStatusAction, setNextStatusAction] = useState(""); // "Publish" or "Draft"
+  const [statusAction, setStatusAction] = useState("Draft");
+  const [permalink, setPermalink] = useState("");
+  const handleEditClick = (e) => {
+    setIsDisabled((prev) => !prev);
+  };
   const [newConferenceData, setNewConferenceData] = useState({
     name: "",
     file: null,
@@ -58,43 +69,171 @@ export default function AdminConferenceView({ conference }) {
     { item: "Special Registration" },
     { item: "Past Conference" },
   ];
-
+  const fetchConfernceData = async () => {
+    try {
+      const response = await getSelectedConference(conference);
+      if (response.status === 404) {
+        router.push("/notFound");
+      } else {
+        setSelectedConference(response);
+      }
+    } catch (error) {
+      router.push("/notFound");
+    }
+  };
   const componentMap = {
     Conference: selectedConference ? (
-      <ConferencePageAdmin selectedConferenceID={selectedConference._id} />
+      <ConferencePageAdmin
+        selectedConferenceID={selectedConference._id}
+        conference={selectedConference.conference}
+        fetchConfernceData={fetchConfernceData}
+      />
     ) : null,
-    Webinar: <WebinarPageAdmin />,
-    Speakers: <SpeakerAdmin />,
-    OCM: <OCMAdmin />,
-    FAQ: <FAQPageAdmin />,
-    Brochure: <BrochureAdmin />,
-    Abstract: <SubmitAbstractAdmin />,
-    "Webinar Program": <WebinarProgramAdmin />,
-    Topics: <TopicsAdmin />,
-    Venue: <VenuePageAdmin />,
+     Webinar: selectedConference ? (
+    <WebinarPageAdmin
+      selectedConferenceID={selectedConference._id}
+      webinar={selectedConference.webinar}
+      fetchConfernceData={fetchConfernceData}
+    />
+  ) : null,
+    Speakers: selectedConference ? (<SpeakerAdmin selectedConferenceID={selectedConference._id}
+      speakers={selectedConference.speakers}
+      fetchConfernceData={fetchConfernceData}/> ) : null,
+    OCM: selectedConference ? ( <OCMAdmin selectedConferenceID={selectedConference._id}
+      ocm={selectedConference.ocm}
+      fetchConfernceData={fetchConfernceData}/>) : null,
+    FAQ:  selectedConference ? ( <FAQPageAdmin selectedConferenceID={selectedConference._id}
+      faq={selectedConference.faq}
+      fetchConfernceData={fetchConfernceData}/>) : null,
+    Brochure:selectedConference ? ( <BrochureAdmin selectedConferenceID={selectedConference._id}
+      brochure={selectedConference.brochure}
+      fetchConfernceData={fetchConfernceData} />) : null,
+    Abstract:selectedConference ? ( <SubmitAbstractAdmin selectedConferenceID={selectedConference._id}
+      abstract={selectedConference.abstract}
+      fetchConfernceData={fetchConfernceData} />) : null,
+    "Webinar Program":  selectedConference ? (<WebinarProgramAdmin selectedConferenceID={selectedConference._id}
+      webinarProgram={selectedConference.webinarProgram}
+      fetchConfernceData={fetchConfernceData}/>) : null,
+    Topics: selectedConference ? ( <TopicsAdmin selectedConferenceID={selectedConference._id}
+      topics={selectedConference.topics}
+      fetchConfernceData={fetchConfernceData} />) : null,
+    Venue:  selectedConference ? ( <VenuePageAdmin  selectedConferenceID={selectedConference._id}
+      venuePage={selectedConference.venue}
+      fetchConfernceData={fetchConfernceData} />) : null,
     Registration: <RegistrationAdmin />,
     "Past Conference": <PastConferenceAdmin />,
     "Special Registration": <SpecialRegistration />,
-    "Scientific Program": <ScientificProgramAdmin />,
+    "Scientific Program": selectedConference ? (<ScientificProgramAdmin  selectedConferenceID={selectedConference._id}
+      scientificProgram={selectedConference.scientificProgram}
+      fetchConfernceData={fetchConfernceData}/>) : null,
+  };
+  const fetchData = async () => {
+    try {
+      const response = await getSelectedConference(conference);
+      const userList = await fetchAdminss();
+      setAdminsData(userList);
+      if (response.status === 404) {
+        router.push("/notFound");
+      } else {
+        setSelectedConference(response);
+        console.log(response);
+      }
+    } catch (error) {
+      router.push("/notFound");
+    }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getSelectedConference(conference);
-        const userList = await fetchAdmins();
-        setAdminsData(userList);
-        if (response.status === 404) {
-          router.push("/notFound");
-        } else {
-          setSelectedConference(response);
-        }
-      } catch (error) {
-        console.error("Failed to fetch conference data", error);
-      }
-    };
     fetchData();
   }, []);
+  useEffect(() => {
+    if (selectedConference?.action) {
+      setStatusAction(selectedConference.action);
+    }
+    if (selectedConference?.permalink) {
+      setPermalink(selectedConference.permalink);
+    }
+  }, [selectedConference]);
+  const handleConfirmStatusToggle = async () => {
+    // const nextAction = statusAction === "Publish" ? "Draft" : "Publish";
+    const payload = {
+      action: nextStatusAction,
+    };
+    try {
+      const response = await conferenceStatusToggle(
+        selectedConference._id,
+        payload
+      );
+      if (response.status === 200) {
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: `Conference marked as ${nextStatusAction}`,
+          life: 3000,
+        });
+        setStatusAction(nextStatusAction); // Update local state
+        fetchData(); // refresh data if needed
+      } else {
+        toast.current.show({
+          severity: "warn",
+          summary: "Failed",
+          detail: response.data?.detail?.[0]?.msg || "Unable to toggle status",
+          life: 3000,
+        });
+      }
+    } catch (err) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to toggle status",
+        life: 3000,
+      });
+    } finally {
+      setShowStatusConfirm(false); // Hide dialog
+    }
+  };
+  const handlePermalinkToggle = async (e) => {
+    e.preventDefault();
+
+    // If input is currently editable, attempt to save it
+    if (!isDisabled) {
+      try {
+        const response = await savePermalink(selectedConference._id, {
+          permalink: permalink.trim(),
+        });
+
+        if (response.status === 200) {
+          toast.current.show({
+            severity: "success",
+            summary: "Permalink Updated",
+            detail: "Permalink saved successfully.",
+            life: 3000,
+          });
+          setIsDisabled(true); // Disable only if save is successful
+          fetchData(); // Optional: refresh from backend
+        } else {
+          toast.current.show({
+            severity: "warn",
+            summary: "Error",
+            detail:
+              response.data?.detail?.[0]?.msg || "Failed to save permalink.",
+            life: 3000,
+          });
+        }
+      } catch (error) {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail:
+            error.message || "Something went wrong while saving permalink.",
+          life: 3000,
+        });
+      }
+    } else {
+      // Enable edit mode if currently disabled
+      setIsDisabled(false);
+    }
+  };
 
   const handleBack = () => {
     router.push("/admin-annex-global-conferences/dashboard/conference");
@@ -138,7 +277,7 @@ export default function AdminConferenceView({ conference }) {
       if (newConferenceData.file) {
         try {
           const imageUploadResponse = await uploadImage(newConferenceData.file);
-          imageUrl = imageUploadResponse.data?.detail?.message?.[0]?.url|| "";
+          imageUrl = imageUploadResponse.data?.detail?.message?.[0]?.url || "";
           if (!imageUrl) throw new Error("Empty logo URL");
         } catch (imageError) {
           toast.current.show({
@@ -190,14 +329,14 @@ export default function AdminConferenceView({ conference }) {
 
       const response = await updateConference(selectedConference._id, payload);
       if (response.status === 200) {
-          // Update local state to reflect changes in UI
-      setSelectedConference((prev) => ({
-        ...prev,
-        name: newConferenceData.name,
-        logoUrl: imageUrl,
-        cardBgImage: bgUrl,
-        user: newConferenceData.assignedUser,
-      }));
+        // Update local state to reflect changes in UI
+        setSelectedConference((prev) => ({
+          ...prev,
+          name: newConferenceData.name,
+          logoUrl: imageUrl,
+          cardBgImage: bgUrl,
+          user: newConferenceData.assignedUser,
+        }));
         setShowAddDialog(false);
         toast.current.show({
           severity: "success",
@@ -209,7 +348,8 @@ export default function AdminConferenceView({ conference }) {
         toast.current.show({
           severity: "error",
           summary: "Update Failed",
-          detail: response.data?.detail[0]?.msg || "Unexpected response from server.",
+          detail:
+            response.data?.detail[0]?.msg || "Unexpected response from server.",
           life: 3000,
         });
       }
@@ -217,19 +357,21 @@ export default function AdminConferenceView({ conference }) {
       toast.current.show({
         severity: "error",
         summary: "Error",
-        detail: error|| "Something went wrong during update.",
+        detail: error || "Something went wrong during update.",
         life: 3000,
       });
     }
   };
-const hasChanges = () => {
-  const nameChanged = newConferenceData.name.trim() !== selectedConference.name;
-  const userChanged = newConferenceData.assignedUser !== selectedConference.user;
-  const logoChanged = !!newConferenceData.file;
-  const bgChanged = !!newConferenceData.conferenceBg;
+  const hasChanges = () => {
+    const nameChanged =
+      newConferenceData.name.trim() !== selectedConference.name;
+    const userChanged =
+      newConferenceData.assignedUser !== selectedConference.user;
+    const logoChanged = !!newConferenceData.file;
+    const bgChanged = !!newConferenceData.conferenceBg;
 
-  return nameChanged || userChanged || logoChanged || bgChanged;
-};
+    return nameChanged || userChanged || logoChanged || bgChanged;
+  };
   return (
     <div className="container p-2">
       <Toast ref={toast} />
@@ -259,7 +401,7 @@ const hasChanges = () => {
               onClick={handleUpdateConference}
               disabled={
                 !newConferenceData.name.trim() ||
-                !newConferenceData.assignedUser||
+                !newConferenceData.assignedUser ||
                 !hasChanges()
               }
             >
@@ -269,17 +411,79 @@ const hasChanges = () => {
         }
         className="custom-confirm-dialog"
       />
-      <h5 className="fw-bold">
-        <i
-          className="bx bx-chevron-left text-center cursor-pointer"
-          style={{ cursor: "pointer" }}
-          onClick={handleBack}
-        ></i>
-        {selectedConference.name}
-        <button name="edit" className="btn " onClick={handleAddConference}>
-          <i className="bx bx-edit-alt"></i>
-        </button>
-      </h5>
+
+      <ConfirmDialog
+        visible={showStatusConfirm}
+        onHide={() => setShowStatusConfirm(false)}
+        draggable={false}
+        message={<ConfirmPublishDraft action={nextStatusAction} />}
+        header={`Confirm ${nextStatusAction}`}
+        footer={
+          <div className="d-flex justify-content-end">
+            <button
+              className="btn bg-white border me-3 shadow-none"
+              onClick={() => setShowStatusConfirm(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-warning text-white shadow-none"
+              onClick={handleConfirmStatusToggle}
+            >
+              Yes, {nextStatusAction}
+            </button>
+          </div>
+        }
+      />
+
+      <div className="d-flex justify-content-between">
+        <h5 className="fw-bold">
+          <i
+            className="bx bx-chevron-left text-center cursor-pointer"
+            style={{ cursor: "pointer" }}
+            onClick={handleBack}
+          ></i>
+          {selectedConference.name}
+          <button name="edit" className="btn " onClick={handleAddConference}>
+            <i className="bx bx-edit-alt"></i>
+          </button>
+        </h5>
+        <div>
+          <div className="d-flex gap-2 align-items-center">
+            <label className="d-inline">Permalink</label>
+            <input
+              type="text"
+              name="permalink"
+              className="form-control"
+              placeholder="Enter Permalink Name"
+              value={permalink}
+              onChange={(e) => setPermalink(e.target.value)}
+              required
+              disabled={isDisabled}
+            />
+            <button
+              name="edit"
+              className="btn btn-outline-secondary rounded"
+              onClick={handlePermalinkToggle}
+            >
+              <i className="bx bx-edit-alt"></i>
+            </button>
+            <button
+              className={`btn ${
+                statusAction === "Publish" ? "btn-secondary" : "btn-success"
+              } text-white`}
+              onClick={(e) => {
+                e.preventDefault();
+                const next = statusAction === "Publish" ? "Draft" : "Publish";
+                setNextStatusAction(next);
+                setShowStatusConfirm(true);
+              }}
+            >
+              {statusAction === "Publish" ? " Draft" : "Publish"}
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div className="row gap-2 gap-md-0 p-3">
         <div className="col-12 col-md-3">
@@ -360,5 +564,25 @@ export function AddUpdateConference({ data, setData, userList }) {
         imageUrl={data.cardBgImage}
       />
     </>
+  );
+}
+function ConfirmPublishDraft({ action }) {
+  return (
+    <div className="d-flex flex-column align-items-center text-center">
+      <span className="fs-1">⚠️</span>
+      <h5 className="mt-3">{action} Conference</h5>
+      <p className="mb-0 col-md-10">
+        Are you sure you want to{" "}
+        {action === "Publish"
+          ? "make this conference live"
+          : "move this conference back to draft mode"}
+        ?
+      </p>
+      <p className="mt-3 mb-0 col-md-10 text-secondary">
+        Please make sure all important details are complete and accurate before
+        proceeding. Once confirmed, this action will update how the conference
+        is displayed.
+      </p>
+    </div>
   );
 }

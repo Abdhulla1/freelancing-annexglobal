@@ -1,98 +1,72 @@
 import React, { useState, useEffect } from "react";
 import DropZoneFile from "@/components/Reusable/DropeZone/DropZoneFile";
-import {
-  saveWelcomeContent,
-  getSelectedConference,
-} from "@/service/adminConference";
-export default function UploadAbstract({ selectedConferenceID, toast }) {
-  const [formData, setFormData] = useState({
-    contentType: "Conference",
-    title: "",
-    content: "",
-  });
+import { uploadPDF } from "@/service/mediaManagemnt";
+import { updateAbstract } from "@/service/AdminConfernecePages/confernce";
+export default function UploadAbstract({
+  selectedConferenceID,
+  abstract,
+  fetchConfernceData,
+  toast,
+}) {
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadedFileUrl, setUploadedFileUrl] = useState(abstract||"");
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  useEffect(() => {
-    const fetchLandingPageData = async () => {
-      try {
-        const res = await getSelectedConference(selectedConferenceID);
-        const welcomeContent = res?.conference?.welcomeContent;
+  const handleFileSelect = async (file) => {
+    setSelectedFile(file);
+    setUploadProgress(0);
+    try {
+      const response = await uploadPDF(file, (percent) => {
+        setUploadProgress(percent);
+      });
 
-        if (welcomeContent) {
-          setFormData({
-            contentType: "Conference",
-            title: welcomeContent.title || "",
-            content: welcomeContent.content || "",
-          });
-        }
-      } catch (error) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Fetch Error",
-          detail: "Failed to load existing welcome content data.",
-          life: 3000,
-        });
-      }
-    };
+      const url = response.data?.detail?.message?.[0]?.url;
+      if (url) {
 
-    fetchLandingPageData();
-  }, [selectedConferenceID]);
-
-  const handleChangeContent = (value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      content: value,
-    }));
-  };
-  const isFormFilled = formData.title && formData.content;
-  const handleSubmit = () => {
-    const submitWelcomeContent = async () => {
-      try {
-        const response = await saveWelcomeContent(
-          formData,
-          selectedConferenceID
-        );
-        if (response[0].msg === "No modifications found") {
-          toast.current.show({
-            severity: "warn",
-            summary: "Warning",
-            detail: "No modifications found",
-            life: 3000,
-          });
-        }
-        if (response[0].msg === "Welcome content updated successfully") {
-          toast.current.show({
+      const response = await updateAbstract(selectedConferenceID,{abstract: url});
+        if (response.status === 200) {
+          toast.current?.show({
             severity: "success",
-            summary: "Success!",
-            detail: "Welcome content updated successfully",
+            summary: "Success",
+            detail: "Brochure uploaded successfully",
             life: 3000,
           });
+          fetchConfernceData();
+        } else {
+          throw new Error("Failed to update brochure");
         }
-      } catch (error) {
-        toast.current.show({
-          severity: "error",
-          summary: "Submission failed",
-          detail: "Failed to submit Welcome Content. Please try again.",
-          life: 3000,
-        });
+
+        setUploadedFileUrl(url);
+      } else {
+        throw new Error("Upload failed. No URL returned.");
       }
-    };
-    if (isFormFilled) {
-      submitWelcomeContent();
+    } catch (error) {
+        toast.current?.show({
+            severity: "success",
+            summary: "Success",
+            detail: error.message||"Brochure uploaded Failed",
+            life: 3000,
+          });
     }
+  };
+  const handleRemove = () => {
+    setSelectedFile(null);
+    setUploadedFileUrl("");
+    setUploadProgress(0);
   };
 
   return (
     <div className="mt-5 ">
-      <div className="d-flex justify-content-between">
-        {/* <h5>Abstract</h5> */}
-        {/* <button className="btn btn-warning text-white">
-                       Publish
-                    </button> */}
-      </div>
+      <div className="d-flex justify-content-between"></div>
       <div>
         <div>
           <label className="form-label">Upload Abstract</label>
-          <DropZoneFile />
+          <DropZoneFile
+            onFileSelect={handleFileSelect}
+            uploadedFileUrl={uploadedFileUrl}
+            onRemove={handleRemove}
+            progress={uploadProgress}
+          />{" "}
         </div>
       </div>
     </div>

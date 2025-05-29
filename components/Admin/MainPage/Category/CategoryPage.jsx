@@ -1,190 +1,101 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import { uploadImage } from "@/service/mediaManagemnt";
-import {
-  saveConferenceLandingPage,
-  getSelectedConference,
-} from "@/service/adminConference";
+import React from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { Button } from "primereact/button";
+import { updateCategoryPage } from "@/service/mainPageService";
 
-export default function CategoryPage({ selectedConferenceID, toast }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    heading: "",
-    subTitle: "",
-  });
+export default function CategoryPage({ categoryData = [], toast, fetchData }) {
+  const normalizedInitialCategories = Array(16)
+    .fill("")
+    .map((_, i) => categoryData[i] || "");
 
-  // Fetch data on component mount or ID change
-  // useEffect(() => {
-  //   const fetchLandingPageData = async () => {
-  //     try {
-  //       const res= await getSelectedConference(selectedConferenceID);
-  //       const landing = res?.conference?.landingPage;
-  //       if (res.status === 404) {
-  //         router.push("/notFound");
-  //       }
-  //       if (landing) {
-  //         setFormData({
-  //           startDate: landing.startDate || "",
-  //           endDate: landing.endDate || "",
-  //           location: landing.location || "",
-  //           address: landing.address || "",
-  //           startTime: landing.startTime || "",
-  //           endTime: landing.endTime || "",
-  //         });
-
-  //         if (landing.images && landing.images.length > 0) {
-  //           setUploads(
-  //             landing.images.map((imgUrl) => ({
-  //               id: Date.now() + Math.random(),
-  //               file: { preview: imgUrl, isUploaded: true }, // Custom format for existing images
-  //             }))
-
-  //           );
-  //         }
-  //       }
-  //     } catch (error) {
-  //       toast.current?.show({
-  //         severity: "error",
-  //         summary: "Fetch Error",
-  //         detail: "Failed to load existing landing page data.",
-  //         life: 3000,
-  //       });
-  //     }
-  //   };
-
-  //   fetchLandingPageData();
-  // }, [selectedConferenceID]);
-
-  const isFormFilled = formData.title && formData.heading && formData.subTitle;
-
-  const formValid = isFormFilled;
-
-  const handleInputChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const hasFile = uploads.some((upload) => upload.file);
-    if (!hasFile) {
-      toast.current.show({
-        severity: "error",
-        summary: "Image Upload Error",
-        detail: "Please upload at least one landing image before submitting.",
-        life: 3000,
-      });
-      return;
-    }
-
-    try {
-      let imageUrls = [];
-
-      const uploadPromises = uploads.map(async (upload) => {
-        if (upload.file?.isUploaded) {
-          return { url: upload.file.preview };
-        } else if (upload.file) {
-          return await uploadImage(upload.file);
-        } else {
-          return null;
-        }
-      });
-
-      const responses = await Promise.all(uploadPromises);
-      imageUrls = responses.filter(Boolean).map((res) => res.url);
-
-      const finalPayload = {
-        images: imageUrls,
-        ...formData,
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      categories: normalizedInitialCategories,
+    },
+    validationSchema: Yup.object().shape({
+      categories: Yup.array()
+        .of(Yup.string().required("Category is required"))
+        
+    }),
+    onSubmit: async (values) => {
+      const payload = {
+        categories: values.categories,
       };
-
-      const response = await saveConferenceLandingPage(
-        finalPayload,
-        selectedConferenceID
-      );
-
-      if (response[0].msg === "Landing page updated successfully") {
-        toast.current.show({
-          severity: "success",
-          summary: "Success!",
-          detail: "The form has been submitted successfully.",
-          life: 3000,
-        });
-      } else if (response[0].msg === "No modifications found") {
-        toast.current.show({
-          severity: "warn",
-          summary: "Warning",
-          detail: "No modifications found",
+      try {
+        console.log("Submitting payload:", payload);
+        const response = await updateCategoryPage(payload);
+        if (response.status === 200) {
+          toast.current.show({
+            severity: "success",
+            summary: "Success!",
+            detail:
+              response.data?.detail?.[0]?.msg ||
+              "Categories updated successfully",
+            life: 3000,
+          });
+          fetchData();
+        } else {
+          toast.current.show({
+            severity: "warn",
+            summary: "Unknown response",
+            detail:
+              response.data?.detail?.[0]?.msg || "Unknown server response",
+            life: 3000,
+          });
+        }
+      } catch (error) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Submission failed",
           life: 3000,
         });
       }
-    } catch (error) {
-      toast.current.show({
-        severity: "error",
-        summary: "Submission failed",
-        detail: "Failed to submit the form. Please try again.",
-        life: 3000,
-      });
-    }
-  };
+    },
+  });
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mt-4">
-        {[0,0,0,0,0,0].map((_,i)=>(
-  <div key={i} className="row mb-3">
-          <div className="col-md-6 ">
-          <label className="form-label">Category Name</label>
-          <input
-            type="text"
-            name="location"
-            className="form-control"
-            value={formData.title}
-            onChange={handleInputChange}
-            placeholder="Category Name"
-            required
-          />
-
-          
-        </div>
-        <div className="col-md-6 ">
-            <label className="form-label">Category Name</label>
-            <input
-              type="text"
-              name="address"
-              className="form-control"
-              value={formData.heading}
-              onChange={handleInputChange}
-              placeholder="Category Name"
-              required
-            />
+    <form onSubmit={formik.handleSubmit}>
+    <div className="row mt-4">
+  {formik.values.categories.map((value, index) => (
+    <div className="col-md-6 mb-3" key={index}>
+      <label className="form-label">Category {index + 1}</label>
+      <input
+        type="text"
+        name={`categories[${index}]`}
+        className={`form-control ${
+          formik.touched.categories?.[index] &&
+          formik.errors.categories?.[index]
+            ? "is-invalid"
+            : ""
+        }`}
+        placeholder="Category Name"
+        value={value}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      />
+      {formik.touched.categories?.[index] &&
+        typeof formik.errors.categories?.[index] === "string" && (
+          <div className="text-danger mt-1">
+            {formik.errors.categories[index]}
           </div>
-        </div>
-        ))
-        }
-      
-        
+        )}
+    </div>
+  ))}
+</div>
 
-      </div>
 
-      <div className="bg-secondary bg-opacity-10 mt-4 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
-        <button
-          type="button"
-          className="btn px-5 bg-white border"
-          disabled={!formValid}
-        >
-          Cancel
-        </button>
-        <button
+      <div className="mt-4 p-2 d-flex justify-content-start align-items-center gap-2 w-100">
+
+        <Button
           type="submit"
           className="btn px-1 px-md-5 btn-warning text-white"
-          disabled={!formValid}
-        >
-          Save Changes
-        </button>
+          disabled={!formik.isValid || !formik.dirty}
+          label="Save Changes"
+        />
       </div>
     </form>
   );

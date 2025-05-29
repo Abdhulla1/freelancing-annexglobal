@@ -4,12 +4,15 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Sidebar } from "primereact/sidebar";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { InputSwitch } from "primereact/inputswitch";
+import { Paginator } from "primereact/paginator";
 import {
   fetchAdmins,
   createAdmin,
   updateAdmin,
   resetAdmin,
+  deleteAdmin,
 } from "@/service/adminService";
+import Image from "next/image";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Toast } from "primereact/toast";
@@ -25,33 +28,45 @@ export default function AdminsTable() {
     header: null,
     content: null,
   });
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage] = useState(10);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const loadData = async () => {
+    try {
+      const res = await fetchAdmins(currentPage, rowsPerPage);
+      setAdminsData(res.data);
+      setTotalRecords(res.total);
+      setLoading(false);
+      setError(null);
+    } catch (error) {
+      setLoading(false);
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to fetch admins",
+        life: 3000,
+      });
+      setError("Failed to fetch admins. Please try again later.");
+    }
+  };
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchAdmins();
-        setAdminsData(data);
-        setLoading(false);
-        setError(null);
-      } catch (error) {
-        setLoading(false);
-        toast.current.show({
-          severity: "error",
-          summary: "Error",
-          detail: "Failed to fetch admins",
-          life: 3000,
-        });
-        setError("Failed to fetch admins. Please try again later.");
-      }
-    };
     loadData();
   }, []);
+  useEffect(() => {
+    loadData();
+  }, [currentPage]);
 
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
       add: {
         header: <h5 className="text-black">Add New Administrator</h5>,
-        content: <Add setVisibleDetails={setVisibleDetails} toast={toast} />,
+        content: (
+          <Add
+            setVisibleDetails={setVisibleDetails}
+            toast={toast}
+            loadData={loadData}
+          />
+        ),
       },
       edit: {
         header: <h5 className="text-black">Edit Administrator</h5>,
@@ -60,6 +75,7 @@ export default function AdminsTable() {
             setVisibleDetails={setVisibleDetails}
             toast={toast}
             data={data}
+            loadData={loadData}
           />
         ),
       },
@@ -81,6 +97,7 @@ export default function AdminsTable() {
           detail: "Admin reset successfully",
           life: 3000,
         });
+        loadData();
       } else {
         toast.current.show({
           severity: "warn",
@@ -104,6 +121,35 @@ export default function AdminsTable() {
       });
     }
   };
+  const handleDelete = async (id) => {
+    try {
+      const response = await deleteAdmin(id);
+      if (response.status === 200) {
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Admin Deleted successfully",
+          life: 3000,
+        });
+        loadData();
+      } else {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Failed to Delete admin",
+          life: 3000,
+        });
+      }
+    } catch (error) {
+      let detailMessage = "Failed to Delete admin";
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: detailMessage,
+        life: 3000,
+      });
+    }
+  };
 
   const confirmReset = (id) => {
     confirmDialog({
@@ -115,6 +161,19 @@ export default function AdminsTable() {
       rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
       defaultFocus: "accept",
       accept: () => handleReset(id),
+
+      className: "custom-confirm-dialog",
+    });
+  };
+  const confirmDelete = (id) => {
+    confirmDialog({
+      message: <Delete />,
+      acceptLabel: "OK",
+      rejectLabel: "Cancel",
+      acceptClassName: "btn px-5 btn-warning text-white shadow-none",
+      rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
+      defaultFocus: "accept",
+      accept: () => handleDelete(id),
 
       className: "custom-confirm-dialog",
     });
@@ -153,66 +212,93 @@ export default function AdminsTable() {
         <div className="alert alert-danger" role="alert">
           {error}
         </div>
+      ) : adminsData.length === 0 ? (
+        <div className="text-center w-100 py-5">
+          <h5>No admin records found</h5>
+          <p>Try adding an administrator using the + button below.</p>
+        </div>
       ) : (
-        <table className="tabel w-100">
-          <thead>
-            <tr>
-              <td className="p-2 table-heading">ID</td>
-              <td className="p-2 table-heading">Email ID</td>
-              <td className="p-2 table-heading">Expiring In</td>
-              <td className="p-2 table-heading text-nowrap">Last Logged In</td>
-              <td className="p-2 table-heading">Role</td>
-              <td className="p-2 table-heading">Status</td>
-              <td className="p-2 table-heading">Action</td>
-            </tr>
-          </thead>
-          <tbody>
-            {adminsData.map((element, i) => (
-              <tr key={i}>
-                <td className="p-3 table-data">{i + 1}</td>
-                <td className="p-3 text-nowrap table-data">{element.email}</td>
-                <td className="p-3 text-nowrap table-data">
-                  {element.expiringIn}
+        <>
+          <table className="tabel w-100">
+            <thead>
+              <tr>
+                <td className="p-2 table-heading">ID</td>
+                <td className="p-2 table-heading">Email ID</td>
+                <td className="p-2 table-heading">Expiring In</td>
+                <td className="p-2 table-heading text-nowrap">
+                  Last Logged In
                 </td>
-                <td className="p-3 text-nowrap table-data">
-                  {element.lastLoggedIn}
-                </td>
-                <td className="p-3  table-data ">User</td>
-                <td
-                  className={`p-3 text-nowrap table-data ${
-                    element.status === "Active" ? "text-success" : "text-danger"
-                  }`}
-                >
-                  {element.status}
-                </td>
-                <td className="p-3 table-data d-flex gap-1">
-                  <button
-                    className="btn btn-outline-secondary rounded"
-                    name="edit"
-                    onClick={(e) => handleSidebar(e.target.name, element)}
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button>
-                  <button className="btn btn-outline-secondary rounded">
-                    <i className="bx bx-trash-alt"></i>
-                  </button>
-                  <button
-                    onClick={() => confirmReset(element._id)}
-                    className="btn btn-outline-secondary rounded"
-                  >
-                    <i className="bx bx-refresh"></i>
-                  </button>
-                  <button className="btn btn-outline-secondary rounded">
-                    <i className="bx bx-lock"></i>
-                  </button>
-                </td>
+                <td className="p-2 table-heading">Role</td>
+                <td className="p-2 table-heading">Status</td>
+                <td className="p-2 table-heading">Action</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {adminsData.map((element, i) => (
+                <tr key={i}>
+                  <td className="p-3 table-data">{i + 1}</td>
+                  <td className="p-3 text-nowrap table-data">
+                    {element.email}
+                  </td>
+                  <td className="p-3 text-nowrap table-data">
+                    {element.expiringIn}
+                  </td>
+                  <td className="p-3 text-nowrap table-data">
+                    {element.lastLoggedIn}
+                  </td>
+                  <td className="p-3  table-data ">
+                    {element.isUser ? "User" : "Admin"}
+                  </td>
+                  <td
+                    className={`p-3 text-nowrap table-data ${
+                      element.status === "Active"
+                        ? "text-success"
+                        : "text-danger"
+                    }`}
+                  >
+                    {element.status}
+                  </td>
+                  <td className="p-3 table-data d-flex gap-1">
+                    <button
+                      className="btn btn-outline-secondary rounded"
+                      name="edit"
+                      onClick={(e) => handleSidebar(e.target.name, element)}
+                    >
+                      <i className="bx bx-edit-alt"></i>
+                    </button>
+                    <button
+                      className="btn btn-outline-secondary rounded"
+                      onClick={() => confirmDelete(element._id)}
+                    >
+                      <i className="bx bx-trash-alt"></i>
+                    </button>
+                    <button
+                      onClick={() => confirmReset(element._id)}
+                      className="btn btn-outline-secondary rounded"
+                    >
+                      <i className="bx bx-refresh"></i>
+                    </button>
+                    <button className="btn btn-outline-secondary rounded">
+                      <i className="bx bx-lock"></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Paginator
+            first={(currentPage - 1) * rowsPerPage}
+            rows={rowsPerPage}
+            totalRecords={totalRecords}
+            onPageChange={(e) =>
+              setCurrentPage(Math.floor(e.first / e.rows) + 1)
+            }
+            className="mt-4"
+          />
+        </>
       )}
 
-      {/* FAB Add Button */}
+      {/*  Add Button */}
       <button
         name="add"
         className="btn btn-lg text-white rounded-circle btn-warning position-absolute"
@@ -226,7 +312,7 @@ export default function AdminsTable() {
 }
 
 // Add Admin Component
-function Add({ setVisibleDetails, toast }) {
+function Add({ setVisibleDetails, toast, loadData }) {
   const [isUser, setIsUser] = useState(true); // true = User, false = Admin
 
   const generatePassword = () => {
@@ -255,7 +341,8 @@ function Add({ setVisibleDetails, toast }) {
       const payload = {
         email: values.email,
         password: values.password,
-        expiringIn: "Non Expiring",
+        expiringIn: values.expiringIn,
+        isUser: isUser,
       };
       try {
         await createAdmin(payload);
@@ -267,6 +354,7 @@ function Add({ setVisibleDetails, toast }) {
         });
         setVisibleDetails(false);
         resetForm();
+        loadData();
       } catch (error) {
         let detailMessage = "Failed to create admin";
         if (error.isAxiosError && error.response?.data?.detail?.length > 0) {
@@ -368,11 +456,13 @@ function Add({ setVisibleDetails, toast }) {
               {...formik.getFieldProps("expiringIn")}
             >
               <option value="">Select Expiring</option>
-              <option>One hour</option>
-              <option>Two hour</option>
-              <option>Three hour</option>
-              <option>Four hour</option>
               <option>Non Expiring</option>
+              <option>One Hour</option>
+              <option>One Day</option>
+              <option>Three Days</option>
+              <option>One Week</option>
+              <option>Two Weeks</option>
+              <option>One Month</option>
             </select>
             {formik.touched.expiringIn && formik.errors.expiringIn && (
               <div className="invalid-feedback d-block">
@@ -400,8 +490,8 @@ function Add({ setVisibleDetails, toast }) {
   );
 }
 // Edit Admin Component
-function Edit({ setVisibleDetails, toast, data }) {
-  const [isUser, setIsUser] = useState(true); // true = User, false = Admin
+function Edit({ setVisibleDetails, toast, data, loadData }) {
+  const [isUser, setIsUser] = useState(data?.isUser); // true = User, false = Admin
 
   const generatePassword = () => {
     const chars =
@@ -418,7 +508,6 @@ function Edit({ setVisibleDetails, toast, data }) {
       email: data?.email || "",
       password: data?.password || "",
       expiringIn: data?.expiringIn || "",
-      role: isUser ? "User" : "Admin" || "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -431,6 +520,7 @@ function Edit({ setVisibleDetails, toast, data }) {
         email: values.email,
         password: values.password,
         expiringIn: values.expiringIn,
+        isUser: isUser,
       };
 
       try {
@@ -443,6 +533,7 @@ function Edit({ setVisibleDetails, toast, data }) {
         });
         setVisibleDetails(false);
         resetForm();
+        loadData();
       } catch (error) {
         let detailMessage = "Failed to Update admin";
         if (error.isAxiosError && error.response?.data?.detail?.length > 0) {
@@ -543,11 +634,13 @@ function Edit({ setVisibleDetails, toast, data }) {
               {...formik.getFieldProps("expiringIn")}
             >
               <option value="">Select Expiring</option>
-              <option value="One hour">One hour</option>
-              <option value="Two hour">Two hour</option>
-              <option value="Three hour">Three hour</option>
-              <option value="Four hour">Four hour</option>
-              <option value="Non Expiring">Non Expiring</option>
+              <option>Non Expiring</option>
+              <option>One Hour</option>
+              <option>One Day</option>
+              <option>Three Days</option>
+              <option>One Week</option>
+              <option>Two Weeks</option>
+              <option>One Month</option>
             </select>
             {formik.touched.expiringIn && formik.errors.expiringIn && (
               <div className="invalid-feedback d-block">
@@ -572,5 +665,17 @@ function Edit({ setVisibleDetails, toast, data }) {
         </div>
       </div>
     </form>
+  );
+}
+function Delete() {
+  return (
+    <div className="d-flex flex-column align-items-center text-center">
+      <Image src="/icons/delete.png" width={80} height={80} alt="DeleteIcon" />
+      <h5 className="mt-3">Delete Admin </h5>
+      <p className="mb-0 col-md-8">
+        Are you sure you want to delete this Admin? This action cannot be
+        undone.
+      </p>
+    </div>
   );
 }

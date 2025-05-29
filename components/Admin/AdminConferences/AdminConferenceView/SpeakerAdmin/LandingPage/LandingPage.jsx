@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 
+import { uploadImage } from "@/service/mediaManagemnt";
+
 export default function LandingPage({
-  visibleDetails,
-  setVisibleDetails,
-}) {
+  selectedConferenceID,
+  headerPannelImages,
+  fetchConfernceData,
+  toast,
+}) 
+
+
+
+{
   return (
     <div className="container">
       <div className=" mb-2">

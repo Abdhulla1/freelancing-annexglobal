@@ -37,7 +37,7 @@ export default async function handler(req, res) {
     );
     return res
       .status(200)
-      .json({ success: true, token: response.data.detail.token });
+      .json({ success: true, token: response.data.detail.token ,id:response.data.detail._id});
   } catch (error) {
     if (error.response && error.response.status === 404) {
       return res

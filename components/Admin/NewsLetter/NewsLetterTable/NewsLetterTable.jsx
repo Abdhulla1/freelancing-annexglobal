@@ -147,7 +147,7 @@ export default function NewsLetterTable() {
                   <td className="p-3 table-data">{element.name}</td>
                   <td className="p-3 table-data">{element.email}</td>
                   <td className="p-3 table-data">{element.conference}</td>
-                  <td className="p-3  table-data  ">{element.comment}</td>
+                  <td className="p-3  table-data text-truncate" style={{maxWidth:'200px'}}>{element.comment}</td>
                   <td className="p-3  table-data  ">
                     {" "}
                     <button

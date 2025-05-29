@@ -7,7 +7,17 @@ const BASE_URL = "https://139.59.15.8:8003/api/v1";
 // })
 
 //GET request
-export async function fetchAdmins() {
+export async function fetchAdmins(page, limit) {
+  try {
+    const response = await axiosInstance.get(
+      `/controlled/access/admin/data?page=${page}&limit=${limit}`
+    );
+    return response.data?.detail;
+  } catch (error) {
+    throw new Error(error.response.data || "Failed to fetch admins");
+  }
+}
+export async function fetchAdminss() {
   try {
     // const { token } = await (await fetch('/api/getToken')).json();
     // const token=localStorage.getItem("token");
@@ -51,6 +61,21 @@ export async function updateAdmin(formData, id) {
     throw error;
   }
 }
+export async function changePassword(formData, id) {
+  console.log(formData);
+  try {
+    const response = await axiosInstance.patch(
+      `/controlled/access/admin/${id}/change/password
+`,
+      formData
+    );
+    return response;
+  } catch (error) {
+    const message =
+      error?.response?.data?.detail?.[0]?.msg || "Failed to delete Contact US";
+    throw new Error(message);
+  }
+}
 
 export async function resetAdmin(id) {
   try {
@@ -60,5 +85,18 @@ export async function resetAdmin(id) {
     return response.data?.detail?.[0];
   } catch (error) {
     throw error;
+  }
+}
+export async function deleteAdmin(id) {
+  try {
+    const response = await axiosInstance.delete(
+      `/controlled/access/admin/${id}/delete
+`
+    );
+    return response;
+  } catch (error) {
+    const message =
+      error?.response?.data?.detail?.[0]?.msg || "Failed to delete Contact US";
+    throw new Error(message);
   }
 }

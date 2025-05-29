@@ -12,8 +12,10 @@ export async function uploadImage(file){
          return response;
     
       } catch (error) {
-        throw new Error(error.response?.data || "Failed to fetch Conference");
-      }
+        
+       const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Upload Image"
+          throw new Error(message);  }
+      
     }
 export async function uploadVideo(file){
     const formData = new FormData();
@@ -28,5 +30,24 @@ export async function uploadVideo(file){
     
       } catch (error) {
         throw new Error(error.response?.data || "Failed to fetch Conference");
+      }
+    }
+export async function uploadPDF(file,onProgress){
+    const formData = new FormData();
+    formData.append("file", file); 
+    try {
+        const response = await axiosInstance.post(`/media/save/pdf`,formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },    onUploadProgress: (event) => {
+      const percent = Math.round((event.loaded * 100) / event.total);
+      onProgress(percent); // Send progress to caller
+    },
+          });
+        return response;
+    
+      } catch (error) {
+      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Upload PDF";
+      throw new Error(message);
       }
     }

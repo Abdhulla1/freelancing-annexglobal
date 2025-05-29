@@ -142,8 +142,8 @@ export default function BrochureTableAdmin({ visibleDetails, setVisibleDetails }
                   <td className="p-3 table-data">{element.firstName}</td>
                   <td className="p-3 table-data">{element.lastName}</td>
                   <td className="p-3 table-data">{element.email}</td>
-                  <td className="p-3 table-data text-nowrap">{element.phoneNumber}</td>
-                  <td className="p-3 table-data">{element.conferenceName}</td>
+                  <td className="p-3 table-data text-nowrap">{element.mobileNumber}</td>
+                  <td className="p-3 table-data">{element.conference}</td>
                   <td className="p-3 table-data">{element.submissionDate}</td>
                   <td className="p-3 table-data">
                     <div className="d-flex gap-1 justify-content-center flex-nowrap">
@@ -215,7 +215,7 @@ function View({ data }) {
         <div className="col-4">
           <label className="form-label col-3 mb-2">Contact</label>
           <p className="text-black rounded-2 p-2">
-            {data.phoneNumber}
+            {data.mobileNumber}
           </p>
         </div>
       
@@ -230,7 +230,7 @@ function View({ data }) {
           <div className="col-4">
           <label className="form-label  mb-2">Conference Name</label>
           <p className="text-black rounded-2 p-2">
-            {data.conferenceName}
+            {data.conference}
           </p>
         </div>
       </div>

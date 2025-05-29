@@ -1,34 +1,44 @@
 "use client";
-import React,{useState} from "react";
+import React,{useState,useRef} from "react";
 import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/ScrollableTabs";
 import WebinarLandingAdmin from "./WebinarLandingAdmin/WebinarLandingAdmin";
 import WebinarWelcomeContent from "./WebinarWelcomeContent/WebinarWelcomeContent";
 import WebinarVideoSection from "./WebinarVideoSection/WebinarVideoSection";
-// import WebinarProgramAdmin from "./WebinarProgramAdmin/WebinarProgramAdmin";
-
 import WebinarFAQAdmin from "./WebinarFAQAdmin/WebinarFAQAdmin";
+import { Toast } from "primereact/toast";
 
 
 
 
-export default function WebinarPageAdmin() {
+export default function WebinarPageAdmin({ selectedConferenceID,webinar,fetchConfernceData}) {
+    const toast = useRef(null);
+  
   const [activeTab, setActiveTab] = useState("Header Panel Images"); // default to first tab
   const tabs = {
-    "Header Panel Images": <WebinarLandingAdmin/>,
-    "Welcome Content": <WebinarWelcomeContent/>,
-    "Video Section": <WebinarVideoSection/>,
-    "Queries Answered":<WebinarFAQAdmin/> ,
+    "Header Panel Images": <WebinarLandingAdmin selectedConferenceID={selectedConferenceID}
+        PastGalleryData={webinar.headerPanelImages}
+        fetchConfernceData={fetchConfernceData} 
+        toast={toast}/>,
+    "Welcome Content": <WebinarWelcomeContent selectedConferenceID={selectedConferenceID}
+        welcomeContent={webinar.welcomeContent}
+        fetchConfernceData={fetchConfernceData} 
+        toast={toast}/>,
+    "Video Section": <WebinarVideoSection selectedConferenceID={selectedConferenceID}
+        WebinarVideoSectionData={[webinar.videoSection]}
+        fetchConfernceData={fetchConfernceData} 
+        toast={toast}/>,
+    "Queries Answered":<WebinarFAQAdmin selectedConferenceID={selectedConferenceID}
+        FaQData={webinar.queriesAns}
+        fetchConfernceData={fetchConfernceData} 
+        toast={toast}/> ,
   };
   
   return (
     <>
+      <Toast ref={toast} />
 
       <div className="d-flex justify-content-between">
         <h5>Webinar</h5>
-        <button className="btn btn-warning text-white">
-  Publish
-        </button>
-                {/* <i className="pi pi-eye px-2"></i>  */}
       </div>
       <div className="mt-4 ">
         {/*Tabs */}

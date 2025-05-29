@@ -1,349 +1,181 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { uploadImage } from "@/service/mediaManagemnt";
-import {
-  saveConferenceLandingPage,
-  getSelectedConference,
-} from "@/service/adminConference";
+import { saveConferenceLandingPage } from "@/service/AdminConfernecePages/confernce";
 import RichTextEditor from "./RichTextEditor";
-export default function LandingPage({ selectedConferenceID, toast }) {
-  const [uploads, setUploads] = useState([{ id: Date.now(), file: null }]);
-  const [formData, setFormData] = useState({
-    title: "",
-    conference: "",
-    theme: "",
-    startDate: "",
-    endDate: "",
-    location: "",
-    address: "",
-    startTime: "",
-    endTime: "",
+
+export default function LandingPage({
+  selectedConferenceID,
+  toast,
+  LandingPageData,
+  fetchConfernceData,
+}) {
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [imageError, setImageError] = useState("");
+  const [upload, setUpload] = useState({
+    file: null,
+    imageUrl: LandingPageData.certificationImage || "",
   });
 
-  // Fetch data on component mount or ID change
-  useEffect(() => {
-    const fetchLandingPageData = async () => {
-      try {
-        const res = await getSelectedConference(selectedConferenceID);
-        const landing = res?.conference?.landingPage;
-        if (res.status === 404) {
-          router.push("/notFound");
-        }
-        if (landing) {
-          setFormData({
-            title: landing.title || "",
-            conference: landing.conference || "",
-            theme: landing.theme || "",
-            startDate: landing.startDate || "",
-            endDate: landing.endDate || "",
-            location: landing.location || "",
-            address: landing.address || "",
-            startTime: landing.startTime || "",
-            endTime: landing.endTime || "",
-          });
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      title: LandingPageData.title || "",
+      conference: LandingPageData.conference || "",
+      theme: LandingPageData.theme || "",
+      startDate: LandingPageData.startDate || "",
+      endDate: LandingPageData.endDate || "",
+      location: LandingPageData.location || "",
+      address: LandingPageData.address || "",
+      startTime: LandingPageData.startTime || "",
+      endTime: LandingPageData.endTime || "",
+      overview: LandingPageData.overview || "",
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().required("Title is required"),
+      conference: Yup.string().required("Conference is required"),
+      theme: Yup.string().required("Theme is required"),
+      startDate: Yup.string().required("Start Date is required"),
+      endDate: Yup.string().required("End Date is required"),
+      location: Yup.string().required("Location is required"),
+      address: Yup.string().required("Address is required"),
+      startTime: Yup.string().required("Start Time is required"),
+      endTime: Yup.string().required("End Time is required"),
+      overview: Yup.string().required("Conference Overview is required"),
+    }),
+    onSubmit: async (values) => {
+      // if (!upload.imageUrl || (!upload.file && !LandingPageData.imageUrl)) {
+      //   setImageError("Image is required");
+      //   return;
+      // }
 
-          if (landing.images && landing.images.length > 0) {
-            setUploads(
-              landing.images.map((imgUrl) => ({
-                id: Date.now() + Math.random(),
-                file: { preview: imgUrl, isUploaded: true }, // Custom format for existing images
-              }))
-            );
+      setImageError("");
+      setButtonLoading(true);
+
+      try {
+        let imageUrl = upload.imageUrl;
+        if (upload.file) {
+          const res = await uploadImage(upload.file);
+          if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
+            throw new Error("Image upload failed");
           }
+          imageUrl = res.data.detail.message[0].url;
+        }
+
+        const payload = {
+          certificationImage: imageUrl,
+          ...values,
+        };
+
+        const response = await saveConferenceLandingPage(
+          payload,
+          selectedConferenceID
+        );
+        if (response.status=== 200) {
+          toast.current.show({
+            severity: "success",
+            summary: "Success!",
+            detail:
+              response.data?.detail?.[0]?.msg ||
+              "Landing Page saved successfully.",
+            life: 3000,
+          });
+          fetchConfernceData();
+        } else {
+          toast.current.show({
+            severity: "warn",
+            summary: "Unknown response",
+            detail: response.data?.detail?.[0]?.msg  ||  "Unknown server response",
+            life: 3000,
+          });
         }
       } catch (error) {
-        toast.current?.show({
+        toast.current.show({
           severity: "error",
-          summary: "Fetch Error",
-          detail: "Failed to load existing landing page data.",
+          summary: "Submission failed",
+          detail: error.message || "Failed to save Landing Page.",
           life: 3000,
         });
+      } finally {
+        setButtonLoading(false);
       }
-    };
+    },
+  });
 
-    fetchLandingPageData();
-  }, [selectedConferenceID]);
-
-  const isFormFilled =
-    formData.title &&
-    formData.conference &&
-    formData.theme &&
-    formData.startDate &&
-    formData.endDate &&
-    formData.location &&
-    formData.address &&
-    formData.startTime &&
-    formData.endTime;
-
-  const hasAtLeastOneFile = uploads.some((upload) => upload.file);
-  const formValid = isFormFilled && hasAtLeastOneFile;
-
-  const handleAddUpload = () => {
-    setUploads([...uploads, { id: Date.now(), file: null }]);
-  };
-
-  const handleRemoveUpload = (id) => {
-    if (uploads.length > 2) {
-      setUploads(uploads.filter((upload) => upload.id !== id));
-    }
-  };
-
-  const handleFileChange = (file, id) => {
-    setUploads((prev) =>
-      prev.map((upload) => (upload.id === id ? { ...upload, file } : upload))
-    );
-  };
-
-  const handleInputChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const hasFile = uploads.some((upload) => upload.file);
-    if (!hasFile) {
-      toast.current.show({
-        severity: "error",
-        summary: "Image Upload Error",
-        detail: "Please upload at least one landing image before submitting.",
-        life: 3000,
-      });
-      return;
-    }
-
-    try {
-      let imageUrls = [];
-
-      const uploadPromises = uploads.map(async (upload) => {
-        if (upload.file?.isUploaded) {
-          return { url: upload.file.preview };
-        } else if (upload.file) {
-          return await uploadImage(upload.file);
-        } else {
-          return null;
-        }
-      });
-
-      const responses = await Promise.all(uploadPromises);
-      imageUrls = responses.filter(Boolean).map((res) => res.url);
-
-      const finalPayload = {
-        images: imageUrls,
-        ...formData,
-      };
-
-      const response = await saveConferenceLandingPage(
-        finalPayload,
-        selectedConferenceID
-      );
-
-      if (response[0].msg === "Landing page updated successfully") {
-        toast.current.show({
-          severity: "success",
-          summary: "Success!",
-          detail: "The form has been submitted successfully.",
-          life: 3000,
-        });
-      } else if (response[0].msg === "No modifications found") {
-        toast.current.show({
-          severity: "warn",
-          summary: "Warning",
-          detail: "No modifications found",
-          life: 3000,
-        });
-      }
-    } catch (error) {
-      toast.current.show({
-        severity: "error",
-        summary: "Submission failed",
-        detail: "Failed to submit the form. Please try again.",
-        life: 3000,
-      });
-    }
+  const handleFileChange = (file) => {
+    const preview = file ? URL.createObjectURL(file) : null;
+    setUpload({ file, imageUrl: preview });
+    setImageError(""); // clear on valid image selection
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {/* <div className="mb-2">
-        <label className="form-label">Upload Landing Page Images</label>
-        <button
-          type="button"
-          className="btn btn-outline-warning rounded ms-2"
-          onClick={handleAddUpload}
-        >
-          <i className="bx bx-plus"></i>
-        </button>
-      </div>
+    <form onSubmit={formik.handleSubmit}>
+      <FileUpload
+        title="Upload Certificate Image"
+        onFileChange={handleFileChange}
+        imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
+        showBorder={true}
+                dimensionNote="Recommended dimensions: Width 200px × Height 200px"
 
-      <div className="border rounded p-2 d-flex flex-column gap-3">
-        {uploads.map((upload) => (
-          <div
-            key={upload.id}
-            className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 px-2"
-          >
-            <div className="flex-grow-1 w-100">
-              <FileUpload
-                showBorder={false}
-                showTitle={false}
-                onFileChange={(file) => handleFileChange(file, upload.id)}
-                imageUrl={upload.file?.preview}
-              />
-            </div>
-            <button
-              type="button"
-              className="btn btn-sm btn-outline-danger"
-              onClick={() => handleRemoveUpload(upload.id)}
-              title="Delete"
-            >
-              <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>
-            </button>
+      />
+      {imageError && <div className="text-danger mt-1">{imageError}</div>}
+
+      <div className="row mt-4">
+        {[
+          ["Title", "title", "text", "2nd International Conference On"],
+          ["Conference", "conference", "text", "e.g. Primary Healthcare..."],
+          ["Theme", "theme", "text", "e.g. Enhancing Women’s Health..."],
+          ["Start Date", "startDate", "date"],
+          ["End Date", "endDate", "date"],
+          ["Location", "location", "text", "e.g. DUBAI"],
+          ["Address", "address", "text", "Venue full address"],
+          ["Start Time", "startTime", "time"],
+          ["End Time", "endTime", "time"],
+        ].map(([label, name, type, placeholder = ""]) => (
+          <div className="col-md-6 mb-3" key={name}>
+            <label className="form-label">{label}</label>
+            <input
+              type={type}
+              name={name}
+              className="form-control"
+              placeholder={placeholder}
+              {...formik.getFieldProps(name)}
+            />
+            {formik.touched[name] && formik.errors[name] && (
+              <div className="text-danger">{formik.errors[name]}</div>
+            )}
           </div>
         ))}
-      </div> */}
+      </div>
 
-      <div className="mt-4">
-        <FileUpload title={"Upload Certificate Image"} showBorder={true} />
-        <div className="row">
-          <div className="col-md-6 mb-3">
-            <label className="form-label">Title</label>
-            <input
-              type="text"
-              name="title"
-              className="form-control"
-              value={formData.title}
-              onChange={handleInputChange}
-              placeholder="2nd International Conference On"
-              required
-            />
-          </div>
-          <div className="col-md-6 mb-3">
-            <label className="form-label">Conference</label>
-            <input
-              type="text"
-              name="conference"
-              className="form-control"
-              value={formData.conference}
-              onChange={handleInputChange}
-              placeholder="Primary Healthcare, Pain Management & Functional Structure"
-              required
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-6 mb-3">
-            <label className="form-label">Theme</label>
-            <input
-              type="text"
-              name="theme"
-              className="form-control"
-              value={formData.theme}
-              onChange={handleInputChange}
-              placeholder="Theme: “Enhancing Women’s Health: Improvement, Difficulties, and Innovative Thoughts in Obstetrics and Gynecology”"
-              required
-            />
-          </div>
-          <div className="col-md-6 mb-3">
-            <label className="form-label">Start Date of Conference</label>
-            <input
-              type="date"
-              name="startDate"
-              className="form-control"
-              value={formData.startDate}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-        </div>
+      {/* Conference Overview */}
+      <div className="col-12 mb-3">
+        <RichTextEditor
+          labelName={"Conference Overview"}
+          height="130px"
+                  initialValue={formik.values.overview}
 
-        <div className="row">
-          <div className="col-md-6 mb-3">
-            <label className="form-label">End Date of Conference</label>
-            <input
-              type="date"
-              name="endDate"
-              className="form-control"
-              value={formData.endDate}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="col-md-6 mb-3">
-            <label className="form-label">Event Location</label>
-            <input
-              type="text"
-              name="location"
-              className="form-control"
-              value={formData.location}
-              onChange={handleInputChange}
-              placeholder="DUBAI, United Arab Emirates"
-              required
-            />
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="col-md-6 mb-3">
-            <label className="form-label">Event Address</label>
-            <input
-              type="text"
-              name="address"
-              className="form-control"
-              value={formData.address}
-              onChange={handleInputChange}
-              placeholder="DUBAI, United Arab Emirates"
-              required
-            />
-          </div>
-          <div className="col-md-6 mb-3">
-            <label className="form-label">Event Start Time</label>
-            <input
-              type="time"
-              name="startTime"
-              className="form-control"
-              value={formData.startTime}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div className="row">
-            <div className="col-md-6 mb-3">
-              <label className="form-label">Event End Time</label>
-              <input
-                type="time"
-                name="endTime"
-                className="form-control"
-                value={formData.endTime}
-                onChange={handleInputChange}
-                required
-              />
+          onChange={(value) => formik.setFieldValue("overview", value)}
+        />
+        {formik.touched.conferenceOverview &&
+          formik.errors.conferenceOverview && (
+            <div className="text-danger">
+              {formik.errors.conferenceOverview}
             </div>
-      <RichTextEditor
-        labelName={"Conference OverView"}
-        height="130px"
-      />
-          </div>
-        </div>
+          )}
+      </div>
 
-        <div className="bg-secondary bg-opacity-10 mt-4 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
-          <button
-            type="button"
-            className="btn px-5 bg-white border"
-            disabled={!formValid}
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="btn px-1 px-md-5 btn-warning text-white"
-            disabled={!formValid}
-          >
-            Save Changes
-          </button>
-        </div>
+      <div className=" mt-4 p-2 d-flex justify-content-start gap-2 w-100">
+        <button
+          type="submit"
+          className="btn px-5 btn-warning text-white"
+          disabled={!formik.isValid}
+        >
+          {buttonLoading ? "Saving..." : "Save Changes"}
+        </button>
       </div>
     </form>
   );

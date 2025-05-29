@@ -1,72 +1,97 @@
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import RichTextEditor from "../LandingPage/RichTextEditor";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import {
-  saveWelcomeContent,
-  getSelectedConference,
-} from "@/service/adminConference";
-export default function EventDetailsSection({ selectedConferenceID,toast}) {
+import { uploadImage } from "@/service/mediaManagemnt";
+import { saveEventDetailsSection } from "@/service/AdminConfernecePages/confernce";
 
-  const [formData, setFormData] = useState({
-    contentType: "Conference",
-    title: "",
-    content: "",
-  });
+export default function EventDetailsSection({
+  selectedConferenceID,
+  toast,
+  EventDetailsSectionData,
+  fetchConfernceData,
+}) {
+  const [buttonLoading, setButtonLoading] = useState(false);
+  const [imageErrors, setImageErrors] = useState(["", "", ""]);
+  const [uploads, setUploads] = useState(
+    [0, 1, 2].map((i) => ({
+      file: null,
+      imageUrl: EventDetailsSectionData?.images?.[i] || "",
+    }))
+  );
 
-  useEffect(() => {
-    const fetchLandingPageData = async () => {
-      try {
-        const res = await getSelectedConference(selectedConferenceID);
-        const welcomeContent = res?.conference?.welcomeContent;
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      title: EventDetailsSectionData.title || "",
+      content: EventDetailsSectionData.content || "",
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().required("Title is required"),
+      content: Yup.string().required("Content is required"),
+    }),
+    onSubmit: async (values) => {
+      const missingImageIndexes = uploads
+        .map((upload, i) => (!upload.imageUrl ? i : null))
+        .filter((i) => i !== null);
 
-        if (welcomeContent) {
-          setFormData({
-            contentType: "Conference",
-            title: welcomeContent.title || "",
-            content: welcomeContent.content || "",
-          });
-        }
-
-      } catch (error) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Fetch Error",
-          detail: "Failed to load existing welcome content data.",
-          life: 3000,
+      if (missingImageIndexes.length > 0) {
+        const newErrors = ["", "", ""];
+        missingImageIndexes.forEach((i) => {
+          newErrors[i] = "Image is required";
         });
+        setImageErrors(newErrors);
+        return;
       }
-    };
 
-    fetchLandingPageData();
-  }, [selectedConferenceID]);
+      setButtonLoading(true);
+      setImageErrors(["", "", ""]);
 
-  const handleChangeContent = (value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      content: value,
-    }));
-  };
-  const isFormFilled = formData.title && formData.content;
-  const handleSubmit = () => {
-    const submitWelcomeContent = async () => {
       try {
-        const response = await saveWelcomeContent(
-          formData,
+        const uploadedUrls = await Promise.all(
+          uploads.map(async (upload) => {
+            if (upload.file) {
+              const res = await uploadImage(upload.file);
+              if (
+                res.status !== 201 ||
+                !res.data?.detail?.message?.[0]?.url
+              ) {
+                throw new Error("Image upload failed");
+              }
+              return res.data.detail.message[0].url;
+            }
+            return upload.imageUrl;
+          })
+        );
+
+        const payload = {
+          ...values,
+          images: uploadedUrls,
+        };
+
+        const response = await saveEventDetailsSection(
+          payload,
           selectedConferenceID
         );
-        if (response[0].msg === "No modifications found") {
-          toast.current.show({
-            severity: "warn",
-            summary: "Warning",
-            detail: "No modifications found",
-            life: 3000,
-          });
-        }
-        if (response[0].msg === "Welcome content updated successfully") {
+
+        if (response.status === 200) {
           toast.current.show({
             severity: "success",
             summary: "Success!",
-            detail: "Welcome content updated successfully",
+            detail:
+              response.data?.detail?.[0]?.msg ||
+              "Event details saved successfully.",
+            life: 3000,
+          });
+          fetchConfernceData();
+        } else {
+          toast.current.show({
+            severity: "warn",
+            summary: "Unknown response",
+            detail:
+              response.data?.detail?.[0]?.msg || "Unknown server response",
             life: 3000,
           });
         }
@@ -74,18 +99,27 @@ export default function EventDetailsSection({ selectedConferenceID,toast}) {
         toast.current.show({
           severity: "error",
           summary: "Submission failed",
-          detail: "Failed to submit Welcome Content. Please try again.",
+          detail: error.message || "Failed to save event details.",
           life: 3000,
         });
+      } finally {
+        setButtonLoading(false);
       }
-    };
-    if (isFormFilled) {
-      submitWelcomeContent();
-    }
+    },
+  });
+
+  const handleFileChange = (index, file) => {
+    const preview = file ? URL.createObjectURL(file) : null;
+    setUploads((prev) =>
+      prev.map((upload, i) =>
+        i === index ? { file, imageUrl: preview } : upload
+      )
+    );
+    setImageErrors((prev) => prev.map((err, i) => (i === index ? "" : err)));
   };
 
   return (
-    <div className="mt-5 ">
+    <form onSubmit={formik.handleSubmit} className="mt-5">
       <div className="mb-4">
         <label htmlFor="title" className="form-label">
           Title
@@ -93,66 +127,62 @@ export default function EventDetailsSection({ selectedConferenceID,toast}) {
         <input
           type="text"
           name="title"
-          value={formData.title}
-          className={`form-control `}
           id="title"
+          className="form-control"
           placeholder="Enter Title"
-          required
-          autoComplete="off"
-          onChange={(e) =>
-            setFormData((prevData) => ({
-              ...prevData,
-              title: e.target.value,
-            }))
-          }
+          {...formik.getFieldProps("title")}
         />
+        {formik.touched.title && formik.errors.title && (
+          <div className="text-danger">{formik.errors.title}</div>
+        )}
       </div>
+
       <RichTextEditor
-        labelName={"Content"}
-        initialValue={formData.content}
-        onChange={handleChangeContent}
+        labelName="Content"
+        initialValue={formik.values.content}
+        onChange={(value) => formik.setFieldValue("content", value)}
         height="150px"
       />
-  <div className='mt-1'>
-        <label  className="form-label">
-          Upload Images
-        </label>
-    <div className="border rounded p-2 d-flex flex-column gap-3">
-        {[...Array(3)].map((upload,i) => (
-          <div
-            key={i}
-            className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 px-2"
-          >
-            <div className="flex-grow-1 w-100">
-              <FileUpload showBorder={false} showTitle={false} />
-            </div>
-            {/* <button
-              className="btn btn-sm btn-outline-danger"
-              onClick={() => handleRemoveUpload(upload.id)}
-              title="Delete"
+      {formik.touched.content && formik.errors.content && (
+        <div className="text-danger mt-1">{formik.errors.content}</div>
+      )}
+
+      <div className="mt-3">
+        <label className="form-label">Upload Images</label>
+        <div className="border rounded p-2 d-flex flex-column gap-3">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 px-2"
             >
-              <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>
-            </button> */}
-          </div>
-        ))}
+              <div className="flex-grow-1 w-100">
+                <FileUpload
+                  showBorder={false}
+                  showTitle={false}
+                  imageUrl={
+                    uploads[i].imageUrl || "/icons/DefaultPreviewImage.png"
+                  }
+                  onFileChange={(file) => handleFileChange(i, file)}
+                   dimensionNote="Recommended dimensions: Width 250px × Height 270px"
+                />
+                {imageErrors[i] && (
+                  <div className="text-danger mt-1">{imageErrors[i]}</div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-      <div className="bg-secondary bg-opacity-10 mt-5 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
+
+      <div className="mt-5 p-2 d-flex justify-content-start align-items-center gap-2 w-100">
         <button
-          type="button"
-          className="btn px-5 bg-white border"
-          disabled={!isFormFilled}
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleSubmit}
+          type="submit"
           className="btn px-1 px-md-5 btn-warning text-white"
-          disabled={!isFormFilled}
+          disabled={!formik.isValid || buttonLoading}
         >
-          Save Changes
+          {buttonLoading ? "Saving..." : "Save Changes"}
         </button>
       </div>
-    </div>
+    </form>
   );
 }

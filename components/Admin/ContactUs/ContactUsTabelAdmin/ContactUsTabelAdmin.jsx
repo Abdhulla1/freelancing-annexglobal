@@ -149,7 +149,7 @@ export default function ContactUsTabelAdmin() {
                   <td className="p-3 table-data">{element.organization}</td>
                   <td className="p-3 table-data">{element.email}</td>
                   <td className="p-3 table-data">{element.conference}</td>
-                  <td className="p-3 table-data">{element.message}</td>
+                  <td className="p-3 table-data text-truncate" style={{maxWidth:'200px'}} >{element.message}</td>
                   <td className="p-3 table-data">
                     <div className="d-flex gap-1 justify-content-center flex-nowrap">
                       <button

@@ -1,13 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
+import { Toast } from "primereact/toast";
+
 import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/ScrollableTabs";
 import UploadBrochure from "../ConferencePageAdmin/UploadBrochure/UploadBrochure";
-export default function BrochureAdmin() {
+export default function BrochureAdmin({ selectedConferenceID,brochure,fetchConfernceData}) {
  const [activeTab, setActiveTab] = useState("Upload Brochure"); // default to first tab
+     const toast = useRef(null);
 
     const tabs = {
       "Upload Brochure": (
-        <UploadBrochure/>
+        <UploadBrochure selectedConferenceID={selectedConferenceID}
+        brochure={brochure}
+        fetchConfernceData={fetchConfernceData}
+        toast={toast}/>
       ),
 
     };
@@ -15,11 +21,11 @@ export default function BrochureAdmin() {
     
   return (
     <>
+          <Toast ref={toast} />
+    
       <div className="d-flex justify-content-between">
         <h5>Brochure</h5>
-        {/* <button className="btn btn-warning text-white">
-           Publish
-        </button> */}
+
       </div>
       <div className="mt-4 ">
           <ScrollableTabs

@@ -1,131 +1,116 @@
-import React, { useState, useEffect } from "react";
-import RichTextEditor from "../LandingPage/RichTextEditor";
+import React, { useState } from "react";
+import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import {
-  saveWelcomeContent,
-  getSelectedConference,
-} from "@/service/adminConference";
-export default function HeaderPannelImages({ selectedConferenceID,toast}) {
+import { patchHeaderPannelImages ,deleteHeaderPannelImages} from "@/service/AdminConfernecePages/confernce";
+import { uploadImage } from "@/service/mediaManagemnt";
+export default function LandingPage({
+  selectedConferenceID,
+  headerPannelImages = [],
+  fetchConfernceData,
+  toast,
+}) {
+  const [uploads, setUploads] = useState(() => {
+    if (headerPannelImages.length > 0) {
+      const existing = headerPannelImages.map((img, i) => ({
+        id: Date.now() + i,
+        imageUrl: img.imageUrl,
+        imageId: img.imageId,
+        uploaded: true,
+      }));
 
-  const [formData, setFormData] = useState({
-    contentType: "Conference",
-    title: "",
-    content: "",
+      const fillers = Array.from({ length: 4 - existing.length }, (_, i) => ({
+        id: Date.now() + 100 + i,
+        imageUrl: "",
+        imageId: null,
+        uploaded: false,
+      }));
+
+      return [...existing, ...fillers];
+    } else {
+      return Array.from({ length: 4 }, (_, i) => ({
+        id: Date.now() + i,
+        imageUrl: "",
+        imageId: null,
+        uploaded: false,
+      }));
+    }
   });
+  const handleFileChange = async (file, id) => {
+    try {
+      const preview = file ? URL.createObjectURL(file) : null;
+      setUploads((prev) =>
+        prev.map((upload) =>
+          upload.id === id ? { ...upload, imageUrl: preview } : upload
+        )
+      );
 
-  useEffect(() => {
-    const fetchLandingPageData = async () => {
-      try {
-        const res = await getSelectedConference(selectedConferenceID);
-        const welcomeContent = res?.conference?.welcomeContent;
-
-        if (welcomeContent) {
-          setFormData({
-            contentType: "Conference",
-            title: welcomeContent.title || "",
-            content: welcomeContent.content || "",
-          });
-        }
-
-      } catch (error) {
-        toast.current?.show({
-          severity: "error",
-          summary: "Fetch Error",
-          detail: "Failed to load existing welcome content data.",
-          life: 3000,
-        });
+      const res = await uploadImage(file);
+      if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
+        throw new Error("Image upload failed");
       }
-    };
 
-    fetchLandingPageData();
-  }, [selectedConferenceID]);
+      const imageUrl = res.data.detail.message[0].url;
+ const payload = { imageUrl:imageUrl }; 
+      const uploadItem = uploads.find((u) => u.id === id);
+      const patchRes = await patchHeaderPannelImages(
+        selectedConferenceID,
+           {  contentType: "scientificProgram ",
+              imageUrl: imageUrl
+            },
+        uploadItem?.imageId || null
+      );
 
-  const handleChangeContent = (value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      content: value,
-    }));
-  };
-  const isFormFilled = formData.title && formData.content;
-  const handleSubmit = () => {
-    const submitWelcomeContent = async () => {
-      try {
-        const response = await saveWelcomeContent(
-          formData,
-          selectedConferenceID
-        );
-        if (response[0].msg === "No modifications found") {
-          toast.current.show({
-            severity: "warn",
-            summary: "Warning",
-            detail: "No modifications found",
-            life: 3000,
-          });
-        }
-        if (response[0].msg === "Welcome content updated successfully") {
-          toast.current.show({
-            severity: "success",
-            summary: "Success!",
-            detail: "Welcome content updated successfully",
-            life: 3000,
-          });
-        }
-      } catch (error) {
+      if (patchRes.status === 200) {
         toast.current.show({
-          severity: "error",
-          summary: "Submission failed",
-          detail: "Failed to submit Welcome Content. Please try again.",
+          severity: "success",
+          summary: "Image Uploaded",
+          detail:
+          "Image saved successfully.",
           life: 3000,
         });
+
+        const updatedImageId = patchRes.data?.detail?.[0]?.id; // optional
+
+        setUploads((prev) =>
+          prev.map((upload) =>
+            upload.id === id
+              ? {
+                  ...upload,
+                  imageUrl,
+                  uploaded: true,
+                  imageId: updatedImageId || upload.imageId,
+                }
+              : upload
+          )
+        );
+
+        fetchConfernceData();
       }
-    };
-    if (isFormFilled) {
-      submitWelcomeContent();
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Upload Failed",
+        detail: error.message || "Failed to upload image.",
+        life: 3000,
+      });
     }
   };
-
   return (
-    <div className="mt-5 ">
- 
-  <div className='mt-1'>
-        <label  className="form-label">
-          Upload Images
-        </label>
-    <div className="border rounded p-2 d-flex flex-column gap-3">
-        {[...Array(4)].map((upload,i) => (
-          <div
-            key={i}
-            className="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-2 px-2"
-          >
-            <div className="flex-grow-1 w-100">
-              <FileUpload showBorder={false} showTitle={false} />
-            </div>
-            {/* <button
-              className="btn btn-sm btn-outline-danger"
-              onClick={() => handleRemoveUpload(upload.id)}
-              title="Delete"
-            >
-              <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>
-            </button> */}
+    <div className="container">
+      <h6>Upload Header Pannel Images</h6>
+      <div className="border rounded-2 mb-2">
+        {uploads.map((upload, index) => (
+          <div key={upload.id} className="flex-grow-1 w-100">
+            <FileUpload
+              showBorder={false}
+              showTitle={false}
+              dimensionNote="Recommended dimensions: Width 200px × Height 200px"
+              imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
+              onFileChange={(file) => handleFileChange(file, upload.id)}
+            />
           </div>
         ))}
-      </div>
-    </div>
-      <div className="bg-secondary bg-opacity-10 mt-5 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
-        <button
-          type="button"
-          className="btn px-5 bg-white border"
-          disabled={!isFormFilled}
-        >
-          Cancel
-        </button>
-        <button
-          onClick={handleSubmit}
-          className="btn px-1 px-md-5 btn-warning text-white"
-          disabled={!isFormFilled}
-        >
-          Save Changes
-        </button>
+       
       </div>
     </div>
   );

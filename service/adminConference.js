@@ -1,12 +1,5 @@
 import axiosInstance from "./axiosInstance";
 
-// const axiosInstance = axios.create({
-//   baseURL: BASE_URL,
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// });
-
 //GET request
 export async function getAllConference(page, limit) {
   try {
@@ -18,13 +11,12 @@ export async function getAllConference(page, limit) {
   }
 }
 export async function getSelectedConference(id) {
-  console.log(id);
   try {
     const response = await axiosInstance.get(`/conference/${id}/data`);
-    console.log(response)
     return response.data?.detail; // {data:response.data?.detail,error:null};
   } catch (error) {
-    return error || "Failed to fetch Conference";
+ const message = error?.response?.data?.detail?.[0]?.msg || "Failed to fetch Conference";
+    throw new Error(message);
   }
 }
 export async function saveConference(formdata) {
@@ -45,32 +37,6 @@ export async function updateConference(id,formdata) {
       return Promise.reject(error.response.data.detail[0].msg || "Failed to Update Conference" );
   }
 }
-export async function saveConferenceLandingPage(formdata, id) {
-  try {
-    const response = await axiosInstance.patch(
-      `/conference/${id}/landing/page`,
-      formdata
-    );
-    return response.data?.detail;
-  } catch (error) {
-    throw new Error(
-      error.response?.data || "Failed to Save Conference Landing Page"
-    );
-  }
-}
-export async function saveWelcomeContent(formdata, id) {
-  try {
-    const response = await axiosInstance.patch(
-      `/conference/${id}/webinar/welcome/content`,
-      formdata
-    );
-    return response.data?.detail;
-  } catch (error) {
-    throw new Error(
-      error.response?.data || "Failed to Save Conference Welcome Content"
-    );
-  }
-}
 export async function saveVideoSection(formdata, id) {
   try {
     const response = await axiosInstance.patch(
@@ -81,4 +47,30 @@ export async function saveVideoSection(formdata, id) {
   } catch (error) {
     throw new Error(error.response?.data || "Failed to Save Video Section");
   }
+}
+
+//Publish Toggle
+export async function conferenceStatusToggle(id,formData) {
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/draft/publish
+`,
+     formData
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update Speaker"
+          throw new Error(message);  }
+}
+//Permalink Toggle
+export async function savePermalink(id,formData) {
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/permalink`,
+     formData
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update Speaker"
+          throw new Error(message);  }
 }

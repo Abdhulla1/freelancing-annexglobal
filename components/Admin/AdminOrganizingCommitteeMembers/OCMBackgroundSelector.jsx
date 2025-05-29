@@ -1,9 +1,9 @@
 import React, { useState,useRef } from 'react';
 import Image from 'next/image';
-import { saveSpeakerBG } from '@/service/speakerService';
+import { saveOCMBG } from '@/service/ocmService';
 import { Toast } from 'primereact/toast';
 
-export default function SpeakerBackgroundSelector() {
+export default function OCMBackgroundSelector() {
   const toast = useRef(null);
 
   const [selectedImageNumber, setSelectedImageNumber] = useState(1);
@@ -18,10 +18,10 @@ export default function SpeakerBackgroundSelector() {
 
   const handleSelect = async(imageNumber) => {
     const payLoad = {
-      speakers:imageNumber
+      ocm:imageNumber
     }
      try {
-          const response = await saveSpeakerBG(payLoad);
+          const response = await saveOCMBG(payLoad);
           if (response.status === 200) {
               setSelectedImageNumber(imageNumber);
             toast.current?.show({

@@ -9,6 +9,7 @@ export default function FileUpload({
   showDelete = false,
   imageUrl = "",
   onFileChange,
+   dimensionNote = "",
 }) {
   const inputRef = useRef();
   const [previewSrc, setPreviewSrc] = useState(
@@ -67,7 +68,7 @@ export default function FileUpload({
             width={100}
             height={100}
             style={{ objectFit: "cover", borderRadius: "8px" }}
-            unoptimized
+            
           />
         </div>
 
@@ -76,6 +77,11 @@ export default function FileUpload({
           <p className="fw-light text-black mb-2" style={{ fontSize: "13px" }}>
             <em>Please upload square image, size less than 100KB</em>
           </p>
+          {dimensionNote && (
+    <p className=" text-black" style={{ fontSize: "10px" }}>
+      <em>{dimensionNote}</em>
+    </p>
+  )}
           <input
             type="file"
             ref={inputRef}

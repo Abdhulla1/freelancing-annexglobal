@@ -1,55 +1,42 @@
 "use client";
 import React, { useState } from "react";
-import FileUploadVideo from '@/components/Reusable/Admin/FileUpload/FileUploadVideo'
-import RichTextEditor from '../../ConferencePageAdmin/LandingPage/RichTextEditor'
+import RichTextEditor from "../../ConferencePageAdmin/LandingPage/RichTextEditor";
 import { Sidebar } from "primereact/sidebar";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { Button } from "primereact/button";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { saveVideoSection } from "@/service/AdminConfernecePages/confernce";
 
-const webinarData = [
-  {
-    youtubeLink: "https://www.youtube.com/watch?v=19eIVnOI9Do",
-    title: "Introduction to React",
-    content: "Welcome to the React webinar! We'll cover the basics and advanced topics.",
-  },
-  {
-    youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-    title: "Advanced JavaScript Techniques",
-    content: "Deep dive into closures, prototypes, and async programming in JavaScript.",
-  },
-  {
-    youtubeLink: "https://www.youtube.com/watch?v=3fumBcKC6RE",
-    title: "Getting Started with Node.js",
-    content: "Learn how to build backend apps with Node.js and Express.",
-  },
-];
-
-
-export default function WebinarVideoSection({ visibleDetails, setVisibleDetails }) {
+export default function WebinarVideoSection({
+  selectedConferenceID,
+  toast,
+  WebinarVideoSectionData,
+  fetchConfernceData,
+}) {
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
     content: null,
   });
-  const confirmDelete = () => {
-    const accept = () => {
-      console.log("accepted");
+  const webinarData = (() => {
+    const defaultEntry = {
+      videoUrl: "Change the Video Link",
+      title: "Change Title",
+      content: "Change Content",
     };
-    const reject = () => {
-      console.log("rejectcted");
-    };
-    confirmDialog({
-      message:
-        <Delete/>,
-      acceptLabel: "OK",
-      rejectLabel: "Cancel",
-      acceptClassName: "btn px-5 btn-warning text-white shadow-none",
-      rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
-      defaultFocus: "accept",
-      accept,
-      reject,
-      className: "custom-confirm-dialog",
-    });
-  };
+
+    const actualData = WebinarVideoSectionData || [];
+
+    // Always show at least 3 rows — fill remaining with defaults
+    const filledData = [...actualData];
+    while (filledData.length < 3) {
+      filledData.push(defaultEntry);
+    }
+
+    return filledData;
+  })();
+
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
       view: {
@@ -58,7 +45,7 @@ export default function WebinarVideoSection({ visibleDetails, setVisibleDetails 
       },
       edit: {
         header: "Edit Video Section",
-        content: <Edit data={data} />,
+        content: <Edit data={data} toast={toast} setIsVisible={setIsVisible} fetchConfernceData={fetchConfernceData} selectedConferenceID={selectedConferenceID}  />,
       },
     };
 
@@ -84,23 +71,10 @@ export default function WebinarVideoSection({ visibleDetails, setVisibleDetails 
             {/* Content Area */}
 
             {sidebarState.content}
-
-            {/* Sticky Button Area */}
-            {sidebarState.header !== "View Frequently asked questions" && (
-      <div className="bg-secondary bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
-        <button
-          className="btn px-5 bg-white border"
-          onClick={() => setIsVisible(false)}
-        >
-          Close
-        </button>
-        <button className="btn px-5 btn-warning text-white">Save</button>
-      </div>
-    )}
           </div>
         </>
       </Sidebar>
-            <ConfirmDialog draggable={false} />
+      <ConfirmDialog draggable={false} />
       <table className="tabel w-100  table-striped-columns">
         <thead>
           <tr>
@@ -113,7 +87,12 @@ export default function WebinarVideoSection({ visibleDetails, setVisibleDetails 
         <tbody>
           {webinarData.map((element, i) => (
             <tr key={i}>
-              <td className="p-3 table-data">{element.youtubeLink}</td>
+              <td
+                className="p-3 table-data text-truncate"
+                style={{ maxWidth: "200px" }}
+              >
+                {element.videoUrl}
+              </td>
               <td className="p-3  table-data ">{element.title}</td>
               <td className="p-3  table-data ">{element.content}</td>
               <td className="p-3 table-data ">
@@ -141,25 +120,97 @@ export default function WebinarVideoSection({ visibleDetails, setVisibleDetails 
           ))}
         </tbody>
       </table>
-      {/* <button
-      name="add"
-              className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
-              style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
-              onClick={(e) => handleSidebar(e.target.name)}
-            >
-              +
-            </button> */}
     </div>
   );
 }
 
-function Edit({ data })  {
+function Edit({
+  data,
+  toast,
+  setIsVisible,
+  fetchConfernceData,
+  selectedConferenceID,
+}) {
+  const [loading, setLoading] = useState(false);
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      title: data.title || "",
+      videoUrl: data.videoUrl || "",
+      content: data.content || "",
+    },
+    validationSchema: Yup.object({
+      videoUrl: Yup.string()
+        .url("Must be a valid URL")
+        .required("Video link is required"),
+      title: Yup.string().required("Title is required"),
+      content: Yup.string().required("Content is required"),
+    }),
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        const payload = {
+          contentType: "Webinar",
+          ...values,
+        };
+        const response = await saveVideoSection(payload, selectedConferenceID);
+        if (response.status === 200) {
+          toast.current.show({
+            severity: "success",
+            summary: "Success!",
+            detail: response.data?.detail?.[0]?.msg || "Video section updated",
+            life: 3000,
+          });
+          fetchConfernceData();
+          
+        } else {
+          toast.current.show({
+            severity: "warn",
+            summary: "Warning!",
+            detail:
+              response.data?.detail?.[0]?.msg || "Unexpected server response",
+            life: 3000,
+          });
+        }
+      } catch (err) {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: "Failed to update video section. Please try again.",
+          life: 3000,
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
+  });
+
+  const valuesChanged =
+    formik.values.videoUrl !== data.videoUrl ||
+    formik.values.content !== data.content ||
+    formik.values.title !== data.title;
+
   return (
-    <div>
-       {/* <FileUploadVideo/> */}
-             <div className="mt-4">
+    <form onSubmit={formik.handleSubmit} className="mt-4">
+      <div className="mb-4">
         <label htmlFor="title" className="form-label">
-          Video Link(Youtube)*
+          Title
+        </label>
+        <input
+          type="text"
+          name="title"
+          className="form-control"
+          placeholder="Enter Title"
+          {...formik.getFieldProps("title")}
+        />
+        {formik.touched.title && formik.errors.title && (
+          <div className="text-danger">{formik.errors.title}</div>
+        )}
+      </div>
+      <div className="mb-4">
+        <label htmlFor="videoUrl" className="form-label">
+          Video Link (YouTube)*
         </label>
         <div className="input-group border rounded p-1">
           <span
@@ -170,45 +221,58 @@ function Edit({ data })  {
             <i className="bx bx-link-alt"></i>
           </span>
           <input
-            type="link"
-            name="mapLink"
-            value={data.youtubeLink}
-            className={`form-control border border-0`}
-            id="link"
-            placeholder="https://www.youtube.com/watch?v=19eIVnOI9Do"
-            required
-            onChange={(e)=>console.log(e.value)}
+            type="url"
+            name="videoUrl"
+            className="form-control border border-0"
+            placeholder="https://www.youtube.com/watch?v=..."
+            {...formik.getFieldProps("videoUrl")}
             autoComplete="off"
           />
         </div>
+        {formik.touched.videoUrl && formik.errors.videoUrl && (
+          <div className="text-danger mt-1">{formik.errors.videoUrl}</div>
+        )}
       </div>
-       <div className="mb-4 mt-4">
-        <label htmlFor="title" className="form-label">
-        Title 
-         </label>
-        <input
-          type="email"
-          name="title"
-          className={`form-control `}
-          id="title"
-          value={data.title}
-          placeholder="Enter Title"
-          required
-                      onChange={(e)=>console.log(e.value)}
+      <RichTextEditor
+        labelName="Content*"
+        initialValue={formik.values.content}
+        onChange={(value) => formik.setFieldValue("content", value)}
+        height="120px"
+      />
+      {formik.touched.content && formik.errors.content && (
+        <div className="text-danger mt-2">{formik.errors.content}</div>
+      )}
 
-          autoComplete="off"
+      <div
+        className="bg-secondary position-absolute z-2 bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100"
+        style={{ bottom: 0, left: 0, height: "80px" }}
+      >
+        <button
+          type="button"
+          className="btn px-5 bg-white border"
+          onClick={() => setIsVisible(false)}
+        >
+          Close
+        </button>
+        <Button
+          label="Save"
+          type="submit"
+          className="btn px-5 btn-warning text-white"
+          loading={loading}
+          style={{ outline: "none", boxShadow: "none" }}
         />
       </div>
-      <RichTextEditor initialValue={data.content} labelName={"Content"}/> 
-    </div>
-  )
+    </form>
+  );
 }
 function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
       <div>
         <label className="form-label fw-bold mb-2">Video Link</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.youtubeLink}</p>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+          {data.videoUrl}
+        </p>
       </div>
       <div>
         <label className="form-label fw-bold mb-2">Title</label>
@@ -216,7 +280,9 @@ function View({ data }) {
       </div>
       <div>
         <label className="form-label fw-bold mb-2">Content</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.content}</p>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+          {data.content}
+        </p>
       </div>
     </div>
   );

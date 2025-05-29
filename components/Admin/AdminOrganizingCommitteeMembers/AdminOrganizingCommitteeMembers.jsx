@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import OCMTabelAdmin from "./OCMTabelAdmin/OCMTabelAdmin";
 import Sidenav from "../Dashboard/Sidenav/Sidenav";
-import SpeakerBackgroundSelector from "../AdminSpeakers/SpeakerBackgroundSelector";
-SpeakerBackgroundSelector
+import OCMBackgroundSelector from "./OCMBackgroundSelector";
 export default function AdminAdminOrganizingCommitteeMembersConferences() {
   const [activeMenu, setActiveMenu] = useState("OCM");
 
@@ -11,7 +10,7 @@ export default function AdminAdminOrganizingCommitteeMembersConferences() {
 
   const componentMap = {
     OCM: <OCMTabelAdmin />,
-    "OCM Background": <SpeakerBackgroundSelector />,
+    "OCM Background": <OCMBackgroundSelector />,
   };
 
   return (
@@ -20,10 +19,7 @@ export default function AdminAdminOrganizingCommitteeMembersConferences() {
         {/* Title */}
         <h5 className="fw-bold m-0">All Organizing Committee Members</h5>
 
-        {/* Add New Conference Button */}
-        <button className="btn btn-warning text-white col-12 col-md-1">
-          Publish
-        </button>
+       
       </div>
 
       <div className="row gap-2 gap-md-0 p-3">

@@ -143,7 +143,7 @@ export default function SubmitAbstractTableAdmin() {
                   <td className="p-3 table-data">{element.firstName}</td>
                   <td className="p-3 table-data">{element.lastName}</td>
                   <td className="p-3 table-data">{element.email}</td>
-                  <td className="p-3 table-data">{element.conferenceName}</td>
+                  <td className="p-3 table-data">{element.conference}</td>
                   <td className="p-3 table-data">{element.submissionDate}</td>
                   <td className="p-3 table-data">
                     <Link href={element.attachFiles} className="text-decoration-none btn btn-outline-secondary rounded">
@@ -262,7 +262,7 @@ function View({ data }) {
         </div>
         <div className="col-md-4">
           <label className="form-label mb-2">Conference Name</label>
-          <p className="text-black rounded-2 p-2">{data.conferenceName}</p>
+          <p className="text-black rounded-2 p-2">{data.conference}</p>
         </div>
       </div>
     </div>

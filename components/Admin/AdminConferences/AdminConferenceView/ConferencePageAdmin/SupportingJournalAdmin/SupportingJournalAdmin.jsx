@@ -5,54 +5,39 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import RichTextEditor from "../LandingPage/RichTextEditor";
 import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { uploadImage } from "@/service/mediaManagemnt";
+import { updateSupportingJournal } from "@/service/AdminConfernecePages/confernce"; // adjust import
+import { Button } from "primereact/button";
 
-const journalData = [
-  {
-    image: "/icons/DefaultPreviewImage.png", // Optional
-    topicName: "Benefits of attending the conference",
-    content:
-      "Attendees gain insights from industry leaders, network with professionals, and get access to exclusive content and resources.",
-  },
-  {
-    image: "/icons/DefaultPreviewImage.png",
-    topicName: "How to register",
-    content:
-      "Register on our website by clicking the 'Register Now' button. Early bird discounts are available.",
-  },
-  {
-    image: "/icons/DefaultPreviewImage.png",
-    topicName: "Session recordings",
-    content:
-      "All sessions will be recorded and available to registered participants within a week after the event.",
-  },
-  // ... add the rest
-];
-
-export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDetails }) {
+export default function  SupportingJournalAdmin({   selectedConferenceID,
+  toast,
+  supportingJournalData,
+  fetchConfernceData}) {
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
     content: null,
   });
-  const confirmDelete = () => {
-    const accept = () => {
-      console.log("accepted");
-    };
-    const reject = () => {
-      console.log("rejectcted");
-    };
-    confirmDialog({
-      message: <Delete />,
-      acceptLabel: "OK",
-      rejectLabel: "Cancel",
-      acceptClassName: "btn px-5 btn-warning text-white shadow-none",
-      rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
-      defaultFocus: "accept",
-      accept,
-      reject,
-      className: "custom-confirm-dialog",
-    });
+  const journalData = (() => {
+  const defaultEntry = {
+    logoUrl: "/icons/DefaultPreviewImage.png",
+    title: "Change Title",
+    content: "Change Content",
   };
+
+  const actualData = supportingJournalData || [];
+
+  // Always show at least 3 rows — fill remaining with defaults
+  const filledData = [...actualData];
+  while (filledData.length < 3) {
+    filledData.push(defaultEntry);
+  }
+
+  return filledData;
+})();
+
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
       view: {
@@ -61,11 +46,7 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
       },
       edit: {
         header: "Edit Supporting Journal",
-        content: <Edit data={data} />,
-      },
-      add: {
-        header: "Add Supporting Journal",
-        content: <Add />,
+        content: <Edit data={data} toast={toast} setIsVisible={setIsVisible} fetchConfernceData={fetchConfernceData} selectedConferenceID={selectedConferenceID} />,
       },
     };
 
@@ -92,20 +73,6 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
 
             {sidebarState.content}
 
-            {/* Sticky Button Area */}
-            {sidebarState.header !== "View Supporting Journal" && (
-              <div className="bg-secondary bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
-                <button
-                  className="btn px-5 bg-white border"
-                  onClick={() => setIsVisible(false)}
-                >
-                  Close
-                </button>
-                <button className="btn px-5 btn-warning text-white">
-                  Save
-                </button>
-              </div>
-            )}
           </div>
         </>
       </Sidebar>
@@ -114,7 +81,7 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
         <thead>
           <tr>
             <td className="p-2 table-heading">Logo Image</td>
-            <td className="p-2 table-heading">Topic Name</td>
+            <td className="p-2 table-heading">Title</td>
             <td className="p-2 table-heading">Content</td>
             <td className="p-2 table-heading">Action</td>
           </tr>
@@ -124,13 +91,14 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
             <tr key={i}>
               <td className="p-3 table-data">
                 <Image
-                  src={element.image}
+                  src={element.logoUrl}
                   height={80}
                   width={80}
                   alt="TopicImage"
+                  style={{ objectFit: "cover", borderRadius: "8px" }}
                 />{" "}
               </td>
-              <td className="p-3 table-data">{element.topicName}</td>
+              <td className="p-3 table-data">{element.title}</td>
               <td className="p-3  table-data ">{element.content}</td>
               <td className="p-3 table-data ">
                 <div className="d-flex gap-1  justify-content-center flex-nowrap">
@@ -141,12 +109,6 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
                   >
                     <i className="bx bx-edit-alt"></i>
                   </button>
-                  {/* <button
-                    className="btn btn-outline-secondary rounded"
-                    onClick={confirmDelete}
-                  >
-                    <i className="bx bx-trash-alt"></i>
-                  </button> */}
                   <button
                     name="view"
                     className="btn btn-outline-warning rounded"
@@ -160,66 +122,161 @@ export default function  SupportingJournalAdmin({ visibleDetails, setVisibleDeta
           ))}
         </tbody>
       </table>
-      {/* <button
-        name="add"
-        className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
-        style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
-        onClick={(e) => handleSidebar(e.target.name)}
-      >
-        +
-      </button> */}
+     
     </div>
   );
 }
 
-function Edit({ data }) {
+ function Edit({ data, toast, setIsVisible, fetchConfernceData, selectedConferenceID }) {
+  const [upload, setUpload] = useState({
+    file: null,
+    logoUrl: data.logoUrl || "",
+  });
+  const [imageError, setImageError] = useState(null);
+  const [buttonLoading, setButtonLoading] = useState(false);
+
+  const handleFileChange = (file) => {
+    const preview = file ? URL.createObjectURL(file) : null;
+    setUpload({ file, logoUrl: preview });
+    setImageError(null);
+  };
+
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      title: data.title || "",
+      content: data.content || "",
+    },
+    validationSchema: Yup.object({
+      title: Yup.string().required("Title is required"),
+      content: Yup.string()
+        .test(
+          "content-not-empty",
+          "Content is required",
+          (value) => value && value.replace(/<(.|\n)*?>/g, "").trim().length > 0
+        )
+        .required("Content is required"),
+    }),
+    onSubmit: async (values) => {
+      setButtonLoading(true);
+      setImageError(null);
+
+      try {
+        let logoUrl = upload.logoUrl;
+
+        if (upload.file) {
+          const res = await uploadImage(upload.file);
+          if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
+            throw new Error("Image upload failed");
+          }
+          logoUrl = res.data.detail.message[0].url;
+        }
+
+        const payload = {
+          title: values.title,
+          content: values.content,
+          logoUrl,
+        };
+
+        const response = await updateSupportingJournal( selectedConferenceID,payload, data.journal_id);
+
+        if (response.status === 200) {
+          toast.current?.show({
+            severity: "success",
+            summary: "Updated",
+            detail: response.data?.detail?.[0]?.msg || "Supporting Journal updated successfully",
+          });
+          fetchConfernceData();
+          setIsVisible(false);
+        } else {
+          toast.current?.show({
+            severity: "error",
+            summary: "Update failed",
+            detail: "Something went wrong",
+          });
+        }
+      } catch (error) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message || "Something went wrong",
+        });
+      } finally {
+        setButtonLoading(false);
+      }
+    },
+  });
+
   return (
-    <div className="d-flex gap-3 flex-column">
-        <FileUpload   title ={ "Logo Image Upload"} showBorder = {true}/>
-      {/* <RichTextEditor
-        labelName={"Topic"}
-        height="120px"
-        initialValue={data.topicName}
-        onChange={(content) => console.log("Edited content:", content)}
-      /> */}
-              <div className=" mb-3">
-        <label className="form-label">Topic</label>
+    <form onSubmit={formik.handleSubmit} className="d-flex gap-3 flex-column h-100">
+      <FileUpload
+        title={"Logo Image Upload*"}
+        showBorder={true}
+        imageUrl={upload.logoUrl}
+        onFileChange={handleFileChange}
+      />
+      {imageError && <div className="text-danger mt-1">{imageError}</div>}
+
+      <div className="mb-3">
+        <label className="form-label">Title*</label>
         <input
           type="text"
-          name="topic"
-          className="form-control"
-          value={data.topicName}
-          onChange={(e) => console.log("Edited content:", e.value)}
+          name="title"
+          className={`form-control ${formik.touched.title && formik.errors.title ? "is-invalid" : ""}`}
           placeholder="2nd International Conference On"
-          required
+          value={formik.values.title}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {formik.touched.topic && formik.errors.title && (
+          <div className="text-danger">{formik.errors.title}</div>
+        )}
+      </div>
+
+      <div className="mb-3">
+        <label className="form-label">Content*</label>
+        <RichTextEditor
+          labelName=""
+          initialValue={formik.values.content}
+          onChange={(value) => formik.setFieldValue("content", value)}
+        />
+        {formik.touched.content && formik.errors.content && (
+          <div className="text-danger">{formik.errors.content}</div>
+        )}
+      </div>
+
+      <div
+        className="bg-secondary position-absolute z-2 bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100"
+        style={{ bottom: 0, left: 0, height: "80px" }}
+      >
+        <button
+          type="button"
+          className="btn px-5 bg-white border"
+          onClick={() => setIsVisible(false)}
+        >
+          Close
+        </button>
+        <Button
+          label="Save"
+          type="submit"
+          className="btn px-5 btn-warning text-white"
+          loading={buttonLoading}
+          style={{ outline: "none", boxShadow: "none" }}
         />
       </div>
-      <RichTextEditor
-        labelName={"Content"}
-        initialValue={data.content}
-        onChange={(content) => console.log("Edited content:", content)}
-      />
-    </div>
+    </form>
   );
 }
-function Add({ data }) {
-  return (
-    <div className="d-flex gap-3 flex-column">
-           <FileUpload   title ={ "Logo Image Upload"} showBorder = {true}/>
-      <RichTextEditor labelName={"Topic"} height="120px" initialValue={""} />
-      <RichTextEditor labelName={"Content"} initialValue={""} />
-    </div>
-  );
-}
+
 function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
       <label className="form-label fw-bold">Image</label>
-      <Image src={data.image} width={120} height={120} alt="DeleteIcon" />
+      <Image src={data.logoUrl} width={120} height={120} alt="DeleteIcon"   style={{ objectFit: "cover", borderRadius: "8px" }}/>
       <div>
         <label className="form-label fw-bold mb-2">Topic</label>
         <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.topicName}
+          {data.title}
         </p>
       </div>
       <div>
@@ -232,15 +289,4 @@ function View({ data }) {
   );
 }
 
-function Delete({ data = null }) {
-  return (
-    <div className="d-flex flex-column align-items-center text-center">
-      <Image src="/icons/delete.png" width={80} height={80} alt="DeleteIcon" />
-      <h5 className="mt-3">Delete Supporting Journal</h5>
-      <p className="mb-0 col-md-8">
-        Are you sure you want to delete this Program File? This action cannot be
-        undone.
-      </p>
-    </div>
-  );
-}
+

@@ -1,199 +1,139 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { uploadImage } from "@/service/mediaManagemnt";
-import {
-  saveConferenceLandingPage,
-  getSelectedConference,
-} from "@/service/adminConference";
+import { updateMainLandingPage } from "@/service/mainPageService";
+import { Button } from "primereact/button";
 
-export default function LandingPage({ selectedConferenceID, toast }) {
-  const [formData, setFormData] = useState({
-    title: "",
-    heading: "",
-    subTitle: "",
+export default function LandingPage({ LandingPageData, toast }) {
+  const [buttonLoading, setButtonLoading] = useState(false);
+
+  const [upload, setUpload] = useState({
+    file: null,
+    imageUrl: LandingPageData.imageUrl || "",
   });
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      heading: LandingPageData.heading || "",
+      subTitle: LandingPageData.subTitle || "",
+    },
+    validationSchema: Yup.object({
+      heading: Yup.string().required("Heading is required"),
+      subTitle: Yup.string().required("Sub Title is required"),
+    }),
+    onSubmit: async (values) => {
+      setButtonLoading(true);
 
-  // Fetch data on component mount or ID change
-  // useEffect(() => {
-  //   const fetchLandingPageData = async () => {
-  //     try {
-  //       const res= await getSelectedConference(selectedConferenceID);
-  //       const landing = res?.conference?.landingPage;
-  //       if (res.status === 404) {
-  //         router.push("/notFound");
-  //       }
-  //       if (landing) {
-  //         setFormData({
-  //           startDate: landing.startDate || "",
-  //           endDate: landing.endDate || "",
-  //           location: landing.location || "",
-  //           address: landing.address || "",
-  //           startTime: landing.startTime || "",
-  //           endTime: landing.endTime || "",
-  //         });
+      try {
+        let imageUrl = upload.imageUrl;
 
-  //         if (landing.images && landing.images.length > 0) {
-  //           setUploads(
-  //             landing.images.map((imgUrl) => ({
-  //               id: Date.now() + Math.random(),
-  //               file: { preview: imgUrl, isUploaded: true }, // Custom format for existing images
-  //             }))
-
-  //           );
-  //         }
-  //       }
-  //     } catch (error) {
-  //       toast.current?.show({
-  //         severity: "error",
-  //         summary: "Fetch Error",
-  //         detail: "Failed to load existing landing page data.",
-  //         life: 3000,
-  //       });
-  //     }
-  //   };
-
-  //   fetchLandingPageData();
-  // }, [selectedConferenceID]);
-
-  const isFormFilled = formData.title && formData.heading && formData.subTitle;
-
-  const formValid = isFormFilled;
-
-  const handleInputChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const hasFile = uploads.some((upload) => upload.file);
-    if (!hasFile) {
-      toast.current.show({
-        severity: "error",
-        summary: "Image Upload Error",
-        detail: "Please upload at least one landing image before submitting.",
-        life: 3000,
-      });
-      return;
-    }
-
-    try {
-      let imageUrls = [];
-
-      const uploadPromises = uploads.map(async (upload) => {
-        if (upload.file?.isUploaded) {
-          return { url: upload.file.preview };
-        } else if (upload.file) {
-          return await uploadImage(upload.file);
-        } else {
-          return null;
+        if (upload.file) {
+          const res = await uploadImage(upload.file);
+          if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
+            throw new Error("Failed to upload image");
+          }
+          imageUrl = res.data.detail.message[0].url;
         }
-      });
+        const finalPayload = {
+          imageUrl: imageUrl,
+          ...values,
+        };
 
-      const responses = await Promise.all(uploadPromises);
-      imageUrls = responses.filter(Boolean).map((res) => res.url);
+        const response = await updateMainLandingPage(finalPayload);
 
-      const finalPayload = {
-        images: imageUrls,
-        ...formData,
-      };
-
-      const response = await saveConferenceLandingPage(
-        finalPayload,
-        selectedConferenceID
-      );
-
-      if (response[0].msg === "Landing page updated successfully") {
+        if (response.status === 200) {
+          toast.current.show({
+            severity: "success",
+            summary: "Success!",
+            detail:
+              response.data?.detail?.[0]?.msg ||
+              "The Landing Page submitted successfully.",
+            life: 3000,
+          });
+          fetchData(); // Refresh data after successful update
+        } else {
+          toast.current.show({
+            severity: "warn",
+            summary: "Warning",
+            detail:
+              response.data?.detail?.[0]?.msg ||
+              "Something went wrong. Please try again.",
+            life: 3000,
+          });
+        }
+      } catch (error) {
         toast.current.show({
-          severity: "success",
-          summary: "Success!",
-          detail: "The form has been submitted successfully.",
+          severity: "error",
+          summary: "Submission failed",
+          detail: "Failed to Update the LandingPage. Please try again.",
           life: 3000,
         });
-      } else if (response[0].msg === "No modifications found") {
-        toast.current.show({
-          severity: "warn",
-          summary: "Warning",
-          detail: "No modifications found",
-          life: 3000,
-        });
+      } finally {
+        setButtonLoading(false);
       }
-    } catch (error) {
-      toast.current.show({
-        severity: "error",
-        summary: "Submission failed",
-        detail: "Failed to submit the form. Please try again.",
-        life: 3000,
-      });
-    }
+    },
+  });
+  const handleFileChange = (file) => {
+    const preview = file ? URL.createObjectURL(file) : null;
+    setUpload({ file, imageUrl: preview });
   };
+  const valuesChanged =
+    formik.values.heading !== LandingPageData.heading ||
+    formik.values.subTitle !== LandingPageData.subTitle;
+
+  const imageChanged =
+    upload.file !== null || upload.imageUrl !== LandingPageData.imageUrl;
+
+  const isSubmitDisabled = !formik.isValid || (!valuesChanged && !imageChanged);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={formik.handleSubmit}>
       <FileUpload
         title="Upload Image"
-        onFileChange={(file) => handleFileChange(file, upload.id)}
+        onFileChange={handleFileChange}
+        imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
+        dimensionNote="Recommended dimensions: Width 1900px × Height 1000px"
+        style={{ objectFit: "cover", borderRadius: "8px" }}
       />
-
       <div className="mt-4">
-        {/* <div className="col-md-8 mb-3">
-          <label className="form-label">Title</label>
+        <div className="col-md-8 mb-3">
+          <label className="form-label">Heading</label>
           <input
             type="text"
-            name="location"
             className="form-control"
-            value={formData.title}
-            onChange={handleInputChange}
-            placeholder="Welcome To"
-            required
+            placeholder="DUBAI"
+            {...formik.getFieldProps("heading")}
           />
-
-          
-        </div> */}
-        <div className="col-md-8 mb-3">
-            <label className="form-label">Heading</label>
-            <input
-              type="text"
-              name="address"
-              className="form-control"
-              value={formData.heading}
-              onChange={handleInputChange}
-              placeholder="DUBAI, United Arab Emirates"
-              required
-            />
-          </div>
+          {formik.touched.heading && formik.errors.heading && (
+            <div className="text-danger">{formik.errors.heading}</div>
+          )}
+        </div>
         <div className="col-md-8 mb-3">
           <label className="form-label">Sub Title</label>
           <input
             type="text"
-            name="address"
             className="form-control"
-            value={formData.subTitle}
-            onChange={handleInputChange}
-            placeholder="Exploring New Realms, Challenging Constraints, Fostering Collaboration"
-            required
+            placeholder="Exploring New Realms..."
+            {...formik.getFieldProps("subTitle")}
           />
+          {formik.touched.subTitle && formik.errors.subTitle && (
+            <div className="text-danger">{formik.errors.subTitle}</div>
+          )}
         </div>
       </div>
 
-      <div className="bg-secondary bg-opacity-10 mt-4 p-2 d-flex justify-content-end align-items-center gap-2 w-100">
-        <button
-          type="button"
-          className="btn px-5 bg-white border"
-          disabled={!formValid}
-        >
-          Cancel
-        </button>
-        <button
+      <div className=" mt-4 p-2 d-flex justify-content-start align-items-center gap-2 w-100">
+        <Button
+          label="Save Changes"
           type="submit"
-          className="btn px-1 px-md-5 btn-warning text-white"
-          disabled={!formValid}
-        >
-          Save Changes
-        </button>
+          className="btn px-5 btn-warning text-white"
+          loading={buttonLoading}
+          style={{ outline: "none", boxShadow: "none" }}
+        />
+   
       </div>
     </form>
   );
