@@ -56,11 +56,11 @@ export default function CardStats({
               {avatars.map((url, idx) => (
                 <Avatar key={idx} image={url} shape="circle" />
               ))}
-              <Avatar
+              {/* <Avatar
                 label="18+"
                 shape="circle"
                 style={{ backgroundColor: "#E9EBF0", color: "#333" }}
-              />
+              /> */}
             </AvatarGroup>
           )}
         </div>

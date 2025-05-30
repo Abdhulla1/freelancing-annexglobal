@@ -76,22 +76,20 @@ export default function Dashboard() {
   const toast = useRef(null);
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-  
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await getAdminDashboardData();
         setDashboardData(res.data.detail);
-      
       } catch (err) {
-         setError(err);
+        setError(err);
         const errorMsg = typeof err === "string" ? err : "Failed to load data";
         toast.current?.show({
           severity: "error",
           summary: "Error",
           detail: errorMsg,
-    
         });
       } finally {
         setLoading(false);
@@ -100,37 +98,50 @@ export default function Dashboard() {
     fetchData();
   }, []);
   useEffect(() => {
+    if (!dashboardData) return;
+
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue("--text-color");
     const textColorSecondary = documentStyle.getPropertyValue(
       "--text-color-secondary"
     );
     const surfaceBorder = documentStyle.getPropertyValue("--surface-border");
+
+    const allMonths = [
+      "jan",
+      "feb",
+      "mar",
+      "apr",
+      "may",
+      "jun",
+      "jul",
+      "aug",
+      "sep",
+      "oct",
+      "nov",
+      "dec",
+    ];
+
+    const visitorData = Array(12).fill(0);
+    dashboardData.websiteVisitor.forEach((item) => {
+      const monthIndex = allMonths.indexOf(item.month.toLowerCase());
+      if (monthIndex !== -1) {
+        visitorData[monthIndex] = item.count;
+      }
+    });
+
     const data = {
-      labels: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
+      labels: allMonths.map((m) => m.charAt(0).toUpperCase() + m.slice(1)),
       datasets: [
         {
-          label: "First Dataset",
-          data: [0, 292, 303, 111, 216, 252, 120, 351, 292, 303, 111, 216],
+          label: "Website Visitors",
+          data: visitorData,
           fill: false,
           borderColor: documentStyle.getPropertyValue("--blue-500"),
           tension: 0.4,
         },
       ],
     };
+
     const options = {
       maintainAspectRatio: false,
       aspectRatio: 1.2,
@@ -152,7 +163,7 @@ export default function Dashboard() {
           beginAtZero: true,
           ticks: {
             color: textColorSecondary,
-            stepSize: 100, // increment by 100
+            stepSize: 100,
           },
           grid: {
             color: surfaceBorder,
@@ -163,12 +174,12 @@ export default function Dashboard() {
 
     setChartData(data);
     setChartOptions(options);
-  }, []);
+  }, [dashboardData]);
 
   return (
     <div className="container">
       <Toast ref={toast} />
-   {loading ? (
+      {loading ? (
         <div
           className="d-flex justify-content-center align-items-center"
           style={{ minHeight: "200px" }}
@@ -188,97 +199,126 @@ export default function Dashboard() {
         </div>
       ) : (
         <>
-             <div className="row gap-3 justify-content-center">
-        <div className=" bg-black  col-12 col-md-7 p-3 rounded-4 bg-white">
-          <div className="d-flex justify-content-between">
-            <h4 className={`fw-bold d-inline event-heading`}>Events</h4>
+          <div className="row gap-3 justify-content-center">
+            <div className=" bg-black  col-12 col-md-7 p-3 rounded-4 bg-white">
+              <div className="d-flex justify-content-between">
+                <h4 className={`fw-bold d-inline event-heading`}>Events</h4>
 
-            <div className="d-inline-flex border-bottom mb-3">
-              <div
-                className={`cursor-pointer  ${
-                  tab === "upcoming"
-                    ? "text-warning border-bottom border-warning"
-                    : "text-secondary"
-                } ${style["tab-btn"]}`}
-                onClick={() => setTab("upcoming")}
-              >
-                Upcoming Event
-              </div>
-              <span
-                className={`cursor-pointer ms-3 ${
-                  tab === "past"
-                    ? "text-warning border-bottom border-warning"
-                    : "text-secondary"
-                } ${style["tab-btn"]}`}
-                onClick={() => setTab("past")}
-              >
-                Past Event
-              </span>
-            </div>
-          </div>
-          <div
-            className={`overflow-auto p-3 ${style["events"]}`}
-            style={{ maxHeight: "300px" }}
-          >
-            {(tab === "upcoming" ? events : pastevents).map((event, index) => (
-              <div
-                className="d-flex align-items-center gap-3 mb-3 pb-2 border-bottom"
-                key={index}
-              >
-                <div className="bg-success bg-opacity-10 text-success rounded-3 p-3 d-flex align-items-center justify-content-center">
-                  <i className={`bx bxs-calendar  ${style["event-icon"]}`}></i>
-                </div>
-                <div>
-                  <h6 className={` d-inline ${style["event-title"]}`}>
-                    {event.title}
-                  </h6>
-                  <small className="text-muted">
-                    &nbsp; | {event.date} &nbsp; | &nbsp; {event.location}
-                  </small>
+                <div className="d-inline-flex border-bottom mb-3">
+                  <div
+                    className={`cursor-pointer  ${
+                      tab === "upcoming"
+                        ? "text-warning border-bottom border-warning"
+                        : "text-secondary"
+                    } ${style["tab-btn"]}`}
+                    onClick={() => setTab("upcoming")}
+                  >
+                    Upcoming Event
+                  </div>
+                  <span
+                    className={`cursor-pointer ms-3 ${
+                      tab === "past"
+                        ? "text-warning border-bottom border-warning"
+                        : "text-secondary"
+                    } ${style["tab-btn"]}`}
+                    onClick={() => setTab("past")}
+                  >
+                    Past Event
+                  </span>
                 </div>
               </div>
-            ))}
+              <div
+                className={`overflow-auto p-3 ${style["events"]}`}
+                style={{ maxHeight: "300px" }}
+              >
+                {(tab === "upcoming"
+                  ? dashboardData.events.upcoming
+                  : pastevents
+                ).map((event, index) => (
+                  <div
+                    className="d-flex align-items-center gap-3 mb-3 pb-2 border-bottom"
+                    key={index}
+                  >
+                    <div className="bg-success bg-opacity-10 text-success rounded-3 p-3 d-flex align-items-center justify-content-center">
+                      <i
+                        className={`bx bxs-calendar  ${style["event-icon"]}`}
+                      ></i>
+                    </div>
+                    <div>
+                      <h6 className={` d-inline ${style["event-title"]}`}>
+                        {event.name}
+                      </h6>
+                      <small className="text-muted">
+                        &nbsp; | {event.conference.startDate || ""} &nbsp; |
+                        &nbsp; {event.conference.location || ""}
+                      </small>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="col-12 col-md-4 p-3  rounded-4 bg-white ">
+              <h4 className={`fw-bold d-inline mb-5 event-heading`}>
+                website visitor
+              </h4>
+              {dashboardData.websiteVisitor.length > 0 ? (
+                <Chart
+                  type="line"
+                  data={chartData}
+                  options={chartOptions}
+                  style={{ marginTop: "20px" }}
+                />
+              ) : (
+                <p className="text-muted mt-3">
+                  No website visitor data available
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="col-12 col-md-4 p-3  rounded-4 bg-white ">
-          <h4 className={`fw-bold d-inline mb-5 event-heading`}>
-            website visitor
-          </h4>
-          <Chart
-            type="line"
-            data={chartData}
-            options={chartOptions}
-            style={{ marginTop: "20px" }}
-          />
-        </div>
-      </div>
-      <div className="row gap-2 mt-3 justify-content-center">
-        <div className="col-12 col-md-7 p-3  rounded-4 bg-white ">
-          <ConferenceConductedChart />
-        </div>
-        <div className="col-12 col-md-4 p-3  rounded-4 bg-white ">
-          <VenueBookingsChart />
-        </div>
-        <div className="col-12 p-3  rounded-4 bg-white ">
-          <div className="row gap-4 justify-content-center ">
-            <div className="col-md-6 col-lg-5">
-              <CardStats title="Total Speakers" value={dashboardData.ocm.counts} showAvatars />
+          <div className="row gap-2 mt-3 justify-content-center">
+            <div className="col-12 col-md-7 p-3  rounded-4 bg-white ">
+              {dashboardData.conferencesConducted.lastConferencesCount || dashboardData.conferencesConducted.nextConferencesCount > 0 ? (
+              <ConferenceConductedChart conferencesConducted ={dashboardData.conferencesConducted} />  ) : (
+                <p className="text-muted text-center mt-3">
+                  No Conference Conducted Chart data available
+                </p>
+              )}
             </div>
-            <div className="col-md-6 col-lg-5">
-              <CardStats title="Total OCM" value={dashboardData.speakers.counts} showAvatars />
+            <div className="col-12 col-md-4 p-3  rounded-4 bg-white ">
+                   {dashboardData.venueBookings.length > 0 ? (
+              <VenueBookingsChart /> ) : (
+                <p className="text-muted mt-3">
+                  No Venue Bookings Chart data available
+                </p>
+              )}
             </div>
-            {/* <div className="col-md-6 col-lg-5">
+            <div className="col-12 p-3  rounded-4 bg-white ">
+              <div className="row gap-4 justify-content-center ">
+                <div className="col-md-6 col-lg-5">
+                  <CardStats
+                    title="Total Speakers"
+                    value={dashboardData.ocm.counts}
+                    showAvatars
+                  />
+                </div>
+                <div className="col-md-6 col-lg-5">
+                  <CardStats
+                    title="Total OCM"
+                    value={dashboardData.speakers.counts}
+                    showAvatars
+                  />
+                </div>
+                {/* <div className="col-md-6 col-lg-5">
               <CardStats title="Total Conference" value={dashboardData.conferences} chart />
             </div>
             <div className="col-md-6 col-lg-5">
               <CardStats title="Total Webinar" value={dashboardData.webinar} chart />
             </div> */}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
         </>
       )}
-  
     </div>
   );
 }
