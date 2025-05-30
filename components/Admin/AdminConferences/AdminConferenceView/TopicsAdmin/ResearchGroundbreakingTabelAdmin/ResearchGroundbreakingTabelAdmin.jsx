@@ -6,7 +6,7 @@ import RichTextEditor from "../../ConferencePageAdmin/LandingPage/RichTextEditor
 import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { Paginator } from "primereact/paginator";
-import { deleteTopic,patchTopic} from "@/service/AdminConfernecePages/confernce";
+import { deleteTopic,patchResearchGroundBreaking} from "@/service/AdminConfernecePages/confernce";
 import { uploadImage } from "@/service/mediaManagemnt";
 import { useFormik } from "formik";
 import { Button } from "primereact/button";
@@ -27,7 +27,6 @@ export default function ResearchGroundbreakingTabelAdmin(
   const handleDelete = async (topicId) => {
     try {
       const payload={
-        contentType:"Conference",
         topicId:topicId,
       }
       const response=await deleteTopic(selectedConferenceID,payload);
@@ -70,17 +69,17 @@ export default function ResearchGroundbreakingTabelAdmin(
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
       view: {
-        header: "View Topic",
+        header: "View Research Groundbreaking",
         content: <View data={data} />,
       },
       edit: {
-        header: "Edit Topic",
+        header: "Edit Research Groundbreaking",
         content: <Edit data={data} selectedConferenceID={selectedConferenceID} toast={toast}
             setIsVisible={setIsVisible}
             fetchData={fetchConfernceData} />,
       },
       add: {
-        header: "Add Topic",
+        header: "Add Research Groundbreaking",
         content: <Add  selectedConferenceID={selectedConferenceID} toast={toast}
             setIsVisible={setIsVisible}
             fetchData={fetchConfernceData}/>,
@@ -117,7 +116,7 @@ export default function ResearchGroundbreakingTabelAdmin(
       <ConfirmDialog draggable={false} />
       {researchGroundBreaking.length=== 0 ? (
         <div className="text-center w-100 py-5">
-          <h5>No Topics found</h5>
+          <h5>No Research Groundbreaking found</h5>
           <p>Try adding a new topic using the + button.</p>
         </div>
       ) : (
@@ -177,7 +176,7 @@ export default function ResearchGroundbreakingTabelAdmin(
           <Paginator
             first={first}
             rows={rows} // set rows using useState, e.g., 10
-            totalRecords={topicsData.length}
+            totalRecords={researchGroundBreaking.length}
             onPageChange={(e) => {
               setFirst(e.first);
             }}
@@ -234,7 +233,7 @@ function Edit({ data,selectedConferenceID, setIsVisible, toast, fetchData }) {
           imageUrl:imageUrl,
         };
 
-        const response = await patchTopic(selectedConferenceID,payload,data.topicId);
+        const response = await patchResearchGroundBreaking(selectedConferenceID,payload,data.topicId);
 
         if (response.status === 200) {
           toast.current?.show({
@@ -362,7 +361,7 @@ function Add({selectedConferenceID, setIsVisible, toast, fetchData }) {
         };
 
         // Replace this with your actual API call
-        const response = await patchTopic(selectedConferenceID,payload);
+        const response = await patchResearchGroundBreaking(selectedConferenceID,payload);
 
         if (response.status === 200) {
           toast.current?.show({
@@ -475,7 +474,7 @@ function Delete({ data = null }) {
   return (
     <div className="d-flex flex-column align-items-center text-center">
       <Image src="/icons/delete.png" width={80} height={80} alt="DeleteIcon" />
-      <h5 className="mt-3">Delete Topic</h5>
+      <h5 className="mt-3">Delete Research Groundbreaking</h5>
       <p className="mb-0 col-md-8">
         Are you sure you want to delete this Program File? This action cannot be
         undone.

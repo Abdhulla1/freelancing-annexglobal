@@ -1,28 +1,43 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import RegistrationTabelAdmin from "./RegistrationTabelAdmin/RegistrationTabelAdmin";
 import ScrollableTabs from "@/components/Reusable/Admin/ScrollableTabs/ScrollableTabs";
 import PersonalDetails from "./RegistrationForm/PersonalDetails/PersonalDetails";
 import PricingTable from "./RegistrationForm/PricingTable/PricingTable";
 import Accommodation from "./RegistrationForm/Accommodation/Accommodation";
 import RegisterationInfo from "./RegisterationInfo/RegisterationInfo";
-export default function RegistrationAdmin() {
+import { Toast } from "primereact/toast";
+
+export default function RegistrationAdmin({ selectedConferenceID,registration,fetchConfernceData}) {
+    const toast = useRef(null);
+  
   const [activeTab, setActiveTab] = useState("Personal Details"); // default to first tab
   const tabs = {
-    "Personal Details": <PersonalDetails  />,
-    Pricing: <PricingTable />,
-    Accommodation: <Accommodation />,
-    "Rigistration Info": <RegisterationInfo />,
+    "Personal Details": <PersonalDetails selectedConferenceID={selectedConferenceID}
+            PersonalDetails={registration.personalDetails}
+            fetchConfernceData={fetchConfernceData} 
+            toast={toast} />,
+    Pricing: <PricingTable  selectedConferenceID={selectedConferenceID}
+            pricingTable={registration.pricing}
+            fetchConfernceData={fetchConfernceData} 
+            toast={toast} />,
+    Accommodation: <Accommodation selectedConferenceID={selectedConferenceID}
+            initialData={registration.accomodation}
+            fetchConfernceData={fetchConfernceData} 
+            toast={toast} />,
+    "Registration Info": <RegisterationInfo selectedConferenceID={selectedConferenceID}
+            registrationInfo={registration.registrationInfo}
+            fetchConfernceData={fetchConfernceData} 
+            toast={toast} />,
   };
 
   return (
     <>
+          <Toast ref={toast} />
+    
       <div className="d-flex justify-content-between">
         <h5>Registration</h5>
-        <button className="btn btn-warning text-white">
-        Publish
-        </button>
-           {/* <i className="pi pi-eye px-2"></i> */}
+       
       </div>
       <div className="mt-4 ">
         {/*Tabs */}

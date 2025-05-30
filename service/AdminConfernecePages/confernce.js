@@ -445,3 +445,183 @@ export async function saveEventTimingsSection(formdata, id) {
           throw new Error(message);
   }
 }
+
+
+  export async function patchResearchGroundBreaking( id,formdata,topic_id = null) {
+      const query = topic_id ? `?topics_id=${topic_id}` : "";
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/topics/research/groundbreaking${query}`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Past Gallery Section"
+          throw new Error(message);
+  }
+}
+  export async function deleteResearchGroundBreaking(id,formdata) {
+   
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/research/groundbreaking/delete`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Past Gallery Section"
+          throw new Error(message);
+  }
+}
+  export async function patchEssentialInnovation( id,formdata,topic_id = null) {
+      const query = topic_id ? `?topics_id=${topic_id}` : "";
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/topics/essential/innovation${query}`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Past Gallery Section"
+          throw new Error(message);
+  }
+}
+  export async function deleteEssentialInnovation(id,formdata) {
+   
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/essential/innovation/delete`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Past Gallery Section"
+          throw new Error(message);
+  }
+}
+export async function saveConferenceReport(formdata, id) {
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/past/conference/report`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to save Conference Report"
+          throw new Error(message);
+  }
+}
+export async function savePastConferenceGallery(formdata, id) {
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/past/conference/gallery`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to save Past Conference Gallery"
+          throw new Error(message);
+  }
+}
+
+  export async function patchPastConferenceTestimonial( id,formdata,testimonialId = null) {
+      const query = testimonialId ? `?testimonials_id=${testimonialId}` : "";
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/past/conference/testimonials${query}`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Testimonial Section"
+          throw new Error(message);
+  }
+}
+  export async function deletePastConfernceTestiMonial(id,formdata) {
+   
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/past/conference/testimonials/delete`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Testimonial Section"
+          throw new Error(message);
+  }
+}
+  export async function patchConferenceAttendees( id,formdata,attendeesId = null) {
+      const query = attendeesId ? `?attendees_id=${attendeesId}` : "";
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/past/conference/attendees${query}`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to conference Attendees Section"
+          throw new Error(message);
+  }
+}
+  export async function updateSpecialRegistration( id,formdata) {
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/special/registration`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Special Registration Section"
+          throw new Error(message);
+  }
+}
+  export async function updateRegistrationPersonalDetails( id,formdata) {
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/registration/personal/details`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to  Registration Personal Section"
+          throw new Error(message);
+  }
+}
+  export async function updateAccommodationDetails( id,formdata) {
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/registration/accomodation`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Accomodation Section"
+          throw new Error(message);
+  }
+}
+
+  export async function updateRegistrationInfo( id,formdata,info_id = null) {
+      const query = info_id ? `?info_id=${info_id}` : "";
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/registration/info${query}`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Registration Info Section"
+          throw new Error(message);
+  }
+}
+  export async function updatePricingDetails( id,formdata) {
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/registration/pricing`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Pricing Section"
+          throw new Error(message);
+  }
+}

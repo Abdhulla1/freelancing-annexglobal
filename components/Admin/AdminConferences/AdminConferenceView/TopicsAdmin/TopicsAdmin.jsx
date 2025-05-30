@@ -23,7 +23,10 @@ export default function TopicsAdmin({
         researchGroundBreaking={topics.researchGroundBreaking}
         fetchConfernceData={fetchConfernceData}
         toast={toast}/>,
-    "Essential Innovation": <EssentialInnovationTable/>,
+    "Essential Innovation": <EssentialInnovationTable  selectedConferenceID={selectedConferenceID}
+        essentialInnovation={topics.essentialInnovation}
+        fetchConfernceData={fetchConfernceData}
+        toast={toast}/>,
   };
   
   return (
@@ -31,11 +34,8 @@ export default function TopicsAdmin({
       <Toast ref={toast} />
 
       <div className="d-flex justify-content-between">
-        <h5>Organizing Committee Members</h5>
-        <button className="btn btn-warning text-white">
-       Publish
-        </button>
-           {/* <i className="pi pi-eye px-2"></i>  */}
+        <h5>Topics</h5>
+      
       </div>
       <div className="mt-4 ">
         {/*Tabs */}

@@ -120,9 +120,15 @@ export default function AdminConferenceView({ conference }) {
     Venue:  selectedConference ? ( <VenuePageAdmin  selectedConferenceID={selectedConference._id}
       venuePage={selectedConference.venue}
       fetchConfernceData={fetchConfernceData} />) : null,
-    Registration: <RegistrationAdmin />,
-    "Past Conference": <PastConferenceAdmin />,
-    "Special Registration": <SpecialRegistration />,
+    Registration: selectedConference ? ( <RegistrationAdmin selectedConferenceID={selectedConference._id}
+      registration={selectedConference.registration}
+      fetchConfernceData={fetchConfernceData}  />) : null,
+    "Past Conference": selectedConference ? (<PastConferenceAdmin   selectedConferenceID={selectedConference._id}
+      pastConference={selectedConference.pastConference}
+      fetchConfernceData={fetchConfernceData} />) : null,
+    "Special Registration":selectedConference ? ( <SpecialRegistration  selectedConferenceID={selectedConference._id}
+      specialRegistration={selectedConference.specialRegistration}
+      fetchConfernceData={fetchConfernceData}/>) : null,
     "Scientific Program": selectedConference ? (<ScientificProgramAdmin  selectedConferenceID={selectedConference._id}
       scientificProgram={selectedConference.scientificProgram}
       fetchConfernceData={fetchConfernceData}/>) : null,
@@ -387,7 +393,7 @@ export default function AdminConferenceView({ conference }) {
             userList={adminsData}
           />
         }
-        header="Add New Conference"
+        header="Update Conference"
         footer={
           <div className="d-flex justify-content-end">
             <button

@@ -1,56 +1,66 @@
-import { useState, useEffect } from "react";
+// Updated PricingTable.jsx with renamed keys
+import { useState } from "react";
 import styles from "./PricingTable.module.css";
 import { Dialog } from "primereact/dialog";
+import { updatePricingDetails } from "@/service/AdminConfernecePages/confernce";
+import { Button } from "primereact/button";
 
-const pricingOptions = [
-  {
-    type: "Speaker Registration - 1 Days Entry Ticket",
-    early: 322,
-    mid: 522,
-    final: 722,
-  },
-  {
-    type: "Speaker Registration - 2 Days Entry Ticket",
-    early: 322,
-    mid: 522,
-    final: 722,
-  },
-  { type: "Poster Registration", early: 322, mid: 522, final: 722 },
-  { type: "Delegate Registration", early: 322, mid: 522, final: 722 },
-  { type: "Student Registration", early: 322, mid: 522, final: 722 },
-  {
-    type: "Webinar/Virtual Conference Registration",
-    early: 322,
-    mid: 522,
-    final: 722,
-  },
-  { type: "Video Presentation", early: 322, mid: 522, final: 722 },
-  { type: "E-Poster Presentation", early: 322, mid: 522, final: 722 },
-];
+const defaultEntry = {
+  registrationType: "Edit Registration Type",
+  earlyBirdAmount: 0,
+  midBirdAmount: 0,
+  finalBirdAmount: 0,
+  qty: 0,
+};
 
-export default function PricingTable({ onTotalChange }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const [sidebarState, setSidebarState] = useState({
-    header: null,
-    content: null,
+export default function PricingTable({
+  selectedConferenceID,
+  pricingTable,
+  fetchConfernceData,
+  toast,
+}) {
+  const [buttonLoading, setButtonLoading] = useState(false);
+
+  const filledData = [...pricingTable.registration];
+  while (filledData.length < 8) {
+    filledData.push({ ...defaultEntry });
+  }
+
+  const [pricingOptions, setPricingOptions] = useState(
+    filledData.map((entry) => ({ ...entry, qty: entry.qty || 0 }))
+  );
+
+  const [editDates, setEditDates] = useState({
+    early: "2024-08-31",
+    mid: "2025-01-31",
+    final: "2026-05-08",
   });
-  const handleModel = (type, data = null) => {
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [sidebarState, setSidebarState] = useState({ header: null, content: null });
+
+  const handleModel = (type, data = null, index = null) => {
     const componentsMap = {
       editPriceValue: {
-        header: "Edit Price Value ",
-        content: <EditPriceValue data={data} onHide={setIsVisible} />,
-      },
-      editQtyValue: {
-        header: "Edit Qty",
-        content: <EditQtyValue data={data} onHide={setIsVisible} />,
-      },
-      editRegistrationTitle: {
-        header: "Edit Registration Title",
-        content: <EditTitle data={data} />,
+        header: "Edit Price Value",
+        content: (
+          <EditPriceValue
+            data={{ ...data, index }}
+            dates={editDates}
+            onHide={setIsVisible}
+            onSave={(updatedEntry) => handlePriceUpdate(updatedEntry, index)}
+          />
+        ),
       },
       editPricingLevelList: {
         header: "Edit Pricing Level List",
-        content: <EditPricingLevelList data={data} onHide={setIsVisible} />,
+        content: (
+          <EditPricingLevelList
+            data={editDates}
+            onHide={setIsVisible}
+            onSave={setEditDates}
+          />
+        ),
       },
     };
 
@@ -60,120 +70,113 @@ export default function PricingTable({ onTotalChange }) {
       setIsVisible(true);
     }
   };
+
+  const handlePriceUpdate = (updatedEntry, index) => {
+    setPricingOptions((prev) =>
+      prev.map((entry, i) => (i === index ? { ...updatedEntry, qty: entry.qty } : entry))
+    );
+    setIsVisible(false);
+  };
+
+  const handleQtyChange = (index, direction) => {
+    setPricingOptions((prev) =>
+      prev.map((entry, i) => {
+        if (i === index) {
+          const newQty = direction === "inc" ? entry.qty + 1 : Math.max(0, entry.qty - 1);
+          return { ...entry, qty: newQty };
+        }
+        return entry;
+      })
+    );
+  };
+
+  const handleSubmit = async () => {
+    setButtonLoading(true);
+    const formattedPayload = {
+      registration: pricingOptions,
+    };
+    try {
+      const response = await updatePricingDetails(selectedConferenceID, formattedPayload);
+      if (response.status === 200) {
+        toast?.current?.show({
+          severity: "success",
+          summary: "Saved",
+          detail: response.data?.detail?.[0]?.msg || "Pricing data saved.",
+        });
+        fetchConfernceData();
+      }
+    } catch (error) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: error.message || "Something went wrong",
+      });
+    } finally {
+      setButtonLoading(false);
+    }
+  };
+
   return (
     <div className={styles.tableContainer}>
       <Dialog
         header={sidebarState.header}
         visible={isVisible}
         draggable={false}
-        onHide={() => {
-          if (!isVisible) return;
-          setIsVisible(false);
-        }}
+        onHide={() => setIsVisible(false)}
         style={{ width: "50vw" }}
         breakpoints={{ "960px": "75vw", "641px": "100vw" }}
       >
-        {/* Content Area */}
         {sidebarState.content}
       </Dialog>
+
+      <p className="text-muted">Note: Enter the amounts in USD</p>
+
       <div className="table-responsive mb-5">
         <table className={styles.table}>
           <thead>
             <tr className={styles.tableCol}>
-              <th className={`text-start p-2 pe-4 ${styles.th} col-6 `}>
-                <div className="d-flex align-items-center justify-content-between">
-                  Registration Type &nbsp;{" "}
-                  {/* <button
-                    name="editRegistrationTitle"
-                    className="btn btn-outline-secondary rounded ms-auto"
-                    onClick={(e) =>
-                      handleModel(e.target.name, "Registration Type")
-                    }
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button> */}
-                </div>
-              </th>
+              <th className={`text-start p-2 pe-4 ${styles.th} col-6`}>Registration Type</th>
               <th className={`text-start p-2 ${styles.th} col-4`}>
-                <div className="d-flex align-items-center justify-content-between">
-                  Early Bird (31-08-2024) &nbsp;{" "}
-                  <button
-                    name="editPricingLevelList"
-                    className="btn btn-outline-secondary rounded ms-auto"
-                    onClick={(e) =>
-                      handleModel(
-                        e.target.name,
-                        "Choose your preferred currency for a seamless experience."
-                      )
-                    }
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button>
-                </div>
+                Early Bird ({editDates.early}) &nbsp;
+                <button
+                  className="btn btn-outline-secondary rounded ms-auto"
+                  onClick={() => handleModel("editPricingLevelList")}
+                >
+                  <i className="bx bx-edit-alt"></i>
+                </button>
               </th>
-
-              <th className={`text-start p-2 ${styles.th} col-2`}>
-                <div className="d-flex align-items-center justify-content-between">
-                  Qty &nbsp;{" "}
-                  {/* <button
-                    name="editQtyValue"
-                    className="btn btn-outline-secondary rounded ms-auto"
-                    onClick={(e) => handleModel(e.target.name, "Qty")}
-                  >
-                    <i className="bx bx-edit-alt"></i>
-                  </button> */}
-                </div>
-              </th>
+              <th className={`text-start p-2 ${styles.th} col-2`}>Qty</th>
             </tr>
           </thead>
           <tbody>
-            {pricingOptions.map(({ type, early, mid, final }) => (
-              <tr key={type}>
+            {pricingOptions.map((option, index) => (
+              <tr key={option.registrationType + "-" + index}>
                 <td className={`fw-bold text-start p-2 pe-4 ${styles.td}`}>
                   <div className="d-flex align-items-center justify-content-between">
-                    {type}&nbsp;{" "}
+                    {option.registrationType}
                     <button
-                      name="editPriceValue"
                       className="btn btn-outline-secondary rounded ms-auto"
-                      onClick={(e) =>
-                        handleModel(e.target.name, { type, early, mid, final })
-                      }
+                      onClick={() => handleModel("editPriceValue", option, index)}
                     >
                       <i className="bx bx-edit-alt"></i>
                     </button>
                   </div>
                 </td>
-                <td
-                  className={` fw-bold text-start p-2 ${styles.td} ${styles.early}`}
-                >
-                  <div className="d-flex align-items-center justify-content-between">
-                    ${early}&nbsp;
+                <td className={`fw-bold text-start p-2 ${styles.td} ${styles.early}`}>${option.earlyBirdAmount}</td>
+                <td className={`fw-bold text-start p-2 ${styles.td}`}>
+                  <div className={styles.qtyContainer}>
                     <button
-                      name="editPriceValue"
-                      className="btn btn-outline-secondary rounded ms-auto"
-                      onClick={(e) =>
-                        handleModel(e.target.name, { type, early, mid, final })
-                      }
+                      className={styles.qtyButton}
+                      onClick={() => handleQtyChange(index, "dec")}
                     >
-                      <i className="bx bx-edit-alt"></i>
+                      -
                     </button>
-                  </div>
-                </td>
-
-                <td className={` fw-bold text-start p-2 ${styles.td}`}>
-                  <div className="d-flex align-items-center justify-content-between">
-                    <div className={styles.qtyContainer}>
-                      <button className={styles.qtyButton}>-</button>
-                      <span className={styles.qtyValue}>{0}</span>
-                      <button className={styles.qtyButton}>+</button>
-                    </div>
-                    &nbsp;{" "}
+                    <span className={styles.qtyValue}>{option.qty}</span>
                     <button
-                      name="editQtyValue"
-                      className="btn btn-outline-secondary rounded ms-auto"
-                      onClick={(e) => handleModel(e.target.name, "Qty")}
+                      className={styles.qtyButton}
+                      onClick={() => handleQtyChange(index, "inc")}
                     >
-                      <i className="bx bx-edit-alt"></i>
+                      +
                     </button>
                   </div>
                 </td>
@@ -181,77 +184,61 @@ export default function PricingTable({ onTotalChange }) {
             ))}
           </tbody>
         </table>
+        <div className="text-center mt-3">
+          <Button
+            label="Submit"
+            onClick={handleSubmit}
+            className="btn px-5 btn-warning text-white"
+            loading={buttonLoading}
+            style={{ outline: "none", boxShadow: "none" }}
+          />
+        </div>
       </div>
     </div>
   );
 }
-function EditTitle({ data, onHide }) {
-  return (
-    <div className="p-3">
-      <label className="form-label">Title Name</label>
-      <input
-        type="text"
-        name="couponCode"
-        value={data}
-        className="form-control"
-        id="couponCode"
-        placeholder="Select Currency"
-        onChange={(e) => console.log(e.target.value)}
-        required
-      />{" "}
-      <div className="mt-4 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
-        <button
-          className="btn px-5 bg-white border"
-          onClick={() => setIsVisible(false)}
-        >
-          Close
-        </button>
-        <button className="btn px-5 btn-warning text-white">
-          Save Changes
-        </button>
-      </div>
-    </div>
-  );
-}
-function EditPriceValue({ data, onHide }) {
-  const { type, early, mid, final } = data;
+
+function EditPriceValue({ data, dates, onHide, onSave }) {
+  const [formData, setFormData] = useState({
+    registrationType: data?.registrationType || "",
+    earlyBirdAmount: data?.earlyBirdAmount || 0,
+    midBirdAmount: data?.midBirdAmount || 0,
+    finalBirdAmount: data?.finalBirdAmount || 0,
+  });
+
+  const handleChange = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
 
   function getRegistrationDetails(type) {
     switch (type) {
-      case "early":
-        return "Early Bird (31-08-2025)";
-      case "mid":
-        return "Mid Term (31-01-2026)";
-      case "final":
-        return "Final Call (08-05-2026)";
+      case "earlyBirdAmount":
+        return `Early Bird (${dates.early || "31-08-2025"})`;
+      case "midBirdAmount":
+        return `Mid Term (${dates.mid || "31-01-2026"})`;
+      case "finalBirdAmount":
+        return `Final Call (${dates.final || "08-05-2026"})`;
       default:
         return "Invalid registration type";
     }
   }
 
-  const registrationArray = [
-    { key: "early", value: early },
-    { key: "mid", value: mid },
-    { key: "final", value: final },
-  ];
-
   return (
     <div className="p-3">
+      <p className="text-info">Note: Enter the amounts in USD</p>
       <label className="form-label">Enter Registration type name</label>
       <input
         type="text"
-        name="couponCode"
-        value={type}
         className="form-control"
+        value={formData.registrationType}
+        onChange={(e) => handleChange("registrationType", e.target.value)}
         placeholder="Enter Registration type name"
-        onChange={(e) => console.log(e.target.value)}
-        required
       />
 
       <div className="mt-4 mb-3">
         <label className="form-label">List</label>
         <div className="rounded border p-4">
-          {registrationArray.map((entry, i) => (
+          {["earlyBirdAmount", "midBirdAmount", "finalBirdAmount"].map((key, i) => (
             <div key={i} className="row align-items-end mb-4">
               <div className="col-auto">
                 <span
@@ -262,31 +249,19 @@ function EditPriceValue({ data, onHide }) {
                 </span>
               </div>
               <div
-                className=" col rounded bg-secondary bg-opacity-25 p-2  fw-semibold"
+                className="col rounded bg-secondary bg-opacity-25 p-2 fw-semibold"
                 style={{ display: "inline-block", fontSize: "13px" }}
               >
-                {getRegistrationDetails(entry.key)}
-              </div>
-
-              <div className="col">
-                <label className="form-label">Label</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={entry.value}
-                  onChange={(e) => console.log("Label:", e.target.value)}
-                  placeholder="Enter label"
-                  required
-                />
+                {getRegistrationDetails(key)}
               </div>
               <div className="col">
-                <label className="form-label">Value</label>
+                <label className="form-label">Amount</label>
                 <input
-                  type="text"
+                  type="number"
                   className="form-control"
-                  value={entry.value}
-                  onChange={(e) => console.log("Value:", e.target.value)}
-                  placeholder="Enter value"
+                  value={formData[key]}
+                  onChange={(e) => handleChange(key, +e.target.value)}
+                  placeholder="Enter amount"
                   required
                 />
               </div>
@@ -295,127 +270,67 @@ function EditPriceValue({ data, onHide }) {
         </div>
       </div>
 
-      <div className="mt-4 d-flex justify-content-center gap-3 w-100">
+      <div className="mt-3 d-flex justify-content-center gap-3">
         <button
-          className="btn px-5 bg-white border"
+          className="btn bg-white border px-4"
           onClick={() => onHide(false)}
         >
           Close
         </button>
-        <button className="btn px-5 btn-warning text-white">
+        <button
+          className="btn btn-warning text-white px-4"
+          disabled={
+            isNaN(formData.earlyBirdAmount) ||
+            isNaN(formData.midBirdAmount) ||
+            isNaN(formData.finalBirdAmount) ||
+            !formData.registrationType.trim()
+          }
+          onClick={() => onSave(formData)}
+        >
           Save Changes
         </button>
       </div>
     </div>
   );
 }
-function EditQtyValue({ data, onHide }) {
+
+
+function EditPricingLevelList({ data, onHide, onSave }) {
+  const [dates, setDates] = useState(data);
+
+  const handleDateChange = (key, value) => {
+    setDates((prev) => ({ ...prev, [key]: value }));
+  };
+
   return (
     <div className="p-3">
-      {/* <label className="form-label">Enter Quntity name</label>
-      <input
-        type="text"
-        name="couponCode"
-        value={data}
-        className="form-control"
-        placeholder="Enter Quntity name"
-        onChange={(e) => console.log(e.target.value)}
-        required
-      /> */}
-
-      <div className="mt-4 mb-3">
-        <label className="form-label">Number</label>
-        <div className="rounded border p-4">
-          <div className="row align-items-end mb-4">
-            <div className="col">
-              <label className="form-label">Min</label>
-              <input
-                type="number"
-                className="form-control"
-                value={1}
-                onChange={(e) => console.log("Label:", e.target.value)}
-                placeholder="Enter label"
-                required
-              />
-            </div>
-            <div className="col">
-              <label className="form-label">Max</label>
-              <input
-                type="number"
-                className="form-control"
-                value={10}
-                onChange={(e) => console.log("Value:", e.target.value)}
-                placeholder="Enter value"
-                required
-              />
-            </div>
-          </div>
+      {Object.entries(dates).map(([key, value]) => (
+        <div className="mb-2" key={key}>
+          <label className="form-label">
+            {key.charAt(0).toUpperCase() + key.slice(1)} Bird (Ending Date)
+          </label>
+          <input
+            type="date"
+            className="form-control"
+            value={value}
+            onChange={(e) => handleDateChange(key, e.target.value)}
+          />
         </div>
-      </div>
-
-      <div className="mt-4 d-flex justify-content-center gap-3 w-100">
+      ))}
+      <div className="mt-3 d-flex justify-content-center gap-3">
         <button
-          className="btn px-5 bg-white border"
+          className="btn bg-white border px-4"
           onClick={() => onHide(false)}
         >
           Close
         </button>
-        <button className="btn px-5 btn-warning text-white">
-          Save Changes
-        </button>
-      </div>
-    </div>
-  );
-}
-function EditPricingLevelList({ data, onHide }) {
-  return (
-    <div className="p-3">
-      <div className="mb-2">
-        <label className="form-label">Early Bird (Ending Date)</label>
-        <input
-          type="date"
-          name="couponCode"
-          value={'Early Bird'}
-          className="form-control"
-          placeholder="Enter Level name"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-2">
-        <label className="form-label">Mid Term (Ending Date)</label>
-        <input
-          type="date"
-          name="couponCode"
-          value={'Mid Team'}
-          className="form-control"
-          placeholder="Enter Level name"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />
-      </div>
-      <div className="mb-2">
-        <label className="form-label">Final Call (Ending Date)</label>
-        <input
-          type="date"
-          name="couponCode"
-          value={'Final Call'}
-          className="form-control"
-          placeholder="Enter Level name"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />
-      </div>
-
-
-      <div className="mt-4 d-flex justify-content-center gap-3 w-100">
         <button
-          className="btn px-5 bg-white border"
-          onClick={() => onHide(false)}
+          className="btn btn-warning text-white px-4"
+          onClick={() => {
+            onSave(dates);
+            onHide(false);
+          }}
         >
-          Close
-        </button>
-        <button className="btn px-5 btn-warning text-white">
           Save Changes
         </button>
       </div>

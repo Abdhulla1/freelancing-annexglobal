@@ -1,98 +1,91 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Dialog } from "primereact/dialog";
+import { updateRegistrationPersonalDetails } from "@/service/AdminConfernecePages/confernce";
+import { Button } from "primereact/button";
+export default function PersonalDetails({
+  selectedConferenceID,
+  PersonalDetails,
+  fetchConfernceData,
+  toast,
+}) {
+const [isVisible, setIsVisible] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
-export default function PersonalDetails({ toast }) {
-  const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
     content: null,
   });
-  // Fetch data on component mount or ID change
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const hasFile = uploads.some((upload) => upload.file);
-  //   if (!hasFile) {
-  //     toast.current.show({
-  //       severity: "error",
-  //       summary: "Image Upload Error",
-  //       detail: "Please upload at least one landing image before submitting.",
-  //       life: 3000,
-  //     });
-  //     return;
-  //   }
+  const initialData = {
+    heading: PersonalDetails.heading || "",
+    currencyInfo: PersonalDetails.currencyInfo || "",
+  };
 
-  //   try {
-  //     let imageUrls = [];
+  const [formData, setFormData] = useState({ ...initialData });
 
-  //     const uploadPromises = uploads.map(async (upload) => {
-  //       if (upload.file?.isUploaded) {
-  //         return { url: upload.file.preview };
-  //       } else if (upload.file) {
-  //         return await uploadImage(upload.file);
-  //       } else {
-  //         return null;
-  //       }
-  //     });
+  const handleModel = (type) => {
+    const isHeading = type === "editTitle";
+    setSidebarState({
+      header: isHeading ? "Edit Personal Detail Title" : "Edit Currency Detail Title",
+      content: (
+        <EditTitle
+          title={isHeading ? formData.heading : formData.currencyInfo}
+          onSave={(newVal) => {
+            setFormData((prev) => ({
+              ...prev,
+              [isHeading ? "heading" : "currencyInfo"]: newVal,
+            }));
+            setIsVisible(false);
+          }}
+          onClose={() => setIsVisible(false)}
+        />
+      ),
+    });
+    setIsVisible(true);
+  };
 
-  //     const responses = await Promise.all(uploadPromises);
-  //     imageUrls = responses.filter(Boolean).map((res) => res.url);
+  const isFormChanged =
+    formData.heading !== initialData.heading ||
+    formData.currencyInfo !== initialData.currencyInfo ;
 
-  //     const finalPayload = {
-  //       images: imageUrls,
-  //       ...formData,
-  //     };
+  const isFormValid =formData.heading.trim() && formData.currencyInfo.trim();
 
-  //     const response = await saveConferenceLandingPage(
-  //       finalPayload,
-  //       selectedConferenceID
-  //     );
+  const handleSubmit = async () => {
+    setButtonLoading(true)
+    if (!isFormValid) {
+      toast.current.show({
+        severity: "error",
+        summary: "Validation Failed",
+        detail: "All fields are required",
+        life: 3000,
+      });
+      return;
+    }
 
-  //     if (response[0].msg === "Landing page updated successfully") {
-  //       toast.current.show({
-  //         severity: "success",
-  //         summary: "Success!",
-  //         detail: "The form has been submitted successfully.",
-  //         life: 3000,
-  //       });
-  //     }else if (response[0].msg === "No modifications found") {
-  //       toast.current.show({
-  //         severity: "warn",
-  //         summary: "Warning",
-  //         detail: "No modifications found",
-  //         life: 3000,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     toast.current.show({
-  //       severity: "error",
-  //       summary: "Submission failed",
-  //       detail: "Failed to submit the form. Please try again.",
-  //       life: 3000,
-  //     });
-  //   }
-  // };
-  const handleModel = (type, data = null) => {
-    const componentsMap = {
-      editCurrency: {
-        header: "Edit Currency ",
-        content: <EditCurrency data={data} />,
-      },
-      editTitle: {
-        header: "Edit Personal Detail Title",
-        content: <EditTitle data={data} />,
-      },
-      editCurrencyTitle: {
-        header: "Edit Currency Detail Title",
-        content: <EditTitle data={data} />,
-      },
-    };
+    const payload = { ...formData,currency: ["USD"] };
 
-    const selected = componentsMap[type];
-    if (selected) {
-      setSidebarState(selected);
-      setIsVisible(true);
+    try {
+      const response=await updateRegistrationPersonalDetails(selectedConferenceID,payload)
+      if(response.status==200){
+ toast.current.show({
+        severity: "success",
+        summary: "Saved",
+        detail: response.data?.detail?.[0]?.msg ||"Personal Details saved successfully",
+        life: 3000,
+      });
+      fetchConfernceData()
+      }
+     
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to save",
+        life: 3000,
+      });
+    }finally{
+      setButtonLoading(false)
     }
   };
   return (
@@ -183,7 +176,7 @@ export default function PersonalDetails({ toast }) {
         </div>
       </div>
       <label className="form-label">
-        Choose your preferred currency for a seamless experience. &nbsp;{" "}
+ Choose your preferred currency for a seamless experience.&nbsp;{" "}
         <button
           name="editCurrencyTitle"
           className="btn btn-outline-secondary rounded"
@@ -199,11 +192,10 @@ export default function PersonalDetails({ toast }) {
       </label>
       <div className="row">
         <div className="col-md-6 mb-3">
-          <label className="form-label">Currency</label>
+          <label className="form-label">Set Currency</label>
           <div className="d-flex align-items-center gap-2">
             <select
               className="form-select bg-secondary bg-opacity-10 rounded-2 p-2 px-3"
-              defaultValue=""
             >
               <option value="" disabled>
                 Select Currency
@@ -213,119 +205,48 @@ export default function PersonalDetails({ toast }) {
               <option value="INR">INR - Indian Rupee</option>
               <option value="GBP">GBP - British Pound</option>
             </select>
-            {/* <button
-              name="editCurrency"
-              className="btn btn-outline-secondary rounded"
-              onClick={(e) => handleModel(e.target.name)}
-            >
-              <i className="bx bx-edit-alt"></i>
-            </button> */}
           </div>
         </div>
+      </div>
+      <div className="mt-4">
+          <Button
+                  label="Save Changes"
+                  type="submit"
+                  className="btn px-5 btn-warning text-white"
+                  loading={buttonLoading}
+                  
+          onClick={handleSubmit}
+                  disabled={!isFormValid || !isFormChanged}
+                />
+       
       </div>
     </div>
   );
 }
 
-function EditCurrency({ data }) {
-  return (
-    <div className="p-3">
-      <div className="col-8 mb-3">
-        <label className="form-label">
-          Enter Currency dropdown name <span className="text-danger">*</span>
-        </label>
-        <input
-          type="text"
-          name="couponCode"
-          className="form-control"
-          id="couponCode"
-          placeholder="Select Currency"
-          onChange={(e) => console.log(e.target.value)}
-          required
-        />{" "}
-      </div>
-      <div className=" mb-3">
-        <label className="form-label">Currency List</label>
-        <div className="rounded border p-4 ">
-          {[0,0,0].map((_e,i)=>(
-<div key={i}  className="row gap-2 align-items-center">
-            <span className="rounded-circle bg-secondary bg-opacity-10 mt-3 p-1 d-flex justify-content-center align-items-center" style={{height:'40px',width:'40px'}}>
-              {i+1}
-            </span>
-            <div className="col-5 mb-3">
-              <label className="form-label">
-               Label
+function EditTitle({ title, onSave, onClose }) {
+  const [value, setValue] = useState(title || "");
 
-              </label>
-              <input
-                type="text"
-                name="currency"
-                className="form-control"
- 
-                placeholder="Enter Currency"
-                onChange={(e) => console.log(e.target.value)}
-                required
-              />{" "}
-            </div>
-            <div className="col-5 mb-3">
-              <label className="form-label">
-               Value
-
-              </label>
-              <input
-                type="text"
-                name="currency"
-                className="form-control"
- 
-                placeholder="Enter Currency"
-                onChange={(e) => console.log(e.target.value)}
-                required
-              />{" "}
-            </div>
-          </div>
-          ))}
-          
-        </div>
-      </div>
-        <div className="mt-4 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
-                <button
-                  className="btn px-5 bg-white border"
-                  onClick={() => setIsVisible(false)}
-                >
-                  Close
-                </button>
-                <button className="btn px-5 btn-warning text-white">
-                  Save Changes
-                </button>
-              </div>
-    </div>
-  );
-}
-function EditTitle({ data }) {
   return (
     <div className="p-3">
       <label className="form-label">Title Name</label>
       <input
         type="text"
-        name="couponCode"
-        value={data}
         className="form-control"
-        id="couponCode"
-        placeholder="Select Currency"
-        onChange={(e) => console.log(e.target.value)}
-        required
-      />{" "}
-           <div className="mt-4 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
-                <button
-                  className="btn px-5 bg-white border"
-                  onClick={() => setIsVisible(false)}
-                >
-                  Close
-                </button>
-                <button className="btn px-5 btn-warning text-white">
-                  Save Changes
-                </button>
-              </div>
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <div className="mt-4 d-flex justify-content-center gap-3 w-100">
+        <button className="btn px-5 bg-white border" onClick={onClose}>
+          Close
+        </button>
+        <button
+          className="btn px-5 btn-warning text-white"
+          onClick={() => onSave(value)}
+        >
+          Save Changes
+        </button>
+      </div>
     </div>
   );
 }

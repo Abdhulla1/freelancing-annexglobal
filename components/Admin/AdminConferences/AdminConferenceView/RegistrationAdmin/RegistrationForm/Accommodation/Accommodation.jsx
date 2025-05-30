@@ -1,126 +1,98 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Dialog } from "primereact/dialog";
-import { InputSwitch } from "primereact/inputswitch";
-
-export default function Accommodation({ toast }) {
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { updateAccommodationDetails } from "@/service/AdminConfernecePages/confernce";
+export default function Accommodation({
+  selectedConferenceID,
+  initialData,
+  fetchConfernceData,
+  toast,
+}) {
+    const [buttonLoading, setButtonLoading] = useState(false);
+  
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
     content: null,
   });
-  // Fetch data on component mount or ID change
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const hasFile = uploads.some((upload) => upload.file);
-  //   if (!hasFile) {
-  //     toast.current.show({
-  //       severity: "error",
-  //       summary: "Image Upload Error",
-  //       detail: "Please upload at least one landing image before submitting.",
-  //       life: 3000,
-  //     });
-  //     return;
-  //   }
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      heading: initialData.heading || "",
+      occupancy: initialData.occupancy || [],
+      rooms: initialData.rooms || [],
+      period: initialData.period || [],
+    },
+    validationSchema: Yup.object({
+      heading: Yup.string().required("Heading is required"),
+      occupancy: Yup.array().min(1, "Occupancy options required"),
+      rooms: Yup.array().min(1, "Rooms options required"),
+      period: Yup.array().min(1, "Period options required"),
+    }),
+    onSubmit: async (values) => {
+         setButtonLoading(true)
+      try {
+        const response = updateAccommodationDetails(
+          selectedConferenceID,
+          values
+        );
+        if (response.status === 200) {
+          toast.current?.show({
+            severity: "success",
+            summary: "Saved",
+            detail: "Accommodation details saved successfully",
+            life: 3000,
+          });
+          fetchConfernceData()
+        }
+      } catch (error) {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message || "Failed to save",
+          life: 3000,
+        });
+      } finally {
+        setButtonLoading(false)
+      }
+    },
+  });
 
-  //   try {
-  //     let imageUrls = [];
-
-  //     const uploadPromises = uploads.map(async (upload) => {
-  //       if (upload.file?.isUploaded) {
-  //         return { url: upload.file.preview };
-  //       } else if (upload.file) {
-  //         return await uploadImage(upload.file);
-  //       } else {
-  //         return null;
-  //       }
-  //     });
-
-  //     const responses = await Promise.all(uploadPromises);
-  //     imageUrls = responses.filter(Boolean).map((res) => res.url);
-
-  //     const finalPayload = {
-  //       images: imageUrls,
-  //       ...formData,
-  //     };
-
-  //     const response = await saveConferenceLandingPage(
-  //       finalPayload,
-  //       selectedConferenceID
-  //     );
-
-  //     if (response[0].msg === "Landing page updated successfully") {
-  //       toast.current.show({
-  //         severity: "success",
-  //         summary: "Success!",
-  //         detail: "The form has been submitted successfully.",
-  //         life: 3000,
-  //       });
-  //     }else if (response[0].msg === "No modifications found") {
-  //       toast.current.show({
-  //         severity: "warn",
-  //         summary: "Warning",
-  //         detail: "No modifications found",
-  //         life: 3000,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     toast.current.show({
-  //       severity: "error",
-  //       summary: "Submission failed",
-  //       detail: "Failed to submit the form. Please try again.",
-  //       life: 3000,
-  //     });
-  //   }
-  // };
   const handleModel = (type, data = null) => {
-    const componentsMap = {
-      editOptions: {
-        header: `Edit ${data.label}`,
-        content: <EditCurrency data={data} />,
-      },
-      editTitle: {
-        header: "Edit Accommodation Title",
-        content: <EditTitle data={data} />,
-      },
-    };
-
-    const selected = componentsMap[type];
-    if (selected) {
-      setSidebarState(selected);
-      setIsVisible(true);
-    }
+    const isTitle = type === "editTitle";
+    setSidebarState({
+      header: isTitle ? "Edit Accommodation Title" : `Edit ${data.label}`,
+      content: isTitle ? (
+        <EditTitle
+          title={formik.values.heading}
+          onSave={(newVal) => {
+            formik.setFieldValue("heading", newVal);
+            setIsVisible(false);
+          }}
+          onClose={() => setIsVisible(false)}
+        />
+      ) : (
+        <EditOptions
+          data={data}
+          values={formik.values[data.name]}
+          onSave={(newVals) => {
+            formik.setFieldValue(data.name, newVals);
+            setIsVisible(false);
+          }}
+          onClose={() => setIsVisible(false)}
+        />
+      ),
+    });
+    setIsVisible(true);
   };
+
   const dropdownOptions = [
-    {
-      label: "Occupancy",
-      name: "occupancy",
-      values: [
-    { label: "Single Occupancy", value: "1" },
-    { label: "Double Occupancy", value: "2" },
-    { label: "Triple Occupancy", value: "3" },
-    { label: "Quad Occupancy", value: "4" },
-  ],
-    },
-    {
-      label: "Rooms",
-      name: "rooms",
-      values: [
-        { label: "One", value: "1" },
-        { label: "Two", value: "2" },
-        { label: "Three", value: "3" },
-      ],
-    },
-    {
-      label: "Period",
-      name: "period",
-      values: [
-        { label: "One Night", value: "1night" },
-        { label: "Two Nights", value: "2nights" },
-        { label: "One Week", value: "1week" },
-      ],
-    },
+    { label: "Occupancy(Amount Should Be In $USD)", name: "occupancy" },
+    { label: "Rooms", name: "rooms" },
+    { label: "Period", name: "period" },
   ];
 
   return (
@@ -129,31 +101,25 @@ export default function Accommodation({ toast }) {
         header={sidebarState.header}
         visible={isVisible}
         draggable={false}
-        onHide={() => {
-          if (!isVisible) return;
-          setIsVisible(false);
-        }}
+        onHide={() => setIsVisible(false)}
         breakpoints={{ "960px": "75vw", "641px": "100vw" }}
       >
-        {/* Content Area */}
         {sidebarState.content}
       </Dialog>
 
       <label className="form-label fw-bold">
-        Plan Your Stay & Accommodation &nbsp;{" "}
+        Plan Your Stay & Accommodation &nbsp;
         <button
-          name="editTitle"
           className="btn btn-outline-secondary rounded"
-          onClick={(e) =>
-            handleModel(e.target.name, "Plan Your Stay & Accommodation")
-          }
+          onClick={() => handleModel("editTitle")}
         >
           <i className="bx bx-edit-alt"></i>
         </button>
       </label>
+
       <div className="row mt-3">
-        {dropdownOptions.map((dropdown, idx) => (
-          <div className=" mb-3" key={dropdown.name}>
+        {dropdownOptions.map((dropdown) => (
+          <div className="mb-3" key={dropdown.name}>
             <label className="form-label">{dropdown.label}</label>
             <div className="d-flex col-6 align-items-center gap-2">
               <select
@@ -161,18 +127,19 @@ export default function Accommodation({ toast }) {
                 defaultValue=""
               >
                 <option value="" disabled>
-                  Select {dropdown.label}
+                  {formik.values[dropdown.name].length === 0
+                    ? `Add ${dropdown.label} options`
+                    : `Select ${dropdown.label}`}
                 </option>
-                {dropdown.values.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
+                {formik.values[dropdown.name].map((opt, idx) => (
+                  <option key={idx} value={opt.value}>
                     {opt.label}
                   </option>
                 ))}
               </select>
               <button
-                name="editOptions"
                 className="btn btn-outline-secondary rounded"
-                onClick={(e) => handleModel(e.target.name, dropdown)}
+                onClick={() => handleModel("editOptions", dropdown)}
               >
                 <i className="bx bx-edit-alt"></i>
               </button>
@@ -180,65 +147,92 @@ export default function Accommodation({ toast }) {
           </div>
         ))}
       </div>
+
+      <div className="mt-4">
+        <button
+          className="btn btn-warning text-white"
+          disabled={!(formik.isValid && formik.dirty)}
+          onClick={formik.handleSubmit}
+        >
+          Save Changes
+        </button>
+      </div>
     </div>
   );
 }
 
-function EditCurrency({ data }) {
-  const [values, setValues] = useState(data.values || []);
-  const [dropdownName, setDropdownName] = useState("");
-  const [statusChecked, setStatusChecked] = useState(false);
+function EditTitle({ title, onSave, onClose }) {
+  const [value, setValue] = useState(title || "");
 
-  // Add new option
-  const handleAdd = () => {
-    setValues([...values, { label: "", value: "" }]);
-  };
-
-  // Delete option
-  const handleDelete = (index) => {
-    const newValues = values.filter((_, i) => i !== index);
-    setValues(newValues);
-  };
-
-  // Update value
-  const handleChange = (index, field, newValue) => {
-    const updated = [...values];
-    updated[index][field] = newValue;
-    setValues(updated);
-  };
   return (
     <div className="p-3">
-      {/* <div className="row mb-3 justify-content-between align-items-end">
-        <div className="col-md-8">
-          <label className="form-label">
-            Enter {data.label} dropdown name{" "}
-            <span className="text-danger">*</span>
-          </label>
-          <input
-            type="text"
-            name="couponCode"
-            className="form-control"
-            id="couponCode"
-            placeholder={`Select ${data.label}`}
-            value={dropdownName}
-            onChange={(e) => setDropdownName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="col-md-4 mt-4 mt-md-0">
-          <div className="btn btn-outline-secondary rounded d-inline-flex align-items-center  gap-2">
-            <span>Required</span>
-            <InputSwitch
-              checked={statusChecked}
-              onChange={(e) => setStatusChecked(e.value)}
-              style={{ scale: "0.7" }}
-            />
-          </div>
-        </div>
-      </div> */}
+      <label className="form-label">Title Name</label>
+      <input
+        type="text"
+        className="form-control"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+      <div className="mt-4 d-flex justify-content-center gap-3 w-100">
+        <button className="btn px-5 bg-white border" onClick={onClose}>
+          Close
+        </button>
+        <button
+          className="btn px-5 btn-warning text-white"
+          onClick={() => onSave(value)}
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+}
 
-      <div className=" mb-3">
-        <label className="form-label">{data.label} List</label>
+function EditOptions({ data, values, onSave, onClose }) {
+  const [options, setOptions] = useState(values || []);
+  const [errors, setErrors] = useState([]);
+
+  const validateOptions = () => {
+    const newErrors = options.map((item) => {
+      const error = {};
+      if (!item.label?.trim()) error.label = "Label is required";
+      if (!item.value?.trim()) error.value = "Value is required";
+      else if (!/^[0-9]+$/.test(item.value))
+        error.value = "Value must be a number";
+      return error;
+    });
+    setErrors(newErrors);
+    return newErrors.every((err) => Object.keys(err).length === 0);
+  };
+
+  const handleAdd = () => {
+    let placeholder = { label: "", value: "" };
+    if (data.name === "occupancy") {
+      placeholder = { label: "Single Occupancy ($120)", value: "120" };
+    } else if (data.name === "rooms") {
+      placeholder = { label: "One", value: "1" };
+    } else if (data.name === "period") {
+      placeholder = { label: "One Night", value: "1" };
+    }
+    setOptions([...options, placeholder]);
+    setErrors([...errors, {}]);
+  };
+
+  const handleDelete = (index) => {
+    setOptions(options.filter((_, i) => i !== index));
+    setErrors(errors.filter((_, i) => i !== index));
+  };
+
+  const handleChange = (index, field, value) => {
+    const updated = [...options];
+    updated[index][field] = value;
+    setOptions(updated);
+  };
+
+  return (
+    <div className="p-3">
+      <div className="mb-3">
+        <label className="form-label">{data.label} Options</label>
         <button
           type="button"
           className="btn btn-outline-warning rounded ms-2"
@@ -247,11 +241,11 @@ function EditCurrency({ data }) {
           <i className="bx bx-plus"></i>
         </button>
         <div className="rounded border p-4 mt-3">
-          {values.map((item, i) => (
+          {options.map((item, i) => (
             <div key={i} className="row gap-1 align-items-center">
               <span
                 className="rounded-circle bg-secondary bg-opacity-10 mt-3 p-1 d-flex justify-content-center align-items-center"
-                style={{ height: "40px", width: "40px" }}
+                style={{ height: 40, width: 40 }}
               >
                 {i + 1}
               </span>
@@ -259,74 +253,48 @@ function EditCurrency({ data }) {
                 <label className="form-label">Label</label>
                 <input
                   type="text"
-                  name="currency"
                   className="form-control"
-                  placeholder={`Enter ${data.label}`}
                   value={item.label}
                   onChange={(e) => handleChange(i, "label", e.target.value)}
-                  required
-                />{" "}
+                />
+                {errors[i]?.label && (
+                  <div className="text-danger small">{errors[i].label}</div>
+                )}
               </div>
               <div className="col-5 mb-3">
                 <label className="form-label">Value</label>
                 <input
                   type="text"
-                  name="currency"
                   className="form-control"
-                  placeholder={`Enter ${data.label}`}
                   value={item.value}
                   onChange={(e) => handleChange(i, "value", e.target.value)}
-                  required
-                />{" "}
+                />
+                {errors[i]?.value && (
+                  <div className="text-danger small">{errors[i].value}</div>
+                )}
               </div>
               <button
                 type="button"
-                className="btn col-1 btn-sm btn-outline-secondary mt-3 "
+                className="btn col-1 btn-sm btn-outline-secondary mt-3"
                 onClick={() => handleDelete(i)}
-                title="Delete"
               >
-                <i className="pi pi-trash" style={{ fontSize: "16px" }}></i>
+                <i className="pi pi-trash" style={{ fontSize: 16 }}></i>
               </button>
             </div>
           ))}
         </div>
       </div>
-      <div className="mt-4 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
-        <button
-          className="btn px-5 bg-white border"
-          onClick={() => setIsVisible(false)}
-        >
+
+      <div className="mt-4 d-flex justify-content-center gap-3 w-100">
+        <button className="btn px-5 bg-white border" onClick={onClose}>
           Close
         </button>
-        <button className="btn px-5 btn-warning text-white">
-          Save Changes
-        </button>
-      </div>
-    </div>
-  );
-}
-function EditTitle({ data }) {
-  return (
-    <div className="p-3">
-      <label className="form-label">Title Name</label>
-      <input
-        type="text"
-        name="couponCode"
-        value={data}
-        className="form-control"
-        id="couponCode"
-        placeholder="Select Currency"
-        onChange={(e) => console.log(e.target.value)}
-        required
-      />{" "}
-      <div className="mt-4 p-2 d-flex justify-content-center align-items-center gap-3 w-100">
         <button
-          className="btn px-5 bg-white border"
-          onClick={() => setIsVisible(false)}
+          className="btn px-5 btn-warning text-white"
+          onClick={() => {
+            if (validateOptions()) onSave(options);
+          }}
         >
-          Close
-        </button>
-        <button className="btn px-5 btn-warning text-white">
           Save Changes
         </button>
       </div>
