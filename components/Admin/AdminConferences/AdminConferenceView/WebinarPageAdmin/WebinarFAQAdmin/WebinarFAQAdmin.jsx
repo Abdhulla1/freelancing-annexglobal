@@ -35,7 +35,7 @@ export default function WebinarFAQAdmin({   selectedConferenceID,
     const componentsMap = {
       view: {
         header: "View Queries Answered",
-        content: <View />,
+        content: <View data={data}/>,
       },
       edit: {
         header: "Edit Queries Answered",
@@ -81,7 +81,9 @@ export default function WebinarFAQAdmin({   selectedConferenceID,
           {faqData.map((element, i) => (
             <tr key={i}>
               <td className="p-3 table-data">{element.question}</td>
-              <td className="p-3  table-data ">{element.answer}</td>
+              <td className="p-3  table-data table-data text-truncate"
+                      style={{ maxWidth: "200px" }}
+                    >{element.answer}</td>
               <td className="p-3 table-data ">
                 <div className="d-flex gap-1  justify-content-center flex-nowrap">
                   <button

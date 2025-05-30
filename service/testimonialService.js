@@ -29,7 +29,7 @@ export async function saveTestiMonial( formData) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to delete Contact US"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save TestiMonial"
           throw new Error(message);  }
 }
 export async function updateTestimonial(id,formData) {
@@ -41,7 +41,7 @@ export async function updateTestimonial(id,formData) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to delete Contact US"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update TestiMonial"
           throw new Error(message);  }
 }
 
@@ -65,7 +65,7 @@ export async function updateTestiMonialStatus(id, status) {
     );
     return response;
   } catch (error) {
-        const message = error?.response?.data?.detail?.[0]?.msg || "Failed to delete Speaker"
+        const message = error?.response?.data?.detail?.[0]?.msg || "Failed to delete TestiMonial"
           throw new Error(message);
   }
 }

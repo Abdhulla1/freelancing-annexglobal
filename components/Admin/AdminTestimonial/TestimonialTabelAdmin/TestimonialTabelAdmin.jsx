@@ -461,7 +461,7 @@ function Edit({ tabledata, setIsVisible, toast, fetchData }) {
         {imageError && <div className="text-danger mt-2">{imageError}</div>}
 
         <label htmlFor="ratings" className="form-label d-flex align-items-center">
-          Ratings
+          Ratings*
         </label>
         <Rating value={ratings} onChange={(e) => setRatings(e.value)} />
 
@@ -705,7 +705,7 @@ function Add({ data, setIsVisible, toast, fetchData }) {
           htmlFor="ratings"
           className="form-label d-flex align-items-center"
         >
-          Ratings
+          Ratings*
         </label>
         <Rating value={ratings} onChange={(e) => setRatings(e.value)} />
 
@@ -840,6 +840,7 @@ function View({ tableData, toast }) {
       setLoading(true);
       try {
         const res = await getTestiMonialPageResponse(tableData._id);
+        console.log(res);
         if (res.status === 200) {
           setData(res.data?.detail || []);
         } else {
@@ -899,7 +900,13 @@ function View({ tableData, toast }) {
               <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
                 {data.name}
               </p>
-            </div>
+            </div>{data.videoUrl && <div>
+              <label className="form-label  mb-2">Video URL</label>
+              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+                {data.videoUrl}
+              </p>
+            </div>}
+            
             <div>
               <label className="form-label  mb-2">Designation</label>
               <p className="bg-secondary bg-opacity-10 rounded-2 p-2">

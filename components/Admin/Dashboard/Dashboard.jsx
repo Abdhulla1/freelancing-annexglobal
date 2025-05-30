@@ -233,28 +233,41 @@ export default function Dashboard() {
               >
                 {(tab === "upcoming"
                   ? dashboardData.events.upcoming
-                  : pastevents
-                ).map((event, index) => (
-                  <div
-                    className="d-flex align-items-center gap-3 mb-3 pb-2 border-bottom"
-                    key={index}
-                  >
-                    <div className="bg-success bg-opacity-10 text-success rounded-3 p-3 d-flex align-items-center justify-content-center">
-                      <i
-                        className={`bx bxs-calendar  ${style["event-icon"]}`}
-                      ></i>
+                  : dashboardData.events.past
+                ).length > 0 ? (
+                  (tab === "upcoming"
+                    ? dashboardData.events.upcoming
+                    : dashboardData.events.past
+                  ).map((event, index) => (
+                    <div
+                      className="d-flex align-items-center gap-3 mb-3 pb-2 border-bottom"
+                      key={index}
+                    >
+                      <div className="bg-success bg-opacity-10 text-success rounded-3 p-3 d-flex align-items-center justify-content-center">
+                        <i
+                          className={`bx bxs-calendar  ${style["event-icon"]}`}
+                        ></i>
+                      </div>
+                      <div>
+                        <h6 className={`d-inline ${style["event-title"]}`}>
+                          {event.name}
+                        </h6>
+                        <small className="text-muted">
+                          &nbsp; |{" "}
+                          {event?.conference?.landingPage?.startDate || "N/A"}{" "}
+                          &nbsp; | &nbsp;
+                          {event?.conference?.landingPage?.location || "N/A"}
+                        </small>
+                      </div>
                     </div>
-                    <div>
-                      <h6 className={` d-inline ${style["event-title"]}`}>
-                        {event.name}
-                      </h6>
-                      <small className="text-muted">
-                        &nbsp; | {event.conference.startDate || ""} &nbsp; |
-                        &nbsp; {event.conference.location || ""}
-                      </small>
-                    </div>
-                  </div>
-                ))}
+                  ))
+                ) : (
+                  <p className="text-muted text-center my-4">
+                    {tab === "upcoming"
+                      ? "No upcoming conferences"
+                      : "No past conferences"}
+                  </p>
+                )}
               </div>
             </div>
             <div className="col-12 col-md-4 p-3  rounded-4 bg-white ">
@@ -277,16 +290,21 @@ export default function Dashboard() {
           </div>
           <div className="row gap-2 mt-3 justify-content-center">
             <div className="col-12 col-md-7 p-3  rounded-4 bg-white ">
-              {dashboardData.conferencesConducted.lastConferencesCount || dashboardData.conferencesConducted.nextConferencesCount > 0 ? (
-              <ConferenceConductedChart conferencesConducted ={dashboardData.conferencesConducted} />  ) : (
+              {dashboardData.conferencesConducted.lastConferencesCount ||
+              dashboardData.conferencesConducted.nextConferencesCount > 0 ? (
+                <ConferenceConductedChart
+                  conferencesConducted={dashboardData.conferencesConducted}
+                />
+              ) : (
                 <p className="text-muted text-center mt-3">
                   No Conference Conducted Chart data available
                 </p>
               )}
             </div>
             <div className="col-12 col-md-4 p-3  rounded-4 bg-white ">
-                   {dashboardData.venueBookings.length > 0 ? (
-              <VenueBookingsChart /> ) : (
+              {dashboardData.venueBookings.length > 0 ? (
+                <VenueBookingsChart />
+              ) : (
                 <p className="text-muted mt-3">
                   No Venue Bookings Chart data available
                 </p>
