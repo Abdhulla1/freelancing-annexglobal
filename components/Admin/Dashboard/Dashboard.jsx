@@ -297,14 +297,14 @@ export default function Dashboard() {
                 <div className="col-md-6 col-lg-5">
                   <CardStats
                     title="Total Speakers"
-                    value={dashboardData.ocm.counts}
+                    value={dashboardData.ocm.counts || 0}
                     showAvatars
                   />
                 </div>
                 <div className="col-md-6 col-lg-5">
                   <CardStats
                     title="Total OCM"
-                    value={dashboardData.speakers.counts}
+                    value={dashboardData.speakers.counts || 0}
                     showAvatars
                   />
                 </div>
