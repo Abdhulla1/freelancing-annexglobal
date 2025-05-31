@@ -74,3 +74,14 @@ export async function savePermalink(id,formData) {
      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update"
           throw new Error(message);  }
 }
+export async function getallConferencesNames() {
+  try {
+    const response = await axiosInstance.get(
+      `/user/conferences/names`
+    );
+    return response;
+  } catch (error) {
+      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Get All Conferences Names"
+          throw new Error(message);
+  }
+}

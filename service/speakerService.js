@@ -76,3 +76,12 @@ export async function updateSpeakerStatus(id, status) {
           throw new Error(message);
   }
 }
+export async function getBgImage() {
+  try {
+    const response = await axiosInstance.get(`/user/bg/image`);
+    return response;
+  } catch (error) {
+   const message = error?.response?.data?.detail?.[0]?.msg || "Failed Load BG"
+          throw new Error(message);
+  }
+}

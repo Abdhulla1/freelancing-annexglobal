@@ -18,11 +18,6 @@ export default function GalleryAdmin() {
       <div className="d-flex col-12 justify-content-between align-items-start flex-wrap gap-2 mb-4">
         {/* Title */}
         <h5 className="fw-bold m-0">Gallery</h5>
-
-        {/* Add New Conference Button */}
-        {/* <button className="btn btn-warning text-white col-12 col-md-1">
-          Publish
-        </button> */}
       </div>
 <div className="row gap-2 gap-md-0 p-3">
         <div className="col-12 col-md-3">

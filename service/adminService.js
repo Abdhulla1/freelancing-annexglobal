@@ -2,11 +2,6 @@ import axios from "axios";
 import axiosInstance from "./axiosInstance";
 const BASE_URL = "https://139.59.15.8:8003/api/v1";
 
-// const axiosInstance=axios.create({
-//      baseURL: BASE_URL,
-// })
-
-//GET request
 export async function fetchAdmins(page, limit) {
   try {
     const response = await axiosInstance.get(
@@ -14,17 +9,24 @@ export async function fetchAdmins(page, limit) {
     );
     return response.data?.detail;
   } catch (error) {
-    throw new Error(error.response.data || "Failed to fetch admins");
+    throw new Error(error?.response?.data?.detail?.[0]?.msg|| "Failed to fetch admins");
   }
 }
 export async function fetchAdminss() {
   try {
-    // const { token } = await (await fetch('/api/getToken')).json();
-    // const token=localStorage.getItem("token");
     const response = await axiosInstance.get("/controlled/access/admin/data");
     return response.data?.detail.data;
   } catch (error) {
-    throw new Error(error.response.data || "Failed to fetch admins");
+    throw new Error(error?.response?.data?.detail?.[0]?.msg || "Failed to fetch admins");
+  }
+}
+export async function fetchUsers() {
+  try {
+
+    const response = await axiosInstance.get("/conference/assign/conference/users");
+    return response.data?.detail;
+  } catch (error) {
+    throw new Error(error?.response?.data?.detail?.[0]?.msg || "Failed to fetch Users");
   }
 }
 export async function fetchAdminById(id) {
@@ -34,7 +36,7 @@ export async function fetchAdminById(id) {
     );
     return response.data?.detail.data;
   } catch (error) {
-    throw new Error(error.response.data || "Failed to fetch admin");
+    throw new Error(error?.response?.data?.detail?.[0]?.msg || "Failed to fetch admin");
   }
 }
 export async function createAdmin(formData) {
@@ -46,7 +48,7 @@ export async function createAdmin(formData) {
     );
     return response.data?.detail.data;
   } catch (error) {
-      throw new Error(error.response.data || "Failed Create admin");
+      throw new Error(error?.response?.data?.detail?.[0]?.msg || "Failed Create admin");
   }
 }
 export async function updateAdmin(formData, id) {
@@ -58,7 +60,7 @@ export async function updateAdmin(formData, id) {
     );
     return response.data?.detail.data;
   } catch (error) {
-       throw new Error(error.response.data || "Update admin");
+       throw new Error(error?.response?.data?.detail?.[0]?.msg || "Update admin");
   }
 }
 export async function changePassword(formData, id) {

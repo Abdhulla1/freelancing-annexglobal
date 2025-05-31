@@ -25,16 +25,15 @@ export default function PricingTable({
   while (filledData.length < 8) {
     filledData.push({ ...defaultEntry });
   }
-
   const [pricingOptions, setPricingOptions] = useState(
     filledData.map((entry) => ({ ...entry, qty: entry.qty || 0 }))
   );
 
-  const [editDates, setEditDates] = useState({
-    early: "2024-08-31",
-    mid: "2025-01-31",
-    final: "2026-05-08",
-  });
+const [editDates, setEditDates] = useState({
+  early: actualData?.[0]?.earlyBirdDate || "",
+  mid: actualData?.[0]?.midBirDate || "",
+  final: actualData?.[0]?.finalBirdDate || "",
+});
 
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({ header: null, content: null });
@@ -91,10 +90,49 @@ export default function PricingTable({
   };
 
   const handleSubmit = async () => {
+    if (!editDates.early || !editDates.mid || !editDates.final) {
+    toast?.current?.show({
+      severity: "warn",
+      summary: "Validation Error",
+      detail: "Please select all registration deadline dates before submitting.",
+    });
+    return;
+  }
+
+
+    // Custom validation for all 8 rows
+  const incompleteRows = pricingOptions.some((entry) => {
+    return (
+      entry.registrationType === "Edit Registration Type" ||
+      !entry.registrationType.trim() ||
+      entry.earlyBirdAmount === 0 ||
+      entry.midBirdAmount === 0 ||
+      entry.finalBirdAmount === 0 ||
+      entry.qty === 0
+    );
+  });
+
+  if (incompleteRows) {
+    toast?.current?.show({
+      severity: "warn",
+      summary: "Validation Error",
+      detail: "Please complete all 8 rows with valid registration type, amounts, and quantity.",
+    });
+    return;
+  }
     setButtonLoading(true);
+    // const formattedPayload = {
+    //   registration: pricingOptions,
+    // };
     const formattedPayload = {
-      registration: pricingOptions,
-    };
+    registration: pricingOptions.map((option) => ({
+      ...option,
+      earlyBirdDate: editDates.early,
+      midBirDate: editDates.mid,
+      finalBirdDate: editDates.final,
+    })),
+  };
+
     try {
       const response = await updatePricingDetails(selectedConferenceID, formattedPayload);
       if (response.status === 200) {
@@ -213,11 +251,11 @@ function EditPriceValue({ data, dates, onHide, onSave }) {
   function getRegistrationDetails(type) {
     switch (type) {
       case "earlyBirdAmount":
-        return `Early Bird (${dates.early || "31-08-2025"})`;
+        return `Early Bird (${dates.early || ""})`;
       case "midBirdAmount":
-        return `Mid Term (${dates.mid || "31-01-2026"})`;
+        return `Mid Term (${dates.mid || ""})`;
       case "finalBirdAmount":
-        return `Final Call (${dates.final || "08-05-2026"})`;
+        return `Final Call (${dates.final || ""})`;
       default:
         return "Invalid registration type";
     }

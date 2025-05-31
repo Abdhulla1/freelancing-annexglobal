@@ -74,7 +74,7 @@ export default function LandingPage({
           payload,
           selectedConferenceID
         );
-        if (response.status=== 200) {
+        if (response.status === 200) {
           toast.current.show({
             severity: "success",
             summary: "Success!",
@@ -88,7 +88,8 @@ export default function LandingPage({
           toast.current.show({
             severity: "warn",
             summary: "Unknown response",
-            detail: response.data?.detail?.[0]?.msg  ||  "Unknown server response",
+            detail:
+              response.data?.detail?.[0]?.msg || "Unknown server response",
             life: 3000,
           });
         }
@@ -118,8 +119,7 @@ export default function LandingPage({
         onFileChange={handleFileChange}
         imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
         showBorder={true}
-                dimensionNote="Recommended dimensions: Width 200px × Height 200px"
-
+        dimensionNote="Recommended dimensions: Width 570px × Height 760px"
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}
 
@@ -156,8 +156,7 @@ export default function LandingPage({
         <RichTextEditor
           labelName={"Conference Overview"}
           height="130px"
-                  initialValue={formik.values.overview}
-
+          initialValue={formik.values.overview}
           onChange={(value) => formik.setFieldValue("overview", value)}
         />
         {formik.touched.conferenceOverview &&

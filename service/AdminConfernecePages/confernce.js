@@ -638,3 +638,41 @@ export async function savePastConferenceGallery(formdata, id) {
           throw new Error(message);
   }
 }
+  export async function patchSpeakerHeaderPannelImages( id,formdata) {
+     
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/speakers/header/panel/images`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Speaker Header Panel Images"
+          throw new Error(message);
+  }
+}
+  export async function deleteSpeakerHeaderPannelImages( id,formdata) {
+   
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/speakers/header/panel/images`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Speaker Header Panel Images"
+          throw new Error(message);
+  }
+}
+  export async function getAllPastConference() {
+   
+  try {
+    const response = await axiosInstance.get(
+      `/conference/past/conferences`
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Fetch Past Conference"
+          throw new Error(message);
+  }
+}

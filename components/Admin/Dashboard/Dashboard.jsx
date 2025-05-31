@@ -191,10 +191,10 @@ export default function Dashboard() {
             animationDuration=".5s"
           />
         </div>
-      ) : !dashboardData ? (
+      ) : !dashboardData || Object.keys(dashboardData).length === 0 ? (
         <div className="p-4">
           <div className="alert alert-danger text-center" role="alert">
-            {error ? error : "No data available"}
+             "No data available"
           </div>
         </div>
       ) : (
@@ -232,7 +232,7 @@ export default function Dashboard() {
                 style={{ maxHeight: "300px" }}
               >
                 {(tab === "upcoming"
-                  ? dashboardData.events.upcoming
+                  ? dashboardData?.events?.upcoming
                   : dashboardData.events.past
                 ).length > 0 ? (
                   (tab === "upcoming"
@@ -302,15 +302,37 @@ export default function Dashboard() {
               )}
             </div>
             <div className="col-12 col-md-4 p-3  rounded-4 bg-white ">
-              {dashboardData.venueBookings.length > 0 ? (
+              {/* {dashboardData.venueBookings.length > 0 ? (
                 <VenueBookingsChart />
               ) : (
                 <p className="text-muted mt-3">
                   No Venue Bookings Chart data available
                 </p>
-              )}
+              )} */}
+                   <div className="row mt-4 gap-4 justify-content-center ">
+                <div className="col-12 col-lg-12">
+                  <CardStats
+                    title="Total Speakers"
+                    value={dashboardData.ocm.counts || 0}
+                    showAvatars
+                  />
+                </div>
+                <div className="col-12 col-lg-12">
+                  <CardStats
+                    title="Total OCM"
+                    value={dashboardData.speakers.counts || 0}
+                    showAvatars
+                  />
+                </div>
+                {/* <div className="col-md-6 col-lg-5">
+              <CardStats title="Total Conference" value={dashboardData.conferences} chart />
             </div>
-            <div className="col-12 p-3  rounded-4 bg-white ">
+            <div className="col-md-6 col-lg-5">
+              <CardStats title="Total Webinar" value={dashboardData.webinar} chart />
+            </div> */}
+              </div>
+            </div>
+            {/* <div className="col-12 p-3  rounded-4 bg-white ">
               <div className="row gap-4 justify-content-center ">
                 <div className="col-md-6 col-lg-5">
                   <CardStats
@@ -326,14 +348,14 @@ export default function Dashboard() {
                     showAvatars
                   />
                 </div>
-                {/* <div className="col-md-6 col-lg-5">
+                <div className="col-md-6 col-lg-5">
               <CardStats title="Total Conference" value={dashboardData.conferences} chart />
             </div>
             <div className="col-md-6 col-lg-5">
               <CardStats title="Total Webinar" value={dashboardData.webinar} chart />
-            </div> */}
-              </div>
             </div>
+              </div>
+            </div> */}
           </div>
         </>
       )}

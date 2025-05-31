@@ -338,7 +338,7 @@ function Edit({ data, selectedConferenceID, setIsVisible, toast, fetchData }) {
           showBorder={true}
           onFileChange={handleFileChange}
           imageUrl={upload.imageUrl}
-          dimensionNote="Recommended dimensions: Width 300px × Height 300px"
+          dimensionNote="Recommended dimensions: Width 100px × Height 100px"
         />
         {imageError && <div className="text-danger mt-2">{imageError}</div>}
 
@@ -555,7 +555,7 @@ function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
           showBorder={true}
           onFileChange={handleFileChange}
           imageUrl={upload.imageUrl}
-          dimensionNote="Recommended dimensions: Width 300px × Height 300px"
+          dimensionNote="Recommended dimensions: Width 100px × Height 100px"
         />
         {imageError && <div className="text-danger mt-2">{imageError}</div>}
 

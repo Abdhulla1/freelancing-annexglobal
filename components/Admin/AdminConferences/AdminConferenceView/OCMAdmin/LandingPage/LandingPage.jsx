@@ -104,7 +104,7 @@ export default function LandingPage({
             <FileUpload
               showBorder={false}
               showTitle={false}
-              dimensionNote="Recommended dimensions: Width 200px × Height 200px"
+              dimensionNote="Recommended dimensions: Width 100px × Height 200px"
               imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
               onFileChange={(file) => handleFileChange(file, upload.id)}
             />

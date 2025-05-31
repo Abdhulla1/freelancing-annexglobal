@@ -19,7 +19,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import SpecialRegistration from "./SpecialRegistration/SpecialRegistration";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
-import { fetchAdminss } from "@/service/adminService";
+import { fetchUsers } from "@/service/adminService";
 import UploadAbstract from "./ConferencePageAdmin/UploadAbstract/UploadAbstract";
 import BrochureAdmin from "./BrochureAdmin/BrochureAdmin";
 import SubmitAbstractAdmin from "./BrochureAdmin/SubmitAbstractAdmin";
@@ -89,54 +89,102 @@ export default function AdminConferenceView({ conference }) {
         fetchConfernceData={fetchConfernceData}
       />
     ) : null,
-     Webinar: selectedConference ? (
-    <WebinarPageAdmin
-      selectedConferenceID={selectedConference._id}
-      webinar={selectedConference.webinar}
-      fetchConfernceData={fetchConfernceData}
-    />
-  ) : null,
-    Speakers: selectedConference ? (<SpeakerAdmin selectedConferenceID={selectedConference._id}
-      speakers={selectedConference.speakers}
-      fetchConfernceData={fetchConfernceData}/> ) : null,
-    OCM: selectedConference ? ( <OCMAdmin selectedConferenceID={selectedConference._id}
-      ocm={selectedConference.ocm}
-      fetchConfernceData={fetchConfernceData}/>) : null,
-    FAQ:  selectedConference ? ( <FAQPageAdmin selectedConferenceID={selectedConference._id}
-      faq={selectedConference.faq}
-      fetchConfernceData={fetchConfernceData}/>) : null,
-    Brochure:selectedConference ? ( <BrochureAdmin selectedConferenceID={selectedConference._id}
-      brochure={selectedConference.brochure}
-      fetchConfernceData={fetchConfernceData} />) : null,
-    Abstract:selectedConference ? ( <SubmitAbstractAdmin selectedConferenceID={selectedConference._id}
-      abstract={selectedConference.abstract}
-      fetchConfernceData={fetchConfernceData} />) : null,
-    "Webinar Program":  selectedConference ? (<WebinarProgramAdmin selectedConferenceID={selectedConference._id}
-      webinarProgram={selectedConference.webinarProgram}
-      fetchConfernceData={fetchConfernceData}/>) : null,
-    Topics: selectedConference ? ( <TopicsAdmin selectedConferenceID={selectedConference._id}
-      topics={selectedConference.topics}
-      fetchConfernceData={fetchConfernceData} />) : null,
-    Venue:  selectedConference ? ( <VenuePageAdmin  selectedConferenceID={selectedConference._id}
-      venuePage={selectedConference.venue}
-      fetchConfernceData={fetchConfernceData} />) : null,
-    Registration: selectedConference ? ( <RegistrationAdmin selectedConferenceID={selectedConference._id}
-      registration={selectedConference.registration}
-      fetchConfernceData={fetchConfernceData}  />) : null,
-    "Past Conference": selectedConference ? (<PastConferenceAdmin   selectedConferenceID={selectedConference._id}
-      pastConference={selectedConference.pastConference}
-      fetchConfernceData={fetchConfernceData} />) : null,
-    "Special Registration":selectedConference ? ( <SpecialRegistration  selectedConferenceID={selectedConference._id}
-      specialRegistration={selectedConference.specialRegistration}
-      fetchConfernceData={fetchConfernceData}/>) : null,
-    "Scientific Program": selectedConference ? (<ScientificProgramAdmin  selectedConferenceID={selectedConference._id}
-      scientificProgram={selectedConference.scientificProgram}
-      fetchConfernceData={fetchConfernceData}/>) : null,
+    Webinar: selectedConference ? (
+      <WebinarPageAdmin
+        selectedConferenceID={selectedConference._id}
+        webinar={selectedConference.webinar}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    Speakers: selectedConference ? (
+      <SpeakerAdmin
+        selectedConferenceID={selectedConference._id}
+        speakers={selectedConference.speakers}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    OCM: selectedConference ? (
+      <OCMAdmin
+        selectedConferenceID={selectedConference._id}
+        ocm={selectedConference.ocm}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    FAQ: selectedConference ? (
+      <FAQPageAdmin
+        selectedConferenceID={selectedConference._id}
+        faq={selectedConference.faq}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    Brochure: selectedConference ? (
+      <BrochureAdmin
+        selectedConferenceID={selectedConference._id}
+        brochure={selectedConference.brochure}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    Abstract: selectedConference ? (
+      <SubmitAbstractAdmin
+        selectedConferenceID={selectedConference._id}
+        abstract={selectedConference.abstract}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    "Webinar Program": selectedConference ? (
+      <WebinarProgramAdmin
+        selectedConferenceID={selectedConference._id}
+        webinarProgram={selectedConference.webinarProgram}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    Topics: selectedConference ? (
+      <TopicsAdmin
+        selectedConferenceID={selectedConference._id}
+        topics={selectedConference.topics}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    Venue: selectedConference ? (
+      <VenuePageAdmin
+        selectedConferenceID={selectedConference._id}
+        venuePage={selectedConference.venue}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    Registration: selectedConference ? (
+      <RegistrationAdmin
+        selectedConferenceID={selectedConference._id}
+        registration={selectedConference.registration}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    "Past Conference": selectedConference ? (
+      <PastConferenceAdmin
+        selectedConferenceID={selectedConference._id}
+        pastConference={selectedConference.pastConference}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    "Special Registration": selectedConference ? (
+      <SpecialRegistration
+        selectedConferenceID={selectedConference._id}
+        specialRegistration={selectedConference.specialRegistration}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
+    "Scientific Program": selectedConference ? (
+      <ScientificProgramAdmin
+        selectedConferenceID={selectedConference._id}
+        scientificProgram={selectedConference.scientificProgram}
+        fetchConfernceData={fetchConfernceData}
+      />
+    ) : null,
   };
   const fetchData = async () => {
     try {
       const response = await getSelectedConference(conference);
-      const userList = await fetchAdminss();
+      const userList = await fetchUsers();
       setAdminsData(userList);
       if (response.status === 404) {
         router.push("/notFound");
@@ -506,6 +554,7 @@ export default function AdminConferenceView({ conference }) {
   );
 }
 export function AddUpdateConference({ data, setData, userList }) {
+  const [newUser, setNewUser] = useState("");
   const handleNameChange = (e) => {
     setData((prev) => ({ ...prev, name: e.target.value }));
   };
@@ -517,8 +566,10 @@ export function AddUpdateConference({ data, setData, userList }) {
     setData((prev) => ({ ...prev, conferenceBg }));
   };
   const handleUserSelect = (e) => {
+    setNewUser(e.target.value);
     setData((prev) => ({ ...prev, assignedUser: e.target.value }));
   };
+
   return (
     <>
       <div className="mb-4 mt-4">
@@ -541,32 +592,41 @@ export function AddUpdateConference({ data, setData, userList }) {
         <label htmlFor="assignUser" className="form-label">
           Assign to User*
         </label>
-        <select
-          className="form-control"
-          id="assignUser"
-          onChange={handleUserSelect}
-          required
-          value={data.assignedUser || ""}
-        >
-          <option value="" disabled>
-            Select a user
-          </option>
-          {userList.map((user, i) => (
-            <option key={i} value={user.email}>
-              {user.email}
+        {userList.length === 0 ? (
+          <div className="alert alert-warning p-2 mt-2" role="alert">
+            No users found. Please add users first.
+          </div>
+        ) : (
+          <select
+            className="form-control"
+            id="assignUser"
+            onChange={handleUserSelect}
+            required
+            value={newUser || ""}
+          >
+            <option value="" disabled>
+              Select a user
             </option>
-          ))}
-        </select>
+            {userList.map((user, i) => (
+              <option key={i} value={user}>
+                {user}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
+
       <FileUpload
         title={"Add Conference Logo *"}
         onFileChange={handleFileChange}
         imageUrl={data.logoUrl}
+        dimensionNote="Recommended dimensions: Width 230x × Height 230px"
       />
       <FileUpload
         title={"Add Conference Card Background *"}
         onFileChange={handleConferenceBgChange}
         imageUrl={data.cardBgImage}
+        dimensionNote="Recommended dimensions: Width 530px × Height 380px"
       />
     </>
   );

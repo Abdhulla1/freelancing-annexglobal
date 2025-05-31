@@ -9,7 +9,7 @@ import Link from "next/link";
 import { uploadImage } from "@/service/mediaManagemnt";
 import { Toast } from "primereact/toast";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { fetchAdminss } from "@/service/adminService";
+import { fetchUsers } from "@/service/adminService";
 import { Paginator } from "primereact/paginator";
 import { Button } from "primereact/button";
 
@@ -38,7 +38,7 @@ export default function AdminConferences() {
     try {
       const [data, userList] = await Promise.all([
         getAllConference(page, limit),
-        fetchAdminss(),
+        fetchUsers(),
       ]);
       setAdminsData(userList);
       setConferenceData(data.data?.detail.data || []); // Assuming data has { results, total }
@@ -177,7 +177,7 @@ export default function AdminConferences() {
       toast.current.show({
         severity: "error",
         summary: "Conference Save Error",
-        detail:  error.message  || "Failed to save conference. Please try again.",
+        detail: error.message || "Failed to save conference. Please try again.",
         life: 3000,
       });
     } finally {
@@ -422,30 +422,39 @@ export function AddNewConference({ data, setData, userList }) {
         <label htmlFor="assignUser" className="form-label">
           Assign to User*
         </label>
-        <select
-          className="form-control"
-          id="assignUser"
-          onChange={handleUserSelect}
-          required
-          value={data.assignedUser || ""}
-        >
-          <option value="" disabled>
-            Select a user
-          </option>
-          {userList.map((user, i) => (
-            <option key={i} value={user.email}>
-              {user.email}
+        {userList.length === 0 ? (
+          <div className="alert alert-warning p-2 mt-2" role="alert">
+            No users found. Please add users first.
+          </div>
+        ) : (
+          <select
+            className="form-control"
+            id="assignUser"
+            onChange={handleUserSelect}
+            required
+            value={data.assignedUser || ""}
+          >
+            <option value="" disabled>
+              Select a user
             </option>
-          ))}
-        </select>
+            {userList.map((user, i) => (
+              <option key={i} value={user}>
+                {user}
+              </option>
+            ))}
+          </select>
+        )}
       </div>
+
       <FileUpload
         title={"Add Conference Logo *"}
         onFileChange={handleFileChange}
+        dimensionNote="Recommended dimensions: Width 230x × Height 230px"
       />
       <FileUpload
         title={"Add Conference Card Background *"}
         onFileChange={handleConferenceBgChange}
+        dimensionNote="Recommended dimensions: Width 530px × Height 380px"
       />
     </>
   );

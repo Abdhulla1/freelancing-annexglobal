@@ -1,41 +1,69 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { Toast } from "primereact/toast";
 import { uploadImage } from "@/service/mediaManagemnt";
-import { getAllGallery,saveAllGallery } from "@/service/galleryService";
+import { getAllGallery, saveAllGallery } from "@/service/galleryService";
 import { Button } from "primereact/button";
+
 export default function GalleryImageUploads() {
   const toastRef = useRef(null);
-    const [buttonLoading, setButtonLoading] = useState(false);
-  
+  const [buttonLoading, setButtonLoading] = useState(false);
+
   const [uploads, setUploads] = useState(
     Array.from({ length: 15 }, () => ({ file: null }))
   );
 
+  // Fetch gallery images on mount
+  useEffect(() => {
+    const fetchGalleryImages = async () => {
+      try {
+        const response = await getAllGallery();
+        const galleryUrls = response.data?.detail?.imageUrls || [];
+        console.log(response)
+        const updatedUploads = Array.from({ length: 15 }, (_, index) => {
+          const url = galleryUrls[index];
+          return url
+            ? { file: { isUploaded: true, preview: url } }
+            : { file: null };
+        });
+
+        setUploads(updatedUploads);
+      } catch (error) {
+        toastRef.current?.show({
+          severity: "error",
+          summary: "Failed to load gallery",
+          detail: error.message || "Could not fetch gallery images.",
+          life: 3000,
+        });
+      }
+    };
+
+    fetchGalleryImages();
+  }, []);
+
   // Handle file upload per index
-  const handleFileChange = (file,index) => {
+  const handleFileChange = (file, index) => {
     const updatedUploads = [...uploads];
     updatedUploads[index].file = file;
     setUploads(updatedUploads);
   };
 
-const isSubmitDisabled = uploads.some((upload, index) => {
-  const isInvalid = !upload.file || !upload.file.name;
-  return isInvalid;
-});
+  // Disable submit if any file is missing or invalid
+  const isSubmitDisabled = uploads.some(
+    (upload) => !upload.file || !upload.file.name && !upload.file.isUploaded
+  );
 
-
-  const handleSubmit = async (e) => {
-    setButtonLoading(true)
+  const handleSubmit = async () => {
+    setButtonLoading(true);
 
     try {
       const uploadPromises = uploads.map(async ({ file }) => {
         if (file?.isUploaded) {
           return { url: file.preview };
         } else if (file) {
-          const response= await uploadImage(file);
-          return response.data?.detail.message[0]; // uploadImage should return { url: '...' }
+          const response = await uploadImage(file);
+          return response.data?.detail.message[0]; // expects { url: '...' }
         } else {
           return null;
         }
@@ -47,26 +75,28 @@ const isSubmitDisabled = uploads.some((upload, index) => {
       const finalPayload = {
         imageUrls: imageUrls,
       };
-console.log("finalPayload", finalPayload)
-      const response = await saveAllGallery(finalPayload );
 
-      if (response.status === 201) {
+      const response = await saveAllGallery(finalPayload);
+
+      if (response.status === 200) {
         toastRef.current.show({
           severity: "success",
           summary: "Success!",
-          detail: response.data.detail[0].msg || "Gallery submitted successfully.",
+          detail:
+            response.data.detail[0].msg || "Gallery submitted successfully.",
           life: 3000,
         });
-      } 
+      }
     } catch (error) {
       toastRef.current.show({
         severity: "error",
         summary: "Submission failed",
-        detail: error.message || "Failed to submit the form. Please try again.",
+        detail:
+          error.message || "Failed to submit the form. Please try again.",
         life: 3000,
       });
-    }finally{
-          setButtonLoading(false)
+    } finally {
+      setButtonLoading(false);
     }
   };
 
@@ -95,15 +125,21 @@ console.log("finalPayload", finalPayload)
                 showBorder={false}
                 showTitle={false}
                 onFileChange={(file) => handleFileChange(file, i)}
-
+                dimensionNote="Recommended dimensions: Width 1000px × Height 700px"
+                imageUrl={
+                  upload.file?.isUploaded ? upload.file.preview : null
+                }
               />
             </div>
           </div>
         ))}
       </div>
-{isSubmitDisabled && (
-  <p className="text-danger mt-2">Please upload all 15 images to enable submission.</p>
-)}
+
+      {isSubmitDisabled && (
+        <p className="text-danger mt-2">
+          Please upload all 15 images to enable submission.
+        </p>
+      )}
 
       <div className="mt-3 text-end">
         <Button

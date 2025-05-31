@@ -97,7 +97,7 @@ export default function VenueMapUploads({
           onFileChange={handleFileChange}
           imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
           showBorder={true}
-          dimensionNote="Recommended dimensions: Width 250px × Height 270px"
+          dimensionNote="Recommended dimensions: Width 400px × Height 350px"
         />
         {imageError && <div className="text-danger mt-1">{imageError}</div>}
       </div>

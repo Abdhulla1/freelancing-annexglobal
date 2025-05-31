@@ -126,7 +126,7 @@ export default function Location({
           onFileChange={handleFileChange}
           imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
           showBorder={true}
-          dimensionNote="Recommended dimensions: Width 250px × Height 270px"
+          dimensionNote="Recommended dimensions: Width 530px × Height 470px"
         />
         {imageError && <div className="text-danger mt-1">{imageError}</div>}
       </div>

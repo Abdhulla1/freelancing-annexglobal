@@ -11,32 +11,34 @@ import { uploadImage } from "@/service/mediaManagemnt";
 import { updateSupportingJournal } from "@/service/AdminConfernecePages/confernce"; // adjust import
 import { Button } from "primereact/button";
 
-export default function  SupportingJournalAdmin({   selectedConferenceID,
+export default function SupportingJournalAdmin({
+  selectedConferenceID,
   toast,
   supportingJournalData,
-  fetchConfernceData}) {
+  fetchConfernceData,
+}) {
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
     content: null,
   });
   const journalData = (() => {
-  const defaultEntry = {
-    logoUrl: "/icons/DefaultPreviewImage.png",
-    title: "Change Title",
-    content: "Change Content",
-  };
+    const defaultEntry = {
+      logoUrl: "/icons/DefaultPreviewImage.png",
+      title: "Change Title",
+      content: "Change Content",
+    };
 
-  const actualData = supportingJournalData || [];
+    const actualData = supportingJournalData || [];
 
-  // Always show at least 3 rows — fill remaining with defaults
-  const filledData = [...actualData];
-  while (filledData.length < 3) {
-    filledData.push(defaultEntry);
-  }
+    // Always show at least 3 rows — fill remaining with defaults
+    const filledData = [...actualData];
+    while (filledData.length < 3) {
+      filledData.push(defaultEntry);
+    }
 
-  return filledData;
-})();
+    return filledData;
+  })();
 
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
@@ -46,7 +48,15 @@ export default function  SupportingJournalAdmin({   selectedConferenceID,
       },
       edit: {
         header: "Edit Supporting Journal",
-        content: <Edit data={data} toast={toast} setIsVisible={setIsVisible} fetchConfernceData={fetchConfernceData} selectedConferenceID={selectedConferenceID} />,
+        content: (
+          <Edit
+            data={data}
+            toast={toast}
+            setIsVisible={setIsVisible}
+            fetchConfernceData={fetchConfernceData}
+            selectedConferenceID={selectedConferenceID}
+          />
+        ),
       },
     };
 
@@ -72,7 +82,6 @@ export default function  SupportingJournalAdmin({   selectedConferenceID,
             {/* Content Area */}
 
             {sidebarState.content}
-
           </div>
         </>
       </Sidebar>
@@ -99,7 +108,8 @@ export default function  SupportingJournalAdmin({   selectedConferenceID,
                 />{" "}
               </td>
               <td className="p-3 table-data">{element.title}</td>
-              <td className="p-3  table-data ">{element.content}</td>
+              <td className="p-3  table-data text-truncate"
+                      style={{ maxWidth: "200px" }}>{element.content}</td>
               <td className="p-3 table-data ">
                 <div className="d-flex gap-1  justify-content-center flex-nowrap">
                   <button
@@ -122,12 +132,17 @@ export default function  SupportingJournalAdmin({   selectedConferenceID,
           ))}
         </tbody>
       </table>
-     
     </div>
   );
 }
 
- function Edit({ data, toast, setIsVisible, fetchConfernceData, selectedConferenceID }) {
+function Edit({
+  data,
+  toast,
+  setIsVisible,
+  fetchConfernceData,
+  selectedConferenceID,
+}) {
   const [upload, setUpload] = useState({
     file: null,
     logoUrl: data.logoUrl || "",
@@ -178,13 +193,19 @@ export default function  SupportingJournalAdmin({   selectedConferenceID,
           logoUrl,
         };
 
-        const response = await updateSupportingJournal( selectedConferenceID,payload, data.journal_id);
+        const response = await updateSupportingJournal(
+          selectedConferenceID,
+          payload,
+          data.journal_id
+        );
 
         if (response.status === 200) {
           toast.current?.show({
             severity: "success",
             summary: "Updated",
-            detail: response.data?.detail?.[0]?.msg || "Supporting Journal updated successfully",
+            detail:
+              response.data?.detail?.[0]?.msg ||
+              "Supporting Journal updated successfully",
           });
           fetchConfernceData();
           setIsVisible(false);
@@ -208,12 +229,16 @@ export default function  SupportingJournalAdmin({   selectedConferenceID,
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className="d-flex gap-3 flex-column h-100">
+    <form
+      onSubmit={formik.handleSubmit}
+      className="d-flex gap-3 flex-column h-100"
+    >
       <FileUpload
         title={"Logo Image Upload*"}
         showBorder={true}
         imageUrl={upload.logoUrl}
         onFileChange={handleFileChange}
+        dimensionNote="Recommended dimensions: Width 200px × Height 200px"
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}
 
@@ -222,7 +247,9 @@ export default function  SupportingJournalAdmin({   selectedConferenceID,
         <input
           type="text"
           name="title"
-          className={`form-control ${formik.touched.title && formik.errors.title ? "is-invalid" : ""}`}
+          className={`form-control ${
+            formik.touched.title && formik.errors.title ? "is-invalid" : ""
+          }`}
           placeholder="2nd International Conference On"
           value={formik.values.title}
           onChange={formik.handleChange}
@@ -272,12 +299,16 @@ function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
       <label className="form-label fw-bold">Image</label>
-      <Image src={data.logoUrl} width={120} height={120} alt="DeleteIcon"   style={{ objectFit: "cover", borderRadius: "8px" }}/>
+      <Image
+        src={data.logoUrl}
+        width={120}
+        height={120}
+        alt="DeleteIcon"
+        style={{ objectFit: "cover", borderRadius: "8px" }}
+      />
       <div>
         <label className="form-label fw-bold mb-2">Topic</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.title}
-        </p>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.title}</p>
       </div>
       <div>
         <label className="form-label fw-bold mb-2">Content</label>
@@ -288,5 +319,3 @@ function View({ data }) {
     </div>
   );
 }
-
-

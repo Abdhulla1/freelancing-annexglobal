@@ -144,7 +144,8 @@ export default function ResearchGroundbreakingTabelAdmin(
                     />{" "}
                   </td>
                   <td className="p-3 table-data">{element.topic}</td>
-                  <td className="p-3  table-data ">{element.content}</td>
+                  <td className="p-3  table-data text-truncate"
+                      style={{ maxWidth: "200px" }}>{element.content}</td>
                   <td className="p-3 table-data ">
                     <div className="d-flex gap-1  justify-content-center flex-nowrap">
                       <button
@@ -264,6 +265,7 @@ function Edit({ data,selectedConferenceID, setIsVisible, toast, fetchData }) {
         title="Upload Image*"
         showBorder={true}
         imageUrl={upload.imageUrl}
+        dimensionNote="Recommended dimensions: Width 250px × Height 170px"
         onFileChange={handleFileChange}
       />
 
@@ -391,6 +393,8 @@ function Add({selectedConferenceID, setIsVisible, toast, fetchData }) {
       <FileUpload
         title="Upload Image*"
         showBorder={true}
+                dimensionNote="Recommended dimensions: Width 250px × Height 170px"
+
         onFileChange={handleFileChange}
       />
       {imageError && <div className="text-danger">{imageError}</div>}

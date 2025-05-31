@@ -752,6 +752,12 @@ function View({ data, toast }) {
             >
               Ratings
             </label>
+            {data.videoUrl && <div>
+              <label className="form-label  mb-2">Video</label>
+              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+                {data.videoUrl}
+              </p>
+            </div>}
             <Rating value={data.ratings} disabled cancel={false} />
             <div>
               <label className="form-label  mb-2">Name</label>

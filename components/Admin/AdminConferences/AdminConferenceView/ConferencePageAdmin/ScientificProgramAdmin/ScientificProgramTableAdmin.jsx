@@ -296,7 +296,7 @@ function Edit({ data,toast, fetchData, setIsVisible, selectedConferenceID }) {
                   />{" "}
       </div>
 
-      <FileUpload title="Cover Image*" imageUrl={upload.imageUrl} onFileChange={(file) => setUpload({ file })} />
+      <FileUpload title="Cover Image*" imageUrl={upload.imageUrl} onFileChange={(file) => setUpload({ file })}  dimensionNote="Recommended dimensions: Width 560px × Height 400px" />
       {fileError && <div className="text-danger mt-1">{fileError}</div>}
 
       <div>
@@ -522,7 +522,8 @@ function View({ data }) {
               src={data.coverImage}
               width={100}
               height={100}
-              alt="Speaker Image"
+              alt="Cover Image"
+ dimensionNote="Recommended dimensions: Width 560px × Height 400px"
               style={{ objectFit: "cover", borderRadius: "8px" }}
             />
 

@@ -12,6 +12,7 @@ import { Paginator } from "primereact/paginator";
 import { Button } from "primereact/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { getallConferencesNames } from "@/service/adminConference";
 import { uploadImage } from "@/service/mediaManagemnt";
 import {
   saveSpeaker,
@@ -29,6 +30,7 @@ export default function SpeakersTabelAdmin() {
     content: null,
   });
   const [speakerData, setSpeakerData] = useState([]);
+  const [conferencesData, setConferencesData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -54,7 +56,23 @@ export default function SpeakersTabelAdmin() {
       setLoading(false);
     }
   };
+  const fetchAllConferencesNamesData = async () => {
+    try {
+      const res = await getallConferencesNames();
+      if (res.status === 200) {
+        setConferencesData(res.data?.detail.names || []);
+      }
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to load Conferences.",
+        life: 3000,
+      });
+    } 
+  };
   useEffect(() => {
+fetchAllConferencesNamesData()
     fetchData();
   }, []);
   useEffect(() => {
@@ -156,7 +174,8 @@ export default function SpeakersTabelAdmin() {
         header: "Edit Speaker",
         content: <Edit tableData={data} toast={toast}
             setIsVisible={setIsVisible}
-            fetchData={fetchData} />,
+            fetchData={fetchData}
+             conferencesData={conferencesData} />,
       },
       add: {
         header: "Add Speaker",
@@ -165,6 +184,7 @@ export default function SpeakersTabelAdmin() {
             toast={toast}
             setIsVisible={setIsVisible}
             fetchData={fetchData}
+            conferencesData={conferencesData}
           />
         ),
       },
@@ -304,7 +324,7 @@ export default function SpeakersTabelAdmin() {
   );
 }
 
-function Edit({tableData , toast , fetchData, setIsVisible }) {
+function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
   const [data, setData] = useState({});
  const [upload, setUpload] = useState({ file: null, imageUrl: "" });
   const [imageError, setImageError] = useState(null);
@@ -486,8 +506,13 @@ function Edit({tableData , toast , fetchData, setIsVisible }) {
         )}
       </div>
 
-      <div className="mb-3">
+     <div className="mb-3">
         <label className="form-label">Author*</label>
+             {conferencesData.length === 0 ? (
+          <div className="alert alert-warning p-2 mt-2" role="alert">
+            No Conferences found. Please add Conferences first.
+          </div>
+        ) : (
         <select
           name="author"
           className={`form-select ${
@@ -498,14 +523,17 @@ function Edit({tableData , toast , fetchData, setIsVisible }) {
           onBlur={formik.handleBlur}
         >
           <option value="">Select Author</option>
-          <option value="Pediatrics Conference">Pediatrics Conference</option>
-          <option value="Gynecology Conference">Gynecology Conference</option>
-        </select>
+  
+            {conferencesData.map((user, i) => (
+              <option key={i} value={user}>
+                {user}
+              </option>
+            ))}
+        </select>)}
         {formik.touched.author && formik.errors.author && (
           <div className="text-danger">{formik.errors.author}</div>
         )}
       </div>
-
       <div className="mb-3">
         <label className="form-label">Company Details*</label>
         <input
@@ -558,11 +586,11 @@ function Edit({tableData , toast , fetchData, setIsVisible }) {
     </form>
   );
 }
-function Add({ toast, fetchData, setIsVisible }) {
+function Add({ toast, fetchData, setIsVisible,conferencesData}) {
   const [upload, setUpload] = useState({ file: null });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
-
+  
   const submitSpeaker = async (data) => {
     setButtonLoading(true);
     try {
@@ -701,6 +729,11 @@ function Add({ toast, fetchData, setIsVisible }) {
 
       <div className="mb-3">
         <label className="form-label">Author*</label>
+             {conferencesData.length === 0 ? (
+          <div className="alert alert-warning p-2 mt-2" role="alert">
+            No Conferences found. Please add Conferences first.
+          </div>
+        ) : (
         <select
           name="author"
           className={`form-select ${
@@ -711,9 +744,13 @@ function Add({ toast, fetchData, setIsVisible }) {
           onBlur={formik.handleBlur}
         >
           <option value="">Select Author</option>
-          <option value="Pediatrics Conference">Pediatrics Conference</option>
-          <option value="Gynecology Conference">Gynecology Conference</option>
-        </select>
+  
+            {conferencesData.map((user, i) => (
+              <option key={i} value={user}>
+                {user}
+              </option>
+            ))}
+        </select>)}
         {formik.touched.author && formik.errors.author && (
           <div className="text-danger">{formik.errors.author}</div>
         )}

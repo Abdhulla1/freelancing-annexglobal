@@ -186,7 +186,7 @@ const isSubmitDisabled =
         showBorder={true}
         onFileChange={handleFileChange}
         imageUrl={cardImage.imageUrl || "/icons/DefaultPreviewImage.png"}
-        dimensionNote="Recommended dimensions: Width 200px × Height 200px"
+        dimensionNote="Recommended dimensions: Width 380px × Height 250px"
       />
 
       <div className="mb-4">
@@ -228,7 +228,7 @@ const isSubmitDisabled =
               <FileUpload
                 showBorder={false}
                 showTitle={false}
-                dimensionNote="Recommended dimensions: Width 200px × Height 200px"
+                dimensionNote="Recommended dimensions: Width 280px × Height 150px"
                 imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
                 onFileChange={(file) => handleUploadsFileChange(file, upload.id)}
               />

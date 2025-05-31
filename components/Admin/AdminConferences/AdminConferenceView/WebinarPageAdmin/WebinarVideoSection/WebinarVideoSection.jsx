@@ -94,7 +94,8 @@ export default function WebinarVideoSection({
                 {element.videoUrl}
               </td>
               <td className="p-3  table-data ">{element.title}</td>
-              <td className="p-3  table-data ">{element.content}</td>
+              <td className="p-3  table-data text-truncate"
+                      style={{ maxWidth: "200px" }}>{element.content}</td>
               <td className="p-3 table-data ">
                 <div className="d-flex gap-1  justify-content-center flex-nowrap">
                   <button

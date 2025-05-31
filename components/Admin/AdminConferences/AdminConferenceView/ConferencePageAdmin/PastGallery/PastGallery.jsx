@@ -136,7 +136,7 @@ const [uploads, setUploads] = useState(() => {
   return (
     <>
       <div className="mb-2 d-flex align-items-center">
-        <label className="form-label">Upload Landing Page Images</label>
+        <label className="form-label">Upload Images</label>
         <button
           type="button"
           className="btn btn-outline-warning rounded ms-2"
@@ -159,7 +159,7 @@ const [uploads, setUploads] = useState(() => {
               <FileUpload
                 showBorder={false}
                 showTitle={false}
-                dimensionNote="Recommended dimensions: Width 200px × Height 200px"
+                dimensionNote="Recommended dimensions: Width 800px × Height 500px"
                 imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
                 onFileChange={(file) => handleFileChange(file, upload.id)}
               />

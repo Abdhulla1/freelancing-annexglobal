@@ -163,7 +163,7 @@ export default function EventDetailsSection({
                     uploads[i].imageUrl || "/icons/DefaultPreviewImage.png"
                   }
                   onFileChange={(file) => handleFileChange(i, file)}
-                   dimensionNote="Recommended dimensions: Width 250px × Height 270px"
+                   dimensionNote="Recommended dimensions: Width 600px × Height 400px"
                 />
                 {imageErrors[i] && (
                   <div className="text-danger mt-1">{imageErrors[i]}</div>

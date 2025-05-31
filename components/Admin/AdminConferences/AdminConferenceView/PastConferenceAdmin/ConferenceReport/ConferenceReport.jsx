@@ -3,6 +3,7 @@ import RichTextEditor from "../../ConferencePageAdmin/LandingPage/RichTextEditor
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { saveConferenceReport } from "@/service/AdminConfernecePages/confernce";
+import { getAllPastConference } from "@/service/AdminConfernecePages/confernce";
 export default function ConferenceReport({
   selectedConferenceID,
   conferenceReport,
@@ -10,11 +11,12 @@ export default function ConferenceReport({
   toast,
 }) {
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [conferenceTitles, setConferenceTitles] = useState([]);
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      mapConference: conferenceReport.mapConference ||"",
+      mapConference: conferenceReport.mapConference || "",
       title: conferenceReport.title || "",
       content: conferenceReport.content || "",
     },
@@ -71,40 +73,61 @@ export default function ConferenceReport({
     formik.values.mapConference !== conferenceReport.mapConference ||
     formik.values.title !== conferenceReport.title ||
     formik.values.content !== conferenceReport.content;
-  const conferenceTitles = [
-    "Annual Congress on gynecology, obstetrics & women’s health",
-    "Primary Healthcare, Pain Management & Functional Structure",
-    "International Conference on global healthcare",
-    "International webinar on global healthcare",
-    "International webinar on oncology & cancer research",
-    "International Webinar on Gynaecology, Obstetrics and Women’s Healthcare",
-  ];
-
+  // const conferenceTitles = [
+  //   "Annual Congress on gynecology, obstetrics & women’s health",
+  //   "Primary Healthcare, Pain Management & Functional Structure",
+  //   "International Conference on global healthcare",
+  //   "International webinar on global healthcare",
+  //   "International webinar on oncology & cancer research",
+  //   "International Webinar on Gynaecology, Obstetrics and Women’s Healthcare",
+  // ];
+  useEffect(() => {
+    const fetchConfernceData = async () => {
+      try {
+        const response = await getAllPastConference();
+        setConferenceTitles(response.data?.detail?.names || [])
+      } catch (error) {
+        toast.current.show({
+          severity: "error",
+          summary: "failed fetch Past Conference",
+          detail:
+            error.message ||
+            "Failed to fetch Past Conference. Please try again.",
+          life: 3000,
+        });
+      }
+    };
+    fetchConfernceData();
+  }, []);
   return (
     <form onSubmit={formik.handleSubmit} className="mt-5">
-      <div className="mb-4">
-        <label htmlFor="mapConference" className="form-label">
-          Map Conference*
-        </label>
+       <div className="mb-3">
+        <label className="form-label">   Map Conference*</label>
+             {conferenceTitles.length === 0 ? (
+          <div className="alert alert-warning p-2 mt-2" role="alert">
+            No Conferences found. 
+          </div>
+        ) : (
         <select
-          className="form-control"
+          name="author"
+         className="form-control"
           id="mapConference"
           required
-           {...formik.getFieldProps("mapConference")}
+          {...formik.getFieldProps("mapConference")}
         >
-          <option value="" disabled>
-            Select a Conference
-          </option>
-          {conferenceTitles.map((conference, i) => (
+          <option value="">Select a Conference</option>
+  
+           {conferenceTitles.map((conference, i) => (
             <option key={i} value={conference}>
               {conference}
             </option>
           ))}
-        </select>
-          {formik.touched.mapConference && formik.errors.mapConference && (
-          <div className="text-danger">{formik.errors.mapConference}</div>
+        </select>)}
+        {formik.touched.author && formik.errors.author && (
+          <div className="text-danger">{formik.errors.author}</div>
         )}
       </div>
+
       <div className="mb-4">
         <label htmlFor="title" className="form-label">
           Title

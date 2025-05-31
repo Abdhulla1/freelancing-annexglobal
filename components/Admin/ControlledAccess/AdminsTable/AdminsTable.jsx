@@ -278,9 +278,9 @@ export default function AdminsTable() {
                     >
                       <i className="bx bx-refresh"></i>
                     </button>
-                    <button className="btn btn-outline-secondary rounded">
+                    {/* <button className="btn btn-outline-secondary rounded">
                       <i className="bx bx-lock"></i>
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))}

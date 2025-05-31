@@ -465,6 +465,7 @@ function Add({ toast, fetchData, setIsVisible, selectedConferenceID }) {
         showBorder={true}
         onFileChange={handleFileChange}
         dimensionNote="Recommended dimensions: Width 250px × Height 270px"
+        
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}
 

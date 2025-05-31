@@ -4,6 +4,7 @@ import SpeakersTabelAdmin from "./SpeakersTabelAdmin/SpeakersTabelAdmin";
 import SpeakerBackgroundSelector from "./SpeakerBackgroundSelector";
 import Sidenav from "../Dashboard/Sidenav/Sidenav";
 import { saveSpeakerBG } from "@/service/speakerService";
+
 export default function AdminSpeakers() {
    const [activeMenu, setActiveMenu] = useState("Speakers");
   

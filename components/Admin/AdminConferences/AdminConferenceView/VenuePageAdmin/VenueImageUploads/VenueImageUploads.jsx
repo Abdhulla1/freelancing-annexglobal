@@ -161,7 +161,7 @@ const [uploads, setUploads] = useState(() => {
               <FileUpload
                 showBorder={false}
                 showTitle={false}
-                dimensionNote="Recommended dimensions: Width 200px × Height 200px"
+                dimensionNote="Recommended dimensions: Width 250px × Height 170px"
                 imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
                 onFileChange={(file) => handleFileChange(file, upload.id)}
               />

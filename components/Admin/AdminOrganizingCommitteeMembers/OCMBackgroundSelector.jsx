@@ -1,8 +1,8 @@
-import React, { useState,useRef } from 'react';
+import React, { useState,useRef,useEffect } from 'react';
 import Image from 'next/image';
 import { saveOCMBG } from '@/service/ocmService';
 import { Toast } from 'primereact/toast';
-
+import { getBgImage } from '@/service/speakerService';
 export default function OCMBackgroundSelector() {
   const toast = useRef(null);
 
@@ -15,7 +15,24 @@ export default function OCMBackgroundSelector() {
     '/images/speaker-bg/image4.webp',
     '/images/speaker-bg/image5.webp',
   ];
-
+  useEffect(() => {
+    const fetchBG = async () => {
+      try {
+        const response = await getBgImage();
+        setSelectedImageNumber(response.data?.detail?.speakers || 1)
+      } catch (error) {
+        toast.current.show({
+          severity: "error",
+          summary: "failed fetch BG",
+          detail:
+            error.message ||
+            "Failed to fetch BG",
+          life: 3000,
+        });
+      }
+    };
+    fetchBG();
+  }, []);
   const handleSelect = async(imageNumber) => {
     const payLoad = {
       ocm:imageNumber

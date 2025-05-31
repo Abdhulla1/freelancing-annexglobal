@@ -63,7 +63,7 @@ const [isVisible, setIsVisible] = useState(false);
       return;
     }
 
-    const payload = { ...formData,currency: ["USD"] };
+    const payload = { ...formData };
 
     try {
       const response=await updateRegistrationPersonalDetails(selectedConferenceID,payload)

@@ -29,7 +29,7 @@ export default function VenuePageAdmin({
         fetchConfernceData={fetchConfernceData}
         toast={toast}/>,
         "Event Timings": <EventTimings selectedConferenceID={selectedConferenceID}
-        eventTimings={venuePage.headerPanelImages}
+        eventTimings={venuePage.eventTimings}
         fetchConfernceData={fetchConfernceData}
         toast={toast}/>,
 

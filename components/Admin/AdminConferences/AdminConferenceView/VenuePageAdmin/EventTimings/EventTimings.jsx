@@ -15,7 +15,7 @@ export default function EventTimings({
         enableReinitialize: true,
         initialValues: {
           eventDate: eventTimings.eventDate || "",
-          eventTime: eventTimings.eventTime || "",
+          eventTime: eventTimings.eventime || "",
           hotelAddress: eventTimings.hotelAddress || "",
          
         },
@@ -28,7 +28,9 @@ export default function EventTimings({
   
           try {
          const payload = {
-          ...values,
+             eventDate: values.eventDate,
+          eventime: values.eventTime, 
+          hotelAddress: values.hotelAddress,
         };
             const response = await saveEventTimingsSection(
               payload,

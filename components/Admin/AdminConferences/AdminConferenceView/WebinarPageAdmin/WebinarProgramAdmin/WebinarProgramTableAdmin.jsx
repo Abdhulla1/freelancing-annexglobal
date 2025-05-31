@@ -296,7 +296,7 @@ function Edit({ data,toast, fetchData, setIsVisible, selectedConferenceID }) {
                   />{" "}
       </div>
 
-      <FileUpload title="Cover Image*" imageUrl={upload.imageUrl} onFileChange={(file) => setUpload({ file })} />
+      <FileUpload title="Cover Image*" imageUrl={upload.imageUrl} onFileChange={(file) => setUpload({ file })} dimensionNote="Recommended dimensions: Width 360px × Height 480px"/>
       {fileError && <div className="text-danger mt-1">{fileError}</div>}
 
       <div>
@@ -470,7 +470,8 @@ function Add({ toast, fetchData, setIsVisible, selectedConferenceID }) {
                   />{" "}
       </div>
 
-      <FileUpload title="Cover Image*" onFileChange={(file) => setUpload({ file })} />
+      <FileUpload title="Cover Image*" onFileChange={(file) => setUpload({ file })}  dimensionNote="Recommended dimensions: Width 360px × Height 480px"
+ />
       {fileError && <div className="text-danger mt-1">{fileError}</div>}
 
       <div>
