@@ -22,7 +22,6 @@ export default async function handler(req, res) {
         httpsAgent,
       }
     );
-
     const token = response.data.detail.token;
     // Set JWT in HttpOnly cookie
     res.setHeader(

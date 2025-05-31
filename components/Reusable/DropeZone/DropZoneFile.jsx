@@ -80,7 +80,7 @@ export default function DropZoneFile({
                   rel="noopener noreferrer"
                   className="text-decoration-none"
                 >
-                  View Uploaded Brochure
+                  View Document
                 </a>
               </div>
             </div>

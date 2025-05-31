@@ -29,7 +29,7 @@ export async function uploadVideo(file){
         return response.data?.detail.message[0];
     
       } catch (error) {
-        throw new Error(error.response?.data || "Failed to fetch Conference");
+        throw new Error(error.response?.data || "Failed to to Upload Video");
       }
     }
 export async function uploadPDF(file,onProgress){

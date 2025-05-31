@@ -38,7 +38,7 @@ export async function fetchAdminById(id) {
   }
 }
 export async function createAdmin(formData) {
-  console.log(formData);
+
   try {
     const response = await axiosInstance.post(
       "/controlled/access/admin/create/profile",
@@ -46,11 +46,11 @@ export async function createAdmin(formData) {
     );
     return response.data?.detail.data;
   } catch (error) {
-    throw error;
+      throw new Error(error.response.data || "Failed Create admin");
   }
 }
 export async function updateAdmin(formData, id) {
-  console.log(formData);
+
   try {
     const response = await axiosInstance.patch(
       `/controlled/access/admin/${id}/update/profile`,
@@ -58,11 +58,11 @@ export async function updateAdmin(formData, id) {
     );
     return response.data?.detail.data;
   } catch (error) {
-    throw error;
+       throw new Error(error.response.data || "Update admin");
   }
 }
 export async function changePassword(formData, id) {
-  console.log(formData);
+
   try {
     const response = await axiosInstance.patch(
       `/controlled/access/admin/${id}/change/password
@@ -72,7 +72,7 @@ export async function changePassword(formData, id) {
     return response;
   } catch (error) {
     const message =
-      error?.response?.data?.detail?.[0]?.msg || "Failed to delete Contact US";
+      error?.response?.data?.detail?.[0]?.msg || "Failed to change Password";
     throw new Error(message);
   }
 }
@@ -84,7 +84,9 @@ export async function resetAdmin(id) {
     );
     return response.data?.detail?.[0];
   } catch (error) {
-    throw error;
+    const message =
+      error?.response?.data?.detail?.[0]?.msg || "Failed to Reset Admin";
+    throw new Error(message);
   }
 }
 export async function deleteAdmin(id) {
@@ -96,7 +98,7 @@ export async function deleteAdmin(id) {
     return response;
   } catch (error) {
     const message =
-      error?.response?.data?.detail?.[0]?.msg || "Failed to delete Contact US";
+      error?.response?.data?.detail?.[0]?.msg || "Failed to delete Admin";
     throw new Error(message);
   }
 }

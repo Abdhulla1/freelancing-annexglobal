@@ -122,7 +122,7 @@ export default function Dashboard() {
     ];
 
     const visitorData = Array(12).fill(0);
-    dashboardData.websiteVisitor.forEach((item) => {
+    (dashboardData.websiteVisitor || []).forEach((item) => {
       const monthIndex = allMonths.indexOf(item.month.toLowerCase());
       if (monthIndex !== -1) {
         visitorData[monthIndex] = item.count;

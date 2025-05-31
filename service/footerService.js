@@ -6,7 +6,7 @@ export async function getFooterTableResponse() {
     return response;
   } catch (error) {
     throw new Error(
-      error.response?.data || "Failed Load  Table Response Section"
+      error.response?.data || "Failed Load Table Response Section"
     );
   }
 }

@@ -142,7 +142,6 @@ export default function AdminConferenceView({ conference }) {
         router.push("/notFound");
       } else {
         setSelectedConference(response);
-        console.log(response);
       }
     } catch (error) {
       router.push("/notFound");

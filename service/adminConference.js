@@ -25,7 +25,7 @@ export async function saveConference(formdata) {
     // return response.data?.detail;
      return response;
   } catch (error) {
-   const message = error?.response?.data?.detail?.[0]?.msg || "Failed to fetch Conference";
+   const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Conference";
     throw new Error(message);
   }
 }
@@ -59,7 +59,7 @@ export async function conferenceStatusToggle(id,formData) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update Speaker"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update"
           throw new Error(message);  }
 }
 //Permalink Toggle
@@ -71,6 +71,6 @@ export async function savePermalink(id,formData) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update Speaker"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update"
           throw new Error(message);  }
 }

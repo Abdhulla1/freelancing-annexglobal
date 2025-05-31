@@ -10,6 +10,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { jwtDecode } from "jwt-decode";
 import { changePassword } from "@/service/adminService";
+import { Avatar } from "primereact/avatar";
 import { Toast } from "primereact/toast";
 export default function DashboardNavbar() {
   const router = useRouter();
@@ -67,7 +68,6 @@ export default function DashboardNavbar() {
   };
 
   const handleSubmit = async (values) => {
-    console.log("Submitted values:", values);
      const data = {
       currentPassword: values.currentPassword,
       newPassword: values.newPassword,
@@ -147,24 +147,26 @@ export default function DashboardNavbar() {
               onClick={() => setOpen(!open)}
               style={{ cursor: "pointer" }}
             >
-              <Image
+              {/* <Image
                 height={36}
                 width={36}
                 src="/icons/avatar.jpg"
                 alt="profile"
-              />
+              /> */}
+              <Avatar icon="pi pi-user"/>
             </div>
 
             {open && (
               <div className={styles["dropdown-menu-custom"] + " shadow p-3"}>
                 <div className="d-flex align-items-center gap-2 mb-2">
                   <div className={styles["rounded-avatar"]}>
-                    <Image
+                    {/* <Image
                       height={36}
                       width={36}
                       src="/icons/avatar.jpg"
                       alt="profile"
-                    />
+                    /> */}
+                        <Avatar icon="pi pi-user"/>
                   </div>
                   <div className="fw-semibold">Annexglobalconference</div>
                 </div>

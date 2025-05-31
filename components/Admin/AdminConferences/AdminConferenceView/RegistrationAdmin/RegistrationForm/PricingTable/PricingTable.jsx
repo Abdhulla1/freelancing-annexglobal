@@ -20,8 +20,8 @@ export default function PricingTable({
   toast,
 }) {
   const [buttonLoading, setButtonLoading] = useState(false);
-
-  const filledData = [...pricingTable.registration];
+  const actualData = pricingTable.registration || [];
+  const filledData = [...actualData];
   while (filledData.length < 8) {
     filledData.push({ ...defaultEntry });
   }

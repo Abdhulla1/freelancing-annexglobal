@@ -174,7 +174,7 @@ export async function saveEventDetailsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update TestiMonial Status"
           throw new Error(message);
   }
 }
@@ -188,7 +188,7 @@ export async function saveEventDetailsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Topic Section"
           throw new Error(message);
   }
 }
@@ -201,7 +201,7 @@ export async function saveEventDetailsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Topic Section"
           throw new Error(message);
   }
 }
@@ -216,7 +216,7 @@ export async function saveEventDetailsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Header Panel Images"
           throw new Error(message);
   }
 }
@@ -229,7 +229,7 @@ export async function saveEventDetailsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Header Pannel Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Header Panel Images"
           throw new Error(message);
   }
 }
@@ -243,7 +243,7 @@ export async function saveEventDetailsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Queries Section"
           throw new Error(message);
   }
 }
@@ -285,7 +285,7 @@ export async function patchSpeakers( id,formdata,speaker_id = null) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update SpeakerStatus Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update Speaker Status"
           throw new Error(message);
   }
 }
@@ -299,7 +299,7 @@ export async function patchOCM( id,formdata,ocmId) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Speakers Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save OCM"
           throw new Error(message);
   }
 }
@@ -312,7 +312,7 @@ export async function patchOCM( id,formdata,ocmId) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Speaker  Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete OCM"
           throw new Error(message);
   }
 }
@@ -325,7 +325,7 @@ export async function patchOCM( id,formdata,ocmId) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update SpeakerStatus Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update OCM Status"
           throw new Error(message);
   }
 }
@@ -337,7 +337,7 @@ export async function saveVenueContent(formdata, id) {
     );
     return response;
   } catch (error) {
-      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save  Welcome Content"
+      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save  Venue Content"
           throw new Error(message);
   }
 }
@@ -361,7 +361,7 @@ export async function saveEventTimingsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Location"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Event Timings Section"
           throw new Error(message);
   }
 }
@@ -375,7 +375,7 @@ export async function saveEventTimingsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Supporting Journal Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save FAQ"
           throw new Error(message);
   }
 }
@@ -387,7 +387,7 @@ export async function saveEventTimingsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Upload Broucher Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update Broucher Section"
           throw new Error(message);
   }
 }
@@ -441,7 +441,7 @@ export async function saveEventTimingsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Header Pannel Images"
           throw new Error(message);
   }
 }
@@ -456,7 +456,7 @@ export async function saveEventTimingsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Research Ground Breaking"
           throw new Error(message);
   }
 }
@@ -469,7 +469,7 @@ export async function saveEventTimingsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Research Ground Breaking"
           throw new Error(message);
   }
 }
@@ -482,7 +482,7 @@ export async function saveEventTimingsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Essential Innovation"
           throw new Error(message);
   }
 }
@@ -495,7 +495,7 @@ export async function saveEventTimingsSection(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Past Gallery Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Essential Innovation"
           throw new Error(message);
   }
 }
@@ -559,7 +559,20 @@ export async function savePastConferenceGallery(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to conference Attendees Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save conference Attendees Section"
+          throw new Error(message);
+  }
+}
+  export async function deleteConferenceAttendees(id,formdata) {
+   
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/past/conference/attendees/delete`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Conference Attendees"
           throw new Error(message);
   }
 }
@@ -595,7 +608,7 @@ export async function savePastConferenceGallery(formdata, id) {
     );
     return response;
   } catch (error) {
-     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Accomodation Section"
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Accommodation Section"
           throw new Error(message);
   }
 }

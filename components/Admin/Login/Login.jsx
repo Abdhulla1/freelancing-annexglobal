@@ -192,7 +192,7 @@ export default function Login() {
                                     </div>
                                 </div>
 
-                                <div className="form-check">
+                                {/* <div className="form-check">
                                     <input
                                         type="checkbox"
                                         className={`form-check-input ${style["checkbox"]}`}
@@ -205,13 +205,7 @@ export default function Login() {
                                         Remember me
                                     </label>
                                 </div>
-                                {/* <button
-                                    type="submit"
-                                    className={`p-1 d-block text-center text-decoration-none text-white rounded mt-5 w-100 text-white main-btn }`}
-                                    disabled={loginFormik.isSubmitting || !loginFormik.isValid}
-                                >
-                                    Login
-                                </button> */}
+             */}
                                   <Button label="Login" type="submit"  className={`p-1 d-block text-center text-decoration-none text-white rounded mt-5 w-100 text-white main-btn }`} loading={buttonLoading}   disabled={loginFormik.isSubmitting || !loginFormik.isValid} style={{ outline: 'none', boxShadow: 'none' }}/>
                             </form>
                         </>
