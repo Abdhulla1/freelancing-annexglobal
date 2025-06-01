@@ -19,20 +19,39 @@ import RightPannel from "./ConferenceDetails/RightPannel/RightPannel";
 import bgImage from "@/public/images/conferences/upcoming-bg.webp";
 
 const AboutConference = ({ conference }) => {
+  const id = conference?.permalink
+  const logoUrl = conference?.logoUrl 
+  const welcomeContent = conference?.conference?.welcomeContent || "";
+  const landingPageContent = conference?.conference?.landingPage || "";
+  const landingPageSpeakers = conference?.conference?.ladingPageSpeakers || [];
+  // const aboutAnnex = conference?.aboutAnnex || "";         
+  // const aboutMission = conference?.aboutMission || "";
+  const organizingCommittee = conference?.ocm || "";
+  // const discoverySessions = conference?.discoverySessions || "";
+  const pastConference = conference?.conference?.pastGallery || "";
+  // const queriesAnswered = conference?.queriesAnswered || "";
+  const locationAndServices = conference?.conference?.location || "";
+  // const prospectus = conference?.prospectus || "";
+  const supportingJournals = conference?.conference?.supportingJournal || "";
+  
+  console.log("Conference ID:", conference );
+  
   return (
     <>
       <ConferenceDetails
-        conference={conference}
-       Component={() => <RightPannel conference={conference} />}
+        conference={landingPageContent}
+       Component={() => <RightPannel conference={landingPageSpeakers} id={id} />}
         bgImage={bgImage}
+        logoUrl={logoUrl}
+        id={id}
         buttonProps={{
           name: "Scientific Program",
-          href: `/conference/${conference.id}/scientific-program`,
+          href: `/conference/${conference.permalink}/scientific-program`,
         }}
       />
-      <WelcomeContent />
+      <WelcomeContent welcomeContent={welcomeContent} />
       <AboutMission />
-      <OrganizingCommitee />
+      <OrganizingCommitee organizingCommittee={organizingCommittee} id={id} />
       <DiscoverySessions conference={conference.id} />
 
       {/* <BroucherGrid/> */}
@@ -41,12 +60,12 @@ const AboutConference = ({ conference }) => {
       {/* <ReputedOrganizations/> */}
       <AlumniSpeakers />
       {/* <DiscoverySessions conference={conference.id}/> */}
-      <PastConference />
+      <PastConference pastConference={pastConference} />
       <ConnectWithOthers />
-      <SupportingJournals />
+      <SupportingJournals supportingJournals={supportingJournals} />
 
       {/* <QueriesAnswered/> */}
-      <LocationandServices conference={conference} />
+      <LocationandServices locationAndServices={locationAndServices} landingPageContent={landingPageContent} id={id} />
       <Prospectus />
       {/* <ConnectWithOthers/> */}
       <EnquiryForm />

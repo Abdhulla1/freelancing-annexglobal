@@ -52,39 +52,7 @@ var settings = {
   ],
 };
 
-const speakerData = [
-  {
-    imgSrc: "/images/home/speakers/member.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/membertwo.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/speaker.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/member.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/membertwo.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-  {
-    imgSrc: "/images/home/speakers/speaker.png",
-    name: "Alex Micol",
-    location: "India",
-  },
-];
-export default function RightPannel({conference}) {
+export default function RightPannel({conference, id}) {
 
   const sliderRef = useRef(null);
   return (
@@ -104,12 +72,12 @@ export default function RightPannel({conference}) {
           </h4>
         </div>
         <Slider ref={sliderRef} {...settings}>
-          {speakerData.map((el, i) => (
+          {conference.map((el, i) => (
             <SpeakerCard
               key={i}
-              imgSrc={el.imgSrc}
+              imgSrc={el.imageUrl}
               name={el.name}
-              location={el.location}
+              location={el.country}
             />
           ))}
         </Slider>
@@ -136,7 +104,7 @@ export default function RightPannel({conference}) {
      <span className="bg-white py-2 px-3 rounded text-warning">
     <i className="bx bxs-bookmark text-center me-1"></i>CPD Accredited Conference
   </span>
-  <Link href={`/conference/${conference.id}/past-conferences`}className="bg-white py-2 px-3 text-decoration-none rounded text-warning">
+  <Link href={`/conference/${id}/past-conferences`}className="bg-white py-2 px-3 text-decoration-none rounded text-warning">
     Past Conferences Reports
   </Link>
  

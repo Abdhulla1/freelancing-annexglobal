@@ -35,7 +35,7 @@ var settings = {
   ],
 };
 
-const PastConference = () => {
+const PastConference = ({ pastConference }) => {
   const sliderRef = useRef(null);
 
   return (
@@ -43,55 +43,30 @@ const PastConference = () => {
       <h3 className="text-center fw-bold">Past Conference Ethereal Frames</h3>
       <div className="mt-5">
         <Slider ref={sliderRef} {...settings}>
-          <div>
-            <div className="px-2">
-              <img
-                src="/images/conferences/past-conference.webp"
-                className={`${PastConferenceStyles["conf_image"]}`}
-                alt=""
-              />
+          {pastConference.map((item, index) => (
+            <div key={item.imageId || index}>
+              <div className="px-2">
+                <img
+                  src={item.imageUrl}
+                  className={PastConferenceStyles["conf_image"]}
+                  alt={`Conference Image ${index + 1}`}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <div className="px-2">
-              <img
-                src="/images/conferences/past-conference-2.webp"
-                className={`${PastConferenceStyles["conf_image"]}`}
-                alt=""
-              />
-            </div>
-          </div>
-          <div>
-            <div className="px-2">
-              <img
-                src="/images/conferences/past-conference.webp"
-                className={`${PastConferenceStyles["conf_image"]}`}
-                alt=""
-              />
-            </div>
-          </div>
-          <div>
-            <div className="px-2">
-              <img
-                src="/images/conferences/past-conference-2.webp"
-                className={`${PastConferenceStyles["conf_image"]}`}
-                alt=""
-              />
-            </div>
-          </div>
+          ))}
         </Slider>
       </div>
       <div className="mt-5">
         <div className="d-flex align-items-center justify-content-center">
           <button
-            className={`${PastConferenceStyles['slider-btn']} ${PastConferenceStyles['btn1']} btn p-0 px-2 py-1`}
+            className={`${PastConferenceStyles["slider-btn"]} ${PastConferenceStyles["btn1"]} btn p-0 px-2 py-1`}
             onClick={() => sliderRef.current.slickPrev()}
           >
             <i className="pi-angle-left pi"></i>
           </button>{" "}
           &nbsp;&nbsp; &nbsp;&nbsp;
           <button
-            className={`${PastConferenceStyles['slider-btn']} ${PastConferenceStyles['btn2']} btn p-0 px-2 py-1`}
+            className={`${PastConferenceStyles["slider-btn"]} ${PastConferenceStyles["btn2"]} btn p-0 px-2 py-1`}
             onClick={() => sliderRef.current.slickNext()}
           >
             <i className="pi-angle-right pi"></i>
