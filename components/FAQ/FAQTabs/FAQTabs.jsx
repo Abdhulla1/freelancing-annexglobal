@@ -6,30 +6,31 @@ import { Button } from "primereact/button"; // Import PrimeReact Button
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-const faqData = {
-  GENERAL: [
-    { question: "What are the benefits of attending our conference ?", answer: "Participating in our conference provides the prospect for international exposure through the establishment of speaker and abstract profiles associated with your identity. This exposure can contribute to gaining global recognition. Connect with numerous influential individuals in the fields of obesity and nutritional health and exchange ideas with them. Engaging in individual discussions with distinguished speakers and well-known keynote speakers will serve unique purposes for each conference attendee." },
-    { question: "What are the advantages for speaker participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
-    { question: "What are the advantages for delegate participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
-    { question: "Target audience for gynecology conference ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
-    { question: "What are the advantages for speaker participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
-    { question: "What are the advantages for speaker participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
-     {
-    question: "Anything else?",
-    answer: 'If you have any other queries or require further information, please feel free to <a href="/contact-us" style="color: blue; text-decoration: underline;">contact us</a>. We’re here to help!'
-  }
-  ],
-  TICKETS: [
-    { question: "What Is The Refund Policy?", answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos exercitationem culpa totam adipisci eligendi, nam rem, ad porro, nostrum asperiores amet modi quod voluptate corrupti cumque! Alias, quas exercitationem." },
-    { question: "Are Group Discounts Available?", answer: "Yes, group discounts are available for more than 5 participants. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos exercitationem culpa totam adipisci eligendi, nam rem, ad porro, nostrum asperiores amet modi quod voluptate corrupti cumque! Alias, quas exercitationem." }
-  ],
-  "ATTENDING EVENTS": [
-    { question: "What Are The Event Timings?", answer: "The event runs from 9 AM to 6 PM each day. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos exercitationem culpa totam adipisci eligendi, nam rem, ad porro, nostrum asperiores amet modi quod voluptate corrupti cumque! Alias, quas exercitationem." },
-    { question: "Are Meals Provided?", answer: "Yes, lunch and refreshments are included with your ticket. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos exercitationem culpa totam adipisci eligendi, nam rem, ad porro, nostrum asperiores amet modi quod voluptate corrupti cumque! Alias, quas exercitationem." }
-  ],
-};
-const FAQTabs = () => {
-  const [activeTab, setActiveTab] = useState("GENERAL");
+// const faqData = {
+//   GENERAL: [
+//     { question: "What are the benefits of attending our conference ?", answer: "Participating in our conference provides the prospect for international exposure through the establishment of speaker and abstract profiles associated with your identity. This exposure can contribute to gaining global recognition. Connect with numerous influential individuals in the fields of obesity and nutritional health and exchange ideas with them. Engaging in individual discussions with distinguished speakers and well-known keynote speakers will serve unique purposes for each conference attendee." },
+//     { question: "What are the advantages for speaker participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
+//     { question: "What are the advantages for delegate participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
+//     { question: "Target audience for gynecology conference ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
+//     { question: "What are the advantages for speaker participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
+//     { question: "What are the advantages for speaker participations ?", answer: " Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dignissimos iure optio, quod, libero non ea eaque magnam sit facilis corrupti quam tenetur numquam esse praesentium minima culpa ducimus, molestias quisquam? " },
+//      {
+//     question: "Anything else?",
+//     answer: 'If you have any other queries or require further information, please feel free to <a href="/contact-us" style="color: blue; text-decoration: underline;">contact us</a>. We’re here to help!'
+//   }
+//   ],
+//   TICKETS: [
+//     { question: "What Is The Refund Policy?", answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos exercitationem culpa totam adipisci eligendi, nam rem, ad porro, nostrum asperiores amet modi quod voluptate corrupti cumque! Alias, quas exercitationem." },
+//     { question: "Are Group Discounts Available?", answer: "Yes, group discounts are available for more than 5 participants. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos exercitationem culpa totam adipisci eligendi, nam rem, ad porro, nostrum asperiores amet modi quod voluptate corrupti cumque! Alias, quas exercitationem." }
+//   ],
+//   "ATTENDING EVENTS": [
+//     { question: "What Are The Event Timings?", answer: "The event runs from 9 AM to 6 PM each day. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos exercitationem culpa totam adipisci eligendi, nam rem, ad porro, nostrum asperiores amet modi quod voluptate corrupti cumque! Alias, quas exercitationem." },
+//     { question: "Are Meals Provided?", answer: "Yes, lunch and refreshments are included with your ticket. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos exercitationem culpa totam adipisci eligendi, nam rem, ad porro, nostrum asperiores amet modi quod voluptate corrupti cumque! Alias, quas exercitationem." }
+//   ],
+// };
+const FAQTabs = ({ conference }) => {
+  const faqData = conference.faq || [];
+  const [activeTab, setActiveTab] = useState(Object.keys(faqData)[0] || "GENERAL");
   const [showScroll, setShowScroll] = useState({ left: false, right: false });
   const tabsRef = useRef(null);
 

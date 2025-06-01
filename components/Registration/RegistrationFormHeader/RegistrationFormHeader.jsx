@@ -4,7 +4,6 @@ import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import Link from "next/link";
 const RegistrationFormHeader = ({ conference }) => {
 
-  console.log("Conference Details in Registration:", conference);
 
   return (
     <div className={`${ConferenceDetailsStyles["container"]}`}>

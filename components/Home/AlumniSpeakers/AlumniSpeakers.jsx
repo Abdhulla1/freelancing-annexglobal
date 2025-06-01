@@ -35,122 +35,14 @@ const CustomArrow = ({ className, style, onClick, direction }) => {
 };
 
 
-const AlumniSpeakers = () => {
+const AlumniSpeakers = ({ conference }) => {
+  console.log("Conference Data speakers:", conference.speakers.speakers);
   const [visibleDetails, setVisibleDetails] = useState(false);
   const [selectedSpeaker, setSelectedSpeaker] = useState(null);
 
-  const speakerData = [ 
-    {
-      name: "Alex Micol",
-      designation: "Founder & CEO",
-      company: "Scalers",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png",
-      profileImage:
-        "/images/home/speakers/speaker.png",
-      about:
-        "Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.Upon submission of your abstract, our scientific committee will undertake a thorough review process. Rest assured, we prioritize efficiency and aim to communicate the acceptance status within 24 hours. Following acceptance, we kindly request your confirmation of attendance by completing the speaker registration. Upon successful registration, your distinguished profile banner will grace our conference website, highlighting your esteemed presence and expertise. We eagerly anticipate your participation and invaluable contributions to our upcoming event.",
-    },
-    {
-      name: "Jane Smith",
-      designation: "CTO",
-      company: "TechCorp",
-      companyLogo: "/images/reputed-organizations/gsk-dark.png", // Replace with actual logo
-      profileImage:
-        "/images/home/speakers/speakercipla.png", // Replace with actual image
-      about:
-        "Jane Smith is a visionary technology leader with over 20 years of experience. She has been instrumental in developing cutting-edge solutions for TechCorp, driving innovation and growth.",
-    },
-    {
-      name: "David Lee",
-      designation: "Senior Engineer",
-      company: "Global Solutions",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace with actual logo
-      profileImage:
-        "/images/home/speakers/speakergsk.png", // Replace with actual image
-      about:
-        "David is a Senior Engineer at Global Solutions, where he leads the development of their flagship product.  He is passionate about creating scalable and maintainable software.",
-    },
-    {
-      name: "Sarah Williams",
-      designation: "Marketing Director",
-      company: "MarketPlus",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png",  // Replace
-      profileImage:
-        "/images/home/speakers/speakergskmale.png", // Replace
-      about:
-        "Sarah is a dynamic marketing leader with a proven track record of driving brand awareness and customer engagement. She has led several successful campaigns for MarketPlus.",
-    },
-    {
-      name: "Michael Brown",
-      designation: "Finance Manager",
-      company: "FinCorp",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png",  // Replace
-      profileImage:
-        "/images/home/speakers/speakermale.png",  // Replace
-      about:
-        "Michael is a seasoned finance professional responsible for overseeing the financial operations of FinCorp. He has extensive experience in budgeting, forecasting, and financial analysis.",
-    },
-    {
-      name: "Emily Wilson",
-      designation: "HR Specialist",
-      company: "PeopleFirst",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
-      profileImage:
-        "/images/home/speakers/speakermalecipla.png", // Replace
-      about:
-        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
-    },
-    {
-      name: "Emily Wilson",
-      designation: "HR Specialist",
-      company: "PeopleFirst",
-      companyLogo: "/images/reputed-organizations/gsk-dark.png", // Replace
-      profileImage:
-        "/images/home/speakers/speakergsk.png", // Replace
-      about:
-        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
-    },
-    {
-      name: "Emily Wilson",
-      designation: "HR Specialist",
-      company: "PeopleFirst",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
-      profileImage:
-        "/images/home/speakers/speakercipla.png", // Replace
-      about:
-        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
-    },
-    {
-      name: "Emily Wilson",
-      designation: "HR Specialist",
-      company: "PeopleFirst",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
-      profileImage:
-        "/images/home/speakers/speakermalecipla.png", // Replace
-      about:
-        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
-    },
-    {
-      name: "Emily Wilson",
-      designation: "HR Specialist",
-      company: "PeopleFirst",
-      companyLogo: "/images/reputed-organizations/gsk-dark.png", // Replace
-      profileImage:
-        "/images/home/speakers/speakergsk.png", // Replace
-      about:
-        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
-    },
-    {
-      name: "Emily Wilson",
-      designation: "HR Specialist",
-      company: "PeopleFirst",
-      companyLogo: "/images/reputed-organizations/cipla-dark.png", // Replace
-      profileImage:
-        "/images/home/speakers/speakercipla.png", // Replace
-      about:
-        "Emily is an HR specialist dedicated to creating a positive and inclusive work environment at PeopleFirst. She handles recruitment, employee relations, and training.",
-    },
-  ];
+  const speakerData = conference?.speakers?.speakers;
+
+
   const settings = {
     dots: true,
     infinite: Math.ceil(speakerData.length / 8) > 1, // Conditional infinite
@@ -238,7 +130,7 @@ const slides = isMobile
           </>
         )}
       </Sidebar>
-      {/* <div className="container mt-5">
+      <div className="container mt-5">
         <div className="col-xl-3 col-lg-4 col-md-6 ">
           <div className={AlumniSpeakerStyles["header"]}>MEET OUR SPEAKERS</div>
         </div>
@@ -246,8 +138,8 @@ const slides = isMobile
         <div className="mt-4">
           <h3 className="fw-bold">Esteemed Alumni Speakers</h3>
         </div>
-      </div> */}
-{/* 
+      </div>
+
       <div className=" p-5 container flex-wrap">
       <Slider {...settings}>
   {slides.map((slide, index) => (
@@ -260,7 +152,7 @@ const slides = isMobile
                 <div className={AlumniSpeakerStyles["card-header"]}>
                   <img
                     onClick={() => handleSpeakerClick(speaker)}
-                    src={speaker.profileImage}
+                    src={speaker.imageUrl}
                     alt="Profile"
                     className={AlumniSpeakerStyles["profile-img"]}
                   />
@@ -276,10 +168,12 @@ const slides = isMobile
                     {speaker.name}
                   </div>
                   <div className={AlumniSpeakerStyles["designation"]}>
-                    {speaker.designation}
+                    {speaker.title}
                   </div>
                   <div className={AlumniSpeakerStyles["company"]}>
-                    <img src={speaker.companyLogo} alt={speaker.company} />
+                    {speaker.companyDetails}
+
+                    {/* <img src={speaker.companyLogo} alt={speaker.company} /> */}
                   </div>
                 </div>
               </div>
@@ -291,7 +185,7 @@ const slides = isMobile
   ))}
 </Slider>
 
-      </div> */}
+      </div>
     </div>
   );
 };

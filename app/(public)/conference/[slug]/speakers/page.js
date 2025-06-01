@@ -1,13 +1,25 @@
+"use client";
 import ConferenceSpeakers from '@/components/ConferenceSpeakers/ConferenceSpeakers'
 import React from 'react'
-import { getSelectedConference } from '@/service/conferenceData';
-const SpeakersPage = async({ params }) => {
+import { useConferenceLandingPage } from "@/hooks/useWeather";
+import { useParams, useRouter } from "next/navigation";
 
-    const { slug } = await params; 
-    const selectedConference=getSelectedConference(slug);
-  return (
-    <ConferenceSpeakers conference={selectedConference}/>
-  )
-}
+const SpeakersPage = () => {
+  const { slug } = useParams();
+  const { data: conferenceData } = useConferenceLandingPage("upcoming");
 
-export default SpeakersPage
+  if (!conferenceData) return null;
+
+  const selectedConference = conferenceData?.detail?.find(
+    (conf) => conf.name === slug
+  );
+
+  if (!selectedConference) {
+    // optionally handle not found UI here
+    return <div>Conference not found</div>;
+  }
+
+  return <ConferenceSpeakers conference={selectedConference} />;
+};
+
+export default SpeakersPage;

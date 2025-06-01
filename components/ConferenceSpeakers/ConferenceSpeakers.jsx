@@ -11,7 +11,7 @@ const ConferenceSpeakers = ({conference}) => {
   return (
     <div>
       <ConferenceDetails conference={conference} bgImage={bgImage} Component={RightPannel} />
-      <AlumniSpeakers/>
+      <AlumniSpeakers conference={conference}/>
       <Prospectus/>
       <EnquiryForm/>
     </div>
