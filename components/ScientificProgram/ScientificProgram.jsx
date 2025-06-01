@@ -7,6 +7,8 @@ import ConferenceDetails from '../AboutConference/ConferenceDetails/ConferenceDe
 import bgImage from '@/public/images/conferences/webinar-program-bg.png'
 import RightPannel from '../WebinarProgram/RightPannel/RightPannel'
 const ScientificProgram = ({conference}) => {
+
+  console.log("Scientific Program Conference:", conference);
   
   return (
     <>
