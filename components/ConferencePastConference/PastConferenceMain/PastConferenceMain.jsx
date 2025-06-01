@@ -2,7 +2,6 @@ import React from "react";
 import Styles from "./PastConfernceMain.module.css";
 import Link from "next/link";
 export default function PastConferenceMain({conference}) {
-  console.log("Conference Data: jjjjj", conference);
   return (
     <div className={` py-5 ${Styles["wrapper-container"]}`}>
       <div className="d-flex justify-content-center align-item-center p-5">

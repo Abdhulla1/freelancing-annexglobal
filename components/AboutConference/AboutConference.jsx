@@ -27,7 +27,7 @@ const AboutConference = ({ conference }) => {
   // const aboutAnnex = conference?.aboutAnnex || "";         
   // const aboutMission = conference?.aboutMission || "";
   const organizingCommittee = conference?.ocm || "";
-  // const discoverySessions = conference?.discoverySessions || "";
+  const discoverySessions = conference?.topics?.essentialInnovation || "";
   const pastConference = conference?.conference?.pastGallery || "";
   // const queriesAnswered = conference?.queriesAnswered || "";
   const locationAndServices = conference?.conference?.location || "";
@@ -52,7 +52,7 @@ const AboutConference = ({ conference }) => {
       <WelcomeContent welcomeContent={welcomeContent} />
       <AboutMission />
       <OrganizingCommitee organizingCommittee={organizingCommittee} id={id} />
-      <DiscoverySessions conference={conference.id} />
+      <DiscoverySessions conference={discoverySessions} />
 
       {/* <BroucherGrid/> */}
       {/* <SupportingJournals/> */}

@@ -90,6 +90,9 @@ export const useBrochure = () => {
 } 
 
 export const useConferenceLandingPage = (conferenceType) => {
+  if (!conferenceType) {
+    conferenceType = 'upcoming'; // Default to 'upcoming' if no type is provided
+  }
   return useQuery({
     queryKey: ['conferenceLandingPage', conferenceType],
     queryFn: () => api.get(`/conferences?conference_type=${conferenceType}`).then(res => res.data),

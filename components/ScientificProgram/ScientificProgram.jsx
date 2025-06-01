@@ -8,12 +8,11 @@ import bgImage from '@/public/images/conferences/webinar-program-bg.png'
 import RightPannel from '../WebinarProgram/RightPannel/RightPannel'
 const ScientificProgram = ({conference}) => {
 
-  console.log("Scientific Program Conference:", conference);
   
   return (
     <>
     <ConferenceDetails conference={conference} bgImage={bgImage} Component={RightPannel}/>
-    <ScientificProgramCarousel />
+    <ScientificProgramCarousel conference={conference} />
     <Prospectus/>
     <EnquiryForm/>
     </>

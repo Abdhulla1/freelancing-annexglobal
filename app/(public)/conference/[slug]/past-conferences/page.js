@@ -14,6 +14,8 @@ const Page = () => {
     (conf) => conf.name === slug
   );
 
+  console.log('Selected Conference:', selectedConference);
+
   if (!selectedConference) {
     return <div>Conference not found.</div>; // Better than returning null
   }

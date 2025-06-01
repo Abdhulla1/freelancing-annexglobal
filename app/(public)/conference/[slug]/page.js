@@ -5,7 +5,7 @@ import { useConferenceLandingPage } from '@/hooks/useWeather';
 import { useParams, useRouter } from 'next/navigation';
 
 const ConferencePage = () => {
-  const { data: conferenceData } = useConferenceLandingPage();
+  const { data: conferenceData } = useConferenceLandingPage("upcoming");
   const params = useParams();
   const router = useRouter();
 

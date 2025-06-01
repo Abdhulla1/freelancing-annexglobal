@@ -14,7 +14,8 @@ const DiscoverySessions = ({ conference }) => {
   const sessionsPerPage = 9;
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(sessionsPerPage);
-  const Sessions = getAllSessions();
+  const Sessions = conference;
+  console.log("Sessions", Sessions);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [visibleDetails, setVisibleDetails] = useState(false);
 
@@ -27,12 +28,18 @@ const DiscoverySessions = ({ conference }) => {
     setVisibleDetails(true);
   };
 
+  console.log("Selected Topic:", selectedTopic);
+
   return (
     <div className={DiscoverySessionsStyles["container"]}>
       <Sidebar
         visible={visibleDetails}
         position="right"
-        header={selectedTopic&&<h5 className="text-black p-3 ">{selectedTopic.title}</h5>}
+        header={
+          selectedTopic && (
+            <h5 className="text-black p-3 ">{selectedTopic.title}</h5>
+          )
+        }
         onHide={() => setVisibleDetails(false)}
         style={{
           width: "32rem",
@@ -46,7 +53,7 @@ const DiscoverySessions = ({ conference }) => {
               {/* <h4 className="fw-bolder mb-5">{selectedTopic.title}</h4> */}
               {/* Image Section */}
               <img
-                src="/images/conferences/pregnant-lady.webp"
+                src={selectedTopic.imageUrl || "images/placeholder.png"}
                 alt="Abortion and Miscarriage"
                 className="img-fluid rounded float-start me-4"
                 style={{ maxWidth: "250px", height: "auto" }}
@@ -54,30 +61,18 @@ const DiscoverySessions = ({ conference }) => {
 
               {/* Text Section */}
 
-              <p className="text-muted">
-                Abortion means ending a pregnancy on purpose, either with
-                prescription drugs or surgery. This can happen for reasons like
-                the mom's health, problems with the baby, or personal choice.
-                Miscarriage is when a pregnancy ends by itself before the 20th
-                week, often because of genetic or health issues in the mom.
-              </p>
-              <p className="text-muted">
-                These discussions cover health facts, being fair, and
-                understanding emotions, aiming to support women's well-being and
-                help them make informed choices during these experiences.
-              </p>
-
-              {/* List Section */}
-              <ul className="mt-3 ps-3">
-                <li>Vaginal Bleeding</li>
-                <li>Pregnancy Bleeding</li>
-                <li>Dilation And Curettage (D&C)</li>
-                <li>Ectopic Pregnancy</li>
-                <li>Threatened Miscarriage</li>
-                <li>Abortion Pill</li>
-                <li>Late-Term Abortion</li>
-                <li>Traumatic Loss</li>
-              </ul>
+              <div
+                className="text-muted"
+                style={{
+                  maxWidth: "100%",
+                  overflowWrap: "break-word",
+                  wordWrap: "break-word",
+                  wordBreak: "break-word",
+                  hyphens: "auto",
+                  whiteSpace: "normal",
+                }}
+                dangerouslySetInnerHTML={{ __html: selectedTopic.content }}
+              />
             </div>
           </>
         )}
@@ -91,7 +86,7 @@ const DiscoverySessions = ({ conference }) => {
                 <span
                   className={`text-truncate col-9 ${DiscoverySessionsStyles["text"]}`}
                 >
-                  {sess.title}
+                  {sess.topic}
                 </span>
                 <div
                   className={DiscoverySessionsStyles["icon"]}
