@@ -238,7 +238,7 @@ const slides = isMobile
           </>
         )}
       </Sidebar>
-      <div className="container mt-5">
+      {/* <div className="container mt-5">
         <div className="col-xl-3 col-lg-4 col-md-6 ">
           <div className={AlumniSpeakerStyles["header"]}>MEET OUR SPEAKERS</div>
         </div>
@@ -246,8 +246,8 @@ const slides = isMobile
         <div className="mt-4">
           <h3 className="fw-bold">Esteemed Alumni Speakers</h3>
         </div>
-      </div>
-
+      </div> */}
+{/* 
       <div className=" p-5 container flex-wrap">
       <Slider {...settings}>
   {slides.map((slide, index) => (
@@ -291,7 +291,7 @@ const slides = isMobile
   ))}
 </Slider>
 
-      </div>
+      </div> */}
     </div>
   );
 };

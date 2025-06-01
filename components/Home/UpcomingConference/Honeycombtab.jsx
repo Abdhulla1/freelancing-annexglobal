@@ -12,7 +12,11 @@ const categories = [
   ["ENT"],
 ];
 
-const HoneycombTabs = () => {
+const HoneycombTabs = ({data}) => {
+  const finalCategories = data || categories; // Use provided data or default categories
+  if (!data || !data.length) {
+    return null; // Return null if data is empty or undefined
+  }
   const [selected, setSelected] = useState("ALL");
 
   const handleClick = (category) => {
@@ -21,7 +25,7 @@ const HoneycombTabs = () => {
 
   return (
     <div className={`container d-none d-md-flex ${styles.honeycombContainer}`}>
-      {categories.map((row, rowIndex) => (
+      {finalCategories.map((row, rowIndex) => (
         <div className="row" key={rowIndex}>
           {row.map((category, colIndex) => (
             <button
