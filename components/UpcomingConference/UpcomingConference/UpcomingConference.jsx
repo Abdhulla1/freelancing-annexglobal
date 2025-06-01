@@ -2,10 +2,16 @@
 'use client'
 import React,{useState} from "react";
 import UpcomingConferenceStyle from "./UpcomingConference.module.css";
-
+import { useConferenceLandingPage } from "@/hooks/useWeather";
 import Link from "next/link";
 
 const UpcomingConference = () => {
+  const { data: conferenceData } = useConferenceLandingPage("upcoming");
+  const { data: pastConferenceData } = useConferenceLandingPage("past");
+  console.log("Upcoming Conference Data:", conferenceData);
+  console.log("Past Conference Data:", pastConferenceData);
+  
+
    const [expandedIndexes, setExpandedIndexes] = useState([]);
 
   const toggleShowMore = (sectionIndex) => {
@@ -15,6 +21,8 @@ const UpcomingConference = () => {
         : [...prev, sectionIndex]
     );
   };
+
+
   const upcomingConferences = [
     {
       monthAndYear: "May 2025",

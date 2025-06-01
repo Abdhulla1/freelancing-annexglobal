@@ -89,12 +89,14 @@ export const useBrochure = () => {
   });
 } 
 
-export const useConferenceLandingPage = () => {
+export const useConferenceLandingPage = (conferenceType) => {
   return useQuery({
-    queryKey: ['conferenceLandingPage'],
-    queryFn: () => api.get('/conferences?conference_type=upcoming').then(res => res.data),
+    queryKey: ['conferenceLandingPage', conferenceType],
+    queryFn: () => api.get(`/conferences?conference_type=${conferenceType}`).then(res => res.data),
   });
-}
+};
+
+
 
 export const useUploadPdf = () => {
   return useMutation({

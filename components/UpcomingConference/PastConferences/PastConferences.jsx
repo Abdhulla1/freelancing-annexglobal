@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import { useRef } from "react";
 import ConferenceCard from "./../../Reusable/ConferenceCard/ConferenceCard";
 import Link from "next/link";
+import { useConferenceLandingPage } from "@/hooks/useWeather";
 var settings = {
   dots: true,
   infinite: true,
@@ -55,16 +56,15 @@ var settings = {
 
 const PastConferences = () => {
   const sliderRef = useRef(null);
-
-  const conferenceData = {
-    image:
-      "https://media.istockphoto.com/id/1403500817/photo/the-craggies-in-the-blue-ridge-mountains.jpg?s=612x612&w=0&k=20&c=N-pGA8OClRVDzRfj_9AqANnOaDS3devZWwrQNwZuDSk=",
-    date: "MARCH 10/11/2025",
-    location: "DUBAI, UAE",
-    heading: "Primary Healthcare, Pain Management & Functional Structure",
-    desc: `We have the pleasure of inviting you to the "Annual Congress on Obstetrics and Women's Health 2025," which will be held in Dubai, United Arab Emirates, from March 10-11, 2025. This conference aims to provide a forum for the sharing of concepts, expertise.`,
-    buylink: null,
-  };
+  const { data: pastConferenceData } = useConferenceLandingPage("past");
+  const pastConference = pastConferenceData?.detail?.map((conference) => ({
+    image: conference?.cardBgImage,
+    date: conference?.conference?.landingPage?.startDate, // Replace with dynamic data if available
+    location: conference?.conference?.landingPage?.location, // Replace with conference?.conference?.location if present
+    heading: conference?.name,
+    desc: conference?.conference?.landingPage?.theme, // Replace with dynamic description if available
+    buylink: null, // Add a dynamic link if available
+  }));
 
   return (
     <div className={`px-0 ${UpcomingConferencesStyle["container"]}`}>
@@ -90,12 +90,12 @@ const PastConferences = () => {
               View More <span className="fw-bold fs-5"> →</span>
             </Link>
           </div>
-        
+
           <div className="mt-5 container-fluid">
             <Slider ref={sliderRef} {...settings}>
-              {[...Array(10)].map((_, i) => (
+              {pastConference?.map((conference, i) => (
                 <div key={i} className="px-2">
-                  <ConferenceCard {...conferenceData} />
+                  <ConferenceCard {...conference} />
                 </div>
               ))}
             </Slider>
