@@ -12,6 +12,9 @@ const ConferenceDetails = ({
   bgImage = bgImageDefault,
   buttonProps = { name: null, href: null },
 }) => {
+
+  const headerImages = conference?.webinar?.headerPanelImages
+
   return (
     <div
       className={ConferenceDetailsStyles["container"]}
@@ -128,7 +131,7 @@ const ConferenceDetails = ({
           <div
             className={`col-md-12 col-lg-3 col-xl-5 mx-auto d-none d-xl-block`}
           >
-            {Component && <Component />}
+            {Component && <Component conference={headerImages}  />}
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import QueriesAnsweredStyles from "./QueriesAnswered.module.css";
 import { Accordion, AccordionTab } from "primereact/accordion";
 
-const QueriesAnswered = () => {
+const QueriesAnswered = ({conference}) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const accordionData = [

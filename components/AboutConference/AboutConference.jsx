@@ -58,7 +58,7 @@ const AboutConference = ({ conference }) => {
       {/* <SupportingJournals/> */}
       <div className="mt-5"></div>
       {/* <ReputedOrganizations/> */}
-      <AlumniSpeakers />
+      <AlumniSpeakers  />
       {/* <DiscoverySessions conference={conference.id}/> */}
       <PastConference pastConference={pastConference} />
       <ConnectWithOthers />

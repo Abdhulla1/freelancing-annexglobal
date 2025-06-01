@@ -36,7 +36,6 @@ const CustomArrow = ({ className, style, onClick, direction }) => {
 
 
 const AlumniSpeakers = ({ conference }) => {
-  console.log("Conference Data speakers:", conference.speakers.speakers);
   const [visibleDetails, setVisibleDetails] = useState(false);
   const [selectedSpeaker, setSelectedSpeaker] = useState(null);
 
@@ -45,7 +44,7 @@ const AlumniSpeakers = ({ conference }) => {
 
   const settings = {
     dots: true,
-    infinite: Math.ceil(speakerData.length / 8) > 1, // Conditional infinite
+    infinite: Math.ceil(speakerData?.length / 8) > 1, // Conditional infinite
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -69,7 +68,7 @@ const AlumniSpeakers = ({ conference }) => {
   };
 const chunkArray = (arr, size) => {
   const result = [];
-  for (let i = 0; i < arr.length; i += size) {
+  for (let i = 0; i < arr?.length; i += size) {
     result.push(arr.slice(i, i + size));
   }
   return result;
