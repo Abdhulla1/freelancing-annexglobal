@@ -153,7 +153,7 @@ const images = [
     ],
   },
 ];
-export default function RightPannel() {
+export default function RightPannel({conference}) {
   return (
     <div
     className={` w-100 ${RightPannelStyles["image-slides-card-wrapper"]}`}

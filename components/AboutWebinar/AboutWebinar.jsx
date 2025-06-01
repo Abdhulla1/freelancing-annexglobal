@@ -15,18 +15,23 @@ import RightPannel from './RightPannel/RightPannel';
 import bgImage from "@/public/images/conferences/webinar-bg.webp";
 
 const AboutWebinar = ({conference}) => {
+  console.log("Conference ID:", conference);
+  const discoverySessions = conference?.topics?.essentialInnovation || "";
+  const alumniSpeakers = conference?.alumniSpeakers || [];
+  const queriesAnswered = conference?.webinar?.queriesAns || "";
+  const welcomeContent = conference?.webinar?.welcomeContent || "";
   return (
     <>
        
         <ConferenceDetails conference={conference} Component={RightPannel} bgImage={bgImage} buttonProps={{name:'Webinar Program',href:`/conference/${conference.id}/webinar-program`}} />
-        <WelcomeContent/>
-        <VisualRecap/>
-        <OrganizingCommitee/>
-        <DiscoverySessions conference={conference.id}/>
-        <AlumniSpeakers/>
-        <QueriesAnswered/>
-        <Prospectus/>
-        <ConnectWithOthers/>
+        <WelcomeContent conference={welcomeContent}/>
+        <VisualRecap conference={conference}/>
+        {/* <OrganizingCommitee conference={conference}/> */}
+        <DiscoverySessions conference={discoverySessions}/>
+        <AlumniSpeakers conference={conference}/>
+        <QueriesAnswered conference={queriesAnswered}/>
+        <Prospectus conference={conference}/>
+        <ConnectWithOthers conference={conference}/>
         <EnquiryForm/>
     </>
   )

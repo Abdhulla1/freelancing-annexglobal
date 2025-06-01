@@ -4,6 +4,7 @@ import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import Link from "next/link";
 const RegistrationFormHeader = ({ conference }) => {
 
+
   return (
     <div className={`${ConferenceDetailsStyles["container"]}`}>
       <div className=" my-5 ">
@@ -11,9 +12,9 @@ const RegistrationFormHeader = ({ conference }) => {
           <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center justify-content-center  mt-lg-0">
             <div>
               <div className="d-flex  flex-wrap flex-md-nowrap  align-items-center justify-content-center justify-content-md-start">
-                 <Link href={`/conference/${conference.id}`} className="text-decoration-none">
+                 <Link href={`/conference/${conference.name}`} className="text-decoration-none">
                 <img
-                  src={conference.icon}
+                  src={conference.logoUrl}
                   className={`me-4 mb-3 mb-md-0 ${ConferenceDetailsStyles["conferencelogo"]}`}
                   alt="Conference Logo"
                 />
@@ -26,7 +27,7 @@ const RegistrationFormHeader = ({ conference }) => {
                   2nd International Conference On
                 </h6>
                 <h5 className="text-uppercase text-white mb-3 mb-md-1">
-                  {conference.title}
+                  {conference?.conference?.landingPage?.title}
                 </h5>
                 <p className="text-white fst-italic">
                   {
@@ -42,7 +43,7 @@ const RegistrationFormHeader = ({ conference }) => {
                       <span className="fs-5 text-center">📅</span>
                     </div>
                     <div className="text-white mt-3">
-                      <b>12-03-2025</b>
+                      <b>{conference?.conference?.landingPage?.startDate}</b>
                       <p className="opacity-75">Date</p>
                     </div>
                     <div className="ms-3 fs-2 text-white opacity-75">|</div>
@@ -56,7 +57,7 @@ const RegistrationFormHeader = ({ conference }) => {
                       <span className="fs-5 text-center">🧭</span>
                     </div>
                     <div className="text-white  mt-3">
-                      <b>Dubai, UAE</b>
+                      <b>{conference?.conference?.landingPage?.location}</b>
                       <p className="opacity-75">Location</p>
                     </div>
                     <div className="ms-3 fs-2 text-white opacity-75">|</div>
@@ -69,7 +70,7 @@ const RegistrationFormHeader = ({ conference }) => {
                       <span className="fs-5 text-center">🛏️</span>
                     </div>
                     <div className="text-white mt-3">
-                      <b>City Seasons Hotel, Deira</b>
+                      <b>{conference?.conference?.landingPage?.address}</b>
                       <p className="opacity-75">Hotel</p>
                     </div>
                   </div>

@@ -1,5 +1,26 @@
-import React from "react";
+'use client';
+
+import React from 'react';
 import Testimonials from "@/components/ConferencePastConference/Testimonials/Testimonials";
-export default function page() {
-  return <Testimonials />;
-}
+import PastConferenceMain from '@/components/ConferencePastConference/PastConferenceMain/PastConferenceMain';
+import { useConferenceLandingPage } from '@/hooks/useWeather';
+import { useParams } from 'next/navigation';
+
+const Page = () => {
+  const { data: conferenceData } = useConferenceLandingPage();
+  const params = useParams();
+  const slug = params?.slug;
+
+  const selectedConference = conferenceData?.detail?.find(
+    (conf) => conf.name === slug
+  );
+
+  if (!selectedConference) {
+    return <div>Conference not found.</div>; // Better than returning null
+  }
+
+
+  return <Testimonials conference={selectedConference} />;
+};
+
+export default Page;

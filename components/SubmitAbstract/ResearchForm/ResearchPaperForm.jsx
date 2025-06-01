@@ -1,43 +1,127 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import styles from "./ResearchPaperForm.module.css";
 import { useDropzone } from "react-dropzone";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useParams } from "next/navigation";
+import { Toast } from "primereact/toast";
+import { useResearchForm, useUploadPdf } from "@/hooks/useWeather";
+import { useMutation } from "@tanstack/react-query";
 
 const ResearchPaperForm = () => {
+  const toast = useRef(null);
+  const researchFormMutation = useResearchForm();
+  const uploadPdfMutation = useUploadPdf();
+  const params = useParams();
+  const conferenceName = params?.slug;
   const formik = useFormik({
     initialValues: {
+      conference: conferenceName || "",
       firstName: "",
       lastName: "",
       email: "",
       alternateEmail: "",
       country: "",
-      contactNumber: "",
+      mobileNumber: "",
       affiliation: "",
       title: "",
       address: "",
       addonName: "",
       addonEmail: "",
-      addonContactNumber: "",
-      files: [],
+      addonMobileNumber: "",
+      attachFiles: [], // <-- string here
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required("First Name is required"),
       lastName: Yup.string().required("Last Name is required"),
       email: Yup.string().email("Invalid email").required("Email is required"),
       country: Yup.string().required("Country is required"),
-      contactNumber: Yup.string().required("Contact Number is required"),
+      mobileNumber: Yup.string().required("Mobile Number is required"),
       affiliation: Yup.string().required("Affiliation is required"),
       title: Yup.string().required("Title is required"),
     }),
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      try {
+        // Normalize primary mobile number
+        let normalizedMobile = values.mobileNumber
+          .trim()
+          .replace(/[\s\-().]/g, "");
+        if (normalizedMobile.startsWith("+91"))
+          normalizedMobile = normalizedMobile.slice(3);
+        else if (normalizedMobile.startsWith("0"))
+          normalizedMobile = normalizedMobile.slice(1);
+        normalizedMobile = "+91" + normalizedMobile;
+
+        // Normalize addon mobile number if present
+        let normalizedAddonMobile = values.addonMobileNumber
+          ? values.addonMobileNumber.trim().replace(/[\s\-().]/g, "")
+          : "";
+        if (normalizedAddonMobile.startsWith("+91"))
+          normalizedAddonMobile = normalizedAddonMobile.slice(3);
+        else if (normalizedAddonMobile.startsWith("0"))
+          normalizedAddonMobile = normalizedAddonMobile.slice(1);
+        if (normalizedAddonMobile)
+          normalizedAddonMobile = "+91" + normalizedAddonMobile;
+
+        // Upload files as before
+        let attachFilesString = "";
+        if (values.attachFiles && values.attachFiles.length > 0) {
+          const formData = new FormData();
+          values.attachFiles.forEach((file) => {
+            formData.append("file", file);
+          });
+
+          const response = await uploadPdfMutation.mutateAsync(formData);
+          const urls = response?.detail?.message?.map((item) => item.url) || [];
+          attachFilesString = urls.join(",");
+        }
+
+        // Final submission data
+        const submissionData = {
+          ...values,
+          mobileNumber: normalizedMobile,
+          addonMobileNumber: normalizedAddonMobile,
+          attachFiles: attachFilesString,
+        };
+
+        researchFormMutation.mutate(submissionData, {
+          onSuccess: () => {
+            toast.current.show({
+              severity: "success",
+              summary: "Success",
+              detail: "Form submitted successfully",
+              life: 3000,
+            });
+            formik.resetForm({ values: formik.initialValues });
+          },
+          onError: (error) => {
+            toast.current.show({
+              severity: "error",
+              summary: "Submission Failed",
+              detail:
+                error.message || "Failed to submit form. Please try again.",
+              life: 3000,
+            });
+
+            console.error("Error submitting form:", error);
+          },
+        });
+      } catch (error) {
+        toast.current.show({
+          severity: "error",
+          summary: "Upload Failed",
+          detail: error.message || "Failed to upload files. Please try again.",
+          life: 3000,
+        });
+
+        console.error("PDF upload failed:", error);
+      }
     },
   });
 
   const onDrop = (acceptedFiles) => {
-    formik.setFieldValue("files", acceptedFiles);
+    formik.setFieldValue("attachFiles", acceptedFiles);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -52,6 +136,7 @@ const ResearchPaperForm = () => {
 
   return (
     <div className={styles.wrapper}>
+      <Toast ref={toast} />
       <div className={styles.downloadSection}>
         <button className={styles.downloadButton}>
           DOWNLOAD THE SAMPLE ABSTRACT HERE{" "}
@@ -71,7 +156,9 @@ const ResearchPaperForm = () => {
               <input
                 type="text"
                 name="firstName"
-                className={`form-control ${styles.inputField} ${getValidationClass("firstName")}`}
+                className={`form-control ${
+                  styles.inputField
+                } ${getValidationClass("firstName")}`}
                 placeholder="Enter First Name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -87,7 +174,9 @@ const ResearchPaperForm = () => {
               <input
                 type="text"
                 name="lastName"
-                className={`form-control ${styles.inputField} ${getValidationClass("lastName")}`}
+                className={`form-control ${
+                  styles.inputField
+                } ${getValidationClass("lastName")}`}
                 placeholder="Enter Last Name"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -106,7 +195,9 @@ const ResearchPaperForm = () => {
               <input
                 type="email"
                 name="email"
-                className={`form-control ${styles.inputField} ${getValidationClass("email")}`}
+                className={`form-control ${
+                  styles.inputField
+                } ${getValidationClass("email")}`}
                 placeholder="Enter Email ID"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -120,6 +211,7 @@ const ResearchPaperForm = () => {
               <input
                 type="email"
                 name="alternateEmail"
+                value={formik.values.alternateEmail}
                 className={`form-control ${styles.inputField}`}
                 placeholder="Enter Alternate Email"
                 onChange={formik.handleChange}
@@ -136,7 +228,9 @@ const ResearchPaperForm = () => {
               <input
                 type="text"
                 name="country"
-                className={`form-control ${styles.inputField} ${getValidationClass("country")}`}
+                className={`form-control ${
+                  styles.inputField
+                } ${getValidationClass("country")}`}
                 placeholder="Enter Country"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -151,14 +245,18 @@ const ResearchPaperForm = () => {
               </label>
               <input
                 type="text"
-                name="contactNumber"
-                className={`form-control ${styles.inputField} ${getValidationClass("contactNumber")}`}
+                name="mobileNumber"
+                className={`form-control ${
+                  styles.inputField
+                } ${getValidationClass("mobileNumber")}`}
                 placeholder="Enter Contact Number"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.contactNumber}
+                value={formik.values.mobileNumber}
               />
-              <div className="invalid-feedback">{formik.errors.contactNumber}</div>
+              <div className="invalid-feedback">
+                {formik.errors.mobileNumber}
+              </div>
             </div>
           </div>
 
@@ -171,13 +269,17 @@ const ResearchPaperForm = () => {
               <input
                 type="text"
                 name="affiliation"
-                className={`form-control ${styles.inputField} ${getValidationClass("affiliation")}`}
+                className={`form-control ${
+                  styles.inputField
+                } ${getValidationClass("affiliation")}`}
                 placeholder="Enter Affiliation"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.affiliation}
               />
-              <div className="invalid-feedback">{formik.errors.affiliation}</div>
+              <div className="invalid-feedback">
+                {formik.errors.affiliation}
+              </div>
             </div>
 
             <div className="col-md-6 mb-2">
@@ -187,7 +289,9 @@ const ResearchPaperForm = () => {
               <input
                 type="text"
                 name="title"
-                className={`form-control ${styles.inputField} ${getValidationClass("title")}`}
+                className={`form-control ${
+                  styles.inputField
+                } ${getValidationClass("title")}`}
                 placeholder="Enter Title"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -204,6 +308,7 @@ const ResearchPaperForm = () => {
               <input
                 type="text"
                 name="address"
+                value={formik.values.address}
                 className={`form-control ${styles.inputField}`}
                 placeholder="Enter Address"
                 onChange={formik.handleChange}
@@ -215,6 +320,7 @@ const ResearchPaperForm = () => {
               <input
                 type="text"
                 name="addonName"
+                value={formik.values.addonName}
                 className={`form-control ${styles.inputField}`}
                 placeholder="Enter Addon Name"
                 onChange={formik.handleChange}
@@ -228,6 +334,7 @@ const ResearchPaperForm = () => {
               <input
                 type="email"
                 name="addonEmail"
+                value={formik.values.addonEmail}
                 className={`form-control ${styles.inputField}`}
                 placeholder="Enter Addon Email"
                 onChange={formik.handleChange}
@@ -238,7 +345,8 @@ const ResearchPaperForm = () => {
               <label className={styles.label}>Addon Contact Number</label>
               <input
                 type="text"
-                name="addonContactNumber"
+                name="addonMobileNumber"
+                value={formik.values.addonMobileNumber}
                 className={`form-control ${styles.inputField}`}
                 placeholder="Enter Addon Contact Number"
                 onChange={formik.handleChange}
@@ -258,15 +366,29 @@ const ResearchPaperForm = () => {
               )}
             </div>
             <ul>
-              {formik.values.files.map((file, index) => (
+              {formik.values.attachFiles.map((file, index) => (
                 <li key={index}>{file.name}</li>
               ))}
             </ul>
           </div>
 
           {/* Submit Button */}
-          <button type="submit" className={styles.submitButton}>
-            Submit →
+          <button
+            type="submit"
+            disabled={formik.isSubmitting}
+            className={styles.submitButton}
+          >
+            {formik.isSubmitting ? (
+              <>
+                <i
+                  className="pi pi-spin pi-spinner"
+                  style={{ marginRight: "0.5em" }}
+                ></i>
+                Submitting...
+              </>
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
       </div>

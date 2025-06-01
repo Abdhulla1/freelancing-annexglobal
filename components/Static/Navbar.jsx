@@ -1,15 +1,28 @@
 "use client";
-import { Sidebar } from "primereact/sidebar";
 
+import { Sidebar } from "primereact/sidebar";
+import { useWeather } from '@/hooks/useWeather';
 import { useState, useRef, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useMainPage } from "@/hooks/useWeather";
 import NavbarStyles from "./Navbar.module.css";
 import useSessionStorageState from "use-local-storage-state"; // Using session storage hook
 export default function Navbar() {
+   const { data: Mdata, isPending: MisPending, isError: MisError } = useMainPage();
+
+    const { mutate, data, isPending, isError } = useWeather();
   const [isOpen, setIsOpen] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const [expandedItem, setExpandedItem] = useState(null);
+
+
+
+
+    useEffect(() => {
+    mutate();
+  }, [mutate]);
+
 
   const toggleExpand = (label) => {
     setExpandedItem(expandedItem === label ? null : label);
@@ -195,7 +208,7 @@ export default function Navbar() {
         className={` d-none d-md-flex fw-bold justify-content-center p-2 align-items-center w-100 ${NavbarStyles.announcementBar}`}
       >
         <span>
-          Join more than 7,000 + Marketers in Budapest 4-5 September 2025{" "}
+          {Mdata?.detail?.location?.headerTexting}{" "}
         </span>
         <span className="ps-2 pe-2 p-1 ms-2 rounded">
           Attend Annex Global conference world
@@ -212,8 +225,8 @@ export default function Navbar() {
             <div className="mt-2">
               {/* Location/Weather*/}
               <p className={`d-none  d-xxl-block ${NavbarStyles["sub-title"]}`}>
-                Dubai, UAE &nbsp;•&nbsp;26-27 February 2025&nbsp;•&nbsp;
-                <i className="bx bxs-sun text-warning" /> 36.1°C
+                {data?.detail?.location} &nbsp;•&nbsp;{data?.detail?.dates}&nbsp;•&nbsp;
+                <i className="bx bxs-sun text-warning" /> {data?.detail?.weather}
               </p>
             </div>
           </div>

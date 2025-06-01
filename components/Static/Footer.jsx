@@ -1,8 +1,39 @@
+"use client";
 import React from "react";
 import footerStyle from "./Footer.module.css";
+import { useState, useRef, useEffect, useMemo } from "react";
+import { useWeather } from '@/hooks/useWeather';
+import { useSocialLinks } from "@/hooks/useWeather";
 
 import Link from "next/link";
 const Footer = () => {
+  const { mutate: mutateSocialLinks, data: socialLinksData } = useSocialLinks();
+
+    const { mutate, data, isPending, isError } = useWeather();
+
+      useEffect(() => {
+    mutate();
+  }, [mutate]);
+
+    const facebook = socialLinksData?.detail?.find(
+    (item) => item.name.toLowerCase() === "facebook"
+  );
+  const instagram = socialLinksData?.detail?.find(
+    (item) => item.name.toLowerCase() === "instagram"
+  );
+  const linkedin = socialLinksData?.detail?.find(
+    (item) => item.name.toLowerCase() === "linkedin"
+  );
+  const twitter = socialLinksData?.detail?.find(
+    (item) => item.name.toLowerCase() === "twitter"
+  );
+  const youtube = socialLinksData?.detail?.find(
+    (item) => item.name.toLowerCase() === "youtube"
+  );
+  const whatsapp = socialLinksData?.detail?.find(
+    (item) => item.name.toLowerCase() === "whatsapp"
+  );
+
   return (
     <footer className={footerStyle["footer"]}>
       <div className="container">
@@ -10,7 +41,7 @@ const Footer = () => {
           <img src="/icons/annex_logo.png" alt="Logo" />
           <small className="ms-3 text-white">
             {" "}
-            Dubai, UAE • 26-27 February 2025
+            {data?.detail?.location} • {data?.detail?.dates}
           </small>
         </div>
         <div className="mt-4 col">
@@ -20,8 +51,9 @@ const Footer = () => {
           </small>
           <div className="d-inline-flex justify-content-center gap-3">
             {/*Facebook*/}
-            <Link
-              href="https://www.facebook.com/yourusername"
+           {facebook?.status && (
+           <Link
+              href={facebook?.url}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -41,9 +73,11 @@ const Footer = () => {
                 />
               </svg>
             </Link>
+           )} 
             {/*Instagram*/}
+           {instagram?.status && (
             <Link
-              href="https://www.instagram.com/yourusername"
+              href={instagram?.url}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -77,9 +111,11 @@ const Footer = () => {
                 />
               </svg>
             </Link>
+           )}
             {/*Linkedin*/}
+           {linkedin?.status && (
             <Link
-              href="https://www.linkedin.com/in/your-profile"
+              href={linkedin?.url}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -113,9 +149,12 @@ const Footer = () => {
                 />
               </svg>
             </Link>
+             
+           )}
             {/*Whatsapp*/}
+            {whatsapp?.status && (
             <Link
-              href="https://wa.me/1234567890"
+              href={whatsapp?.url}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -148,9 +187,12 @@ const Footer = () => {
                 </defs>
               </svg>
             </Link>
+            )}
             {/*Twitter*/}
+            {twitter?.status && (
+
             <Link
-              href="https://x.com/"
+              href={twitter?.url}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -167,9 +209,12 @@ const Footer = () => {
                 />
               </svg>
             </Link>
+            )}
             {/*Youtube*/}
+            {youtube?.status && (
+
             <Link
-              href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+              href={youtube?.url}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -208,6 +253,7 @@ const Footer = () => {
                 </defs>
               </svg>
             </Link>
+            )}
             <Link
               href={"#"}
               className="text-decoration-none text-warning ms-3 text-center"

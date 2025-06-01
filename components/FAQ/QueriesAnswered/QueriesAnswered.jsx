@@ -11,7 +11,7 @@ const QueriesAnswered = ({ faqData }) => {
     return (
       <div className="d-flex align-items-center justify-content-between">
         <div className="ms-3">
-          <h5 className={`${QueriesAnsweredStyles['title']} `}>{data.question}</h5>
+          <h5 className={`${QueriesAnsweredStyles['title']} `}>{data.title}</h5>
         </div>
         <div>
           <button className={`btn ${QueriesAnsweredStyles["accordion-button"]} h-100`}>
@@ -43,7 +43,9 @@ const QueriesAnswered = ({ faqData }) => {
                 . We’re here to help!
               </>
             ) : (
-              data.answer
+              <div 
+                dangerouslySetInnerHTML={{ __html: data.content }}
+              />
             )}
           </p>
                 </AccordionTab>

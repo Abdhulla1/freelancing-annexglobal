@@ -9,15 +9,18 @@ const cardsData = Array.from({ length: 20 }, (_, i) => ({
   location: 'Bangladesh',
 }));
 
-const Card = ({ name, college, location }) => (
+const Card = ({ name, affliation, country }) => (
   <div className={`card text-center p-4 m-2 shadow-sm ${Style['attendee-card']}`} style={{ width: '18rem' }}>
     <strong className='mb-3'>{name}</strong>
-    <p className="mb-0 fs-6">{college}</p>
-    <small>{location}</small>
+    <p className="mb-0 fs-6">{affliation}</p>
+    <small>{country}</small>
   </div>
 );
 
 export default function ConferenceAttendees({ conference }) {
+  console.log('ConferenceAttendees', conference);
+  const ConferenceAttendees = conference?.pastConference?.conferenceAttendees || [];
+  const cardsData = ConferenceAttendees.length > 0 ? ConferenceAttendees : cardsData;                                                                                                 
   const [showAll, setShowAll] = useState(false);
 
   // Split into rows (4 in odd, 3 in even)

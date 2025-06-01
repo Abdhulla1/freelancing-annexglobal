@@ -1,14 +1,28 @@
+"use client";
+
+import React from "react";
 import AboutWebinar from '@/components/AboutWebinar/AboutWebinar'
-import React from 'react'
-import { getSelectedConference } from '@/service/conferenceData';
+import Registration from "@/components/Registration/Registration";
+import { useConferenceLandingPage } from "@/hooks/useWeather";
+import { useParams, useRouter } from "next/navigation";
+import { notFound } from "next/navigation";
 
-const AboutWebinarPage = async({ params }) => {
+const AboutWebinarPage = () => {
+  const { slug } = useParams();
+  const { data: conferenceData } = useConferenceLandingPage("upcoming");
 
-    const { slug } = await params; 
-    const selectedConference=getSelectedConference(slug);
-  return (
-    <AboutWebinar conference={selectedConference}/>
-  )
-}
+  if (!conferenceData) return null; // or a loading spinner
 
-export default AboutWebinarPage
+  const selectedConference = conferenceData?.detail?.find(
+    (conf) => conf.name === slug
+  );
+
+  if (!selectedConference) {
+    notFound();
+    return null;
+  }
+
+  return <AboutWebinar conference={selectedConference} />;
+};
+
+export default AboutWebinarPage;

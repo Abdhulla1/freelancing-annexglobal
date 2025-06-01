@@ -1,14 +1,20 @@
+"use client";
 import React from "react";
 import BannerStyle from "./Banner.module.css";
 import Marquee from "react-fast-marquee";
 import Link from "next/link";
 import Button from "@/components/Static/Button";
+import { useMainPage } from "@/hooks/useWeather";
+
 
 const Banner = () => {
+      const { mutate, data, isPending, isError } = useMainPage();
+
+      
   return (
     <div className={BannerStyle["img-container"]}>
       <img
-        src="/images/home/intro-image.jpg"
+        src={data?.detail?.landingPage?.imageUrl || "images/banner.jpg"}
         alt="Sample Image"
         className={BannerStyle["image"]}
       />
@@ -17,9 +23,9 @@ const Banner = () => {
       
         <p>WELCOME TO</p>
         <h4 className="fw-bold">ANNEX GLOBAL CONFERENCES</h4>
-        <h1 className={`text-uppercase ${BannerStyle["location"]}`}>Dubai</h1>
+        <h1 className={`text-uppercase ${BannerStyle["location"]}`}>{data?.detail?.landingPage?.heading}</h1>
         <p className="mt-3 h5 fw-light lh-sm" style={{ color: "#D0D0D0" }}>
-          “Exploring New Realms, Challenging Constraints, Fostering Collaboration” 
+          {data?.detail?.landingPage?.subTitle} 
         </p>
       <Button/>
      

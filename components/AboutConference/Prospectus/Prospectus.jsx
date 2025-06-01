@@ -1,9 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Dialog } from "primereact/dialog";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import { Toast } from "primereact/toast";
 import ProspectusStyles from "./Prospectus.module.css";
+import { useParams } from "next/navigation";
+import { useBrochure } from "@/hooks/useWeather";
 
 const prospectusData = [
   {
@@ -27,6 +30,10 @@ const prospectusData = [
 ];
 
 const Prospectus = () => {
+  const params = useParams();
+  const toast = useRef(null);
+  const conferenceName = params?.slug;
+  const BrochureMutation = useBrochure();
   const [activeIndex, setActiveIndex] = useState(1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -38,30 +45,65 @@ const Prospectus = () => {
     firstName: Yup.string().required("First name is required"),
     lastName: Yup.string().required("Last name is required"),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    country: Yup.string().required("Country is required"),
+    contry: Yup.string().required("Country is required"),
     address: Yup.string().required("Address is required"),
-    contactNumber: Yup.string()
-  .matches(/^[0-9]{10}$/, "Contact number must be 10 digits")
-  .required("Contact number is required"),
+    mobileNumber: Yup.string()
+      .matches(/^[0-9]{10}$/, "Contact number must be 10 digits")
+      .required("Contact number is required"),
   });
 
   const initialValues = {
+    conference: conferenceName || "",
     firstName: "",
     lastName: "",
     email: "",
-    country: "",
+    contry: "",
     address: "",
-    contactNumber: "",
+    mobileNumber: "",
   };
 
   const handleSubmit = (values, { resetForm }) => {
-    console.log("Form Submitted:", values);
-    setIsDialogOpen(false);
-    resetForm();
+           let normalizedMobile = values.mobileNumber
+          .trim()
+          .replace(/[\s\-().]/g, "");
+        if (normalizedMobile.startsWith("+91"))
+          normalizedMobile = normalizedMobile.slice(3);
+        else if (normalizedMobile.startsWith("0"))
+          normalizedMobile = normalizedMobile.slice(1);
+        normalizedMobile = "+91" + normalizedMobile;
+    
+    const formattedValues = {
+      ...values,
+      mobileNumber: normalizedMobile,
+    };
+
+
+    BrochureMutation.mutate(formattedValues, {
+      onSuccess: (data) => {
+        toast.current.show({
+          severity: "success",
+          summary: "Success",
+          detail: "Form submitted successfully",
+          life: 3000,
+        });
+        setIsDialogOpen(false);
+        resetForm();
+      },
+      onError: (error) => {
+        toast.current.show({
+          severity: "error",
+          summary: "Submission Failed",
+          detail: error.message || "Failed to submit form. Please try again.",
+          life: 3000,
+        });
+        console.error("Error submitting form:", error);
+      },
+    });
   };
 
   return (
     <div className={`py-5 ${ProspectusStyles["container"]}`}>
+      <Toast ref={toast} />
       <div className="container">
         <div className="row">
           <div className="col-md-5 mb-5 mb-md-0 overflow-y-auto">
@@ -207,7 +249,7 @@ const Prospectus = () => {
                     <label className="form-label">
                       Country <span className="text-danger">*</span>
                     </label>
-                    <Field name="country">
+                    <Field name="contry">
                       {({ field, meta }) => (
                         <>
                           <input
@@ -229,8 +271,10 @@ const Prospectus = () => {
 
                 <div className="row mt-3">
                   <div className="col-md-6">
-                    <label className="form-label">Contact Number  <span className="text-danger">*</span></label>
-                    <Field name="contactNumber">
+                    <label className="form-label">
+                      Contact Number <span className="text-danger">*</span>
+                    </label>
+                    <Field name="mobileNumber">
                       {({ field, meta }) => (
                         <>
                           <input
@@ -249,7 +293,9 @@ const Prospectus = () => {
                     </Field>
                   </div>
                   <div className="col-md-6">
-                    <label className="form-label">Address  <span className="text-danger">*</span> </label>
+                    <label className="form-label">
+                      Address <span className="text-danger">*</span>{" "}
+                    </label>
                     <Field name="address">
                       {({ field, meta }) => (
                         <>

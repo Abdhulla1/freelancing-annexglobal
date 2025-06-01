@@ -8,7 +8,8 @@ import "primeicons/primeicons.css";
 import DiscoverySessionsStyles from "./ResearchCarouusel.module.css";
 import "./PaginatorStyles.css"; // Import the new CSS file.
 import { getAllSessions } from "@/service/conferenceData";
-const ResearchCarouusel = ({conferenceId}) => {
+const ResearchCarouusel = ({conference}) => {
+  console.log("Conference ID: from ResearchCarousel", conference);
   const sessionsPerPage = 8;
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(sessionsPerPage);
@@ -42,7 +43,7 @@ const ResearchCarouusel = ({conferenceId}) => {
             <div className="col-12 col-md-6 col-lg-5 mt-4 d-flex" key={i}>
               <div className={DiscoverySessionsStyles["card"]}>
                 <span className={`text-truncate col-9 ${DiscoverySessionsStyles["text"]}`}>{sess.title}</span>
-                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conferenceId}/topics/${sess.id}`} >
+                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference.name}/topics/${sess.id}`} >
                   <i className="pi-reply pi"></i>
                 </Link>
               </div>

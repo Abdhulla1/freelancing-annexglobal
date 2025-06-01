@@ -3,47 +3,13 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./ScientificProgramCarousel.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const ScientificProgramCarousel = () => {
-  const conferencePrograms = [
-    {
-      image: "/images/conferences/scientific-program.png",
-      date: "March 17-18 2025",
-      title: "Annual Congress On Gynecology, Obstetrics, And Women's Health",
-    },
-    {
-      image: "/images/conferences/scientific-program-one.png",
-      date: "March 15-18 2025",
-      title:
-        "Scientific committee will undertake a thorough review process. ",
-    },
-    {
-      image: "/images/conferences/scientific-program-two.png",
-      date: "March 17-05 2025",
-      title: "Annual Congress On Gynecology, Obstetrics Health",
-    },
-    {
-      image: "/images/conferences/scientific-program-one.png",
-      date: "March 15-18 2025",
-      title:
-        "Scientific committee will undertake a thorough review process. ",
-    },
-    {
-      image: "/images/conferences/scientific-program-two.png",
-      date: "March 17-05 2025",
-      title: "Annual Congress On Gynecology, Obstetrics Health",
-    },
-    {
-      image: "/images/conferences/scientific-program-one.png",
-      date: "March 15-18 2025",
-      title:
-        "Scientific committee will undertake a thorough review process. ",
-    },
-    {
-      image: "/images/conferences/scientific-program-two.png",
-      date: "March 17-05 2025",
-      title: "Annual Congress On Gynecology, Obstetrics Health",
-    },
-  ];
+const ScientificProgramCarousel = ({ conference }) => {
+
+  console.log("Conference Data jk for scientific program:", conference);
+
+  const conferencePrograms = conference?.scientificProgram?.scientificProgramAdmin;
+
+  console.log("Conference Programs:", conferencePrograms);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const textSectionRef = useRef(null);
@@ -133,7 +99,7 @@ const ScientificProgramCarousel = () => {
 
               }}>
                 <img
-                  src={program.image}
+                  src={program.coverImage}
                   alt="Conference"
                   className={styles.images}
                 />
@@ -146,14 +112,17 @@ const ScientificProgramCarousel = () => {
        
         <div>
           <div className={`${styles.programItem}`}>
-            <h6>{conferencePrograms[currentIndex].date}</h6>
+            <h6>{conferencePrograms[currentIndex].programDate}</h6>
             <p className="mb-0">{conferencePrograms[currentIndex].title}</p>
           </div>
         </div>
         <button
           className={`col-md-6 brand-btn btn-warning  ${styles.downloadButton}`}
+          onClick={() =>
+            window.open(conferencePrograms[currentIndex].programFile, "_blank")
+          }
         >
-          {conferencePrograms[currentIndex].date} | Download
+          {conferencePrograms[currentIndex].programDate} | Download
         </button>
       </div>
     </div>

@@ -10,6 +10,7 @@ const ConferenceDetails = ({
   bgImage = bgImageDefault,
   buttonProps = { name: null, href: null },
 }) => {
+  console.log(conference);
   return (
     <div
       className={ConferenceDetailsStyles["container"]}
@@ -21,12 +22,12 @@ const ConferenceDetails = ({
             <div className="d-flex flex-wrap flex-md-nowrap  align-items-center justify-content-center justify-content-md-start  p-3">
               <div className="row justify-content-center me-3 ">
                 <Link
-                  href={`/conference/${conference.id}`}
+                  href={`/conference/${conference?.id}`}
                   className={`text-decoration-none `}
                 >
                   <div className={ConferenceDetailsStyles.logoWrapper}>
                     <Image
-                      src={conference.icon} 
+                      src={conference?.icon} 
                       alt="Conference Logo"
                       fill
                       className={ConferenceDetailsStyles.logoImage}
@@ -54,7 +55,7 @@ const ConferenceDetails = ({
                   2nd International Conference On
                 </h5>
                 <h4 className="text-uppercase text-white mb-3 mb-md-1">
-                  {conference.title}
+                  {conference?.title}
                 </h4>
                 <p className="text-white fst-italic">
                   {
@@ -106,7 +107,7 @@ const ConferenceDetails = ({
                 </div>
                 <div className="mt-4 gap-3 d-flex flex-column flex-md-row">
                   <Link
-                    href={`/conference/${conference.id}/registration`}
+                    href={`/conference/${conference?.id}/registration`}
                     className={`text-decoration-none fw-bold ${ConferenceDetailsStyles["brand-btn"]}`}
                   >
                     Grab Your Seats Now
