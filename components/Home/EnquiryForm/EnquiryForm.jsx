@@ -4,6 +4,7 @@ import EnquiryStyles from "./EnquiryForm.module.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useNewsLetter } from "@/hooks/useWeather";
+import { useConferenceNames } from "@/hooks/useWeather";
 import { Toast } from "primereact/toast";
 import { useMutation } from "@tanstack/react-query";
 
@@ -19,19 +20,12 @@ const validationSchema = Yup.object({
     .required("Message is required"),
   conference: Yup.string().required("Conference is required"),
 });
-const conferneceData = [
-  "Innovations In Diabetes Diagnosis",
-  "Diabetes Management And Treatment",
-  "Infectious Diseases And Preventive",
-  "Advance In Clinical Medicine",
-  "Mental Health And Psychological",
-  "Global Health And Internal Medicine",
-  "Public Health And Nutrition",
-];
 
 const EnquiryForm = () => {
   const toast = useRef(null);
   const newsLetterMutation = useNewsLetter();
+  const { data: conferenceNames } = useConferenceNames();
+  const conferneceData = conferenceNames?.detail?.names || [];
 
   return (
     <div className={` ${EnquiryStyles["enquiry-container"]}`}>

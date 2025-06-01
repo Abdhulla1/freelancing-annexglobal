@@ -19,7 +19,7 @@ import RightPannel from "./ConferenceDetails/RightPannel/RightPannel";
 import bgImage from "@/public/images/conferences/upcoming-bg.webp";
 
 const AboutConference = ({ conference }) => {
-  const id = conference?.permalink
+  const id = conference?.name
   const logoUrl = conference?.logoUrl 
   const welcomeContent = conference?.conference?.welcomeContent || "";
   const landingPageContent = conference?.conference?.landingPage || "";
@@ -46,7 +46,7 @@ const AboutConference = ({ conference }) => {
         id={id}
         buttonProps={{
           name: "Scientific Program",
-          href: `/conference/${conference.permalink}/scientific-program`,
+          href: `/conference/${conference.name}/scientific-program`,
         }}
       />
       <WelcomeContent welcomeContent={welcomeContent} />

@@ -11,7 +11,7 @@ const ConferencePage = () => {
 
 
   const slug = params?.slug;
-  const selectedConference = conferenceData?.detail?.find((conf) => conf.permalink === slug);
+  const selectedConference = conferenceData?.detail?.find((conf) => conf.name === slug);
   if (!selectedConference) {
     // Programmatic redirect since `notFound()` doesn't work in client components
     // router.replace('/404');

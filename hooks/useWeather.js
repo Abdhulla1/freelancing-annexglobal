@@ -141,3 +141,10 @@ export const usePayPalVerify = () => {
       paymentApi.post('/verify/paypal', data).then((res) => res.data),
   });
 }
+
+export const useConferenceNames = () => {
+  return useQuery({
+    queryKey: ['conferenceNames'],
+    queryFn: () => api.get('/conferences/names').then(res => res.data),
+  });
+}

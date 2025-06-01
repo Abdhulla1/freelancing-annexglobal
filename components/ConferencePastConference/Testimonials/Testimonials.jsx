@@ -16,7 +16,7 @@ const dummyTestimonials = Array.from({length:20},(_,i)=>  ({
 
 const Testimonials = ({conference}) => {
   console.log("Testimonials Conference Data:", conference);
-  const id = conference?.permalink;
+  const id = conference?.name;
   const logoUrl = conference?.logoUrl;
   const welcomeContent = conference?.conference?.welcomeContent || "";
   const landingPageContent = conference?.conference?.landingPage || "";

@@ -14,7 +14,7 @@ const Page = () => {
   if (error) return <div>Error loading conference data.</div>;
 
   const selectedConference = conferenceData?.detail?.find(
-    (conf) => conf.permalink === slug
+    (conf) => conf.name === slug
   );
 
   if (!selectedConference) {

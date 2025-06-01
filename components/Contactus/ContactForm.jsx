@@ -4,9 +4,12 @@ import { useState } from "react";
 import styles from "./ContactForm.module.css"; // Import CSS module
 import { useSubmitBrochure } from "@/hooks/useWeather";
 import { Toast } from "primereact/toast";
+import { useConferenceNames } from "@/hooks/useWeather";
 
 const ContactForm = () => {
   const toast = useRef(null);
+  const { data: conferenceNames } = useConferenceNames();
+  const conferenceData = conferenceNames?.detail?.names || [];
 
   const {
     mutate: submitBrochure,
@@ -23,16 +26,6 @@ const ContactForm = () => {
     mobileNumber: "",
     message: "",
   });
-
-  const conferenceData = [
-    "Innovations In Diabetes Diagnosis",
-    "Diabetes Management And Treatment",
-    "Infectious Diseases And Preventive",
-    "Advance In Clinical Medicine",
-    "Mental Health And Psychological",
-    "Global Health And Internal Medicine",
-    "Public Health And Nutrition",
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;

@@ -5,11 +5,11 @@ export default function PastConferenceReport({conference}) {
     const tabsData=[
         {
             tabName:"PAST ATTENDEES",
-           href:`/conference/${conference.permalink}/past-conferences/conference-attendees`
+           href:`/conference/${conference.name}/past-conferences/conference-attendees`
         },
         {
             tabName:"GALLERY",
-            href:`/conference/${conference.permalink}/past-conferences/gallery`
+            href:`/conference/${conference.name}/past-conferences/gallery`
         },
         {
             tabName:"TESTIMONIALS",
@@ -17,15 +17,14 @@ export default function PastConferenceReport({conference}) {
         },
         {
             tabName:"SCIENTIFIC PROGRAM",
-            href:`/conference/${conference.permalink}/scientific-program`
+            href:`/conference/${conference.name}/scientific-program`
         },
         {
             tabName:"WEBINAR PROGRAM",
-            href:`/conference/${conference.permalink}/webinar-program`
+            href:`/conference/${conference.name}/webinar-program`
         },
     ]
     const PastConferenceReportData=conference?.pastConference?.conferenceReport;
-    console.log("sdgsdfgsdfg", PastConferenceReportData )
 
   return (
     <div className="container p-5">
