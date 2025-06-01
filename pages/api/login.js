@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
     const response = await axios.post(
-      "https://94.136.190.152:8003/api/v1/auth/login",
+      "https://api.annexglobalconferences.com/api/v1/auth/login",
       { email, password },
       {
         headers: {

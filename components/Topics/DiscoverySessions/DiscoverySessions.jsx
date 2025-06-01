@@ -11,11 +11,11 @@ import { getAllSessions } from "@/service/conferenceData";
 import Link from "next/link";
 
 const DiscoverySessions = ({ conference }) => {
-  console.log("Conference Data: from topics", conference.topic);
   const sessionsPerPage = 18;
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(sessionsPerPage);
   const [sessions, setSessions] = useState([]);
+
   useEffect(() => {
     const fetchSessions = async () => {
       try {
@@ -28,6 +28,7 @@ const DiscoverySessions = ({ conference }) => {
 
     fetchSessions();
   }, []);
+
 
   const onPageChange = (event) => {
     setFirst(event.first);
