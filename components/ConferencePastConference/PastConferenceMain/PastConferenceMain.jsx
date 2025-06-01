@@ -2,6 +2,7 @@ import React from "react";
 import Styles from "./PastConfernceMain.module.css";
 import Link from "next/link";
 export default function PastConferenceMain({conference}) {
+  console.log("Conference Data: jjjjj", conference);
   return (
     <div className={` py-5 ${Styles["wrapper-container"]}`}>
       <div className="d-flex justify-content-center align-item-center p-5">
@@ -9,7 +10,7 @@ export default function PastConferenceMain({conference}) {
         <div className="row justify-content-center ">
               <h2 className="ms-3 mb-4 text-start ">Past Conference</h2>
              {/*Past Conference Report */}
-          <Link href={`/conference/${conference.id}/past-conferences/conference-report`}
+          <Link href={`/conference/${conference.permalink}/past-conferences/conference-report`}
             className={`col-12 col-md-4 col-lg-3 col-xxl-2 mt-2 mt-md-0 text-decoration-none text-black  pt-4 pb-2 px-3 text-center bg-white border-none rounded-lg  d-flex flex-column justify-content-between ${Styles["card"]}`}
             style={{ zIndex: "4" }}
           >
@@ -66,7 +67,7 @@ export default function PastConferenceMain({conference}) {
             ></div>
           </Link>
            {/* Past Attendees */}
-          <Link href={`/conference/${conference.id}/past-conferences/conference-attendees`}
+          <Link href={`/conference/${conference.permalink}/past-conferences/conference-attendees`}
             className={`col-12 col-md-4 col-lg-3 col-xxl-2   mt-2 mt-md-0 pt-4 pb-2 px-3 text-decoration-none text-black text-center bg-white border-none rounded-lg  d-flex flex-column justify-content-between ${Styles["card"]}`}
             style={{ zIndex: "3" }}
           >
@@ -104,7 +105,7 @@ export default function PastConferenceMain({conference}) {
             ></div>
           </Link>
           {/* Gallery */}
-          <Link href={`/conference/${conference.id}/past-conferences/gallery`}
+          <Link href={`/conference/${conference.permalink}/past-conferences/gallery`}
             className={`col-12 col-md-4 col-lg-3 col-xxl-2  mt-2 mt-md-0  pt-4 pb-2 px-3 text-decoration-none text-black text-center bg-white border-none rounded-lg  d-flex flex-column justify-content-between ${Styles["card"]}`}
             style={{ zIndex: "2",  }}
           >
@@ -149,7 +150,7 @@ export default function PastConferenceMain({conference}) {
             ></div>
           </Link>
           {/* Testimonials */}
-          <Link href={`/conference/${conference.id}/past-conferences/testimonials`}
+          <Link href={`/conference/${conference.permalink}/past-conferences/testimonials`}
             className={`col-12 col-md-4 col-lg-3 col-xxl-2  mt-2 mt-md-0 pt-4 pb-2 px-3  text-decoration-none text-black text-center bg-white border-none rounded-lg  d-flex flex-column justify-content-between ${Styles["card"]}`}
             style={{ zIndex: "1", }}
           >
@@ -174,7 +175,7 @@ have to say about conference</p>
             ></div>
           </Link>
           {/* Scientific Program */}
-          <Link href={`/conference/${conference.id}/scientific-program`}
+          <Link href={`/conference/${conference.permalink}/scientific-program`}
             className={`text-decoration-none text-black col-12 col-md-4 col-lg-3 col-xxl-2  mt-2 mt-md-0 pt-4 pb-2 px-3 text-center bg-white border-none rounded-lg  d-flex flex-column justify-content-between ${Styles["card"]}`}
         
           >

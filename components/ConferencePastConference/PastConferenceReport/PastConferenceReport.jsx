@@ -5,11 +5,11 @@ export default function PastConferenceReport({conference}) {
     const tabsData=[
         {
             tabName:"PAST ATTENDEES",
-           href:`/conference/${conference.id}/past-conferences/conference-attendees`
+           href:`/conference/${conference.permalink}/past-conferences/conference-attendees`
         },
         {
             tabName:"GALLERY",
-            href:`/conference/${conference.id}/past-conferences/gallery`
+            href:`/conference/${conference.permalink}/past-conferences/gallery`
         },
         {
             tabName:"TESTIMONIALS",
@@ -17,46 +17,23 @@ export default function PastConferenceReport({conference}) {
         },
         {
             tabName:"SCIENTIFIC PROGRAM",
-            href:`/conference/${conference.id}/scientific-program`
+            href:`/conference/${conference.permalink}/scientific-program`
         },
         {
             tabName:"WEBINAR PROGRAM",
-            href:`/conference/${conference.id}/webinar-program`
+            href:`/conference/${conference.permalink}/webinar-program`
         },
     ]
+    const PastConferenceReportData=conference?.pastConference?.conferenceReport;
+    console.log("sdgsdfgsdfg", PastConferenceReportData )
 
   return (
     <div className="container p-5">
       <div className="row">
         <div className="col-8">
-          <h3 className="mb-5">Past Conference Report 2023</h3>
-          <p>
-            Annex Conferences successfully completed the International
-            Conference on Gynecology and Obstetrics, which took place at the
-            City Seasons Dubai Hotel from May 22-23, 2023. The conference was
-            based on the theme "Fostering the efforts to enhance Gynecology and
-            Obstetrics care" with the attendance of young and brilliant
-            researchers, business delegates and talented student communities
-            representing diverse countries around the world.
-          </p>
-          <p>
-            Annex Conferences successfully completed the International
-            Conference on Gynecology and Obstetrics, which took place at the
-            City Seasons Dubai Hotel from May 22-23, 2023. The conference was
-            based on the theme "Fostering the efforts to enhance Gynecology and
-            Obstetrics care" with the attendance of young and brilliant
-            researchers, business delegates and talented student communities
-            representing diverse countries around the world.
-          </p>
-          <p>
-            Annex Conferences successfully completed the International
-            Conference on Gynecology and Obstetrics, which took place at the
-            City Seasons Dubai Hotel from May 22-23, 2023. The conference was
-            based on the theme "Fostering the efforts to enhance Gynecology and
-            Obstetrics care" with the attendance of young and brilliant
-            researchers, business delegates and talented student communities
-            representing diverse countries around the world.
-          </p>
+          <h3 className="mb-5">{PastConferenceReportData.title}</h3>
+          <div dangerouslySetInnerHTML={{ __html: PastConferenceReportData.content }} />
+
         </div>
 
         <div className={`col-md-4 rounded p-5 ${Style["topics"]}`}>
