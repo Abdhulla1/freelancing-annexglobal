@@ -92,6 +92,7 @@ export default function PricingTable({ onTotalChange ,selectedCurrency,getSymbol
   }, [exchangeRate]);
 
 
+
   // const getSymbol = (currency) => {
   //   return currencySymbols[currency] || '';
   // };
@@ -212,6 +213,38 @@ export default function PricingTable({ onTotalChange ,selectedCurrency,getSymbol
     sessionStorage.setItem("pricingTotals", JSON.stringify(totalData));
     onTotalChange?.(totalData);
   }, [ticketTotal, accommodationTotal, netTotal]);
+
+  useEffect(() => {
+  const registration = Object.entries(selected).reduce((acc, [type, qty]) => {
+    if (qty > 0 && activeSelection[type]) {
+      acc[type] = {
+        category: activeSelection[type],
+        quantity: qty,
+        price: convertedPrices.find(opt => opt.type === type)?.[activeSelection[type]] || 0
+      };
+    }
+    return acc;
+  }, {});
+
+  // Build the pricing object
+  const pricing = {
+    registration,
+    occupancy: formData.occupancy,
+    period: formData.period,
+    room: formData.room,
+    ticketPrice: ticketTotal,
+    accommodationCost: accommodationTotal,
+    total: netTotal,
+  };
+
+  // Store to sessionStorage if needed
+  sessionStorage.setItem("pricingTotals", JSON.stringify(pricing));
+
+  // Pass it to parent
+  onTotalChange?.(pricing);
+}, [ticketTotal, accommodationTotal, netTotal, selected, activeSelection, formData, convertedPrices]);
+
+
 
   return (
     <div className={styles.tableContainer}>
