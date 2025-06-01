@@ -1,17 +1,26 @@
+'use client';
 import AboutConference from '@/components/AboutConference/AboutConference'
-import React from 'react'
-import { conferenceData } from '@/service/conferenceData';
-import { notFound } from 'next/navigation';
-const ConferencePage = async({ params }) => {
-   const { slug } = await params; 
+import React from 'react';
+import { useConferenceLandingPage } from '@/hooks/useWeather';
+import { useParams, useRouter } from 'next/navigation';
 
-  const selectedConference=conferenceData.find((conf) => conf.id === slug);
+const ConferencePage = () => {
+  const { data: conferenceData } = useConferenceLandingPage();
+  const params = useParams();
+  const router = useRouter();
+
+
+  const slug = params?.slug;
+  const selectedConference = conferenceData?.detail?.find((conf) => conf.permalink === slug);
   if (!selectedConference) {
-    return notFound();
+    // Programmatic redirect since `notFound()` doesn't work in client components
+    // router.replace('/404');
+    return null;
   }
+
   return (
     <AboutConference conference={selectedConference} />
-  )
-}
+  );
+};
 
-export default ConferencePage
+export default ConferencePage;
