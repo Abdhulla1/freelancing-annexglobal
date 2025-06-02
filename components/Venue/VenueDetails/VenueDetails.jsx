@@ -4,6 +4,8 @@ import ConferenceDetailsStyles from "./VenueDetails.module.css";
 import Image from "next/image";
 
 const VenueDetails = ({ conference }) => {
+
+
   const initialImages = [
     "/images/conferences/past-conference.webp", // Replace with actual image paths
     "/images/conferences/image.png",
@@ -13,7 +15,7 @@ const VenueDetails = ({ conference }) => {
     "/images/conferences/image.png",
   ];
 
-  const [images, setImages] = useState(initialImages);
+  const [images, setImages] = useState(conference);
   const [currentIndex, setCurrentIndex] = useState(1); 
   const handleNext = () => {
     if (currentIndex < images.length) {

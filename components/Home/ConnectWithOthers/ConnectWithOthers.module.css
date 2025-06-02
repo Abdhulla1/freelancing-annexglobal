@@ -42,6 +42,8 @@
 .card-body {
   padding: 16px;
   position: relative;
+  height: 250px;
+  overflow-y: auto;
 }
 .quote-icon {
   width: 60px;

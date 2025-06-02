@@ -10,7 +10,7 @@ const ConferenceDetails = ({
   bgImage = bgImageDefault,
   buttonProps = { name: null, href: null },
 }) => {
-  console.log(conference);
+  console.log("topics section from jk ", conference);
   return (
     <div
       className={ConferenceDetailsStyles["container"]}

@@ -3,47 +3,48 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./WebinarProgramCarousel.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const WebinarProgramCarousel = () => {
-  const conferencePrograms = [
-    {
-      image: "/images/conferences/program-one.png",
-      date: "March 17-18 2025",
-      title: "Annual Congress On Gynecology, Obstetrics, And Women's Health",
-    },
-    {
-      image: "/images/conferences/program-two.png",
-      date: "March 15-18 2025",
-      title: "Scientific committee will undertake a thorough review process. Rest assured",
-    },
-    {
-      image: "/images/conferences/program-three.png",
-      date: "March 17-05 2025",
-      title: "Annual Congress On Gynecology, Obstetrics Health",
-    },
+const WebinarProgramCarousel = ({conference}) => {
+  // const conferencePrograms = [
+  //   {
+  //     image: "/images/conferences/program-one.png",
+  //     date: "March 17-18 2025",
+  //     title: "Annual Congress On Gynecology, Obstetrics, And Women's Health",
+  //   },
+  //   {
+  //     image: "/images/conferences/program-two.png",
+  //     date: "March 15-18 2025",
+  //     title: "Scientific committee will undertake a thorough review process. Rest assured",
+  //   },
+  //   {
+  //     image: "/images/conferences/program-three.png",
+  //     date: "March 17-05 2025",
+  //     title: "Annual Congress On Gynecology, Obstetrics Health",
+  //   },
    
-    {
-      image: "/images/conferences/program-one.png",
-      date: "March 17-18 2025",
-      title: "Annual Congress On Gynecology, Obstetrics, And Women's Health",
-    },
-    {
-      image: "/images/conferences/program-two.png",
-      date: "March 15-18 2025",
-      title: "Scientific committee will undertake a thorough review process. Rest assured",
-    },
-    {
-      image: "/images/conferences/program-three.png",
-      date: "March 17-05 2025",
-      title: "Annual Congress On Gynecology, Obstetrics Health",
-    },
+  //   {
+  //     image: "/images/conferences/program-one.png",
+  //     date: "March 17-18 2025",
+  //     title: "Annual Congress On Gynecology, Obstetrics, And Women's Health",
+  //   },
+  //   {
+  //     image: "/images/conferences/program-two.png",
+  //     date: "March 15-18 2025",
+  //     title: "Scientific committee will undertake a thorough review process. Rest assured",
+  //   },
+  //   {
+  //     image: "/images/conferences/program-three.png",
+  //     date: "March 17-05 2025",
+  //     title: "Annual Congress On Gynecology, Obstetrics Health",
+  //   },
    
-  ];
+  // ];
 
+  const conferencePrograms = conference|| [];
   const [currentIndex, setCurrentIndex] = useState(0);
   const textSectionRef = useRef(null);
 
   const handleNextImage = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % conferencePrograms.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % conferencePrograms?.length);
   };
 
   useEffect(() => {
@@ -69,13 +70,15 @@ const WebinarProgramCarousel = () => {
                   index === currentIndex ? styles.activeProgram : styles.inactiveProgram
                 }`}
               >
-                <h6>{program.date}</h6>
-                <p className="mb-0">{program.title}</p>
+                <h6>{program?.programDate}</h6>
+                <p className="mb-0">{program?.title}</p>
               </div>
             ))}
           </div>
-          <button className={`btn  text-white ${styles.downloadButton}`}>
-            {conferencePrograms[currentIndex].date} | Download
+          <button
+            onClick={() => window.open(conferencePrograms[currentIndex]?.programFile, "_blank")}
+           className={`btn  text-white ${styles.downloadButton}`}>
+            {conferencePrograms[currentIndex]?.programDate} | Download
           </button>
         </div>
 
@@ -109,7 +112,7 @@ const WebinarProgramCarousel = () => {
             return (
               <img
                 key={index}
-                src={program.image}
+                src={program.coverImage}
                 alt="Conference"
                 className={styles.carouselImage}
                 style={{

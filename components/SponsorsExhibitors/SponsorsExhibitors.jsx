@@ -5,6 +5,7 @@ import Prospectus from '../AboutConference/Prospectus/Prospectus';
 import OurSponsors from './OurSponsors/OurSponsors';
 
 const SponsorsExhibitors = ({ conference }) => {
+    
     return (
        <>
        <SponsorsExhibitorsDetails conference={conference}/>

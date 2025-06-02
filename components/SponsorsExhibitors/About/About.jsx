@@ -7,9 +7,13 @@ const About= ({title,content}) => {
       <h3 className="text-center fw-bold">{title}</h3>
 
       <div className="mt-4 container-md">
-        <p className={`text-capitalize ${AboutAnnexStyles["about-content"]}`}>
+      <div 
+        dangerouslySetInnerHTML={{ __html: content }}
+        className={`text-capitalize ${AboutAnnexStyles["about-content"]}`}
+      />
+        {/* <p className={`text-capitalize ${AboutAnnexStyles["about-content"]}`}>
       {content}
-        </p>
+        </p> */}
       </div>
     </div>
   );

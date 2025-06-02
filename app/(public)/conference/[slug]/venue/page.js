@@ -1,14 +1,30 @@
-import React from 'react'
-import Venue from '@/components/Venue/Venue'
-import { getSelectedConference } from '@/service/conferenceData';
-import { notFound } from 'next/navigation';
-export default async function page({ params }) {
-    const {slug}=await params;
-    const selectedConference=getSelectedConference(slug);
-     if (!selectedConference) {
-        return notFound();
-      }
-  return (
-   <Venue conference={selectedConference}/>
-  )
-}
+'use client';
+
+import React, { useEffect } from 'react';
+import Venue from '@/components/Venue/Venue';
+import { useConferenceDetails } from '@/hooks/useWeather';
+import { useParams, useRouter } from 'next/navigation';
+
+const Page = () => {
+  const params = useParams();
+  const router = useRouter();
+
+  // Handle slug as string or array
+  const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug;
+
+  const { data: conferenceData, isLoading } = useConferenceDetails(slug);
+
+  useEffect(() => {
+    if (!isLoading && !conferenceData?.detail) {
+      router.push('/404'); // Redirect to custom 404 page
+    }
+  }, [isLoading, conferenceData, router]);
+
+  if (isLoading || !conferenceData?.detail) {
+    return <div>Loading...</div>;
+  }
+
+  return <Venue conference={conferenceData.detail} />;
+};
+
+export default Page;
