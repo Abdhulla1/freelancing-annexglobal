@@ -6,7 +6,7 @@ const RichTextEditor = ({
   labelName,
   height = "207px",
   initialValue = "",
-  maxLength = 500,
+  maxLength = 5000,
   onChange,
 }) => {
   const [text, setText] = useState(initialValue);
