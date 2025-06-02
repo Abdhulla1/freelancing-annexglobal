@@ -9,8 +9,9 @@ import { useMainPage } from "@/hooks/useWeather";
 
 const UpcomingConference = () => {
   const { data: mainPageData } = useMainPage();
-  const categories = mainPageData?.upcomingConference?.categories || [];
-  
+  console.log("Main Page Data:", mainPageData);
+  const categories = mainPageData?.detail?.categories || []
+  console.log(categories)
   const upcomingConferences = [
     {
       date: "17 Mar 2026",

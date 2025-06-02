@@ -1,22 +1,20 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import styles from "./Honeycombtab.module.css"; // Import the CSS module
+import styles from "./Honeycombtab.module.css";
 
-const categories = [
-  ["ENT"],
-  ["ALL", "DIABETES"],
-  ["HEALTHCARE", "NEUROSCIENCE", "CARDIOLOGY"],
-  ["NUTRITION", "GYNAECOLOGY", "DERMATOLOGY", "NUTRITION"],
-  ["SURGERY", "ORTHOPEDICS", "NURSING"],
-  ["ENT", "CANCER"],
-  ["ENT"],
-];
+const rowLengths = [1, 2, 3, 4, 3, 2, 1]; // define honeycomb shape
 
-const HoneycombTabs = ({data}) => {
-  const finalCategories = data || categories; // Use provided data or default categories
-  if (!data || !data.length) {
-    return null; // Return null if data is empty or undefined
+const HoneycombTabs = ({ data }) => {
+  if (!data || !data.length) return null;
+
+  // Slice data into rows according to rowLengths
+  const rows = [];
+  let start = 0;
+  for (let len of rowLengths) {
+    rows.push(data.slice(start, start + len));
+    start += len;
   }
+
   const [selected, setSelected] = useState("ALL");
 
   const handleClick = (category) => {
@@ -25,15 +23,17 @@ const HoneycombTabs = ({data}) => {
 
   return (
     <div className={`container d-none d-md-flex ${styles.honeycombContainer}`}>
-      {finalCategories.map((row, rowIndex) => (
+      {rows.map((row, rowIndex) => (
         <div className="row" key={rowIndex}>
           {row.map((category, colIndex) => (
             <button
               key={colIndex}
-              className={`${styles.honeycombButton} ${category === selected ? styles.selected : ""}`}
-              onClick={() => handleClick(category)}
+              className={`${styles.honeycombButton} ${
+                category.trim() === selected ? styles.selected : ""
+              }`}
+              onClick={() => handleClick(category.trim())}
             >
-              <span>{category}</span>
+              <span>{category.trim()}</span>
             </button>
           ))}
         </div>

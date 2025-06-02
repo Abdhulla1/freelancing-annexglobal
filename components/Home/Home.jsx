@@ -11,10 +11,11 @@ import ReputedOrganizations from './ReputedOrganizations/ReputedOrganizations'
 import EnquiryForm from './EnquiryForm/EnquiryForm'
 import ConnectWithOthers from './ConnectWithOthers/ConnectWithOthers'
 import { useVisitor } from '@/hooks/useWeather'
-
+import { useConferenceLandingPage } from '@/hooks/useWeather'
 import { useEffect } from 'react'
 
 const Home = () => {
+  const { data: conferenceData } = useConferenceLandingPage("upcoming");
   const { data: visitorData, refetch: refetchVisitor } = useVisitor()
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const Home = () => {
       <AboutAnnex/>
       <AboutMission/>
       <UpcomingConference/>
-      <AlumniSpeakers/>
+      {/* <AlumniSpeakers/> */}
       <ReputedOrganizations/>
       <ConnectWithOthers/>
       <section id='newsletter'>
