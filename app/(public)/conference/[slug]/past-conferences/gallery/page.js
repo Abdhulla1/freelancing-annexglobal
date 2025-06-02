@@ -1,22 +1,29 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Gallery from '@/components/ConferencePastConference/Gallery/Gallery';
-import { useConferenceLandingPage } from '@/hooks/useWeather';
+import { useConferenceDetails } from '@/hooks/useWeather';
 import { useParams } from 'next/navigation';
 
 const Page = () => {
-  const { data: conferenceData } = useConferenceLandingPage();
   const params = useParams();
-  const slug = params?.slug;
+  const router = useRouter();
 
-  const selectedConference = conferenceData?.detail?.find(
-    (conf) => conf?.name === slug
-  );
+  const slug = typeof params?.slug === 'string' ? params.slug : params?.slug?.[0];
+  const { data: conferenceData, isLoading } = useConferenceDetails(slug);
 
-  if (!selectedConference) return <p>Loading or Not Found...</p>;
+  useEffect(() => {
+    if (!isLoading && !conferenceData) {
+      // Manual redirect if no data is found
+      router.push('/404'); // or any custom error route
+    }
+  }, [isLoading, conferenceData, router]);
 
-  return <Gallery conference={selectedConference} />;
+  if (isLoading || !conferenceData) {
+    return <div>Loading...</div>; // optional loading state
+  }
+
+  return <Gallery conference={conferenceData} />;
 };
 
 export default Page;

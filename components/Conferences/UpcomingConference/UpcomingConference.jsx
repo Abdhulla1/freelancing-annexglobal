@@ -6,7 +6,7 @@ import Link from "next/link";
 // import HoneycombTabs from "./Honeycombtab";
 import HoneycombTabs from "@/components/Home/UpcomingConference/Honeycombtab";
 import Button from "@/components/Static/Button";
-const UpcomingConference = () => {
+const UpcomingConference = ({ conference }) => {
   const categories = [
     "ALL",
     "ENT",

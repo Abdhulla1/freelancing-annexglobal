@@ -19,7 +19,7 @@ import RightPannel from "./ConferenceDetails/RightPannel/RightPannel";
 import bgImage from "@/public/images/conferences/upcoming-bg.webp";
 
 const AboutConference = ({ conference }) => {
-  const id = conference?.name
+  const id = conference?._id
   const logoUrl = conference?.logoUrl 
   const welcomeContent = conference?.conference?.welcomeContent || "";
   const landingPageContent = conference?.conference?.landingPage || "";
@@ -27,30 +27,33 @@ const AboutConference = ({ conference }) => {
   // const aboutAnnex = conference?.aboutAnnex || "";         
   // const aboutMission = conference?.aboutMission || "";
   const organizingCommittee = conference?.ocm || "";
-  const discoverySessions = conference?.topics?.essentialInnovation || "";
+  const discoverySessions = conference?.conference?.topics || "";
   const pastConference = conference?.conference?.pastGallery || "";
   // const queriesAnswered = conference?.queriesAnswered || "";
   const locationAndServices = conference?.conference?.location || "";
   // const prospectus = conference?.prospectus || "";
   const supportingJournals = conference?.conference?.supportingJournal || "";
-  
-  
+  const testimonialContent = conference?.conference?.testimonial || [];
+
+
   return (
     <>
       <ConferenceDetails
         conference={landingPageContent}
        Component={() => <RightPannel conference={landingPageSpeakers} id={id} />}
         bgImage={bgImage}
+        conferenceName={conference?.name}
         logoUrl={logoUrl}
         id={id}
         buttonProps={{
           name: "Scientific Program",
-          href: `/conference/${conference.name}/scientific-program`,
+          href: `/conference/${conference?._id}/scientific-program`,
         }}
       />
       <WelcomeContent welcomeContent={welcomeContent} />
       <AboutMission />
       <OrganizingCommitee organizingCommittee={organizingCommittee} id={id} />
+      {/* commit by jk need to uncommit */}
       <DiscoverySessions conference={discoverySessions} />
 
       {/* <BroucherGrid/> */}
@@ -58,12 +61,17 @@ const AboutConference = ({ conference }) => {
       <div className="mt-5"></div>
       {/* <ReputedOrganizations/> */}
       <AlumniSpeakers  />
-      {/* <DiscoverySessions conference={conference.id}/> */}
+      {/* commit by jk need to uncommit */}
+
       <PastConference pastConference={pastConference} />
-      <ConnectWithOthers />
+      <ConnectWithOthers conference={testimonialContent} />
+      {/* commit by jk need to uncommit */}
+      
+
       <SupportingJournals supportingJournals={supportingJournals} />
 
       {/* <QueriesAnswered/> */}
+        {/* commit by jk need to uncommit */}
       <LocationandServices locationAndServices={locationAndServices} landingPageContent={landingPageContent} id={id} />
       <Prospectus />
       {/* <ConnectWithOthers/> */}

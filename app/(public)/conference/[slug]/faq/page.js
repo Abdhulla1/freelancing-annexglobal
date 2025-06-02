@@ -1,25 +1,30 @@
-"use client";
+'use client';
+
+import React, { useEffect } from 'react';
 import FAQ from '@/components/FAQ/FAQ';
-import React from 'react'
-import { useConferenceLandingPage } from "@/hooks/useWeather";
-import { useParams, useRouter } from "next/navigation";
+import AboutConference from '@/components/AboutConference/AboutConference';
+import { useConferenceDetails } from '@/hooks/useWeather';
+import { useParams, useRouter } from 'next/navigation';
 
 const SpeakersPage = () => {
-  const { slug } = useParams();
-  const { data: conferenceData } = useConferenceLandingPage("upcoming");
+  const params = useParams();
+  const router = useRouter();
 
-  if (!conferenceData) return null;
+  const slug = typeof params?.slug === 'string' ? params.slug : params?.slug?.[0];
+  const { data: conferenceData, isLoading } = useConferenceDetails(slug);
 
-  const selectedConference = conferenceData?.detail?.find(
-    (conf) => conf.name === slug
-  );
+  useEffect(() => {
+    if (!isLoading && !conferenceData) {
+      // Manual redirect if no data is found
+      router.push('/404'); // or any custom error route
+    }
+  }, [isLoading, conferenceData, router]);
 
-  if (!selectedConference) {
-    // optionally handle not found UI here
-    return <div>Conference not found</div>;
+  if (isLoading || !conferenceData) {
+    return <div>Loading...</div>; // optional loading state
   }
 
-  return <FAQ conference={selectedConference} />;
+  return <FAQ conference={conferenceData} />;
 };
 
 export default SpeakersPage;

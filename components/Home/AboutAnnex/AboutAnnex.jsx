@@ -20,12 +20,16 @@ const AboutAnnex = ({ data }) => {
         {data?.detail?.welcomeContent?.title ||
           "Welcome to Annex Global Conferences"}
       </p>
-<div
-  className="mt-4 container-md"
-  style={{ width: "70%", wordWrap: "break-word", overflowWrap: "break-word", whiteSpace: "normal" }}
-  dangerouslySetInnerHTML={{ __html: htmlWithClass || "" }}
-/>
-
+      <div
+        className="mt-4 container-md"
+        style={{
+          width: "70%",
+          wordWrap: "break-word",
+          overflowWrap: "break-word",
+          whiteSpace: "normal",
+        }}
+        dangerouslySetInnerHTML={{ __html: htmlWithClass || "" }}
+      />
     </div>
   );
 };

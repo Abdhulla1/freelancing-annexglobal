@@ -30,7 +30,7 @@ const upcomingConferences = [
       image: conf?.cardBgImage,
       title: conf?.name,
       location: conf?.conference?.landingPage?.location,
-      id: conf?.name,
+      id: conf?._id,
       icon: conf?.logoUrl,
     })),
   },

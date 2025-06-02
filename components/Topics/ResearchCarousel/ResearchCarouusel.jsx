@@ -43,7 +43,7 @@ const ResearchCarouusel = ({conference}) => {
             <div className="col-12 col-md-6 col-lg-5 mt-4 d-flex" key={i}>
               <div className={DiscoverySessionsStyles["card"]}>
                 <span className={`text-truncate col-9 ${DiscoverySessionsStyles["text"]}`}>{sess.title}</span>
-                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference.name}/topics/${sess.id}`} >
+                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference._id}/topics/${sess.id}`} >
                   <i className="pi-reply pi"></i>
                 </Link>
               </div>

@@ -99,6 +99,15 @@ export const useConferenceLandingPage = (conferenceType) => {
   });
 };
 
+export const useConferenceDetails = (conferenceName) => {
+  if (!conferenceName) {
+    throw new Error('Conference name is required');
+  }
+  return useQuery({
+    queryKey: ['conferenceDetails', conferenceName],
+    queryFn: () => api.get(`/${conferenceName}/conferences`).then(res => res.data),
+  });
+}
 
 
 export const useUploadPdf = () => {

@@ -23,7 +23,7 @@ const Home = () => {
   const { data: conferenceData } = useConferenceLandingPage("upcoming");
   const { data: visitorData, refetch: refetchVisitor } = useVisitor();
   const { data: testimonialData } = useTestimonial();
-
+  
   console.log("Main Page Data:", testimonialData);
   useEffect(() => {
     refetchVisitor();
@@ -41,7 +41,7 @@ const Home = () => {
       />
       {/* <AlumniSpeakers/> */}
       <ReputedOrganizations />
-      <ConnectWithOthers conference={testimonialData} />
+      <ConnectWithOthers conference={testimonialData?.detail} />
       <section id="newsletter">
         <EnquiryForm />
       </section>

@@ -10,9 +10,9 @@ const ConferenceDetails = ({
   id,
   logoUrl,
   bgImage = bgImageDefault,
+  conferenceName,
   buttonProps = { name: null, href: null },
 }) => {
-
   const headerImages = conference?.webinar?.headerPanelImages
 
   return (
@@ -42,7 +42,7 @@ const ConferenceDetails = ({
                   className={`rounded mt-3 text-center d-none d-md-block position-relative ${ConferenceDetailsStyles["certification"]}`}
                 >
                   <Image
-                    src={conference?.certificationImage}
+                    // src={conference?.certificationImage}
                     fill
                     alt="Certification"
                     style={{ objectFit: "contain" }}
@@ -56,10 +56,10 @@ const ConferenceDetails = ({
               >
                 <div className="">
                   <h5 className="text-uppercase text-warning opacity-75 mb-3  text-md-start mb-md-1">
-                    2nd International Conference On
+                    {conference?.title}
                   </h5>
                   <h4 className="text-uppercase text-white mb-3 mb-md-1">
-                    {conference?.title}
+                    {conferenceName}
                   </h4>
                   <p className="text-white fst-italic">
                     {

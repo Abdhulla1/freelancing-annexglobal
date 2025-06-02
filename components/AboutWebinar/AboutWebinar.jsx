@@ -15,7 +15,7 @@ import RightPannel from './RightPannel/RightPannel';
 import bgImage from "@/public/images/conferences/webinar-bg.webp";
 
 const AboutWebinar = ({conference}) => {
-  console.log("Conference ID:", conference);
+  console.log("Conference ID from AboutWebinar:", conference);
   const discoverySessions = conference?.topics?.essentialInnovation || "";
   const alumniSpeakers = conference?.alumniSpeakers || [];
   const queriesAnswered = conference?.webinar?.queriesAns || "";
@@ -31,7 +31,7 @@ const AboutWebinar = ({conference}) => {
         <AlumniSpeakers conference={conference}/>
         <QueriesAnswered conference={queriesAnswered}/>
         <Prospectus conference={conference}/>
-        <ConnectWithOthers conference={conference}/>
+        {/* <ConnectWithOthers conference={conference}/> */}
         <EnquiryForm/>
     </>
   )

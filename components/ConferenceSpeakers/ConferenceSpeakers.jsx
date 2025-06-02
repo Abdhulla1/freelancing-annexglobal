@@ -8,9 +8,13 @@ import ConferenceDetails from '../AboutConference/ConferenceDetails/ConferenceDe
 import bgImage from '@/public/images/conferences/ocm-bg.png'
 import RightPannel from './RightPannel/RightPannel'
 const ConferenceSpeakers = ({conference}) => {
+  const landingPageContent = conference?.conference?.landingPage || "";
+  const id = conference?._id
+  console.log("Conference ID from ConferenceSpeakers:", conference);
+ 
   return (
     <div>
-      <ConferenceDetails conference={conference} bgImage={bgImage} Component={RightPannel} />
+      <ConferenceDetails conference={landingPageContent} bgImage={bgImage} id={id} conferenceName={conference?.name} Component={RightPannel} />
       <AlumniSpeakers conference={conference}/>
       <Prospectus/>
       <EnquiryForm/>
