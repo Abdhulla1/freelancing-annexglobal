@@ -3,6 +3,7 @@ import ConferenceDetailsStyles from "./SponsorsExhibitorsDetails.module.css";
 import Image from "next/image";
 import Link from "next/link";
 const SponsorsExhibitorsDetails = ({ conference }) => {
+  console.log("Conference Data in SponsorsExhibitorsDetails:", conference);
   return (
     <div className={ConferenceDetailsStyles["container"]}>
       <div className="ms-4">
@@ -10,9 +11,9 @@ const SponsorsExhibitorsDetails = ({ conference }) => {
           <div className="p-4 col-md-12 col-lg-8 col-xl-7 d-flex align-items-center  mt-lg-0">
             <div>
               <div className="d-flex ">
-                     <Link href={`/conference/${conference.id}`} className="text-decoration-none">
+                     <Link href={`/conference/${conference._id}`} className="text-decoration-none">
                 <img
-                  src={conference.icon}
+                  src={conference?.logoUrl}
                   className={`me-4 mb-3 mb-md-0 ${ConferenceDetailsStyles["conferencelogo"]}`}
                   alt="Conference Logo"
                 />
@@ -21,10 +22,10 @@ const SponsorsExhibitorsDetails = ({ conference }) => {
                 <div className={ConferenceDetailsStyles["heading"]}>
                   <h3 className="text-uppercase text-white">Sponsors & Exhibitors</h3>
                   <p className="text-white ">
-                 {conference.title}
+                 {conference?.name}
                   </p>
                   <p className="text-white fs-6 ">
-                March 10/11/2025     |     Dubai, UAE
+                {conference?.conference?.landingPage?.startDate}     |     {conference?.conference?.landingPage?.location}
                   </p>
                   {/* <div className="mt-4">
                     <button className={`h3 ${ConferenceDetailsStyles["brand-btn"]}`}>

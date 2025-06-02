@@ -6,10 +6,18 @@ import ResearchPaperForm from './ResearchForm/ResearchPaperForm';
 import Prospectus from '../AboutConference/Prospectus/Prospectus';
 import bgImage from '@/public/images/conferences/submit-abstract-bg.png'
 const SubmitAbstract = ({ conference }) => {
+     const id = conference?._id
+  const logoUrl = conference?.logoUrl 
+  const landingPageContent = conference?.conference?.landingPage || "";
+ 
     return (
        <>
        {/* <SubmitAbstractDetails conference={conference}/> */}
-       <ConferenceDetails conference={conference} bgImage={bgImage}/>
+       <ConferenceDetails
+          conferenceName={conference?.name}
+        logoUrl={logoUrl}
+        id={id}
+        conference={landingPageContent} bgImage={bgImage}/>
        <AboutAbstract/>
        <ResearchPaperForm/>
        <Prospectus/>
