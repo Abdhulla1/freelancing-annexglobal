@@ -19,7 +19,7 @@ export default async function page({ params }) {
     <div className="text-center p-5 text-muted">
       <h4>No Conference Assigned</h4>
       <p>
-        You don't have a conference assigned yet. Please contact the admin team
+        You do not have a conference assigned yet. Please contact the admin team
         to get access.
       </p>
     </div>
