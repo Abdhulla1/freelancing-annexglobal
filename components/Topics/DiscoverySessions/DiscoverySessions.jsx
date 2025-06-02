@@ -38,7 +38,7 @@ const DiscoverySessions = ({ conference }) => {
   return (
     <div>
 
-        <ResearchCarouusel conferenceId={conference.name}/>
+        <ResearchCarouusel conferenceId={conference._id}/>
 <div className={DiscoverySessionsStyles["container"]}>
       <div className="container py-5">
         <h3 className="text-black">
@@ -49,7 +49,7 @@ const DiscoverySessions = ({ conference }) => {
             <div className="col-md-6 col-lg-4 mt-4 d-flex" key={i}>
               <div className={DiscoverySessionsStyles["card"]}>
                 <span className={`text-truncate col-9  ${DiscoverySessionsStyles["text"]}`}>{sess.title}</span>
-                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference.name}/topics/${sess.id}`} >
+                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference._id}/topics/${sess.id}`} >
                   <i className="pi-reply pi"></i>
                 </Link>
               </div>

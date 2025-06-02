@@ -7,6 +7,7 @@ import ResearchCarouusel from './ResearchCarousel/ResearchCarouusel'
 import TopicCentric from './TopicCentric/TopicCentric'
 // import bgImage from '@public/images/conferences/webinar-program-bg.png'
 export default function Topics({conference}) {
+  console.log("Conference ID: from Topics", conference);
   return (
   <>
   <ConferenceDetails conference={conference}/>

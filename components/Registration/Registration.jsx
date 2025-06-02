@@ -3,7 +3,7 @@ import RegistrationFormHeader from './RegistrationFormHeader/RegistrationFormHea
 import RegistrationForm from './RegistrationForm/RegistrationForm'
 import RegistrationInfo from './RegistrationInfo/RegistrationInfo'
 
-export default function Registration({conference}) {
+export default function Registration({conference}) {  
   return (
     <>
     <RegistrationFormHeader conference={conference} />
