@@ -65,7 +65,7 @@ const UpcomingConferences = () => {
       location: conference?.conference?.landingPage?.location, // Replace with conference?.conference?.location if present
       heading: conference?.name,
       desc: conference?.conference?.landingPage?.theme, // Replace with dynamic description if available
-      buylink: conference?.name, // Add a dynamic link if available
+      buylink: conference?._id, // Add a dynamic link if available
     })
   );
 

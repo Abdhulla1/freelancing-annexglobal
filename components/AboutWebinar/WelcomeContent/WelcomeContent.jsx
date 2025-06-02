@@ -1,6 +1,7 @@
 import React from "react";
 import WelcomeContentStyle from "./WelcomeContent.module.css";
 
+
 const WelcomeContent = ({ conference }) => {
   return (
     <div className={"container mt-3 p-4 " + WelcomeContentStyle["container"]}>

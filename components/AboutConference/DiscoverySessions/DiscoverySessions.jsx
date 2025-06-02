@@ -15,7 +15,6 @@ const DiscoverySessions = ({ conference }) => {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(sessionsPerPage);
   const Sessions = conference;
-  console.log("Sessions", Sessions);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [visibleDetails, setVisibleDetails] = useState(false);
 
@@ -79,7 +78,7 @@ const DiscoverySessions = ({ conference }) => {
       <div className="container py-5">
         <h3 className="text-white">Innovation & Discovery Sessions</h3>
         <div className="row mt-5">
-          {Sessions?.slice(first, first + rows).map((sess, i) => (
+          {Sessions?.slice(first, first + rows)?.map((sess, i) => (
             <div className="col-md-6 col-lg-4 mt-4 d-flex " key={i}>
               <div className={DiscoverySessionsStyles["card"]}>
                 <span

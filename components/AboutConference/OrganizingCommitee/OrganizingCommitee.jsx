@@ -42,7 +42,7 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
 
   const settings = {
     dots: true,
-    infinite: Math.ceil(speakerData.length / 8) > 1, // Conditional infinite
+    infinite: Math.ceil(speakerData?.length / 8) > 1, // Conditional infinite
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -66,7 +66,7 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
   };
   const chunkArray = (arr, size) => {
     const result = [];
-    for (let i = 0; i < arr.length; i += size) {
+    for (let i = 0; i < arr?.length; i += size) {
       result.push(arr.slice(i, i + size));
     }
     return result;
@@ -184,11 +184,11 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
       ) : (
         // 💻 Desktop View - Slider
         <Slider {...settings}>
-          {slides.map((slide, index) => (
+          {slides?.map((slide, index) => (
             <div key={index}>
               <div className="container p-5">
                 <div className="row">
-                  {slide.map((speaker, index) => (
+                  {slide?.map((speaker, index) => (
                     <div
                       className="col-md-6 col-lg-4 col-xl-3 mb-3"
                       key={index}

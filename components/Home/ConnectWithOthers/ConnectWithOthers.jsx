@@ -28,11 +28,20 @@ const settings = {
   ],
 };
 
+
+
 const ConnectWithOthers = ({conference}) => {
   // const { mutate, data, isPending, isError } = useTestimonial();
   const sliderRef = useRef(null);
 
-  const testimonials = conference?.detail?.filter((item) => item.status);
+  const testimonials = conference?.filter((item) => item.status);
+
+const dynamicSettings = {
+  ...settings,
+  slidesToShow: Math.min(testimonials?.length, 3), // 1 item = 1 slide
+  infinite: testimonials?.length > 1, // Avoid infinite loop for single slide
+};
+
 
   return (
     <div className={connectWithOthers["container"]}>
@@ -53,7 +62,7 @@ const ConnectWithOthers = ({conference}) => {
             </div>
             <div className="col-md-9">
               <div className={connectWithOthers["excess-slider"]}>
-                <Slider ref={sliderRef} {...settings}>
+                <Slider ref={sliderRef} {...dynamicSettings}>
                   {testimonials?.map((item, i) => (
                     <div key={i} className="px-2">
                       <div className={connectWithOthers["card"]}>

@@ -1,29 +1,30 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useConferenceLandingPage } from '@/hooks/useWeather';
+import { useConferenceDetails } from '@/hooks/useWeather';
 import { useParams, useRouter } from 'next/navigation';
 import ScientificProgram from '@/components/ScientificProgram/ScientificProgram';
 
 const Page = () => {
   const params = useParams();
   const router = useRouter();
-  const { data: conferenceData, isLoading } = useConferenceLandingPage();
 
-  const slug = params?.slug;
-  const selectedConference = conferenceData?.detail?.find(
-    (conf) => conf.name === slug
-  );
+  const slug = typeof params?.slug === 'string' ? params.slug : params?.slug?.[0];
+  const { data: conferenceData, isLoading } = useConferenceDetails(slug);
 
   useEffect(() => {
-    if (!isLoading && !selectedConference) {
-      router.replace('/404'); // programmatic redirect
+    if (!isLoading && !conferenceData) {
+      // Manual redirect if no data is found
+      router.push('/404'); // or any custom error route
     }
-  }, [isLoading, selectedConference, router]);
+  }, [isLoading, conferenceData, router]);
 
-  if (isLoading || !selectedConference) return null;
+  if (isLoading || !conferenceData) {
+    return <div>Loading...</div>; // optional loading state
+  }
 
-  return <ScientificProgram conference={selectedConference} />;
+
+  return <ScientificProgram conference={conferenceData} />;
 };
 
 export default Page;

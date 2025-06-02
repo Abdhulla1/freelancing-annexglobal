@@ -1,26 +1,31 @@
 'use client';
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import Testimonials from "@/components/ConferencePastConference/Testimonials/Testimonials";
 import PastConferenceMain from '@/components/ConferencePastConference/PastConferenceMain/PastConferenceMain';
-import { useConferenceLandingPage } from '@/hooks/useWeather';
+import { useConferenceDetails } from '@/hooks/useWeather';
 import { useParams } from 'next/navigation';
 
 const Page = () => {
-  const { data: conferenceData } = useConferenceLandingPage();
   const params = useParams();
-  const slug = params?.slug;
+  const router = useRouter();
 
-  const selectedConference = conferenceData?.detail?.find(
-    (conf) => conf.name === slug
-  );
+  const slug = typeof params?.slug === 'string' ? params.slug : params?.slug?.[0];
+  const { data: conferenceData, isLoading } = useConferenceDetails(slug);
 
-  if (!selectedConference) {
-    return <div>Conference not found.</div>; // Better than returning null
+  useEffect(() => {
+    if (!isLoading && !conferenceData) {
+      // Manual redirect if no data is found
+      router.push('/404'); // or any custom error route
+    }
+  }, [isLoading, conferenceData, router]);
+
+  if (isLoading || !conferenceData) {
+    return <div>Loading...</div>; // optional loading state
   }
 
 
-  return <Testimonials conference={selectedConference} />;
+  return <Testimonials conference={conferenceData} />;
 };
 
 export default Page;

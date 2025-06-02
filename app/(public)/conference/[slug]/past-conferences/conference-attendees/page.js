@@ -2,26 +2,29 @@
 
 import React from 'react';
 import ConferenceAttendees from '@/components/ConferencePastConference/ConferenceAttendees/ConferenceAttendees';
-import { useConferenceLandingPage } from '@/hooks/useWeather';
+import { useConferenceDetails } from '@/hooks/useWeather';
 import { useParams } from 'next/navigation';
 
 const Page = () => {
-  const { data: conferenceData, isLoading, error } = useConferenceLandingPage();
   const params = useParams();
-  const slug = params?.slug;
+  const router = useRouter();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading conference data.</div>;
+  const slug = typeof params?.slug === 'string' ? params.slug : params?.slug?.[0];
+  const { data: conferenceData, isLoading } = useConferenceDetails(slug);
 
-  const selectedConference = conferenceData?.detail?.find(
-    (conf) => conf.name === slug
-  );
+  useEffect(() => {
+    if (!isLoading && !conferenceData) {
+      // Manual redirect if no data is found
+      router.push('/404'); // or any custom error route
+    }
+  }, [isLoading, conferenceData, router]);
 
-  if (!selectedConference) {
-    return <div>Conference not found.</div>;
+  if (isLoading || !conferenceData) {
+    return <div>Loading...</div>; // optional loading state
   }
 
-  return <ConferenceAttendees conference={selectedConference} />;
+
+  return <ConferenceAttendees conference={conferenceData} />;
 };
 
 export default Page;
