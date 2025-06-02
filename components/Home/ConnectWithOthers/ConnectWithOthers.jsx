@@ -28,11 +28,11 @@ const settings = {
   ],
 };
 
-const ConnectWithOthers = () => {
-  const { mutate, data, isPending, isError } = useTestimonial();
+const ConnectWithOthers = ({conference}) => {
+  // const { mutate, data, isPending, isError } = useTestimonial();
   const sliderRef = useRef(null);
 
-  const testimonials = data?.detail?.filter((item) => item.status);
+  const testimonials = conference?.detail?.filter((item) => item.status);
 
   return (
     <div className={connectWithOthers["container"]}>

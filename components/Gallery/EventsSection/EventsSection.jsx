@@ -4,8 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import EventCard from '@/components/Reusable/EventCard/EventCard';
 import styles from './EventsSection.module.css';
 import ImageGalleryComponent from '../ImageGallery/ImageGalleryComponent';
-
+import { useConferenceLandingPage } from '@/hooks/useWeather';
 function EventsSection() {
+  const { data: conferenceData } = useConferenceLandingPage("past");
   const events = [
     {
       title: "Nursing 2024",
@@ -62,6 +63,8 @@ function EventsSection() {
       image: '/images/conferences/image.png',
     },
   ];
+
+  console.log("Conference Data: from gallery", conferenceData);
 
   const [showGallery, setShowGallery] = useState(false);
   const [activeEvent, setActiveEvent] = useState(null);

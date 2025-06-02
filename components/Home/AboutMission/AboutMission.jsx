@@ -3,10 +3,8 @@ import AboutMissionStyle from "./AboutMission.module.css";
 import { useMainPage } from "@/hooks/useWeather";
 import React, { useState } from "react";
 
-const AboutMission = () => {
-  const { data, isPending, isError } = useMainPage();
-  const videoSection = data?.detail?.videoSection;
-  console.log("Video Section Data:", videoSection);
+const AboutMission = ({ conference }) => {
+  const videoSection = conference?.detail?.videoSection;
 
   const [showVideo, setShowVideo] = useState(false);
 

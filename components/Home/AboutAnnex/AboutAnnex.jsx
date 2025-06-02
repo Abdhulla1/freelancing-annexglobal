@@ -2,10 +2,8 @@
 
 import React from "react";
 import AboutAnnexStyles from "./AboutAnnex.module.css";
-import { useMainPage } from "@/hooks/useWeather";
 
-const AboutAnnex = () => {
-  const { mutate, data, isPending, isError } = useMainPage();
+const AboutAnnex = ({ data }) => {
   const htmlWithClass = data?.detail?.welcomeContent?.content.replace(
     /<p>/g,
     `<p class="${AboutAnnexStyles["about-content"]}">`
