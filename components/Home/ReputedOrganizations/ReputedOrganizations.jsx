@@ -4,7 +4,7 @@ import Marquee from "react-fast-marquee";
 
 const ReputedOrganizations = () => {
   return (
-    <div className="mb-5">
+    <div className="mb-5 mt-5">
       <h5
         className={`text-center fw-bold ${ReputerOrganizStyle["text-color"]}`}
       >

@@ -23,7 +23,7 @@ const ConferenceCard = ({
         <h2>{heading}</h2>
         <p>{desc}</p>
         {buylink && <Link
-          href={"/conference/" + slug}
+          href={"/conference/" + buylink}
           className={`btn-sm ${ConferenceCardStyle["btn"]}`}
         >
           BUY TICKETS

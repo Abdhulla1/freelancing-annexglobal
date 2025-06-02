@@ -174,3 +174,7 @@ backdrop-filter: blur(4px);
     }
 }
 
+.custom-mobile-col {
+  width: 18% !important;
+  margin: 1%;
+}

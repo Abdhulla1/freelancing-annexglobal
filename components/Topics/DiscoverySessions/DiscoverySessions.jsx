@@ -10,11 +10,12 @@ import ResearchCarouusel from "../ResearchCarousel/ResearchCarouusel";
 import { getAllSessions } from "@/service/conferenceData";
 import Link from "next/link";
 
-const DiscoverySessions = ({conferenceId}) => {
+const DiscoverySessions = ({ conference }) => {
   const sessionsPerPage = 18;
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(sessionsPerPage);
   const [sessions, setSessions] = useState([]);
+
   useEffect(() => {
     const fetchSessions = async () => {
       try {
@@ -28,6 +29,7 @@ const DiscoverySessions = ({conferenceId}) => {
     fetchSessions();
   }, []);
 
+
   const onPageChange = (event) => {
     setFirst(event.first);
     setRows(event.rows);
@@ -36,7 +38,7 @@ const DiscoverySessions = ({conferenceId}) => {
   return (
     <div>
 
-        <ResearchCarouusel conferenceId={conferenceId}/>
+        <ResearchCarouusel conferenceId={conference.name}/>
 <div className={DiscoverySessionsStyles["container"]}>
       <div className="container py-5">
         <h3 className="text-black">
@@ -47,7 +49,7 @@ const DiscoverySessions = ({conferenceId}) => {
             <div className="col-md-6 col-lg-4 mt-4 d-flex" key={i}>
               <div className={DiscoverySessionsStyles["card"]}>
                 <span className={`text-truncate col-9  ${DiscoverySessionsStyles["text"]}`}>{sess.title}</span>
-                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conferenceId}/topics/${sess.id}`} >
+                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference.name}/topics/${sess.id}`} >
                   <i className="pi-reply pi"></i>
                 </Link>
               </div>

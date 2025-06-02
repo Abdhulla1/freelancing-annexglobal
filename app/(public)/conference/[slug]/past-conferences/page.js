@@ -1,14 +1,27 @@
-import React from 'react'
+'use client';
+
+import React from 'react';
 import PastConferenceMain from '@/components/ConferencePastConference/PastConferenceMain/PastConferenceMain';
-import { conferenceData } from '@/service/conferenceData';
-export default async function page({params}) {
-     const { slug } = await params; 
-  
-    const selectedConference=conferenceData.find((conf) => conf.id === slug);
-    if (!selectedConference) {
-      return notFound();
-    }
-  return (
-   <PastConferenceMain conference={selectedConference}/>
-  )
-}
+import { useConferenceLandingPage } from '@/hooks/useWeather';
+import { useParams } from 'next/navigation';
+
+const Page = () => {
+  const { data: conferenceData } = useConferenceLandingPage();
+  const params = useParams();
+  const slug = params?.slug;
+
+  const selectedConference = conferenceData?.detail?.find(
+    (conf) => conf.name === slug
+  );
+
+  console.log('Selected Conference:', selectedConference);
+
+  if (!selectedConference) {
+    return <div>Conference not found.</div>; // Better than returning null
+  }
+
+
+  return <PastConferenceMain conference={selectedConference} />;
+};
+
+export default Page;

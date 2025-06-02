@@ -2,28 +2,18 @@
 'use client';
 import React, { useRef, useEffect } from 'react';
 import './PerspectiveScroll.css'; // Create a CSS file for styling
-
+import { useGalleryImages } from '@/hooks/useWeather';
 const PerspectiveScroll = () => {
-  const images = [
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
-    '/images/conferences/image.png',
+  const { data: galleryImages } = useGalleryImages();
 
-
-
+  const images = galleryImages?.imageUrls || [
+    'images/gallery/dragon1.jpg',
+    'images/gallery/dragon2.jpg',
+    'images/gallery/dragon3.jpg',
+    'images/gallery/dragon4.jpg',
+    'images/gallery/dragon5.jpg',
   ];
+
   return (
     <div className="banner">
       <div className="slider" style={{ '--quantity': images.length }}>

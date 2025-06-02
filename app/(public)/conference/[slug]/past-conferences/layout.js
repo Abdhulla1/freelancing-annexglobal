@@ -1,16 +1,25 @@
+'use client';
 import ConferenceDetails from "@/components/AboutConference/ConferenceDetails/ConferenceDetails";
-import { conferenceData } from "@/service/conferenceData";
-export default async function layout({ children,params  }) {
-   const { slug } = await params; 
- 
-   
-     const selectedConference=conferenceData.find((conf) => conf.id === slug);
-     if (!selectedConference) {
-       return notFound();
-     }
+import { useConferenceLandingPage } from "@/hooks/useWeather";
+import { useParams, notFound } from "next/navigation";
+
+export default function ConferenceLayout({ children }) {
+  const { slug } = useParams();
+  const { data: conferenceData } = useConferenceLandingPage("upcoming");
+
+  if (!conferenceData) return null; // loading state
+
+  const selectedConference = conferenceData?.detail?.find(
+    (conf) => conf.name === slug
+  );
+
+  if (!selectedConference) {
+    return notFound();
+  }
+
   return (
     <div>
-      <ConferenceDetails conference={selectedConference}/>
+      <ConferenceDetails conference={selectedConference} />
       {children}
     </div>
   );

@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-    domains: ['94.136.190.152'],
+    domains: ['api.annexglobalconferences.com'],
   },
   };
   
   export default nextConfig;
-  

@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import connectWithOthers from "./ConnectWithOthers.module.css";
 import Slider from "react-slick";
-import { useRef } from "react";
 import Ratings from "./Ratings";
 import Link from "next/link";
-var settings = {
+import { useTestimonial } from "@/hooks/useWeather";
+
+const settings = {
   dots: true,
   infinite: true,
   speed: 500,
@@ -13,35 +14,29 @@ var settings = {
   slidesToScroll: 1,
   responsive: [
     {
-      breakpoint: 1024, // For tablets & smaller desktops
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
+      breakpoint: 1024,
+      settings: { slidesToShow: 2 },
     },
     {
-      breakpoint: 768, // For tablets & large phones
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
+      breakpoint: 768,
+      settings: { slidesToShow: 1 },
     },
     {
-      breakpoint: 480, // For mobile screens
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
+      breakpoint: 480,
+      settings: { slidesToShow: 1 },
     },
   ],
 };
 
 const ConnectWithOthers = () => {
+  const { mutate, data, isPending, isError } = useTestimonial();
   const sliderRef = useRef(null);
+
+  const testimonials = data?.detail?.filter((item) => item.status);
 
   return (
     <div className={connectWithOthers["container"]}>
-      <div className="container col-xl-11 col-lg-12 ">
+      <div className="container col-xl-11 col-lg-12">
         <div className={connectWithOthers["members-section"]}>
           <div className="row p-0 p-md-3">
             <div className="col-md-3 ps-5 p-4 d-flex align-items-center">
@@ -52,62 +47,50 @@ const ConnectWithOthers = () => {
                 <h6 className="text-white fw-normal mt-3">
                   The Annex Global Conference stands as a premier international
                   forum that brings together visionaries, industry leaders,
-                  entrepreneurs, and changemakers from around the world. Focused
-                  on driving transformative innovation, the conference serves as
-                  a catalyst for groundbreaking ideas, disruptive technologies,
-                  and collaborative strategies that transcend traditional
-                  industry boundaries. Spanning multiple sectors — including
-                  technology, healthcare, finance, sustainability, education,
-                  and manufacturin
+                  entrepreneurs, and changemakers from around the world.
                 </h6>
               </div>
             </div>
             <div className="col-md-9">
               <div className={connectWithOthers["excess-slider"]}>
                 <Slider ref={sliderRef} {...settings}>
-                  {[true, false, false, false, false, false].map((el, i) => (
-                    <div key={i}>
-                      <div className="px-2">
-                        <div className={connectWithOthers["card"]}>
-                          <div className={connectWithOthers["card-header"]}>
-                            <img
-                              src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D"
-                              alt="Profile Image"
-                            />
+                  {testimonials?.map((item, i) => (
+                    <div key={i} className="px-2">
+                      <div className={connectWithOthers["card"]}>
+                        <div className={connectWithOthers["card-header"]}>
+                          <img src={item.imageUrl} alt={item.name} />
+                        </div>
+                        <div className={connectWithOthers["card-body"]}>
+                          <div className={connectWithOthers["quote-icon"]}>
+                            {item.videoUrl ? (
+                              <Link
+                                href={item.videoUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`text-decoration-none rounded-circle ${connectWithOthers["video"]}`}
+                              >
+                                <i
+                                  className={`bx bx-play fs-1 ${connectWithOthers["play-icon"]}`}
+                                ></i>
+                              </Link>
+                            ) : (
+                              <i className="bx bxs-quote-left"></i>
+                            )}
                           </div>
-                          <div className={connectWithOthers["card-body"]}>
-                            <div className={connectWithOthers["quote-icon"]}>
-                              {el ? (
-                                <Link
-                                  href="https://youtu.be/19eIVnOI9Do?si=Cd1ONhNjHtrYgG-H"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className={`text-decoration-none rounded-circle ${connectWithOthers["video"]}`}
-                                >
-                                  <i
-                                    className={`bx bx-play fs-1 ${connectWithOthers["play-icon"]}`}
-                                  ></i>
-                                </Link>
-                              ) : (
-                                <i className="bx bxs-quote-left"></i>
-                              )}
-                            </div>
-                            <p className={connectWithOthers["description"]}>
-                              The Annex Global Conference Fosters Innovation And
-                              Collaboration Across Diverse Industries Worldwide.
-                              By Bringing Together Thought Leaders And Experts,
-                              We The Annex Global Conference Fosters Innovation
-                              And Collaboration...
-                            </p>
-                            <p className={connectWithOthers["name"]}>
-                              Pam Beesaley
-                            </p>
-                            <p className={connectWithOthers["position"]}>
-                              Founder
-                            </p>
-                            <Ratings rating={5} />
-                          </div>
-                        </div>{" "}
+                          <p
+                            className={connectWithOthers["description"]}
+                            dangerouslySetInnerHTML={{
+                              __html: item.content,
+                            }}
+                          />
+                          <p className={connectWithOthers["name"]}>
+                            {item.name}
+                          </p>
+                          <p className={connectWithOthers["position"]}>
+                            {item.designation}
+                          </p>
+                          <Ratings rating={item.ratings} />
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -119,7 +102,7 @@ const ConnectWithOthers = () => {
                       onClick={() => sliderRef.current.slickPrev()}
                     >
                       <i className="pi-angle-left pi"></i>
-                    </button>{" "}
+                    </button>
                     &nbsp;&nbsp;
                     <button
                       className="brand-btn p-0 px-2 py-1"

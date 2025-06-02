@@ -1,14 +1,29 @@
-import React from 'react'
-import ScientificProgram from '@/components/ScientificProgram/ScientificProgram';
-import { getSelectedConference
-    
- } from '@/service/conferenceData';
-const page=async({ params }) => {
+'use client';
 
-    const { slug } = await params; 
-    const selectedConference=getSelectedConference(slug);
-  return (
-    <ScientificProgram conference={selectedConference}/>
-  )
-}
-export default page;
+import React, { useEffect } from 'react';
+import { useConferenceLandingPage } from '@/hooks/useWeather';
+import { useParams, useRouter } from 'next/navigation';
+import ScientificProgram from '@/components/ScientificProgram/ScientificProgram';
+
+const Page = () => {
+  const params = useParams();
+  const router = useRouter();
+  const { data: conferenceData, isLoading } = useConferenceLandingPage();
+
+  const slug = params?.slug;
+  const selectedConference = conferenceData?.detail?.find(
+    (conf) => conf.name === slug
+  );
+
+  useEffect(() => {
+    if (!isLoading && !selectedConference) {
+      router.replace('/404'); // programmatic redirect
+    }
+  }, [isLoading, selectedConference, router]);
+
+  if (isLoading || !selectedConference) return null;
+
+  return <ScientificProgram conference={selectedConference} />;
+};
+
+export default Page;
