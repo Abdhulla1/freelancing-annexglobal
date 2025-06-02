@@ -7,90 +7,18 @@ import HoneycombTabs from "./Honeycombtab";
 import Button from "@/components/Static/Button";
 import { useMainPage } from "@/hooks/useWeather";
 
-const UpcomingConference = () => {
-  const { data: mainPageData } = useMainPage();
-  console.log("Main Page Data:", mainPageData);
-  const categories = mainPageData?.detail?.categories || []
-  console.log(categories)
-  const upcomingConferences = [
-    {
-      date: "17 Mar 2026",
-      image: "/images/home/upcoming-conference/eventsPediatrics.png",
-      title: "Annual Congress on Gynecology",
-      location: "Dubai, UAE",
-      id: "gynecology-conference",
-    },
-    {
-      date: "22 Apr 2026",
-      image: "/images/home/upcoming-conference/eventsPediatricsNeonatology.png",
-      title: "Primary Healthcare Conference",
-      location: "New York, USA",
-      id: "primary-healthcare",
-    },
-    {
-      date: "10 May 2026",
-      image: "/images/home/upcoming-conference/neuroscience.png",
-      title: "Global Healthcare Conference",
-      location: "London, UK",
-      id: "neurology-brain-disorders",
-    },
-    {
-      date: "5 Jun 2026",
-      image: "/images/home/upcoming-conference/eventsPediatrics.png",
-      title: "Healthcare Webinar",
-      location: "Sydney, Australia",
-      id: "healthcare-webinar",
-    },
-    {
-      date: "18 Jul 2026",
-      image: "/images/home/upcoming-conference/eventsPediatricsNeonatology.png",
-      title: "Oncology & Cancer Research",
-      location: "Paris, France",
-      id: "oncology",
-    },
-    {
-      date: "23 Aug 2026",
-      image: "/images/home/upcoming-conference/Osteoarthtris.png",
-      title: "Gynaecology Webinar",
-      location: "Toronto, Canada",
-      id: "gynaecology-webinar",
-    },
-    {
-      date: "5 Sep 2026",
-      image: "/images/home/upcoming-conference/neuroscience.png",
-      title: "Neuroscience Summit",
-      location: "Berlin, Germany",
-      id: "neuroscience-summit",
-    },
-    {
-      date: "12 Oct 2026",
-      image: "/images/home/upcoming-conference/Osteoarthtris.png",
-      title: "Orthopedics & Sports Medicine",
-      location: "Singapore",
-      id: "orthopedics-conference",
-    },
-    {
-      date: "5 Jun 2026",
-      image: "/images/home/upcoming-conference/eventsPediatrics.png",
-      title: "Healthcare Webinar",
-      location: "Sydney, Australia",
-      id: "healthcare-webinar",
-    },
-    {
-      date: "18 Jul 2026",
-      image: "/images/home/upcoming-conference/eventsPediatricsNeonatology.png",
-      title: "Oncology & Cancer Research",
-      location: "Paris, France",
-      id: "oncology",
-    },
-    {
-      date: "23 Aug 2026",
-      image: "/images/home/upcoming-conference/Osteoarthtris.png",
-      title: "Gynaecology Webinar",
-      location: "Toronto, Canada",
-      id: "gynaecology-webinar",
-    },
-  ];
+const UpcomingConference = ({ conference, honeyComb }) => {
+  const categories = honeyComb?.detail?.categories || [];
+
+  const upcomingConferences = conference?.detail?.map((conference) => ({
+    image: conference?.cardBgImage,
+    date: conference?.conference?.landingPage?.startDate, // Replace with dynamic data if available
+    location: conference?.conference?.landingPage?.location, // Replace with conference?.conference?.location if present
+    heading: conference?.name,
+    desc: conference?.conference?.landingPage?.theme, // Replace with dynamic description if available
+    buylink: conference?.name, // Add a dynamic link if available
+  }));
+
 
   const CustomArrow = ({ className, style, onClick, direction }) => {
     return (
@@ -123,7 +51,7 @@ const UpcomingConference = () => {
   };
   const chunkArray = (arr, size) => {
     const result = [];
-    for (let i = 0; i < arr.length; i += size) {
+    for (let i = 0; i < arr?.length; i += size) {
       result.push(arr.slice(i, i + size));
     }
     return result;
@@ -144,11 +72,13 @@ const UpcomingConference = () => {
     ? upcomingConferences.slice(0, 4)
     : upcomingConferences;
 
+    console.log("Limited Conferences:", limitedConferences);
+
   const slides = isMobile
     ? chunkArray(limitedConferences, 4)
     : chunkArray(limitedConferences, 6);
 
-    console.log(slides)
+  console.log(slides);
 
   const settings = {
     dots: true,
@@ -185,7 +115,7 @@ const UpcomingConference = () => {
                 <div className="row">
                   {slide.map((event, i) => (
                     <Link
-                      href={`/conference/${event.id}`}
+                      href={`/conference/${event.buylink}`}
                       className={`text-decoration-none ${
                         isMobile
                           ? "custom-mobile-col col-6"
@@ -206,14 +136,14 @@ const UpcomingConference = () => {
                           <div
                             className={UpcomingConferenceStyle["event-title"]}
                           >
-                            {event.title}
+                            {event.heading}
                           </div>
                           <div className={UpcomingConferenceStyle["location"]}>
                             {event.location}
                           </div>
                         </div>
                         <div
-                          href={`/conference/${event.id}`}
+                          href={`/conference/${event.buylink}`}
                           className={` ${UpcomingConferenceStyle["buy-button"]}`}
                         >
                           BUY TICKETS

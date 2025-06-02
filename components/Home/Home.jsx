@@ -11,27 +11,32 @@ import ReputedOrganizations from './ReputedOrganizations/ReputedOrganizations'
 import EnquiryForm from './EnquiryForm/EnquiryForm'
 import ConnectWithOthers from './ConnectWithOthers/ConnectWithOthers'
 import { useVisitor } from '@/hooks/useWeather'
-import { useConferenceLandingPage } from '@/hooks/useWeather'
+import { useConferenceLandingPage, useMainPage, useTestimonial } from '@/hooks/useWeather'
 import { useEffect } from 'react'
 
 const Home = () => {
+  const { data: mainPageData } = useMainPage();
   const { data: conferenceData } = useConferenceLandingPage("upcoming");
   const { data: visitorData, refetch: refetchVisitor } = useVisitor()
+  const { data: testimonialData } = useTestimonial();
 
+  console.log("Main Page Data:", testimonialData);
   useEffect(() => {
     refetchVisitor()
   }, [refetchVisitor])
 
+
+
   return (
     <div>
-      <Banner/>
+      <Banner data={mainPageData} />
       <Counter/>
-      <AboutAnnex/>
-      <AboutMission/>
-      <UpcomingConference/>
+      <AboutAnnex data={mainPageData}/>
+      <AboutMission conference={mainPageData}/>
+      <UpcomingConference conference={conferenceData} honeyComb={mainPageData} />
       {/* <AlumniSpeakers/> */}
-      <ReputedOrganizations/>
-      <ConnectWithOthers/>
+      <ReputedOrganizations />
+      <ConnectWithOthers conference={testimonialData} />
       <section id='newsletter'>
       <EnquiryForm/>
       </section>

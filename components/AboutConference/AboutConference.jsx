@@ -34,7 +34,6 @@ const AboutConference = ({ conference }) => {
   // const prospectus = conference?.prospectus || "";
   const supportingJournals = conference?.conference?.supportingJournal || "";
   
-  console.log("Conference ID:", conference );
   
   return (
     <>

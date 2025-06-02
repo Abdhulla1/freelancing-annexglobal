@@ -4,11 +4,9 @@ import BannerStyle from "./Banner.module.css";
 import Marquee from "react-fast-marquee";
 import Link from "next/link";
 import Button from "@/components/Static/Button";
-import { useMainPage } from "@/hooks/useWeather";
 
 
-const Banner = () => {
-      const { mutate, data, isPending, isError } = useMainPage();
+const Banner = ({data}) => {
 
       
   return (
