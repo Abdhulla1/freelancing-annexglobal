@@ -8,7 +8,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { getAllBrochures, deleteBrochure } from "@/service/pdfUploads";
 import Image from "next/image";
 
-export default function BrochureTableAdmin({ visibleDetails, setVisibleDetails }) {
+export default function BrochureTableAdmin({ userData}) {
   const [brochureData, setBrochureData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,7 +21,7 @@ export default function BrochureTableAdmin({ visibleDetails, setVisibleDetails }
   const fetchData = async (page = 1, limit = rowsPerPage) => {
     setLoading(true);
     try {
-      const res = await getAllBrochures(page, limit);
+      const res = await getAllBrochures(page, limit,userData.conferenceName);
       setBrochureData(res.data?.detail?.data || []);
       setTotalRecords(res.data?.detail?.total || 0);
     } catch (error) {

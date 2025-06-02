@@ -3,9 +3,10 @@ import axiosInstance from "./axiosInstance";
 
 // -----------Abstracts --------------
 //GET request
-export async function getAllSubmittedAbstracts (page, limit) {
+export async function getAllSubmittedAbstracts (page, limit,conferenceName=null) {
+          const query = conferenceName ? `&name=${conferenceName}` : "";
   try {
-    const response = await axiosInstance.get(`/submit/abstract/data?page=${page}&limit=${limit}`);
+    const response = await axiosInstance.get(`/submit/abstract/data?page=${page}&limit=${limit}${query}`);
     return response;
   } catch (error) {
      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to fetch Submitted Abstract ";
@@ -26,9 +27,11 @@ export async function deleteSubmittedAbstract (id) {
 
 // -----------Brochures --------------
 //GET request
-export async function getAllBrochures(page, limit) {
+export async function getAllBrochures(page, limit,conferenceName=null) {
+            const query = conferenceName ? `&name=${conferenceName}` : "";
+
   try {
-    const response = await axiosInstance.get(`/brochure/data?page=${page}&limit=${limit}`);
+    const response = await axiosInstance.get(`/brochure/data?page=${page}&limit=${limit}${query}`);
     return response;
   } catch (error) {
      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to fetch Brochure ";

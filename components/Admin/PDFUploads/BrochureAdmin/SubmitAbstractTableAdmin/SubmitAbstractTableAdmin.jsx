@@ -9,7 +9,7 @@ import { getAllSubmittedAbstracts, deleteSubmittedAbstract } from "@/service/pdf
 import Image from "next/image";
 import Link from "next/link";
 
-export default function SubmitAbstractTableAdmin() {
+export default function SubmitAbstractTableAdmin({userData}) {
   const [abstractData, setAbstractData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,7 +22,7 @@ export default function SubmitAbstractTableAdmin() {
   const fetchData = async (page = 1, limit = rowsPerPage) => {
     setLoading(true);
     try {
-      const res = await getAllSubmittedAbstracts(page, limit);
+      const res = await getAllSubmittedAbstracts(page, limit,userData.conferenceName);
       setAbstractData(res.data?.detail?.data || []);
       setTotalRecords(res.data?.detail?.total || 0);
     } catch (error) {

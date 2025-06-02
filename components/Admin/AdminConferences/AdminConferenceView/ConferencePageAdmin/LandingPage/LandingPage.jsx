@@ -107,7 +107,7 @@ export default function LandingPage({
   });
 
   const handleFileChange = (file) => {
-    const preview = file ? URL.createObjectURL(file) : null;
+    const preview = file ? URL.createObjectURL(file) : "";
     setUpload({ file, imageUrl: preview });
     setImageError(""); // clear on valid image selection
   };
@@ -119,6 +119,7 @@ export default function LandingPage({
         onFileChange={handleFileChange}
         imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
         showBorder={true}
+        showDelete={true}
         dimensionNote="Recommended dimensions: Width 570px × Height 760px"
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}

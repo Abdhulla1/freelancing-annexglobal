@@ -8,7 +8,7 @@ import { getAllContactUS, deleteContactUS } from "@/service/cantactUs";
 import { Toast } from "primereact/toast";
 import { ProgressSpinner } from "primereact/progressspinner";
 
-export default function ContactUsTabelAdmin() {
+export default function ContactUsTabelAdmin({userData}) {
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({ header: null, content: null });
   const toast = useRef(null);
@@ -21,7 +21,7 @@ export default function ContactUsTabelAdmin() {
   const fetchData = async (page = 1, limit = rowsPerPage) => {
     setLoading(true);
     try {
-      const data = await getAllContactUS(page, limit);
+      const data = await getAllContactUS(page, limit,userData.conferenceName);
       setContactUsTabelData(data.data?.detail.data || []);
       setTotalRecords(data.data?.detail.total || 0);
     } catch (error) {

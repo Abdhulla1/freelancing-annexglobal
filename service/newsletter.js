@@ -1,9 +1,11 @@
 import axiosInstance from "./axiosInstance";
 
 //GET request
-export async function getAllNewsLetters (page, limit) {
+export async function getAllNewsLetters (page, limit,conferenceName=null) {
+        const query = conferenceName ? `&name=${conferenceName}` : "";
+
   try {
-    const response = await axiosInstance.get(`/news/letters/data?page=${page}&limit=${limit}`);
+    const response = await axiosInstance.get(`/news/letters/data?page=${page}&limit=${limit}${query}`);
     return response;
   } catch (error) {
      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to fetch NewsLetter";

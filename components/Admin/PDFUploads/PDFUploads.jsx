@@ -5,15 +5,15 @@ import SubmitAbstractAdmin from "./BrochureAdmin/SubmitAbstractAdmin";
 import BrochureAdmin from "./BrochureAdmin/BrochureAdmin";
 import { useRouter } from "next/navigation";
 
-export default function PDFUploads() {
+export default function PDFUploads({userData}) {
   const [activeMenu, setActiveMenu] = useState("Submit Abstract");
   const router = useRouter();
 
   const navItems = [{ item: "Submit Abstract" }, { item: "Brochure" }];
 
   const componentMap = {
-    ["Submit Abstract"]: <SubmitAbstractAdmin />,
-    Brochure: <BrochureAdmin />,
+    ["Submit Abstract"]: <SubmitAbstractAdmin userData={userData}/>,
+    Brochure: <BrochureAdmin userData={userData} />,
   };
 
   // useEffect(() => {

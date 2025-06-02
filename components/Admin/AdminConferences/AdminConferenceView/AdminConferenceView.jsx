@@ -30,7 +30,8 @@ import PastConferenceAdmin from "./PastConferenceAdmin/PastConferenceAdmin";
 import { uploadImage } from "@/service/mediaManagemnt";
 import { Toast } from "primereact/toast";
 
-export default function AdminConferenceView({ conference }) {
+export default function AdminConferenceView({ conference,userData }) {
+  console.log(userData)
   const [activeMenu, setActiveMenu] = useState("Conference");
   const [selectedConference, setSelectedConference] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
@@ -491,11 +492,12 @@ export default function AdminConferenceView({ conference }) {
 
       <div className="d-flex justify-content-between">
         <h5 className="fw-bold">
-          <i
+          {userData.isRoleUser ? "":    <i
             className="bx bx-chevron-left text-center cursor-pointer"
             style={{ cursor: "pointer" }}
             onClick={handleBack}
-          ></i>
+          ></i>}
+       
           {selectedConference.name}
           <button name="edit" className="btn " onClick={handleAddConference}>
             <i className="bx bx-edit-alt"></i>
