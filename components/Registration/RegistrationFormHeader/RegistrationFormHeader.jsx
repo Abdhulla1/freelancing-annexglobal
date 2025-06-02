@@ -12,7 +12,7 @@ const RegistrationFormHeader = ({ conference }) => {
           <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center justify-content-center  mt-lg-0">
             <div>
               <div className="d-flex  flex-wrap flex-md-nowrap  align-items-center justify-content-center justify-content-md-start">
-                 <Link href={`/conference/${conference.name}`} className="text-decoration-none">
+                 <Link href={`/conference/${conference._id}`} className="text-decoration-none">
                 <img
                   src={conference.logoUrl}
                   className={`me-4 mb-3 mb-md-0 ${ConferenceDetailsStyles["conferencelogo"]}`}
@@ -24,14 +24,14 @@ const RegistrationFormHeader = ({ conference }) => {
                 className={`col-md-12 col-lg-9  mt-3 mt-lg-0  ${ConferenceDetailsStyles["heading"]}`}
               >
                 <h6 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
-                  2nd International Conference On
+                  {conference?.name}
                 </h6>
                 <h5 className="text-uppercase text-white mb-3 mb-md-1">
                   {conference?.conference?.landingPage?.title}
                 </h5>
                 <p className="text-white fst-italic">
                   {
-                    "Theme: “Enhancing Women’s Health: Improvement, Difficulties, and Innovative Thoughts in Obstetrics and Gynecology”"
+                    `Theme: ${conference?.conference?.landingPage?.theme}`
                   }
                 </p>
                 <div className={`mt-1 ${ConferenceDetailsStyles["timings"]}`}>
