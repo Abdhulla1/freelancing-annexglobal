@@ -22,7 +22,7 @@ export default function PricingTable({
   const [buttonLoading, setButtonLoading] = useState(false);
   const actualData = pricingTable.registration || [];
   const filledData = [...actualData];
-  while (filledData.length < 8) {
+  while (filledData.length < 10) {
     filledData.push({ ...defaultEntry });
   }
   const [pricingOptions, setPricingOptions] = useState(
@@ -100,7 +100,7 @@ const [editDates, setEditDates] = useState({
   }
 
 
-    // Custom validation for all 8 rows
+    // Custom validation for all 10 rows
   const incompleteRows = pricingOptions.some((entry) => {
     return (
       entry.registrationType === "Edit Registration Type" ||
@@ -116,7 +116,7 @@ const [editDates, setEditDates] = useState({
     toast?.current?.show({
       severity: "warn",
       summary: "Validation Error",
-      detail: "Please complete all 8 rows with valid registration type, amounts, and quantity.",
+      detail: "Please complete all 10 rows with valid registration type, amounts, and quantity.",
     });
     return;
   }

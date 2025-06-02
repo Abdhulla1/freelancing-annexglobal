@@ -34,7 +34,6 @@ export default function SpeakerAdmin({
 
       <div className="d-flex justify-content-between">
         <h5>Speakers</h5>
-        <button className="btn btn-warning text-white">Publish</button>
         {/* <i className="pi pi-eye px-2"></i>  */}
       </div>
       <div className="mt-4 ">

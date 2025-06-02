@@ -443,7 +443,7 @@ function Add({selectedConferenceID, toast, fetchData, setIsVisible }) {
         imageUrl: imageUrl,
       };
 
-      const response = await patchOCM(selectedConferenceID,payLoad.null);
+      const response = await patchOCM(selectedConferenceID,payLoad,null);
 
       if (response.status === 200) {
         toast.current?.show({

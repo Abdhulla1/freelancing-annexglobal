@@ -8,7 +8,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import Image from "next/image";
 import { getAllNewsLetters, deleteNewsLetter } from "@/service/newsletter";
 
-export default function NewsLetterTable() {
+export default function NewsLetterTable({userData}) {
   const toast = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
@@ -25,7 +25,7 @@ export default function NewsLetterTable() {
   const fetchData = async (page = 1, limit = rowsPerPage) => {
     setLoading(true);
     try {
-      const res = await getAllNewsLetters(page, limit);
+      const res = await getAllNewsLetters(page, limit,userData.conferenceName);
       setNewsLetterData(res.data?.detail?.data || []);
       setTotalRecords(res.data?.detail?.total || 0);
     } catch (error) {

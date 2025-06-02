@@ -37,6 +37,13 @@ export default function FileUpload({
       setPreviewSrc("/icons/DefaultPreviewImage.png");
     }
   };
+const handleDelete = () => {
+  setPreviewSrc("/icons/DefaultPreviewImage.png");
+  setFileName("No File Chosen");
+  imageUrl="";
+  inputRef.current.value = ""; // reset file input
+  onFileChange?.(""); // notify parent about removal
+};
 
   const handleButtonClick = () => {
     inputRef.current.click();
@@ -116,6 +123,7 @@ export default function FileUpload({
           <button
           type="button"
             className="btn btn-sm btn-outline-danger text-center"
+             onClick={handleDelete}
             title="Delete"
           >
             <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>

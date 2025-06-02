@@ -5,14 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
-const SideMenu = () => {
+const SideMenu = ({userData}) => {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const toggleDropdown = (label) => {
     setOpenDropdown(openDropdown === label ? null : label);
   };
-  const menuItems = [
+  const allMenuItems  = [
   { label: 'Dashboard', icon: 'bx bxs-dashboard', path: '/admin-annex-global-conferences/dashboard' },
   { label: 'Controlled Access', icon: 'bx bxs-lock', path: '/admin-annex-global-conferences/dashboard/controlled-access' },
   { label: 'Main Page', icon: 'bx bxs-home', path: '/admin-annex-global-conferences/dashboard/main-page' },
@@ -27,15 +27,17 @@ const SideMenu = () => {
   {
     label: 'Registration', icon: 'pi pi-cog', path: '/admin-annex-global-conferences/dashboard/registration' 
   },
-  { label: 'Footer', icon: 'bx bxs-inbox' ,path: '/admin-annex-global-conferences/dashboard/footer'},
-  // { label: 'Footer', icon: 'bx bxs-inbox' ,children: [
-  //     { label: 'Attendee', path: '/admin-annex-global-conferences/dashboard/registration/attendee' },
-  //     { label: 'Delegate', path: '/admin-annex-global-conferences/dashboard/registration/delegate' },
-  
-  //   ]},
-];
-
-
+  { label: 'Footer', icon: 'bx bxs-inbox' ,path: '/admin-annex-global-conferences/dashboard/footer'}];
+  const userMenuItems  = [
+  { label: 'Dashboard', icon: 'bx bxs-dashboard', path: '/admin-annex-global-conferences/dashboard' },
+  { label: 'Conference', icon: 'bx bxs-home-alt-2', path: `/admin-annex-global-conferences/dashboard/conference/${userData.conferenceId}` },
+  { label: 'Contact Us', icon: 'bx bx-envelope', path: '/admin-annex-global-conferences/dashboard/contact-us' },
+  { label: 'News Letter', icon: 'bx  bxs-news', path: '/admin-annex-global-conferences/dashboard/news-letter' },
+  { label: 'PDF Uploads', icon: 'pi pi-file-pdf', path: '/admin-annex-global-conferences/dashboard/pdf-uploads' },  {
+    label: 'Registration', icon: 'pi pi-cog', path: '/admin-annex-global-conferences/dashboard/registration' 
+  },
+  ]
+const menuItems=userData.isRoleUser ? userMenuItems : allMenuItems;
 const renderMenuItem = (item) => {
   const isActive = () => {
     if (item.children) {
