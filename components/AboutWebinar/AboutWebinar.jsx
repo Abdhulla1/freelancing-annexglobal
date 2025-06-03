@@ -27,13 +27,13 @@ const AboutWebinar = ({ conference }) => {
   const welcomeContent = conference?.webinar?.welcomeContent || "";
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
-  console.log(bgImage, "bgImage in AboutWebinar");
-  
+  const headerPanelImages = conference?.webinar?.headerPanelImages || [];  
   return (
     <>
       <ConferenceDetails
         conference={landingPage}
         Component={RightPannel}
+        headerPanelImages={headerPanelImages}
         bgImage={bgImage}
         buttonProps={{
           name: "Webinar Program",

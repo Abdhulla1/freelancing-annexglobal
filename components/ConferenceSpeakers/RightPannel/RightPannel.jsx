@@ -2,7 +2,7 @@ import React from "react";
 import RightPannelStyles from "./RightPannel.module.css";
 import Image from "next/image";
 
-export default function RightPannel() {
+export default function RightPannel({conference, id}) {
   return (
     <div
       className={`w-100 ${RightPannelStyles["rightPannel-container"]}`}
@@ -13,7 +13,7 @@ export default function RightPannel() {
           className={` ${RightPannelStyles["speakerCard"]} p-2 d-flex justify-content-center align-items-center flex-column`}
         >
           <Image
-            src="/images/conferences/speakerCardImage.png"
+            src={conference[0].imageUrl}
             alt="speaker"
             height={250}
             width={250}
@@ -23,7 +23,7 @@ export default function RightPannel() {
           <div className="d-flex justify-content-between align-items-center mt-5 mb-3">
             <div>
               <h3 className="text-white fw-light">
-                <em>Theresa Terence</em>
+                <em>{conference[0].name}</em>
               </h3>
               <p
                 className="text-white fw-light "
@@ -52,7 +52,7 @@ export default function RightPannel() {
           className={` ${RightPannelStyles["speakerCardLayer"]} p-2 d-flex justify-content-center align-items-center flex-column`}
         >
           <Image
-            src="/images/conferences/speakerCardImage.png"
+            src={conference[1].imageUrl}
             alt="speaker"
             height={250}
             width={250}
@@ -61,7 +61,7 @@ export default function RightPannel() {
           />
           <div>
             <h5 className="text-white fw-light text-start w-100">
-              <em>Alex The</em>
+              <em>{conference[1].name}</em>
             </h5>
           </div>
         </div>

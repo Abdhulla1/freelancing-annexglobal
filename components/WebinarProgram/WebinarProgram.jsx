@@ -15,12 +15,13 @@ const WebinarProgram = ({ conference }) => {
   const webinarProgramContent = conference?.webinarProgram?.scientificProgramAdmin || "";
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
- 
+  const headerPanelImages = conference?.webinarProgram?.headerPanelImages || [];
   return (
     <>
       <ConferenceDetails
         conferenceName={conferenceName}
         logoUrl={logoUrl}
+        headerPanelImages={headerPanelImages}
         id={id}
         conference={landingPageContent}
         Component={RightPannel}
