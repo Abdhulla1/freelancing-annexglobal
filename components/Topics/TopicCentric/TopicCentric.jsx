@@ -42,7 +42,7 @@ const TopicCentric = ({ topic, topics }) => {
         />
 
           <div 
-            className={`mb-4 ${DiscoverySessionsStyles["description"]}`}
+            className={`ql-editor mb-4 ${DiscoverySessionsStyles["description"]}`}
             dangerouslySetInnerHTML={{ __html: selectedTopic?.content }}
           />
       </div>

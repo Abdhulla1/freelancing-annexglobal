@@ -22,7 +22,7 @@ const LocationandServices = ({ locationAndServices, landingPageContent, id }) =>
               <h4 className="text-white">Location & Services</h4>
               <div
                 className={
-                  "text-white h5 fw-normal " +
+                  "text-white ql-editor h5 fw-normal " +
                   LocationandServicesStyles["lineheight"]
                 }
                 dangerouslySetInnerHTML={{

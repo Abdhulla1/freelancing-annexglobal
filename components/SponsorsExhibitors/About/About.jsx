@@ -9,7 +9,7 @@ const About= ({title,content}) => {
       <div className="mt-4 container-md">
       <div 
         dangerouslySetInnerHTML={{ __html: content }}
-        className={`text-capitalize ${AboutAnnexStyles["about-content"]}`}
+        className={`ql-editor text-capitalize ${AboutAnnexStyles["about-content"]}`}
       />
         {/* <p className={`text-capitalize ${AboutAnnexStyles["about-content"]}`}>
       {content}

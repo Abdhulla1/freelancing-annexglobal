@@ -31,7 +31,7 @@ const QueriesAnswered = ({ conference }) => {
             <Accordion activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
               {conference.map((item, index) => (
                 <AccordionTab key={item.qusId} header={headerGen(item, index)}>
-                  <div dangerouslySetInnerHTML={{ __html: item.answer }} />
+                  <div className="ql-editor" dangerouslySetInnerHTML={{ __html: item.answer }} />
                 </AccordionTab>
               ))}
             </Accordion>

@@ -85,7 +85,9 @@ const SupportingJournals = ({ supportingJournals }) => {
                       style={{ objectFit: "cover" }}
                     />
                   </div>
-                  <div dangerouslySetInnerHTML={{ __html: data.content }} />
+                  <div 
+                    className="ql-editor"
+                   dangerouslySetInnerHTML={{ __html: data.content }} />
                 </AccordionTab>
               ))}
             </Accordion>

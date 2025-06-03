@@ -87,7 +87,7 @@ const dynamicSettings = {
                             )}
                           </div>
                           <p
-                            className={connectWithOthers["description"]}
+                            className={`ql-editor ${connectWithOthers["description"]}`}
                             dangerouslySetInnerHTML={{
                               __html: item.content,
                             }}

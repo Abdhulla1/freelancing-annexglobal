@@ -111,7 +111,7 @@ const Prospectus = ({ conference, id }) => {
               {prospectusData[activeIndex].description}
             </p> */}
             <div
-              className={ProspectusStyles["passage"]}
+              className={`ql-editor ${ProspectusStyles["passage"]}`}
               dangerouslySetInnerHTML={{ __html: conference?.content || "" }}
             />
             <button

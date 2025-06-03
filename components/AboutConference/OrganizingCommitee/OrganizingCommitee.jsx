@@ -125,7 +125,7 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
             <div>
               <h5 className="text-black">About {selectedSpeaker.name}</h5>
               <div
-                className={style["about-content-height"]}
+                className={`ql-editor ${style["about-content-height"]}`}
                 dangerouslySetInnerHTML={{ __html: selectedSpeaker.bioData }}
               ></div>
             </div>

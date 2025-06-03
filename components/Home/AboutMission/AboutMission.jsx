@@ -74,7 +74,7 @@ const AboutMission = ({ conference }) => {
               </h3>
               <div className="mt-3 text-white fw-normal">
                 <div
-                  className={AboutMissionStyle["lineheight"]}
+                  className={`ql-editor ${AboutMissionStyle["lineheight"]}`}
                   dangerouslySetInnerHTML={{
                     __html: videoSection?.content || "",
                   }}

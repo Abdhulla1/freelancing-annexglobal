@@ -86,9 +86,9 @@ const currencySymbols = {
   CNY: "¥",
 };
 // === 👇 Main Component ===
-export default function RegistrationForm() {
-  const params = useParams();
-  const conferenceName = params?.slug;
+export default function RegistrationForm({ conference }) {
+  const conferenceName = conference?.name || "Conference";
+  console.log("Conference Name:", conference.registration);
   const toast = useRef(null);
   const registrationMutation = useRegistration();
   const razorpayOrderMutation = useRazorpayOrder();
@@ -211,7 +211,7 @@ export default function RegistrationForm() {
     }
 
     const data = {
-      conferenceName: "Annexx",
+      conferenceName: conferenceName,
       personalDetails: {
         firstName: formik.values.firstName,
         lastName: formik.values.lastName,
@@ -550,21 +550,21 @@ export default function RegistrationForm() {
                       style={{ width: "80px" }}
                     />
                   </label>
-                  <label className="d-flex align-items-center border p-2 rounded">
+                  {/* <label className="d-flex align-items-center border p-2 rounded">
                     <input
                       type="radio"
                       name="payment"
                       value="netbanking"
                       className="me-2"
                     />
-                    <span className="flex-grow-1">Net Banking</span>
+                    <span className="flex-grow-1">Net Banking</span> */}
                     {/* <img
                     src="/images/conferences/razorpay.png"
                     alt="Razorpay"
                     className="img-fluid"
                     style={{ width: "80px" }}
                   /> */}
-                  </label>
+                  {/* </label> */}
                   {/* <select className="form-select">
                   <option>Net Banking</option>
                   <option value="hdfc">HDFC Bank</option>

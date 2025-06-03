@@ -21,7 +21,7 @@ const AboutAnnex = ({ data }) => {
           "Welcome to Annex Global Conferences"}
       </p>
       <div
-        className="mt-4 container-md"
+        className="mt-4 container-md ql-editor"
         style={{
           width: "70%",
           wordWrap: "break-word",
