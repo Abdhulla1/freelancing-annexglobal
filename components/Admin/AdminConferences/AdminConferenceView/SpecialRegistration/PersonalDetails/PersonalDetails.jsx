@@ -3,14 +3,19 @@ import React, { useState, useEffect } from "react";
 import { Dialog } from "primereact/dialog";
 import { updateSpecialRegistration } from "@/service/AdminConfernecePages/confernce";
 import { Button } from "primereact/button";
+import { InputText } from 'primereact/inputtext'; // Import InputText for a better non-editable input
+import { Tooltip } from 'primereact/tooltip'; // Import Tooltip for the copy message
+
 export default function PersonalDetails({
   selectedConferenceID,
   PersonalDetails,
   fetchConfernceData,
   toast,
 }) {
-const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
+  const [registrationUrl, setRegistrationUrl] = useState(""); // New state for the URL
+  const [copiedMessage, setCopiedMessage] = useState(""); // New state for the copied message
 
   const [sidebarState, setSidebarState] = useState({
     header: null,
@@ -58,9 +63,13 @@ const [isVisible, setIsVisible] = useState(false);
     formData.currencyInfo.trim() &&
     formData.currency.length > 0 &&
     formData.registrationFee !== "";
-
+  useEffect(() => {
+    if (selectedConferenceID && PersonalDetails && PersonalDetails.heading) {
+      setRegistrationUrl(`${window.location.origin}/special-registration/${selectedConferenceID}`);
+    }
+  }, [selectedConferenceID, PersonalDetails]); // Depend on selectedConferenceID and PersonalDetails
   const handleSubmit = async () => {
-    setButtonLoading(true)
+    setButtonLoading(true);
     if (!isFormValid) {
       toast.current.show({
         severity: "error",
@@ -74,17 +83,18 @@ const [isVisible, setIsVisible] = useState(false);
     const payload = { ...formData };
 
     try {
-      const response=await updateSpecialRegistration(selectedConferenceID,payload)
-      if(response.status==200){
- toast.current.show({
-        severity: "success",
-        summary: "Saved",
-        detail: response.data?.detail?.[0]?.msg ||"Personal Details saved successfully",
-        life: 3000,
-      });
-      fetchConfernceData()
+      const response = await updateSpecialRegistration(selectedConferenceID, payload);
+      if (response.status === 200) {
+        toast.current.show({
+          severity: "success",
+          summary: "Saved",
+          detail: response.data?.detail?.[0]?.msg || "Personal Details saved successfully",
+          life: 3000,
+        });
+        fetchConfernceData();
+        // Generate and show the URL after successful submission
+        setRegistrationUrl(`${window.location.origin}/special-registration/${selectedConferenceID}`);
       }
-     
     } catch (error) {
       toast.current.show({
         severity: "error",
@@ -92,10 +102,19 @@ const [isVisible, setIsVisible] = useState(false);
         detail: "Failed to save",
         life: 3000,
       });
-    }finally{
-      setButtonLoading(false)
+    } finally {
+      setButtonLoading(false);
     }
   };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(registrationUrl);
+    setCopiedMessage("Copied!");
+    setTimeout(() => {
+      setCopiedMessage("");
+    }, 2000); // Clear the message after 2 seconds
+  };
+
   return (
     <div className="mt-3">
       <Dialog
@@ -240,17 +259,39 @@ const [isVisible, setIsVisible] = useState(false);
         </div>
       </div>
       <div className="mt-4">
-          <Button
-                  label="Save Changes"
-                  type="submit"
-                  className="btn px-5 btn-warning text-white"
-                  loading={buttonLoading}
-                  
+        <Button
+          label="Save Changes"
+          type="submit"
+          className="btn px-5 btn-warning text-white"
+          loading={buttonLoading}
           onClick={handleSubmit}
-                  disabled={!isFormValid || !isFormChanged}
-                />
-       
+          disabled={!isFormValid || !isFormChanged}
+        />
       </div>
+
+      {registrationUrl && ( // Conditionally render the URL field
+        <div className="mt-4">
+          <label htmlFor="registrationUrl" className="form-label">
+            Special Registration URL
+          </label>
+          <div className="p-inputgroup">
+            <InputText
+              id="registrationUrl"
+              value={registrationUrl}
+              readOnly
+              className="p-inputtext p-component bg-secondary bg-opacity-10 rounded-start-2"
+              style={{ cursor: "default" }}
+            />
+            <Button
+              icon="pi pi-copy"
+              className="p-button-secondary p-button-outlined"
+              onClick={copyToClipboard}
+              tooltip={copiedMessage || "Click to copy"}
+              tooltipOptions={{ position: 'bottom', event: 'both' }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

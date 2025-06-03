@@ -2,6 +2,7 @@ import "./globals.css";
 import "boxicons/css/boxicons.min.css";
 import Providers from "./providers";
 import Script from "next/script";
+import 'quill/dist/quill.snow.css';
 
 export const metadata = {
   title: "WELCOME TO ANNEX GLOBAL CONFERENCES ",
