@@ -7,6 +7,7 @@ import EnquiryForm from "../Home/EnquiryForm/EnquiryForm";
 import RightPannel from "./RightPannel/RightPannel";
 import bgImage from "@/public/images/conferences/ocm-bg.png";
 const OrganizingComiteeMembers = ({ conference }) => {
+  console.log("Conference Data in OrganizingComiteeMembers:", conference);
   const id = conference?._id;
   const logoUrl = conference?.logoUrl;
   const welcomeContent = conference?.conference?.welcomeContent || "";
@@ -15,12 +16,14 @@ const OrganizingComiteeMembers = ({ conference }) => {
   const organizingCommittee = conference?.ocm || "";
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
-
+  const headerPanelImages = conference?.ocm?.headerPanelImages || [];
+  console.log("Header Panel Images:", headerPanelImages);
   return (
     <>
       <ConferenceDetails
         conferenceName={conferenceName}
         logoUrl={logoUrl}
+        headerPanelImages={headerPanelImages}
         id={id}
         conference={landingPageContent}
         Component={RightPannel}

@@ -15,10 +15,11 @@ import RightPannel from "./RightPannel/RightPannel";
 import bgImage from "@/public/images/conferences/webinar-bg.webp";
 
 const AboutWebinar = ({ conference }) => {
-
+  console.log("Conference Data in AboutWebinar:", conference);
   const id = conference?._id;
   const logoUrl = conference?.logoUrl;
-  
+  // const bgImage = { src: conference?.cardBgImage || "" };
+
   const landingPage = conference?.conference?.landingPage || {};
   const discoverySessions = conference?.topics?.essentialInnovation || "";
   const alumniSpeakers = conference?.alumniSpeakers || [];
@@ -26,6 +27,7 @@ const AboutWebinar = ({ conference }) => {
   const welcomeContent = conference?.webinar?.welcomeContent || "";
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
+  console.log(bgImage, "bgImage in AboutWebinar");
   
   return (
     <>

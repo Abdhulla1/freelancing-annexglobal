@@ -2,7 +2,8 @@ import React from "react";
 import RightPannelStyles from "./RightPannel.module.css";
 import Image from "next/image";
 
-export default function RightPannel() {
+export default function RightPannel({conference, id}) {
+  console.log("RightPannel conference", conference);
   return (
     <div
       className={`w-100  d-flex justify-content-center align-items-center ${RightPannelStyles["rightPannel-container"]}`}
@@ -12,7 +13,7 @@ export default function RightPannel() {
           className={`position-relative ${RightPannelStyles["image-round"]}`}
         >
           <Image
-            src={"/images/conferences/OCM/mic-image.jpg"}
+            src={conference[0].imageUrl}
             fill
             alt="Organizing Committee Members"
             className="rounded-circle"
@@ -24,7 +25,7 @@ export default function RightPannel() {
           className={`position-relative rounded-pill my-3 ${RightPannelStyles["image-capsule"]}`}
         >
           <Image
-            src={"/images/conferences/OCM/conference-speaking.png"}
+            src={conference[1].imageUrl}
             fill
             alt="Organizing Committee Members"
             className="rounded-pill"
@@ -37,7 +38,7 @@ export default function RightPannel() {
           className={`position-relative rounded-pill ${RightPannelStyles["image-capsule-two"] }`}
         >
           <Image
-            src={"/images/conferences/OCM/speaking.png"}
+            src={conference[2].imageUrl}
             fill
             alt="Organizing Committee Members"
             className="rounded-pill"
