@@ -4,12 +4,12 @@ import About from "../SponsorsExhibitors/About/About";
 import VenueDetails from "./VenueDetails/VenueDetails";
 import VenueLocation from "./VenueLocation/VenueLocation";
 export default function Venue({ conference }) {
-  console.log("Conference ID: from Venue", conference?.venue);
   const venueLocation = conference?.venue?.eventTimings || "";
   const aboutVenue = conference?.venue?.content || "";
   const venueDetails = conference?.venue?.headerPanelImages || "";
   const venueMap = conference?.venue?.maps || "";
-  console.log("Venue Location:", aboutVenue);
+  const prospectUsContent = conference?.conference?.eventDetails || "";
+  const id = conference?._id;
   return (
     <>
       <VenueDetails conference={venueDetails} />
@@ -21,7 +21,7 @@ export default function Venue({ conference }) {
       />
       
       <VenueLocation conference={venueLocation} map={venueMap} />
-      <Prospectus />
+      <Prospectus conference={prospectUsContent} id={id} />
     </>
   );
 }

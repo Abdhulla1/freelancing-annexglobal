@@ -12,11 +12,13 @@ const ScientificProgram = ({ conference }) => {
   const logoUrl = conference?.logoUrl;
   const welcomeContent = conference?.conference?.welcomeContent || "";
   const landingPageContent = conference?.conference?.landingPage || "";
+  const conferenceName = conference?.conference?.landingPage?.conference;
+  const prospectUsContent = conference?.conference?.eventDetails || "";
 
   return (
     <>
       <ConferenceDetails
-        conferenceName={conference?.name}
+        conferenceName={conferenceName}
         logoUrl={logoUrl}
         id={id}
         conference={landingPageContent}
@@ -24,7 +26,7 @@ const ScientificProgram = ({ conference }) => {
         Component={RightPannel}
       />
       <ScientificProgramCarousel conference={conference} />
-      <Prospectus />
+      <Prospectus conference={prospectUsContent} id={id} />
       <EnquiryForm />
     </>
   );
