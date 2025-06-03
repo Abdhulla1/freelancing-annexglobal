@@ -118,14 +118,14 @@ const slides = isMobile
                 <div>
                   <h4 className="text-black">{selectedSpeaker.name}</h4>
                   <h5>
-                    {selectedSpeaker.title}, {selectedSpeaker.companyDetails}
+                   {selectedSpeaker.companyDetails}
                   </h5>
                 </div>
               </div>
             </div>
             <hr />
             <div>
-              <h5 className="text-black">About {selectedSpeaker.name}</h5>
+              <h5 className="text-black">Title:  "{selectedSpeaker.title}" </h5>
               <div className={AlumniSpeakerStyles["about-content-height"]}>
                 <div 
                 className="ql-editor"

@@ -88,7 +88,8 @@ const currencySymbols = {
 // === 👇 Main Component ===
 export default function RegistrationForm({ conference }) {
   const conferenceName = conference?.name || "Conference";
-  console.log("Conference Name:", conference.registration);
+  const pricingDetails = conference?.registration?.pricing || {};
+  console.log("Conference Name:", conference);
   const toast = useRef(null);
   const registrationMutation = useRegistration();
   const razorpayOrderMutation = useRazorpayOrder();
@@ -507,6 +508,7 @@ export default function RegistrationForm({ conference }) {
             <PricingTable
               onTotalChange={handleTotalChange}
               selectedCurrency={formik.values.currency}
+              pricingDetails={pricingDetails}
               getSymbol={getSymbol}
             />
           </div>

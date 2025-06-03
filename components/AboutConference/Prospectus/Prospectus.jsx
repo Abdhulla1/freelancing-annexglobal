@@ -105,8 +105,8 @@ const Prospectus = ({ conference, id }) => {
       <div className="container">
         <div className="row">
           <div className="col-md-5 mb-5 mb-md-0 overflow-y-auto">
-            {/* <h3>{prospectusData[activeIndex].title}</h3> */}
-            {conference?.title}
+            <h3>{conference?.title}</h3>
+            {/* {conference?.title} */}
             {/* <p className={ProspectusStyles["passage"]}>
               {prospectusData[activeIndex].description}
             </p> */}
