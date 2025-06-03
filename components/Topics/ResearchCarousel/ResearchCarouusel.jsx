@@ -14,7 +14,7 @@ const ResearchCarouusel = ({conference}) => {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(sessionsPerPage);
 
-  const Sessions = getAllSessions();
+  const Sessions = conference?.topics?.researchGroundBreaking || [];
 
   const onPageChange = (event) => {
     setFirst(event.first);
@@ -42,8 +42,8 @@ const ResearchCarouusel = ({conference}) => {
           {Sessions.slice(first, first + rows).map((sess, i) => (
             <div className="col-12 col-md-6 col-lg-5 mt-4 d-flex" key={i}>
               <div className={DiscoverySessionsStyles["card"]}>
-                <span className={`text-truncate col-9 ${DiscoverySessionsStyles["text"]}`}>{sess?.title}</span>
-                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference?._id}/topics/${sess.id}`} >
+                <span className={`text-truncate col-9 ${DiscoverySessionsStyles["text"]}`}>{sess?.topic}</span>
+                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference?._id}/topics/${sess.topicId}`} >
                   <i className="pi-reply pi"></i>
                 </Link>
               </div>
