@@ -89,7 +89,6 @@ const currencySymbols = {
 export default function RegistrationForm({ conference }) {
   const conferenceName = conference?.name || "Conference";
   const pricingDetails = conference?.registration?.pricing || {};
-  console.log("Conference Name:", conference);
   const toast = useRef(null);
   const registrationMutation = useRegistration();
   const razorpayOrderMutation = useRazorpayOrder();

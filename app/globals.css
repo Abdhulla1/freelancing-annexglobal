@@ -324,3 +324,16 @@ select.form-control {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; /* Optional: color on hover */
 }
+
+
+@media screen and (min-width: 1024px) {
+  html {
+    transform: scale(1);
+    transform-origin: top center;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+

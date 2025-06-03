@@ -3,6 +3,9 @@ import ConferenceDetailsStyles from "./RegistrationFormHeader.module.css";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import Link from "next/link";
 const RegistrationFormHeader = ({ conference }) => {
+  console.log("Conference Details:", conference);
+  const specialRegistration = conference?.specialRegistration?.personalDetails || {};
+  console.log("Special Registration Details:", specialRegistration);
 
   return (
     <div className={`${ConferenceDetailsStyles["container"]}`}>
@@ -11,9 +14,9 @@ const RegistrationFormHeader = ({ conference }) => {
           <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center justify-content-center  mt-lg-0">
             <div>
               <div className="d-flex  flex-wrap flex-md-nowrap  align-items-center justify-content-center justify-content-md-start">
-                 <Link href={`/conference/${conference.id}`} className="text-decoration-none">
+                 <Link href={`/conference/${conference._id}`} className="text-decoration-none">
                 <img
-                  src={conference.icon}
+                  src={conference?.logoUrl}
                   className={`me-4 mb-3 mb-md-0 ${ConferenceDetailsStyles["conferencelogo"]}`}
                   alt="Conference Logo"
                 />
@@ -23,13 +26,13 @@ const RegistrationFormHeader = ({ conference }) => {
                 className={`col-md-12 col-lg-9  mt-3 mt-lg-0  ${ConferenceDetailsStyles["heading"]}`}
               >
                 <h3 className="text-uppercase text-warning opacity-75 mb-3 mb-md-3">
-                  Special Registration
+                  {conference?.conference?.landingPage?.title}
                 </h3>
                 <h5 className="text-uppercase text-white mb-3 mb-md-3">
-                  {conference.title}
+                  {conference.conference?.landingPage?.conference}
                 </h5>
                 <p className="text-white">
-                March 10/11/2025     |     Dubai, UAE
+                {conference?.conference?.landingPage?.startDate}     |     {conference?.conference?.landingPage?.location}
                 </p>
                 {/* <div className={`mt-1 ${ConferenceDetailsStyles["timings"]}`}>
                   <div className="d-inline-flex flex-nowrap align-items-center justify-content-center  gap-2 p-1">
@@ -72,7 +75,7 @@ const RegistrationFormHeader = ({ conference }) => {
             </div>
           </div>
           <div className=" mx-auto ">
-            <RegistrationForm/>
+            <RegistrationForm conference={specialRegistration}/>
           </div>
         </div>
       </div>
