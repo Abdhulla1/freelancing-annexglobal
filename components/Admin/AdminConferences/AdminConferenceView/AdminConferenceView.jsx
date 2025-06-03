@@ -87,6 +87,7 @@ export default function AdminConferenceView({ conference,userData }) {
       <ConferencePageAdmin
         selectedConferenceID={selectedConference._id}
         conference={selectedConference.conference}
+        conferencevideoSection={selectedConference.conferencevideoSection}
         fetchConfernceData={fetchConfernceData}
       />
     ) : null,
