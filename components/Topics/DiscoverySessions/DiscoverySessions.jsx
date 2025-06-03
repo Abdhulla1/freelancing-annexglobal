@@ -11,6 +11,7 @@ import { getAllSessions } from "@/service/conferenceData";
 import Link from "next/link";
 
 const DiscoverySessions = ({ conference }) => {
+  console.log("Conference ID: from DiscoverySessions", conference);
   const sessionsPerPage = 18;
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(sessionsPerPage);
@@ -38,7 +39,7 @@ const DiscoverySessions = ({ conference }) => {
   return (
     <div>
 
-        <ResearchCarouusel conferenceId={conference._id}/>
+        <ResearchCarouusel conference={conference}/>
 <div className={DiscoverySessionsStyles["container"]}>
       <div className="container py-5">
         <h3 className="text-black">

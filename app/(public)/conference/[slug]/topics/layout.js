@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 
@@ -15,12 +14,12 @@ export default function Layout({ children }) {
   const params = useParams();
   const router = useRouter();
 
-  const slug =
-    typeof params?.slug === "string" ? params.slug : params?.slug?.[0];
+  const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug;
+  console.log("slug", slug);
   const { data: conferenceData, isLoading } = useConferenceDetails(slug);
 
   useEffect(() => {
-    if (!isLoading && !conferenceData?.detail) {
+    if (!isLoading && (!conferenceData || !conferenceData?.detail)) {
       router.push("/404");
     }
   }, [isLoading, conferenceData, router]);
@@ -29,12 +28,15 @@ export default function Layout({ children }) {
     return <div>Loading...</div>;
   }
 
-  const landingPage = conferenceData?.detail?.conference?.landing_page;
-  const id = conference?._id;
-  const logoUrl = conference?.logoUrl;
-  const conferenceName = conference?.conference?.landingPage?.conference;
-  const prospectUsContent = conference?.conference?.eventDetails || "";
+  console.log("Conference Data topics:11111", conferenceData);
 
+  const landingPage = conferenceData?.detail?.conference?.landingPage;
+  console.log("landingPage afgasfdg sdfg dfg", landingPage);
+  const id = conferenceData._id;
+  const logoUrl = conferenceData?.detail?.logoUrl;
+  console.log("logoUrl", logoUrl);
+  const conferenceName = conferenceData.detail.conference?.landingPage?.conference;
+  const prospectUsContent = conferenceData.detail.conference?.eventDetails || "";
   return (
     <>
       <ConferenceDetails
