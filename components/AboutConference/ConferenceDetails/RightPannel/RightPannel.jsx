@@ -97,14 +97,14 @@ export default function RightPannel({conference, id}) {
               <i className="pi-angle-right pi"></i>
             </button>
           </div>
-          <small>gynecology@annexglobalconferences.com</small>
+          {/* <small>gynecology@annexglobalconferences.com</small> */}
         </div>
       </div>
    <div className="d-flex justify-content-between gap-3 mt-3">
      <span className="bg-white py-2 px-3 rounded text-warning">
     <i className="bx bxs-bookmark text-center me-1"></i>CPD Accredited Conference
   </span>
-  <Link href={`/conference/${id}/past-conferences`}className="bg-white py-2 px-3 text-decoration-none rounded text-warning">
+  <Link href={`/conference/${id}/past-conferences`} className="bg-white py-2 px-3 text-decoration-none rounded text-warning">
     Past Conferences Reports
   </Link>
  

@@ -7,6 +7,7 @@ import { Toast } from "primereact/toast";
 import ProspectusStyles from "./Prospectus.module.css";
 import { useParams } from "next/navigation";
 import { useBrochure } from "@/hooks/useWeather";
+import Link from "next/link";
 
 const prospectusData = [
   {
@@ -29,7 +30,7 @@ const prospectusData = [
   },
 ];
 
-const Prospectus = () => {
+const Prospectus = ({ conference, id }) => {
   const params = useParams();
   const toast = useRef(null);
   const conferenceName = params?.slug;
@@ -62,22 +63,18 @@ const Prospectus = () => {
     mobileNumber: "",
   };
 
-
   const handleSubmit = (values, { resetForm }) => {
-           let normalizedMobile = values.mobileNumber
-          .trim()
-          .replace(/[\s\-().]/g, "");
-        if (normalizedMobile.startsWith("+91"))
-          normalizedMobile = normalizedMobile.slice(3);
-        else if (normalizedMobile.startsWith("0"))
-          normalizedMobile = normalizedMobile.slice(1);
-        normalizedMobile = "+91" + normalizedMobile;
-    
+    let normalizedMobile = values.mobileNumber.trim().replace(/[\s\-().]/g, "");
+    if (normalizedMobile.startsWith("+91"))
+      normalizedMobile = normalizedMobile.slice(3);
+    else if (normalizedMobile.startsWith("0"))
+      normalizedMobile = normalizedMobile.slice(1);
+    normalizedMobile = "+91" + normalizedMobile;
+
     const formattedValues = {
       ...values,
       mobileNumber: normalizedMobile,
     };
-
 
     BrochureMutation.mutate(formattedValues, {
       onSuccess: (data) => {
@@ -108,10 +105,15 @@ const Prospectus = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-5 mb-5 mb-md-0 overflow-y-auto">
-            <h3>{prospectusData[activeIndex].title}</h3>
-            <p className={ProspectusStyles["passage"]}>
+            {/* <h3>{prospectusData[activeIndex].title}</h3> */}
+            {conference?.title}
+            {/* <p className={ProspectusStyles["passage"]}>
               {prospectusData[activeIndex].description}
-            </p>
+            </p> */}
+            <div
+              className={ProspectusStyles["passage"]}
+              dangerouslySetInnerHTML={{ __html: conference?.content || "" }}
+            />
             <button
               className={ProspectusStyles["btn-download"]}
               onClick={() => setIsDialogOpen(true)}
@@ -122,7 +124,7 @@ const Prospectus = () => {
 
           <div className="col-md-7">
             <div className={`mt-3 ${ProspectusStyles["card-container"]}`}>
-              {prospectusData.map((prospectus, i) => (
+              {conference?.images?.map((prospectus, i) => (
                 <div
                   key={i}
                   onClick={() => setActiveIndex(i)}
@@ -132,12 +134,14 @@ const Prospectus = () => {
                       : ProspectusStyles["card-active"]
                   }
                 >
-                  <img src={prospectus.image} alt="Event Image" />
+                  <img src={prospectus} alt="Event Image" />
                   <div className={ProspectusStyles["overlay"]}>
                     {activeIndex === i && (
-                      <button className={ProspectusStyles["register-btn"]}>
-                        GET TICKETS
-                      </button>
+                      <Link href={`/conference/${id}/registration`}>
+                        <button className={ProspectusStyles["register-btn"]}>
+                          GET TICKETS
+                        </button>
+                      </Link>
                     )}
                   </div>
                 </div>

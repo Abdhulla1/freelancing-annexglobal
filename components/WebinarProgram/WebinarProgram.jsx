@@ -13,10 +13,13 @@ const WebinarProgram = ({ conference }) => {
   const welcomeContent = conference?.conference?.welcomeContent || "";
   const landingPageContent = conference?.conference?.landingPage || "";
   const webinarProgramContent = conference?.webinarProgram?.scientificProgramAdmin || "";
+  const conferenceName = conference?.conference?.landingPage?.conference;
+  const prospectUsContent = conference?.conference?.eventDetails || "";
+ 
   return (
     <>
       <ConferenceDetails
-        conferenceName={conference?.name}
+        conferenceName={conferenceName}
         logoUrl={logoUrl}
         id={id}
         conference={landingPageContent}
@@ -24,7 +27,7 @@ const WebinarProgram = ({ conference }) => {
         bgImage={bgImage}
       />
       <WebinarProgramCarousel conference={webinarProgramContent} />
-      <Prospectus />
+      <Prospectus conference={prospectUsContent} id={id} />
       <EnquiryForm />
     </>
   );

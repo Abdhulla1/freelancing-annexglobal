@@ -9,18 +9,20 @@ const SubmitAbstract = ({ conference }) => {
      const id = conference?._id
   const logoUrl = conference?.logoUrl 
   const landingPageContent = conference?.conference?.landingPage || "";
+  const conferenceName = conference?.conference?.landingPage?.conference;
+  const prospectUsContent = conference?.conference?.eventDetails || "";
  
     return (
        <>
        {/* <SubmitAbstractDetails conference={conference}/> */}
        <ConferenceDetails
-          conferenceName={conference?.name}
+          conferenceName={conferenceName}
         logoUrl={logoUrl}
         id={id}
         conference={landingPageContent} bgImage={bgImage}/>
        <AboutAbstract/>
        <ResearchPaperForm/>
-       <Prospectus/>
+       <Prospectus conference={prospectUsContent} id={id} />
        </>
     );
 };

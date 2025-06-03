@@ -24,7 +24,9 @@ const AboutWebinar = ({ conference }) => {
   const alumniSpeakers = conference?.alumniSpeakers || [];
   const queriesAnswered = conference?.webinar?.queriesAns || "";
   const welcomeContent = conference?.webinar?.welcomeContent || "";
-  console.log("Conference Data in AboutWebinar:", conference, queriesAnswered);
+  const conferenceName = conference?.conference?.landingPage?.conference;
+  const prospectUsContent = conference?.conference?.eventDetails || "";
+  
   return (
     <>
       <ConferenceDetails
@@ -35,7 +37,7 @@ const AboutWebinar = ({ conference }) => {
           name: "Webinar Program",
           href: `/conference/${id}/webinar-program`,
         }}
-        conferenceName={conference?.name}
+        conferenceName={conferenceName}
         logoUrl={logoUrl}
         id={id}
       />
@@ -45,7 +47,7 @@ const AboutWebinar = ({ conference }) => {
       <DiscoverySessions conference={discoverySessions} />
       <AlumniSpeakers conference={conference} />
       <QueriesAnswered conference={queriesAnswered} />
-      <Prospectus conference={conference} />
+      <Prospectus conference={prospectUsContent} id={id} />
       {/* <ConnectWithOthers conference={conference}/> */}
       <EnquiryForm />
     </>

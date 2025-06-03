@@ -21,6 +21,7 @@ import bgImage from "@/public/images/conferences/upcoming-bg.webp";
 const AboutConference = ({ conference }) => {
   const id = conference?._id
   const logoUrl = conference?.logoUrl 
+  const conferenceName = conference?.conference?.landingPage?.conference;
   const welcomeContent = conference?.conference?.welcomeContent || "";
   const landingPageContent = conference?.conference?.landingPage || "";
   const landingPageSpeakers = conference?.conference?.ladingPageSpeakers || [];
@@ -34,15 +35,14 @@ const AboutConference = ({ conference }) => {
   // const prospectus = conference?.prospectus || "";
   const supportingJournals = conference?.conference?.supportingJournal || "";
   const testimonialContent = conference?.conference?.testimonial || [];
-
-
+  const prospectUsContent = conference?.conference?.eventDetails || "";
   return (
     <>
       <ConferenceDetails
         conference={landingPageContent}
        Component={() => <RightPannel conference={landingPageSpeakers} id={id} />}
         bgImage={bgImage}
-        conferenceName={conference?.name}
+        conferenceName={conferenceName}
         logoUrl={logoUrl}
         id={id}
         buttonProps={{
@@ -53,27 +53,23 @@ const AboutConference = ({ conference }) => {
       <WelcomeContent welcomeContent={welcomeContent} />
       <AboutMission />
       <OrganizingCommitee organizingCommittee={organizingCommittee} id={id} />
-      {/* commit by jk need to uncommit */}
       <DiscoverySessions conference={discoverySessions} />
 
       {/* <BroucherGrid/> */}
       {/* <SupportingJournals/> */}
       <div className="mt-5"></div>
       {/* <ReputedOrganizations/> */}
-      <AlumniSpeakers  />
-      {/* commit by jk need to uncommit */}
+      <AlumniSpeakers conference={conference}  />
 
       <PastConference pastConference={pastConference} />
       <ConnectWithOthers conference={testimonialContent} />
-      {/* commit by jk need to uncommit */}
       
 
       <SupportingJournals supportingJournals={supportingJournals} />
 
       {/* <QueriesAnswered/> */}
-        {/* commit by jk need to uncommit */}
       <LocationandServices locationAndServices={locationAndServices} landingPageContent={landingPageContent} id={id} />
-      <Prospectus />
+      <Prospectus conference={prospectUsContent} id={id} />
       {/* <ConnectWithOthers/> */}
       <EnquiryForm />
     </>

@@ -13,11 +13,13 @@ const OrganizingComiteeMembers = ({ conference }) => {
   const landingPageContent = conference?.conference?.landingPage || "";
   const landingPageSpeakers = conference?.conference?.ladingPageSpeakers || [];
   const organizingCommittee = conference?.ocm || "";
+  const conferenceName = conference?.conference?.landingPage?.conference;
+  const prospectUsContent = conference?.conference?.eventDetails || "";
 
   return (
     <>
       <ConferenceDetails
-        conferenceName={conference?.name}
+        conferenceName={conferenceName}
         logoUrl={logoUrl}
         id={id}
         conference={landingPageContent}
@@ -25,7 +27,7 @@ const OrganizingComiteeMembers = ({ conference }) => {
         bgImage={bgImage}
       />
       <OrganizingCommitee organizingCommittee={organizingCommittee} />
-      <Prospectus />
+      <Prospectus conference={prospectUsContent} id={id} />
       <EnquiryForm />
     </>
   );
