@@ -3,31 +3,31 @@ import styles from "./PricingTable.module.css";
 
 
 
-const pricingOptions = [
-  {
-    type: "Speaker Registration - 1 Days Entry Ticket",
-    early: 322,
-    mid: 522,
-    final: 722,
-  },
-  {
-    type: "Speaker Registration - 2 Days Entry Ticket",
-    early: 322,
-    mid: 522,
-    final: 722,
-  },
-  { type: "Poster Registration", early: 322, mid: 522, final: 722 },
-  { type: "Delegate Registration", early: 322, mid: 522, final: 722 },
-  { type: "Student Registration", early: 322, mid: 522, final: 722 },
-  {
-    type: "Webinar/Virtual Conference Registration",
-    early: 322,
-    mid: 522,
-    final: 722,
-  },
-  { type: "Video Presentation", early: 322, mid: 522, final: 722 },
-  { type: "E-Poster Presentation", early: 322, mid: 522, final: 722 },
-];
+// const pricingOptions = [
+//   {
+//     type: "Speaker Registration - 1 Days Entry Ticket",
+//     early: 322,
+//     mid: 522,
+//     final: 722,
+//   },
+//   {
+//     type: "Speaker Registration - 2 Days Entry Ticket",
+//     early: 322,
+//     mid: 522,
+//     final: 722,
+//   },
+//   { type: "Poster Registration", early: 322, mid: 522, final: 722 },
+//   { type: "Delegate Registration", early: 322, mid: 522, final: 722 },
+//   { type: "Student Registration", early: 322, mid: 522, final: 722 },
+//   {
+//     type: "Webinar/Virtual Conference Registration",
+//     early: 322,
+//     mid: 522,
+//     final: 722,
+//   },
+//   { type: "Video Presentation", early: 322, mid: 522, final: 722 },
+//   { type: "E-Poster Presentation", early: 322, mid: 522, final: 722 },
+// ];
 
 const FormSelect = ({
   label,
@@ -56,10 +56,13 @@ const FormSelect = ({
   );
 };
 
-export default function PricingTable({ onTotalChange ,selectedCurrency,getSymbol}) {
+export default function PricingTable({ onTotalChange ,selectedCurrency, pricingDetails ,getSymbol}) {
     const [result, setResult] = useState(null);
   const [exchangeRate, setExchangeRate] = useState(1);
+  const pricingOptions = pricingDetails?.registration;
+  console.log("Pricing Options:", pricingOptions);
   const [convertedPrices, setConvertedPrices] = useState([]);
+  console.log("Converted Prices:", convertedPrices);
   useEffect(() => {
     async function fetchExchangeRate() {
       try {
@@ -81,15 +84,16 @@ export default function PricingTable({ onTotalChange ,selectedCurrency,getSymbol
   }, [selectedCurrency]);
 
   // Convert pricing options whenever exchangeRate changes
-  useEffect(() => {
-    const converted = pricingOptions.map(({ type, early, mid, final }) => ({
-      type,
-      early: Math.round(early * exchangeRate * 100) / 100,
-  mid: Math.round(mid * exchangeRate * 100) / 100,
-  final: Math.round(final * exchangeRate * 100) / 100,
-    }));
-    setConvertedPrices(converted);
-  }, [exchangeRate]);
+useEffect(() => {
+  const converted = pricingOptions.map(({ registrationType, earlyBirdAmount, midBirdAmount, finalBirdAmount }) => ({
+    type: registrationType,
+    early: Math.round(earlyBirdAmount * exchangeRate * 100) / 100,
+    mid: Math.round(midBirdAmount * exchangeRate * 100) / 100,
+    final: Math.round(finalBirdAmount * exchangeRate * 100) / 100,
+  }));
+  setConvertedPrices(converted);
+}, [exchangeRate, pricingOptions]);
+
 
 
 
