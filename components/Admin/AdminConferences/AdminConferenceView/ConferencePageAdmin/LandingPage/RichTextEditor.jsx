@@ -79,7 +79,7 @@ const RichTextEditor = ({
         value={text}
         onTextChange={handleTextChange}
         style={{ height }}
-        headerTemplate={header}
+        // headerTemplate={header}
         onKeyDown={handleKeyDown} // Attach keydown handler to block input
       />
       <div style={{ textAlign: "right", fontSize: "12px", marginTop: "4px", color: charCount >= maxLength ? "red" : "#666" }}>

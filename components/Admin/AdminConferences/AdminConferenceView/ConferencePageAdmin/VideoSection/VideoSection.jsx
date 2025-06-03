@@ -5,8 +5,8 @@ import * as Yup from "yup";
 import { saveVideoSection } from "@/service/AdminConfernecePages/confernce";
 import { Button } from 'primereact/button';
 export default function VideoSection({selectedConferenceID, VideoSectionData, fetchConfernceData, toast }) {
+  console.log(VideoSectionData);
   const [loading, setLoading] = useState(false);
-
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
