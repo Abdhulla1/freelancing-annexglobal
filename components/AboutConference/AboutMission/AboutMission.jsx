@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import AboutMissionStyles from "./AboutMission.module.css";
 
 const AboutMission = ({ conference }) => {
+  console.log("AboutMission conference", conference);
   const iframeRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -47,7 +48,7 @@ const AboutMission = ({ conference }) => {
               ref={iframeRef}
               width="100%"
               height="415"
-              src={`https://www.youtube.com/embed/${conference.videoUrl.split("youtu.be/")[1]}?enablejsapi=1`}
+              src={`${conference?.videoUrl}?enablejsapi=1`}
               title="Conference Video"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

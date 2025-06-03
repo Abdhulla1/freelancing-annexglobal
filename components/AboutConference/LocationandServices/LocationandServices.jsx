@@ -19,7 +19,7 @@ const LocationandServices = ({ locationAndServices, landingPageContent, id }) =>
           </div>
           <div className="col-md-7 d-flex align-items-center">
             <div className="mt-3 mt-md-0">
-              <h4 className="text-white">Location & Services</h4>
+              <h3 style={{ marginLeft: "10px" }} className="text-white">Venue</h3>
               <div
                 className={
                   "text-white ql-editor h5 fw-normal " +

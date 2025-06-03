@@ -1,11 +1,20 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./RegistrationForm.module.css";
 import { Dialog } from "primereact/dialog";
 import Image from "next/image";
 import Link from "next/link";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Toast } from "primereact/toast";
+import {
+  useRegistration,
+  useRazorpayOrder,
+  useRazorpayVerify,
+  usePayPalOrder,
+  usePayPalVerify,
+} from "@/hooks/useWeather";
+
 
 const FormField = ({
   label,
@@ -71,9 +80,17 @@ const FormSelect = ({
 };
 
 // === 👇 Main Component ===
-export default function RegistrationForm() {
+export default function RegistrationForm({conference}) {
+  console.log("RegistrationForm conference", conference);
+  const [ paymentMethod, setPaymentMethod] = useState("");
+  const conferenceName = conference?.conference?.landingPage?.conference || "Conference";
   const [step, setStep] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
+    const toast = useRef(null);
+      const registrationMutation = useRegistration();
+      const razorpayOrderMutation = useRazorpayOrder();
+      const razorpayVerifyMutation = useRazorpayVerify();
+      const payPalOrderMutation = usePayPalOrder();
 
   const [totals, setTotals] = useState({
     ticketTotal: 0,
@@ -102,7 +119,6 @@ export default function RegistrationForm() {
       .required("Contact is required"),
     country: Yup.string().required("Country is required"),
     address: Yup.string().required("Address is required"),
-    currency: Yup.string().required("Currency is required"),
   });
 
   const formik = useFormik({
@@ -113,13 +129,227 @@ export default function RegistrationForm() {
       contact: "",
       country: "",
       address: "",
-      currency: "",
     },
     validationSchema,
     onSubmit: () => {
       setStep((prev) => prev + 1);
     },
   });
+
+    const handlePayment = async () => {
+    let normalizedMobile = formik.values.contact
+      .trim()
+      .replace(/[\s\-().]/g, "");
+    if (normalizedMobile.startsWith("+91"))
+      normalizedMobile = normalizedMobile.slice(3);
+    else if (normalizedMobile.startsWith("0"))
+      normalizedMobile = normalizedMobile.slice(1);
+    normalizedMobile = "+91" + normalizedMobile;
+
+    // Validate required fields
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "email",
+      "contact",
+      "country",
+      "address",
+    ];
+    for (let field of requiredFields) {
+      if (!formik.values[field]) {
+        toast.current.show({
+          severity: "error",
+          summary: "Submission Failed",
+          detail: `Please fill the ${field} field`,
+          life: 3000,
+        });
+        return;
+      }
+    }
+
+
+    if (!paymentMethod) {
+      toast.current.show({
+        severity: "error",
+        summary: "Payment Method Required",
+        detail: "Please select a payment method to proceed.",
+        life: 3000,
+      });
+      return;
+    }
+
+    const data = {
+      conferenceName: conferenceName,
+      personalDetails: {
+        firstName: formik.values.firstName,
+        lastName: formik.values.lastName,
+        email: formik.values.email,
+        mobileNumber: normalizedMobile,
+        country: formik.values.country,
+        address: formik.values.address,
+        currency: conference?.currency || "USD",
+      },
+      pricing: {
+        registration: conference?.registrationFee || 0,
+        occupancy: "occupancy",
+        period: "period",
+        room: "room",
+        ticketPrice: conference?.registrationFee || 0, // Assuming registrationFee is the ticket price
+        accommodationCost: "100",
+        total: conference?.registrationFee || 0, // Assuming registrationFee is the total
+      },
+      paymentType: paymentMethod,
+    };
+
+    registrationMutation.mutate(data, {
+      onSuccess: async (res) => {
+        if (paymentMethod === "RazorPay") {
+          const paymentId = res.detail.paymentId;
+          const amount = conference?.registrationFee * 100;
+          razorpayOrderMutation.mutate(
+            { paymentId, amount },
+            {
+              onSuccess: (order) => {
+                console.log("razor pay pay ",order)
+                if (typeof window !== "undefined" && window.Razorpay) {
+                  const options = {
+                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
+                    amount: order.detail.data.amount,
+                    currency: order.detail.data.currency,
+                    name: "Annex Global Conference",
+                    description: "Annex Global",
+                    order_id: order.detail.data.id,
+                    handler: (response) => {
+                      razorpayVerifyMutation.mutate(
+                        {
+                          razorpay_payment_id: response.razorpay_payment_id,
+                          razorpay_order_id: response.razorpay_order_id,
+                          razorpay_signature: response.razorpay_signature,
+                        },
+                        {
+                          onSuccess: (verificationResult) => {
+                            console.log("Verification result:", verificationResult);
+                            if (verificationResult.detail[0].msg) {
+                              toast.current.show({
+                                severity: "success",
+                                summary: "Success",
+                                detail: "Conference booked successfully",
+                                life: 3000,
+                              });
+                              setIsOpen(true);
+                            } else {
+                              toast.current.show({
+                                severity: "error",
+                                summary: "Verification Failed",
+                                detail: "Payment verification failed.",
+                                life: 3000,
+                              });
+                            }
+                          },
+                          onError: (error) => {
+                            console.error("Verification failed:", error);
+                            toast.current.show({
+                              severity: "error",
+                              summary: "Verification Error",
+                              detail: "Failed to verify payment.",
+                              life: 3000,
+                            });
+                          },
+                        }
+                      );
+                    },
+                    prefill: {
+                      name: `${formik.values.firstName} ${formik.values.lastName}`,
+                      email: formik.values.email,
+                      contact: normalizedMobile,
+                    },
+                    notes: {
+                      address: formik.values.address,
+                    },
+                    theme: {
+                      color: "#3399cc",
+                    },
+                  };
+                  const rzp = new window.Razorpay(options);
+                  rzp.open();
+                } else {
+                  toast.current.show({
+                    severity: "error",
+                    summary: "Razorpay Not Loaded",
+                    detail:
+                      "Razorpay script not loaded. Please try again later.",
+                    life: 3000,
+                  });
+                }
+              },
+              onError: (err) => {
+                console.error("Order creation failed:", err);
+                toast.current.show({
+                  severity: "error",
+                  summary: "Order Creation Failed",
+                  detail: "Failed to create Razorpay order.",
+                  life: 3000,
+                });
+              },
+            }
+          );
+        } else if (paymentMethod === "PayPal") {
+          const paymentId = res.detail.paymentId;
+          const amount = conference?.registrationFee;
+
+          payPalOrderMutation.mutate(
+            { paymentId, amount },
+            {
+              onSuccess: (order) => {
+                if (order.detail.approval_url) {
+                  toast.current.show({
+                    severity: "success",
+                    summary: "Success",
+                    detail: "Redirecting to PayPal for payment...",
+                    life: 3000,
+                  });
+                  window.location.href = order.detail.approval_url;
+                } else {
+                  toast.current.show({
+                    severity: "error",
+                    summary: "PayPal Order Error",
+                    detail: "Failed to create PayPal order.",
+                    life: 3000,
+                  });
+                }
+              },
+              onError: (err) => {
+                console.error("PayPal order creation failed:", err);
+                toast.current.show({
+                  severity: "error",
+                  summary: "PayPal Order Failed",
+                  detail: "Failed to create PayPal order.",
+                  life: 3000,
+                });
+              },
+            }
+          );
+        } else {
+          toast.current.show({
+            severity: "error",
+            summary: "Payment Method Not Supported",
+            detail: "Selected payment method is not supported.",
+            life: 3000,
+          });
+        }
+      },
+      onError: (err) => {
+        console.error("Registration failed:", err);
+        toast.current.show({
+          severity: "error",
+          summary: "Registration Failed",
+          detail: "Failed to register. Please try again.",
+          life: 3000,
+        });
+      },
+    });
+  };
+
 
   return (
     <div className="container mt-5 p-5 shadow-lg rounded-4 bg-white">
@@ -199,7 +429,7 @@ export default function RegistrationForm() {
             Choose your preferred currency for a seamless experience.
           </h5>
           <div className="row">
-            <FormSelect
+            {/* <FormSelect
               label="Currency"
               name="currency"
               formik={formik}
@@ -209,7 +439,8 @@ export default function RegistrationForm() {
                 { value: "EUR", label: "EUR" },
                 { value: "INR", label: "INR" },
               ]}
-            />
+            /> */}
+           Currency: {conference?.currency}
           </div>
           <div className="d-flex justify-content-end">
             <button type="submit" className={`btn ${styles["brand-btn"]}`}>
@@ -230,6 +461,7 @@ export default function RegistrationForm() {
                   <input
                     type="radio"
                     name="payment"
+                     onChange={() => setPaymentMethod("PayPal")}
                     value="paypal"
                     className="me-2"
                   />
@@ -245,6 +477,7 @@ export default function RegistrationForm() {
                   <input
                     type="radio"
                     name="payment"
+                    onChange={() => setPaymentMethod("RazorPay")}
                     value="razorpay"
                     className="me-2"
                   />
@@ -256,12 +489,12 @@ export default function RegistrationForm() {
                     style={{ width: "80px" }}
                   />
                 </label>
-                <select className="form-select">
+                {/* <select className="form-select">
                   <option>Net Banking</option>
                   <option value="hdfc">HDFC Bank</option>
                   <option value="sbi">SBI Bank</option>
                   <option value="icici">ICICI Bank</option>
-                </select>
+                </select> */}
               </div>
             </div>
 
@@ -269,16 +502,16 @@ export default function RegistrationForm() {
               <h5 className="pb-4 border-bottom">Ticket Summary</h5>
               <div className="d-flex justify-content-between">
                 <span className="mt-2">Your Ticket Price</span>
-                <span className="fw-bold mt-2">${totals.ticketTotal.toFixed(2)}</span>
+                <span className="fw-bold mt-2">${conference?.registrationFee}</span>
               </div>
-              <div className="d-flex justify-content-between">
+              {/* <div className="d-flex justify-content-between">
                 <span className="mt-2">Accommodation Cost</span>
                 <span className="fw-bold mt-2">${totals.accommodationTotal.toFixed(2)}</span>
-              </div>
+              </div> */}
               <hr />
               <div className="d-flex justify-content-between fw-bold fs-5">
                 <span>Total Cost</span>
-                <span>${totals.netTotal.toFixed(2)}</span>
+                <span>${conference?.registrationFee}</span>
               </div>
             </div>
           </div>
@@ -296,9 +529,10 @@ export default function RegistrationForm() {
         {step === 2 ? (
           <button
             className={`btn text-capitalize ${styles["brand-btn"]}`}
-            onClick={() => setStep((prev) => prev + 1)}
+            onClick={handlePayment}
+            // onClick={() => setStep((prev) => prev + 1)}
           >
-            continue
+            Proceed to Pay
           </button>
         ) : step === 3 ? (
           <button
@@ -351,6 +585,7 @@ export default function RegistrationForm() {
           </div>
         )}
       ></Dialog>
+         <Toast ref={toast} />
     </div>
   );
 }

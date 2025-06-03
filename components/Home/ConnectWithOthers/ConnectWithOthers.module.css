@@ -55,7 +55,7 @@
 
   border-radius: 50%;
   position: absolute;
-  top: -30px;
+  top: -5px;
   left: 16px;
   font-weight: bold;
   display: flex;
@@ -86,7 +86,7 @@
 .description {
   font-size: 1px;
   color: #333;
-  margin-top: 20px;
+  margin-top: 25px;
   line-height: 1.5;
 }
 .name {

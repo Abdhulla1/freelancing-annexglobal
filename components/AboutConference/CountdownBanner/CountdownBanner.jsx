@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./CountdownBanner.module.css";
 
-const CountdownBanner = ({conferenceId}) => {
+const CountdownBanner = ({conference}) => {
+  console.log("Conference Data:", conference?.conference?.landingPage);
+const conferenceTiming = conference?.conference?.landingPage?.landingPage;
+const startDate = conferenceTiming?.startDate;
+const startTime = conferenceTiming?.startTime;
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -14,28 +18,31 @@ const CountdownBanner = ({conferenceId}) => {
     seconds: 0,
   });
 
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const eventDate = new Date("2025-06-01T00:00:00");
-      const now = new Date();
-      const difference = eventDate - now;
+useEffect(() => {
+  if (!startDate || !startTime) return;
 
-      return {
-        days: String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0'),
-        hours: String(Math.floor((difference / (1000 * 60 * 60)) % 24)).padStart(2, '0'),
-        minutes: String(Math.floor((difference / 1000 / 60) % 60)).padStart(2, '0'),
-        seconds: String(Math.floor((difference / 1000) % 60)).padStart(2, '0'),
-      };
+  const calculateTimeLeft = () => {
+    const eventDate = new Date(`${startDate}T${startTime}`);
+    const now = new Date();
+    const difference = eventDate - now;
+
+    return {
+      days: String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0'),
+      hours: String(Math.floor((difference / (1000 * 60 * 60)) % 24)).padStart(2, '0'),
+      minutes: String(Math.floor((difference / 1000 / 60) % 60)).padStart(2, '0'),
+      seconds: String(Math.floor((difference / 1000) % 60)).padStart(2, '0'),
     };
+  };
 
-    setTimeLeft(calculateTimeLeft()); // Set initial value
+  setTimeLeft(calculateTimeLeft()); // Set initial value
 
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
+  const timer = setInterval(() => {
+    setTimeLeft(calculateTimeLeft());
+  }, 1000);
 
-    return () => clearInterval(timer);
-  }, []);
+  return () => clearInterval(timer);
+}, [startDate, startTime]);
+
 
   if (!timeLeft) return null;
 
@@ -59,12 +66,12 @@ const CountdownBanner = ({conferenceId}) => {
 </div>
 
 <div className="d-flex gap-2">
- <Link href={ `/conference/${conferenceId}/registration`} className="mt-2 mt-md-0">
+ <Link href={ `/conference/${conference._id}/registration`} className="mt-2 mt-md-0">
           <button className={` fw-bold text-uppercase ${styles.brochure}`}>
             brochure
           </button>
         </Link>
-        <Link href={ `/conference/${conferenceId}/registration`} className="mt-2 mt-md-0">
+        <Link href={ `/conference/${conference._id}/registration`} className="mt-2 mt-md-0">
           <button className={`fw-bold ${styles.ticketBtn}`}>
             GET TICKET <img src="/icons/arrow-circle-up.png" alt="Arrow Icon" />
           </button>
