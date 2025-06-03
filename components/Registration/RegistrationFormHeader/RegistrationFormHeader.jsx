@@ -81,7 +81,7 @@ const RegistrationFormHeader = ({ conference }) => {
             </div>
           </div>
           <div className=" mx-auto ">
-            <RegistrationForm/>
+            <RegistrationForm conference={conference}/>
           </div>
         </div>
       </div>

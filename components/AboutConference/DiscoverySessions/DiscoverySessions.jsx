@@ -60,7 +60,7 @@ const DiscoverySessions = ({ conference }) => {
               {/* Text Section */}
 
               <div
-                className="text-muted"
+                className="text-muted ql-editor"
                 style={{
                   maxWidth: "100%",
                   overflowWrap: "break-word",

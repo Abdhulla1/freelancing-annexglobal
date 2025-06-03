@@ -128,6 +128,7 @@ const slides = isMobile
               <h5 className="text-black">About {selectedSpeaker.name}</h5>
               <div className={AlumniSpeakerStyles["about-content-height"]}>
                 <div 
+                className="ql-editor"
                   dangerouslySetInnerHTML={{ __html: selectedSpeaker.bioData }}
                 />
                 {/* <p>{selectedSpeaker.bioData}</p> */}

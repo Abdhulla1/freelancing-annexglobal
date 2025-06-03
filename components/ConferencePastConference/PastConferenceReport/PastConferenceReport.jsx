@@ -31,7 +31,9 @@ export default function PastConferenceReport({conference}) {
       <div className="row">
         <div className="col-8">
           <h3 className="mb-5">{PastConferenceReportData.title}</h3>
-          <div dangerouslySetInnerHTML={{ __html: PastConferenceReportData.content }} />
+          <div 
+          className="ql-editor"
+          dangerouslySetInnerHTML={{ __html: PastConferenceReportData.content }} />
 
         </div>
 

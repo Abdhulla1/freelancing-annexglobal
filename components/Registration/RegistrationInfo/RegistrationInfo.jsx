@@ -17,7 +17,7 @@ const RegistrationInfo = ({ conference }) => {
         <div className="ms-3 text-start col-7">
           <h4 className={SupportingJournalsStyles["title"]}>{data.title}</h4>
           <div
-            className={`text-muted text-capitalize text-truncate ${SupportingJournalsStyles["lineheight"]}`}
+            className={`text-muted text-capitalize ql-editor text-truncate ${SupportingJournalsStyles["lineheight"]}`}
             dangerouslySetInnerHTML={{ __html: data.content }}
           />
         </div>
@@ -50,7 +50,7 @@ const RegistrationInfo = ({ conference }) => {
               {accordionData.map((data, i) => (
                 <AccordionTab key={i} header={headerGen(data, i)}>
                   <div
-                    className={`text-muted text-capitalize ${SupportingJournalsStyles["lineheight"]} `}
+                    className={`text-muted ql-editor text-capitalize ${SupportingJournalsStyles["lineheight"]} `}
                     dangerouslySetInnerHTML={{ __html: data.content }}
                   />
                 </AccordionTab>

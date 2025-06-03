@@ -44,6 +44,7 @@ const QueriesAnswered = ({ faqData }) => {
               </>
             ) : (
               <div 
+              className="ql-editor"
                 dangerouslySetInnerHTML={{ __html: data.content }}
               />
             )}

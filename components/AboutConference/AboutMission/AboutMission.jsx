@@ -31,7 +31,7 @@ const AboutMission = ({ conference }) => {
               <h3 className="fw-bold">OUR MISSION</h3>
               <div className="pe-4 me-5">
                 <div
-                  className={AboutMissionStyles["about-content"]}
+                  className={`ql-editor ${AboutMissionStyles["about-content"]}`}
                   dangerouslySetInnerHTML={{
                     __html: conference?.content || "",
                   }}
