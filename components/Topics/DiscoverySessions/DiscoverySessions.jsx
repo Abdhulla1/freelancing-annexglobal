@@ -15,21 +15,8 @@ const DiscoverySessions = ({ conference }) => {
   const sessionsPerPage = 18;
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(sessionsPerPage);
-  const [sessions, setSessions] = useState([]);
-
-  useEffect(() => {
-    const fetchSessions = async () => {
-      try {
-        const data = await getAllSessions(); // Fetch sessions
-        setSessions(data); // Update state
-      } catch (error) {
-        console.error("Error fetching sessions:", error);
-      }
-    };
-
-    fetchSessions();
-  }, []);
-
+  // const [sessions, setSessions] = useState([]);
+  const sessions = conference?.topics?.essentialInnovation || []; // Use the researchGroundBreaking topic directly
 
   const onPageChange = (event) => {
     setFirst(event.first);
@@ -49,8 +36,8 @@ const DiscoverySessions = ({ conference }) => {
           {sessions.slice(first, first + rows).map((sess, i) => (
             <div className="col-md-6 col-lg-4 mt-4 d-flex" key={i}>
               <div className={DiscoverySessionsStyles["card"]}>
-                <span className={`text-truncate col-9  ${DiscoverySessionsStyles["text"]}`}>{sess.title}</span>
-                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference._id}/topics/${sess.id}`} >
+                <span className={`text-truncate col-9  ${DiscoverySessionsStyles["text"]}`}>{sess.topic}</span>
+                <Link className={DiscoverySessionsStyles["icon"]} href={`/conference/${conference._id}/topics/${sess.topicId}`} >
                   <i className="pi-reply pi"></i>
                 </Link>
               </div>

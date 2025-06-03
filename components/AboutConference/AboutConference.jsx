@@ -19,7 +19,6 @@ import RightPannel from "./ConferenceDetails/RightPannel/RightPannel";
 import bgImage from "@/public/images/conferences/upcoming-bg.webp";
 
 const AboutConference = ({ conference }) => {
-  console.log("Conference Data in AboutConference:", conference);
   const id = conference?._id
   const logoUrl = conference?.logoUrl 
   const conferenceName = conference?.conference?.landingPage?.conference;

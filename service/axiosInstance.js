@@ -1,7 +1,7 @@
 // service/axiosInstance.js
 import axios from "axios";
-
-const BASE_URL="https://api.annexglobalconferences.com/api/v1";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL=`${apiUrl}/api/v1`;
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,

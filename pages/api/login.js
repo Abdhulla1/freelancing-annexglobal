@@ -1,6 +1,7 @@
 import axios from "axios";
 import { serialize } from "cookie";
 import https from "https";
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -13,7 +14,7 @@ export default async function handler(req, res) {
     const httpsAgent = new https.Agent({ rejectUnauthorized: false });
 
     const response = await axios.post(
-      "https://api.annexglobalconferences.com/api/v1/auth/login",
+      `${apiUrl}/api/v1/auth/login`,
       { email, password },
       {
         headers: {

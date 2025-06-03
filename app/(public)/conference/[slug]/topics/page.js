@@ -9,7 +9,6 @@ const SpeakersPage = () => {
   const router = useRouter();
 
   const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug;
-  console.log("slug", slug);
   const { data: conferenceData, isLoading } = useConferenceDetails(slug);
 
   useEffect(() => {
@@ -22,7 +21,6 @@ const SpeakersPage = () => {
     return <div>Loading...</div>;
   }
 
-  console.log("Conference Data topicssss:", conferenceData);
 
   return <DiscoverySessions conference={conferenceData.detail} />;
 };

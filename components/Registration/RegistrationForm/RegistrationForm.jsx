@@ -245,7 +245,7 @@ export default function RegistrationForm() {
                 console.log("razor pay pay ",order)
                 if (typeof window !== "undefined" && window.Razorpay) {
                   const options = {
-                    key: "rzp_test_cfKaZHLoDVQQkC",
+                    key: process.env.NEXT_PUBLIC_RAZORPAY_KEY,
                     amount: order.detail.data.amount,
                     currency: order.detail.data.currency,
                     name: "Annex Global Conference",
