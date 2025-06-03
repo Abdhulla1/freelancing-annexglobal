@@ -17,7 +17,9 @@ export default function RootLayout({ children }) {
           src="https://checkout.razorpay.com/v1/checkout.js"
           strategy="beforeInteractive"
         />
-        <Script src="https://www.paypal.com/sdk/js?client-id=ARsR9u8OH0MhJ3HKVsF02EMUjtOFd6Ev-jdWBtrUhwAGgNAD8GD11hYUPtcpf1IvsO1mhad-ozu0KEp8" />
+        <Script
+          src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}`}
+        />
         <div suppressHydrationWarning>
           <Providers>{children}</Providers>
         </div>

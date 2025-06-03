@@ -1,7 +1,11 @@
 import axios from 'axios';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+console.log('API URL:', apiUrl);
+
+
 
 const api = axios.create({
-  baseURL: 'https://api.annexglobalconferences.com/api/v1/user',
+  baseURL: `${apiUrl}/api/v1/user`,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -9,7 +13,7 @@ const api = axios.create({
 });
 
 const mediaApi = axios.create({
-  baseURL: 'https://api.annexglobalconferences.com/api/v1/media',
+  baseURL: `${apiUrl}/api/v1/media`,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -17,7 +21,7 @@ const mediaApi = axios.create({
 });
 
 const paymentApi = axios.create({
-  baseURL: 'https://api.annexglobalconferences.com/api/v1/payments',
+  baseURL: `${apiUrl}/api/v1/payments`,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
