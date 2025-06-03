@@ -19,6 +19,7 @@ import RightPannel from "./ConferenceDetails/RightPannel/RightPannel";
 import bgImage from "@/public/images/conferences/upcoming-bg.webp";
 
 const AboutConference = ({ conference }) => {
+  console.log("Conference Data in AboutConference:", conference);
   const id = conference?._id
   const logoUrl = conference?.logoUrl 
   const conferenceName = conference?.conference?.landingPage?.conference;
@@ -36,6 +37,7 @@ const AboutConference = ({ conference }) => {
   const supportingJournals = conference?.conference?.supportingJournal || "";
   const testimonialContent = conference?.conference?.testimonial || [];
   const prospectUsContent = conference?.conference?.eventDetails || "";
+  const aboutMissionContent = conference?.conferencevideoSection
   return (
     <>
       <ConferenceDetails
@@ -51,7 +53,7 @@ const AboutConference = ({ conference }) => {
         }}
       />
       <WelcomeContent welcomeContent={welcomeContent} />
-      <AboutMission />
+      <AboutMission conference={aboutMissionContent} />
       <OrganizingCommitee organizingCommittee={organizingCommittee} id={id} />
       <DiscoverySessions conference={discoverySessions} />
 

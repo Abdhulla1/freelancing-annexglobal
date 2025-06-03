@@ -41,12 +41,12 @@ const ConferenceDetails = ({
                 <div
                   className={`rounded mt-3 text-center d-none d-md-block position-relative ${ConferenceDetailsStyles["certification"]}`}
                 >
-                  <Image
-                    // src={conference?.certificationImage}
+                  {/* <Image
+                    src={conference?.certificationImage}
                     fill
                     alt="Certification"
                     style={{ objectFit: "contain" }}
-                  />
+                  /> */}
                 </div>
               </div>
               {/* &nbsp; */}
