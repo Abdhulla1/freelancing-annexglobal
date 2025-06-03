@@ -39,7 +39,11 @@ const AlumniSpeakers = ({ conference }) => {
   const [visibleDetails, setVisibleDetails] = useState(false);
   const [selectedSpeaker, setSelectedSpeaker] = useState(null);
 
+  console.log("conference from alumni speaker",conference);
+
   const speakerData = conference?.speakers?.speakers;
+
+  console.log("Speaker Data:", speakerData);
 
 
   const settings = {
@@ -104,7 +108,7 @@ const slides = isMobile
                 <div className={AlumniSpeakerStyles["card-header"]}>
                   <img
                     onClick={() => setVisibleDetails(true)}
-                    src={selectedSpeaker.profileImage}
+                    src={selectedSpeaker.imageUrl}
                     alt="Profile"
                     className={AlumniSpeakerStyles["profile-img2"]}
                   />
@@ -114,7 +118,7 @@ const slides = isMobile
                 <div>
                   <h4 className="text-black">{selectedSpeaker.name}</h4>
                   <h5>
-                    {selectedSpeaker.designation}, {selectedSpeaker.company}
+                    {selectedSpeaker.title}, {selectedSpeaker.companyDetails}
                   </h5>
                 </div>
               </div>
@@ -123,7 +127,10 @@ const slides = isMobile
             <div>
               <h5 className="text-black">About {selectedSpeaker.name}</h5>
               <div className={AlumniSpeakerStyles["about-content-height"]}>
-                <p>{selectedSpeaker.about}</p>
+                <div 
+                  dangerouslySetInnerHTML={{ __html: selectedSpeaker.bioData }}
+                />
+                {/* <p>{selectedSpeaker.bioData}</p> */}
               </div>
             </div>
           </>

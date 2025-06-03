@@ -9,11 +9,12 @@ const ConferenceDetails = ({
   Component,
   id,
   logoUrl,
+  headerPanelImages,
   bgImage = bgImageDefault,
   conferenceName,
   buttonProps = { name: null, href: null },
 }) => {
-  const headerImages = conference?.webinar?.headerPanelImages
+  const headerImages = headerPanelImages || conference?.webinar?.headerPanelImages
 
   return (
     <div
