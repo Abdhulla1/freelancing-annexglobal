@@ -10,13 +10,14 @@ import RightPannel from './RightPannel/RightPannel'
 const ConferenceSpeakers = ({conference}) => {
   const landingPageContent = conference?.conference?.landingPage || "";
   const conferenceName = conference?.conference?.landingPage?.conference;
+  const logoUrl = conference?.logoUrl || "";
   const id = conference?._id
   const prospectUsContent = conference?.conference?.eventDetails || "";
-
+  const headerPanelImages = conference?.speakers?.headerPanelImages || [];
  
   return (
     <div>
-      <ConferenceDetails conference={landingPageContent} bgImage={bgImage} id={id} conferenceName={conferenceName} Component={RightPannel} />
+      <ConferenceDetails conference={landingPageContent} logoUrl={logoUrl} headerPanelImages={headerPanelImages} bgImage={bgImage} id={id} conferenceName={conferenceName} Component={RightPannel} />
       <AlumniSpeakers conference={conference}/>
       <Prospectus conference={prospectUsContent} id={id} />
       <EnquiryForm/>

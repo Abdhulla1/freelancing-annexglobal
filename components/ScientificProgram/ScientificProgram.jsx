@@ -14,6 +14,7 @@ const ScientificProgram = ({ conference }) => {
   const landingPageContent = conference?.conference?.landingPage || "";
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
+  const headerPanelImages = conference?.scientificProgram?.headerPanelImages || [];
 
   return (
     <>
@@ -21,6 +22,7 @@ const ScientificProgram = ({ conference }) => {
         conferenceName={conferenceName}
         logoUrl={logoUrl}
         id={id}
+        headerPanelImages={headerPanelImages}
         conference={landingPageContent}
         bgImage={bgImage}
         Component={RightPannel}
