@@ -10,7 +10,6 @@ import RightPannel from './RightPannel/RightPannel'
 const ConferenceSpeakers = ({conference}) => {
   const landingPageContent = conference?.conference?.landingPage || "";
   const id = conference?._id
-  console.log("Conference ID from ConferenceSpeakers:", conference);
  
   return (
     <div>
