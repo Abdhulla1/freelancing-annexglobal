@@ -16,7 +16,7 @@ import UploadBrochure from "./UploadBrochure/UploadBrochure";
 import Location from "./Location/Location";
 import EventDetailsSection from "./EventDetailsSection/EventDetailsSection";
 import { Toast } from "primereact/toast";
-export default function ConferencePageAdmin({ selectedConferenceID,conference,fetchConfernceData}) {
+export default function ConferencePageAdmin({ selectedConferenceID,conference,fetchConfernceData,conferencevideoSection}) {
   const toast = useRef(null);
   const [activeTab, setActiveTab] = useState("Landing Page"); // default to first tab
     const [isDisabled, setIsDisabled] = useState(true);
@@ -36,7 +36,7 @@ export default function ConferencePageAdmin({ selectedConferenceID,conference,fe
       />
     ),
     "Video Section": (
-      <VideoSection selectedConferenceID={selectedConferenceID} VideoSectionData={conference.videoSection}  fetchConfernceData={fetchConfernceData}  toast={toast} />
+      <VideoSection selectedConferenceID={selectedConferenceID} VideoSectionData={conferencevideoSection}  fetchConfernceData={fetchConfernceData}  toast={toast} />
     ),
     // FAQ: <FAQAdmin />,
     Topics: <TopicsAdmin  selectedConferenceID={selectedConferenceID} topicsData={conference.topics}  toast={toast} fetchConfernceData={fetchConfernceData}/>,

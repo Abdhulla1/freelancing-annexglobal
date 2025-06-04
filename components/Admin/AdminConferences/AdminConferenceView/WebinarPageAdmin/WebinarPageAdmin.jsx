@@ -6,6 +6,7 @@ import WebinarWelcomeContent from "./WebinarWelcomeContent/WebinarWelcomeContent
 import WebinarVideoSection from "./WebinarVideoSection/WebinarVideoSection";
 import WebinarFAQAdmin from "./WebinarFAQAdmin/WebinarFAQAdmin";
 import { Toast } from "primereact/toast";
+import LandingPage from "./LandingPage";
 
 
 
@@ -15,6 +16,10 @@ export default function WebinarPageAdmin({ selectedConferenceID,webinar,fetchCon
   
   const [activeTab, setActiveTab] = useState("Header Panel Images"); // default to first tab
   const tabs = {
+    "Landing Page": <LandingPage selectedConferenceID={selectedConferenceID}
+        LandingPageData={webinar.welcomeContent}
+        fetchConfernceData={fetchConfernceData} 
+        toast={toast}/>,
     "Header Panel Images": <WebinarLandingAdmin selectedConferenceID={selectedConferenceID}
         PastGalleryData={webinar.headerPanelImages}
         fetchConfernceData={fetchConfernceData} 
