@@ -3,6 +3,7 @@
   padding: 10px;
   background-size: cover;
     background-position: center;
+    padding-left: 50px;
 }
 
 .conferencelogo {
@@ -15,8 +16,9 @@
 }
 .logoWrapper {
   position: relative;
-  width: 210px;      /* Adjust based on your design */
-  height: 210px;
+  width: 160px;
+  height: 160px;
+  top: -10px;    
   border-radius: 50%;
   overflow: hidden;
   /* background-color: #fff;  */

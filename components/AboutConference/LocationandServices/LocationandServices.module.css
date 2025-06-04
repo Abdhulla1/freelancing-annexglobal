@@ -17,3 +17,9 @@
     padding: 20px; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+.highlightedMapBorder {
+  border: 4px solid #ffcc00; /* bright yellow border, change color as you want */
+  border-radius: 0.5rem; /* matches your rounded-2 bootstrap class */
+  box-shadow: 0 0 10px #ffcc00; /* optional glow effect */
+}

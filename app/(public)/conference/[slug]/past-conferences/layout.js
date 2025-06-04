@@ -1,7 +1,8 @@
 'use client';
+import React, { useEffect } from "react";
 import ConferenceDetails from "@/components/AboutConference/ConferenceDetails/ConferenceDetails";
 import { useConferenceDetails } from "@/hooks/useWeather";
-import { useParams, notFound } from "next/navigation";
+import { useParams, notFound, useRouter } from "next/navigation";
 
 export default function ConferenceLayout({ children }) {
   const params = useParams();

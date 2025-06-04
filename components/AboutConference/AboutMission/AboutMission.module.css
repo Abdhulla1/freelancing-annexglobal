@@ -19,8 +19,8 @@
 
 /* Overlay Text */
 .overlay-text {
-  position: relative;
-  top: -50%;
+  position: absolute;
+  top: 50%;
   left: 0%;
   transform: translate(-50%, -50%);
   color: white;
@@ -104,4 +104,17 @@
   .overlay-text {
     left: 50%;
   }
+}
+
+.video-container{
+  border-radius: 25px;
+  position: relative;
+}
+
+.video-container iframe {
+  border-radius: 25px; /* optional – works for some browsers */
+}
+
+.thumbnail-image{
+  border-radius: 25px;
 }

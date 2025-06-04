@@ -5,20 +5,20 @@ const LocationandServices = ({ locationAndServices, landingPageContent, id }) =>
   return (
     <div className={LocationandServicesStyles["container"]}>
       <div className="container px-3 px-md-5">
-        <div className="row py-5">
+        <div className="row py-5 gx-6">
           <div className="col-md-5 d-flex justify-content-center align-items-stretch">
             <iframe
               src={locationAndServices?.mapsEmbedLink}
               width="100%"
-              height="100%"
-              className="border-0 rounded-2"
+              height="90%"
+                className={`border-0 rounded-2 ${LocationandServicesStyles.highlightedMapBorder}`}
               allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
           <div className="col-md-7 d-flex align-items-center">
-            <div className="mt-3 mt-md-0">
+            <div style={{ marginLeft: "10px" }} className="mt-3 mt-md-0">
               <h3 style={{ marginLeft: "10px" }} className="text-white">Venue</h3>
               <div
                 className={
@@ -30,9 +30,9 @@ const LocationandServices = ({ locationAndServices, landingPageContent, id }) =>
                 }}
               ></div>
 
-              <div className="mt-3">
+              <div style={{ marginLeft: "10px" }} className="mt-3">
                 <div
-                  className={`mt-4 mb-5 d-flex justify-content-md-around flex-wrap ${LocationandServicesStyles["timings"]}`}
+                  className={`mt-4 ml-3 mb-5 d-flex justify-content-md-around flex-wrap ${LocationandServicesStyles["timings"]}`}
                 >
                   <div className="d-inline-flex flex-nowrap align-items-center justify-content-center  gap-2 p-1">
                     <div>
@@ -73,7 +73,6 @@ const LocationandServices = ({ locationAndServices, landingPageContent, id }) =>
                       <p className="opacity-75">Hotel</p>
                     </div>
                   </div>
-                </div>
                 <Link
                   href={`/conference/${id}/venue`}
                   className="brand-btn col-5 text-center  mt-4 text-decoration-none"
@@ -81,6 +80,7 @@ const LocationandServices = ({ locationAndServices, landingPageContent, id }) =>
                   See Hotels &nbsp;&nbsp;
                   <i className="pi pi-arrow-right"></i>
                 </Link>
+                </div>
               </div>
             </div>
           </div>

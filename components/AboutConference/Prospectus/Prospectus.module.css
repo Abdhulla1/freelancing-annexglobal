@@ -39,20 +39,20 @@
 
 
 .btn-download {
-  background-color: #fff;
-  border: 2px solid #F4A300;
-  color: #F4A300;
+   background: linear-gradient(to right, #000, #333);
+  /* border: 2px solid #F4A300; */
+    color: #fff;
   border-radius: 10px;
   padding-top: 15px;
   padding-bottom: 15px;
-  font-weight: 500;
+    font-weight: bold;
+  /* font-weight: 500; */
   width: 50%;
 }
 
 .btn-download:hover {
   background-color: #fff;
-  border: 2px solid rgb(147, 95, 0);
-  color: rgb(147, 95, 0);
+  background: linear-gradient(to right, #333, #000);
   font-weight: bold;
 }
 

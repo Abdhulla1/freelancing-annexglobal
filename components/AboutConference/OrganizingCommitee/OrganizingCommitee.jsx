@@ -137,12 +137,11 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
           <div className={style["header"]}>MEET OUR ORGANIZING COMMITTEE</div>
         </div>
 
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <h3 className="fw-bold">Event Oversight Panel</h3>
-        </div>
-      </div>
+        </div> */}
 
-      <div className=" p-5 container">
+      <div className=" p-2 container">
       {isMobile ? (
         // 📱 Mobile View - Grid without slider
         <div className="row">
@@ -186,7 +185,7 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
         <Slider {...settings}>
           {slides?.map((slide, index) => (
             <div key={index}>
-              <div className="container p-5">
+              <div className="container pt-5 pb-3">
                 <div className="row">
                   {slide?.map((speaker, index) => (
                     <div
@@ -213,13 +212,13 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
                             {speaker.name}
                           </div>
                           <div className={style["designation"]}>
-                            {speaker.companyDetails}
                           </div>
                           <div className={style["company"]}>
-                            <img
+                            {speaker.companyDetails}
+                            {/* <img
                               src={speaker.companyLogo}
                               alt={speaker.companyDetails}
-                            />
+                            /> */}
                           </div>
                         </div>
                       </div>
@@ -231,6 +230,7 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
           ))}
         </Slider>
       )}
+      </div>
       </div>
 
 

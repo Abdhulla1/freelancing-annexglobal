@@ -1,5 +1,5 @@
 "use client";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AlumniSpeakerStyles from "./AlumniSpeakers.module.css";
 import Slider from "react-slick";
 import { Sidebar } from "primereact/sidebar";
@@ -34,17 +34,11 @@ const CustomArrow = ({ className, style, onClick, direction }) => {
   );
 };
 
-
 const AlumniSpeakers = ({ conference }) => {
   const [visibleDetails, setVisibleDetails] = useState(false);
   const [selectedSpeaker, setSelectedSpeaker] = useState(null);
 
-  console.log("conference from alumni speaker",conference);
-
   const speakerData = conference?.speakers?.speakers;
-
-  console.log("Speaker Data:", speakerData);
-
 
   const settings = {
     dots: true,
@@ -54,7 +48,7 @@ const AlumniSpeakers = ({ conference }) => {
     slidesToScroll: 1,
     prevArrow: <CustomArrow direction="left" />,
     nextArrow: <CustomArrow direction="right" />,
-     responsive: [
+    responsive: [
       {
         breakpoint: 1024, // Tablet
         settings: { slidesToShow: 1 },
@@ -70,36 +64,45 @@ const AlumniSpeakers = ({ conference }) => {
     setSelectedSpeaker(speaker);
     setVisibleDetails(true);
   };
-const chunkArray = (arr, size) => {
-  const result = [];
-  for (let i = 0; i < arr?.length; i += size) {
-    result.push(arr.slice(i, i + size));
-  }
-  return result;
-};
-const [isMobile, setIsMobile] = useState(false);
-
-useEffect(() => {
-  const handleResize = () => {
-    setIsMobile(window.innerWidth < 768);
+  const chunkArray = (arr, size) => {
+    const result = [];
+    for (let i = 0; i < arr?.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
   };
+  const [isMobile, setIsMobile] = useState(false);
 
-  handleResize(); // set initial
-  window.addEventListener("resize", handleResize);
-  return () => window.removeEventListener("resize", handleResize);
-}, []);
-const slides = isMobile
-  ? chunkArray(speakerData, 1)
-  : chunkArray(speakerData, 8);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize(); // set initial
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const slides = isMobile
+    ? chunkArray(speakerData, 1)
+    : chunkArray(speakerData, 8);
 
   return (
     <div className="alumni-speakers">
       <Sidebar
         visible={visibleDetails}
         position="right"
+        blockScroll={true}
         onHide={() => setVisibleDetails(false)}
-
-        style={{ width: "32rem", borderTopLeftRadius: "40px", borderBottomLeftRadius: "40px"}}
+        style={{
+          width: "32rem",
+          borderTopLeftRadius: "40px",
+          top: 108,
+          transform: "none",
+          height: "83vh",
+          maxHeight: "100vh",
+          position: "fixed",
+          borderBottomLeftRadius: "40px",
+        }}
       >
         {selectedSpeaker && (
           <>
@@ -117,18 +120,16 @@ const slides = isMobile
               <div className="col-8 d-flex align-items-center">
                 <div>
                   <h4 className="text-black">{selectedSpeaker.name}</h4>
-                  <h5>
-                   {selectedSpeaker.companyDetails}
-                  </h5>
+                  <h5>{selectedSpeaker.companyDetails}</h5>
                 </div>
               </div>
             </div>
             <hr />
             <div>
-              <h5 className="text-black">Title:  "{selectedSpeaker.title}" </h5>
+              <h5 className="text-black">Title: "{selectedSpeaker.title}" </h5>
               <div className={AlumniSpeakerStyles["about-content-height"]}>
-                <div 
-                className="ql-editor"
+                <div
+                  className="ql-editor"
                   dangerouslySetInnerHTML={{ __html: selectedSpeaker.bioData }}
                 />
                 {/* <p>{selectedSpeaker.bioData}</p> */}
@@ -141,57 +142,54 @@ const slides = isMobile
         <div className="col-xl-3 col-lg-4 col-md-6 ">
           <div className={AlumniSpeakerStyles["header"]}>MEET OUR SPEAKERS</div>
         </div>
-
-        <div className="mt-4">
-          <h3 className="fw-bold">Esteemed Alumni Speakers</h3>
-        </div>
-      </div>
-
-      <div className=" p-5 container flex-wrap">
-      <Slider {...settings}>
-  {slides.map((slide, index) => (
-    <div key={index}>
-      <div className="container p-5">
-        <div className="row">
-            {slide.map((speaker, i) => (
-            <div className="col-md-6 col-lg-4 col-xl-3 mb-3" key={i}>
-              <div className={AlumniSpeakerStyles["card"]}>
-                <div className={AlumniSpeakerStyles["card-header"]}>
-                  <img
-                    onClick={() => handleSpeakerClick(speaker)}
-                    src={speaker.imageUrl}
-                    alt="Profile"
-                    className={AlumniSpeakerStyles["profile-img"]}
-                  />
-                  <div className={AlumniSpeakerStyles["mic-icon"]}>
-                    <img src="/icons/mic.png" alt="Mic" onClick={() => handleSpeakerClick(speaker)} />
-                  </div>
-                </div>
-                <div className={AlumniSpeakerStyles["card-body"]}>
-                  <div
-                    onClick={() => handleSpeakerClick(speaker)}
-                    className={AlumniSpeakerStyles["name"]}
-                  >
-                    {speaker.name}
-                  </div>
-                  <div className={AlumniSpeakerStyles["designation"]}>
-                    {speaker.title}
-                  </div>
-                  <div className={AlumniSpeakerStyles["company"]}>
-                    {speaker.companyDetails}
-
-                    {/* <img src={speaker.companyLogo} alt={speaker.company} /> */}
+        <div className=" p-2 container flex-wrap">
+          <Slider {...settings}>
+            {slides.map((slide, index) => (
+              <div key={index}>
+                <div className="container p-5">
+                  <div className="row">
+                    {slide.map((speaker, i) => (
+                      <div className="col-md-6 col-lg-4 col-xl-3 mb-3" key={i}>
+                        <div className={AlumniSpeakerStyles["card"]}>
+                          <div className={AlumniSpeakerStyles["card-header"]}>
+                            <img
+                              onClick={() => handleSpeakerClick(speaker)}
+                              src={speaker.imageUrl}
+                              alt="Profile"
+                              className={AlumniSpeakerStyles["profile-img"]}
+                            />
+                            <div className={AlumniSpeakerStyles["mic-icon"]}>
+                              <img
+                                src="/icons/mic.png"
+                                alt="Mic"
+                                onClick={() => handleSpeakerClick(speaker)}
+                              />
+                            </div>
+                          </div>
+                          <div className={AlumniSpeakerStyles["card-body"]}>
+                            <div
+                              onClick={() => handleSpeakerClick(speaker)}
+                              className={AlumniSpeakerStyles["name"]}
+                            >
+                              {speaker.name}
+                            </div>
+                            {/* <div className={AlumniSpeakerStyles["designation"]}>
+                            {speaker.companyDetails}
+                          </div> */}
+                            <div className={AlumniSpeakerStyles["company"]}>
+                              {speaker.companyDetails}
+                            </div>
+                            {/* <img src={speaker.companyLogo} alt={speaker.company} /> */}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </Slider>
         </div>
-      </div>
-    </div>
-  ))}
-</Slider>
-
       </div>
     </div>
   );
