@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import AboutMissionStyles from "./AboutMission.module.css";
 
 const AboutMission = ({ conference }) => {
-  console.log("AboutMission conference", conference);
   const iframeRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -42,18 +41,19 @@ const AboutMission = ({ conference }) => {
           </div>
         </div>
 
-        <div className="col-lg-6 col-md-12 position-relative">
+        <div className="col-lg-6 col-md-12 position-relative rounded-lg">
           <div className={AboutMissionStyles["video-container"]}>
             <iframe
               ref={iframeRef}
               width="100%"
-              height="415"
-              src={`${conference?.videoUrl}?enablejsapi=1`}
+              height="400"
+              src={`${conference?.videoUrl}?enablejsapi=1&controls=0&modestbranding=1&rel=0&showinfo=0`}
               title="Conference Video"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
+
             <div
               className={AboutMissionStyles["overlay-text"]}
               onClick={togglePlayPause}

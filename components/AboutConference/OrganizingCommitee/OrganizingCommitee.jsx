@@ -137,12 +137,11 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
           <div className={style["header"]}>MEET OUR ORGANIZING COMMITTEE</div>
         </div>
 
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <h3 className="fw-bold">Event Oversight Panel</h3>
-        </div>
-      </div>
+        </div> */}
 
-      <div className=" p-5 container">
+      <div className=" p-2 container">
       {isMobile ? (
         // 📱 Mobile View - Grid without slider
         <div className="row">
@@ -231,6 +230,7 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
           ))}
         </Slider>
       )}
+      </div>
       </div>
 
 

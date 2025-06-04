@@ -14,7 +14,6 @@ const AboutMission = ({ conference }) => {
   };
 
   const youtubeId = getYoutubeId(videoSection?.videoUrl);
-  console.log("YouTube ID:", youtubeId);
 
   const handlePlayVideo = () => {
     setShowVideo(true);
