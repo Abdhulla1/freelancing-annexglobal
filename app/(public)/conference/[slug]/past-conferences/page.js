@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import PastConferenceMain from '@/components/ConferencePastConference/PastConferenceMain/PastConferenceMain';
 import { useConferenceDetails } from '@/hooks/useWeather';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 const Page = () => {
   const params = useParams();

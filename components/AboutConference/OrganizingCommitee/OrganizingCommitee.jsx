@@ -185,7 +185,7 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
         <Slider {...settings}>
           {slides?.map((slide, index) => (
             <div key={index}>
-              <div className="container p-5">
+              <div className="container pt-5 pb-3">
                 <div className="row">
                   {slide?.map((speaker, index) => (
                     <div
@@ -212,13 +212,13 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
                             {speaker.name}
                           </div>
                           <div className={style["designation"]}>
-                            {speaker.companyDetails}
                           </div>
                           <div className={style["company"]}>
-                            <img
+                            {speaker.companyDetails}
+                            {/* <img
                               src={speaker.companyLogo}
                               alt={speaker.companyDetails}
-                            />
+                            /> */}
                           </div>
                         </div>
                       </div>

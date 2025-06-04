@@ -76,8 +76,8 @@ const DiscoverySessions = ({ conference }) => {
         )}
       </Sidebar>
       <div className="container py-5">
-        <h3 className="text-white">Innovation & Discovery Sessions</h3>
-        <div className="row mt-5">
+        <h2 className="text-white">Innovation & Discovery Sessions</h2>
+        <div className="row mt-4">
           {Sessions?.slice(first, first + rows)?.map((sess, i) => (
             <div className="col-md-6 col-lg-4 mt-4 d-flex " key={i}>
               <div className={DiscoverySessionsStyles["card"]}>

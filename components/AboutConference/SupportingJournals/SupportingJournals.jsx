@@ -62,8 +62,8 @@ const SupportingJournals = ({ supportingJournals }) => {
   };
 
   return (
-    <div className={`py-5 ${SupportingJournalsStyles["container"]}`}>
-      <h3 className="text-center">Supporting Journals</h3>
+    <div className={`py-4 ${SupportingJournalsStyles["container"]}`}>
+      <h2 className="text-center fw-bold">Supporting Journals</h2>
       <div className="mt-5">
         <div className="container supporting-journal-container">
           <div className={SupportingJournalsStyles["max-width-container"]}>

@@ -39,7 +39,7 @@ const PastConference = ({ pastConference }) => {
   const sliderRef = useRef(null);
 
   return (
-    <div className="container px-5 py-5">
+    <div className="container px-5 py-0 pb-5">
       <h3 className="text-center fw-bold">Past Conference Ethereal Frames</h3>
       <div className="mt-5">
         <Slider ref={sliderRef} {...settings}>

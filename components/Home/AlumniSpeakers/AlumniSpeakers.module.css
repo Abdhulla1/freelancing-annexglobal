@@ -5,7 +5,7 @@
   text-align: center;
   color: white;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 25px;
   border-radius: 20px;
 }
 
@@ -98,7 +98,7 @@
 
 .about-content-height{
   height: 60vh;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: #F4A300 #f1f1f1;

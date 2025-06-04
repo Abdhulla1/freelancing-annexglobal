@@ -56,12 +56,12 @@ const ConferenceDetails = ({
                 className={`col-md-12 col-lg-9    ${ConferenceDetailsStyles["heading"]}`}
               >
                 <div className="">
-                  <h3 className="text-uppercase text-warning opacity-75 mb-3  text-md-start mb-md-1">
+                  <h2 className="text-uppercase text-warning opacity-75 mb-3  text-md-start mb-md-1">
                     {conference?.title}
-                  </h3>
-                  <h5 className="text-uppercase text-white mb-3 mb-md-1">
+                  </h2>
+                  <h4 className="text-uppercase text-white mb-3 mb-md-1">
                     {conferenceName}
-                  </h5>
+                  </h4>
                   <p className="text-white fst-italic">
                     {
                       `Theme: ${conference?.theme}`

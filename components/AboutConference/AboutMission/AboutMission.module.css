@@ -115,3 +115,6 @@
   border-radius: 25px; /* optional – works for some browsers */
 }
 
+.thumbnail-image{
+  border-radius: 25px;
+}
