@@ -32,10 +32,10 @@ const Banner = ({data}) => {
       
         {/* <p>WELCOME TO</p> */}
         {/* <h4 className="fw-bold">ANNEX GLOBAL CONFERENCES</h4> */}
-        <h4 className="fw-bold">WELCOME TO</h4>
+        <h4 className={`fw-bold ${BannerStyle["welcome"]}`}>WELCOME TO</h4>
         {/* <h1 className={`text-uppercase ${BannerStyle["location"]}`}>{data?.detail?.landingPage?.heading}</h1> */}
         <h1 className={`text-uppercase ${BannerStyle["location"]}`}>ANNEX GLOBAL CONFERENCES</h1>
-        <p className="mt-3 h5 fw-light lh-sm" style={{ color: "#D0D0D0", fontSize: "1.7rem" }}>
+        <p className={`mt-3 h5 fw-light lh-sm ${BannerStyle["welcome"]}`} style={{ color: "#D0D0D0", fontSize: "1.7rem" }}>
           {data?.detail?.landingPage?.subTitle} 
         </p>
       <Button/>

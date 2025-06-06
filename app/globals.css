@@ -24,6 +24,22 @@
 
 @import '@fontsource/manrope';
 
+@font-face {
+  font-family: 'Good Times';
+  src: url('/font/GoodTimes-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Centra 2';
+  src: url('/font/CentraNo2-Book.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
 
 @import '@fontsource/gfs-didot';
 :root {
@@ -32,12 +48,11 @@
 }
 
 body {
-  font-family: "Inter", sans-serif !important;
-
+   font-family: 'Centra 2', sans-serif;
 }
 .global-nav a.p-menuitem-link {
   text-decoration: none !important;
-  font-family: "Inter", sans-serif;
+   font-family: 'Centra 2', sans-serif;
 
   font-weight: 500;
 }
