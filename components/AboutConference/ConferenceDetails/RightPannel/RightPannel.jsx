@@ -104,7 +104,7 @@ export default function RightPannel({conference, id}) {
      <span className="bg-white py-2 px-3 rounded text-warning">
     <i className="bx bxs-bookmark text-center me-1"></i>CPD Accredited Conference
   </span>
-  <Link href={`/conference/${id}/past-conferences`} className="bg-white py-2 px-3 text-decoration-none rounded text-warning">
+  <Link href={`/conference/${id}/past-conferences`} className={`${RightPannelStyles["past-conference-btn"]} text-decoration-none fw-bold`}>
     Past Conferences Reports
   </Link>
  

@@ -32,6 +32,7 @@ export default function Navbar() {
     initialValue: "HOME",
   });
 
+
   const menuRef = useRef(null);
   const pathname = usePathname();
 
@@ -168,6 +169,8 @@ export default function Navbar() {
     },
   ];
 
+  // console.log(pathname.startsWith('/conference'), "pathname");
+
   const Menuitems = useMemo(() => {
     return pathname.startsWith("/conference/")
       ? conferenceMenuItems
@@ -222,13 +225,13 @@ export default function Navbar() {
             <Link href={"/"} className="text-decoration-none">
               <img src="/icons/annexWithText.png" alt="Logo" />
             </Link>
-            <div className="mt-2">
+            {/* <div className="mt-2"> */}
               {/* Location/Weather*/}
-              <p className={`d-none  d-xxl-block ${NavbarStyles["sub-title"]}`}>
+              {/* <p className={`d-none  d-xxl-block ${NavbarStyles["sub-title"]}`}>
                 {data?.detail?.location} &nbsp;•&nbsp;{data?.detail?.dates}&nbsp;•&nbsp;
                 <i className="bx bxs-sun text-warning" /> {data?.detail?.weather}
-              </p>
-            </div>
+              </p> */}
+            {/* </div> */}
           </div>
 
           <button
@@ -247,8 +250,9 @@ export default function Navbar() {
             }`}
           >
             <ul
-              className={`navbar-nav d-flex justify-content-around w-100 ms-4 ${
-                isOpen ? " gap-3 " : " gap-4 "
+            style={{ marginRight: "240px" }}
+              className={`navbar-nav d-flex justify-content-center w-100 ms-5 ${
+                isOpen ? " gap-3 " : " gap-5 "
               }`}
             >
               {Menuitems.map((item, index) => {
@@ -299,6 +303,8 @@ export default function Navbar() {
             </ul>
           </div>
 
+     {pathname.startsWith('/conference') &&(
+
           <div className="d-none d-xxl-flex gap-2 ms-3 ">
             <Link
               href={
@@ -318,7 +324,9 @@ export default function Navbar() {
               Brochure
             </Link>
           </div>
+     )}
         </div>
+
       </nav>
       {/* PrimeReact Sidebar for Mobile */}
       <Sidebar
