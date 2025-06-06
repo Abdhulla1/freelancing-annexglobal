@@ -68,29 +68,40 @@
 }
 
 .location {
-  font-family: Didot;
+      font-family: 'Good Times', sans-serif;
   font-weight: 400;
-  font-size: 76px;
+  font-size: 58px;
   line-height: 80px;
-  letter-spacing: 0%;
   text-align: center;
   text-transform: uppercase;
+  position: relative;
+  display: inline-block;
 
-  background: linear-gradient(90deg, #003087, #0072F5, #00CFFF, #0072F5, #003087);
-  background-size: 200%;
+  background: linear-gradient(
+    120deg,
+    #fff 0%,
+    #fff 40%,
+    #c7c7c9 50%,
+    #fff 60%,
+    #fff 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
   -webkit-background-clip: text;
+  color: transparent;
   -webkit-text-fill-color: transparent;
-  animation: shine 8s linear infinite;
+  animation: shineInside 6s linear infinite;
 }
 
-@keyframes shine {
+@keyframes shineInside {
   0% {
-    background-position: 200% 0;
+    background-position: 200% center;
   }
   100% {
-    background-position: 0 0;
+    background-position: -200% center;
   }
 }
+
 
 .video {
   width: 100%;
@@ -99,4 +110,9 @@
   border-radius: 0px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   display: block;
+}
+
+
+.welcome{
+    font-family: 'Centra 2', sans-serif;
 }
