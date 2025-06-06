@@ -6,13 +6,17 @@ import { useGalleryImages } from '@/hooks/useWeather';
 const PerspectiveScroll = () => {
   const { data: galleryImages } = useGalleryImages();
 
-  const images = galleryImages?.imageUrls || [
+  console.log('Gallery Images:', galleryImages);
+  
+  const images = galleryImages?.detail?.imageUrls || [
     'images/gallery/dragon1.jpg',
     'images/gallery/dragon2.jpg',
     'images/gallery/dragon3.jpg',
     'images/gallery/dragon4.jpg',
     'images/gallery/dragon5.jpg',
   ];
+
+
 
   return (
     <div className="banner">

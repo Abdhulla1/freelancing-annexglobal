@@ -6,11 +6,9 @@ import Link from "next/link";
 import styles from "./CountdownBanner.module.css";
 
 const CountdownBanner = ({conference}) => {
-  console.log("Conference Data in CountdownBanner:", conference?.conference?.landingPage);
 const conferenceTiming = conference?.conference?.landingPage;
 const startDate = conferenceTiming?.startDate;
 const startTime = conferenceTiming?.startTime;
-console.log("Start Date:", startDate, "Start Time:", startTime);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,

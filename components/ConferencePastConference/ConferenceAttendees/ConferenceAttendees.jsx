@@ -2,13 +2,6 @@
 import React, { useState } from 'react';
 import Style from './ConferenceAttendees.module.css';
 
-const cardsData = Array.from({ length: 20 }, (_, i) => ({
-  id: i,
-  name: 'Shamsun Nahar',
-  college: 'Popular Medical College And Hospital',
-  location: 'Bangladesh',
-}));
-
 const Card = ({ name, affliation, country }) => (
   <div className={`card text-center p-4 m-2 shadow-sm ${Style['attendee-card']}`} style={{ width: '18rem' }}>
     <strong className='mb-3'>{name}</strong>
@@ -18,9 +11,8 @@ const Card = ({ name, affliation, country }) => (
 );
 
 export default function ConferenceAttendees({ conference }) {
-  console.log('ConferenceAttendees', conference);
   const ConferenceAttendees = conference?.pastConference?.conferenceAttendees || [];
-  const cardsData = ConferenceAttendees.length > 0 ? ConferenceAttendees : cardsData;                                                                                                 
+  const cardsData = ConferenceAttendees.length > 0 ? ConferenceAttendees : [];                                                                                                 
   const [showAll, setShowAll] = useState(false);
 
   // Split into rows (4 in odd, 3 in even)
