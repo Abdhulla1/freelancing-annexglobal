@@ -69,16 +69,14 @@ const UpcomingConference = ({ conference, honeyComb }) => {
   }, []);
 
   const limitedConferences = isMobile
-    ? upcomingConferences.slice(0, 4)
+    ? upcomingConferences?.slice(0, 4)
     : upcomingConferences;
 
-    console.log("Limited Conferences:", limitedConferences);
 
   const slides = isMobile
     ? chunkArray(limitedConferences, 4)
     : chunkArray(limitedConferences, 6);
 
-  console.log(slides);
 
   const settings = {
     dots: true,

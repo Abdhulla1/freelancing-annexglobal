@@ -5,11 +5,11 @@ export default function PastConferenceReport({conference}) {
     const tabsData=[
         {
             tabName:"PAST ATTENDEES",
-           href:`/conference/${conference.name}/past-conferences/conference-attendees`
+           href:`/conference/${conference._id}/past-conferences/conference-attendees`
         },
         {
             tabName:"GALLERY",
-            href:`/conference/${conference.name}/past-conferences/gallery`
+            href:`/conference/${conference._id}/past-conferences/gallery`
         },
         {
             tabName:"TESTIMONIALS",
@@ -17,11 +17,11 @@ export default function PastConferenceReport({conference}) {
         },
         {
             tabName:"SCIENTIFIC PROGRAM",
-            href:`/conference/${conference.name}/scientific-program`
+            href:`/conference/${conference._id}/scientific-program`
         },
         {
             tabName:"WEBINAR PROGRAM",
-            href:`/conference/${conference.name}/webinar-program`
+            href:`/conference/${conference._id}/webinar-program`
         },
     ]
     const PastConferenceReportData=conference?.pastConference?.conferenceReport;
@@ -30,7 +30,7 @@ export default function PastConferenceReport({conference}) {
     <div className="container p-5">
       <div className="row">
         <div className="col-8">
-          <h3 className="mb-5">{PastConferenceReportData.title}</h3>
+          <h3 className="mb-5">{PastConferenceReportData?.title}</h3>
           <div 
           className="ql-editor"
           dangerouslySetInnerHTML={{ __html: PastConferenceReportData.content }} />

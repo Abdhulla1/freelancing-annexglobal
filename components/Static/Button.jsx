@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 
-export default function Button({ href = "/conferences", label = "Conference", icon = "pi-arrow-right pi" }) {
+export default function Button({ href = "/upcoming-conference", label = "Conference", icon = "pi-arrow-right pi" }) {
   return (
     <div className="mt-5">
       <button className="brand-btn  ">

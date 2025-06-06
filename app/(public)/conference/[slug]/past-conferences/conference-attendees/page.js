@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import ConferenceAttendees from '@/components/ConferencePastConference/ConferenceAttendees/ConferenceAttendees';
 import { useConferenceDetails } from '@/hooks/useWeather';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 const Page = () => {
   const params = useParams();
@@ -13,18 +13,18 @@ const Page = () => {
   const { data: conferenceData, isLoading } = useConferenceDetails(slug);
 
   useEffect(() => {
-    if (!isLoading && !conferenceData) {
+    if (!isLoading && !conferenceData?.detail) {
       // Manual redirect if no data is found
       router.push('/404'); // or any custom error route
     }
   }, [isLoading, conferenceData, router]);
 
-  if (isLoading || !conferenceData) {
+  if (isLoading || !conferenceData?.detail) {
     return <div>Loading...</div>; // optional loading state
   }
 
 
-  return <ConferenceAttendees conference={conferenceData} />;
+  return <ConferenceAttendees conference={conferenceData?.detail} />;
 };
 
 export default Page;
