@@ -25,7 +25,7 @@ const AboutMission = ({ conference }) => {
     >
       <div className="container-lg">
         <div className="row">
-          <div className="col-md-6 d-flex align-items-stretch">
+          <div className="col-md-6 d-flex">
             <div className={AboutMissionStyle["image-container"]}>
               {!showVideo ? (
                 <div
@@ -59,7 +59,8 @@ const AboutMission = ({ conference }) => {
                     title="About the Mission Video"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
-                    className="w-100 h-100"
+
+                    className="w-200 h-100"
                   ></iframe>
                 </div>
               )}

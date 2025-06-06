@@ -4,3 +4,22 @@
    background-repeat: no-repeat;
 
 }
+
+.past-conference-btn {
+  background: linear-gradient(90deg, #F4A300 0%, #FFEA61 100%);
+  color: black;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition-duration: 0.3s;
+}
+
+.past-conference-btn:hover {
+  background: linear-gradient(90deg, #da9100 0%, #FFEA61 100%);
+    transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  color: white;
+}
