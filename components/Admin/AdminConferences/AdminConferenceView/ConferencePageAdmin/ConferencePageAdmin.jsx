@@ -15,6 +15,7 @@ import ScientificProgramAdmin from "./ScientificProgramAdmin/ScientificProgramAd
 import UploadBrochure from "./UploadBrochure/UploadBrochure";
 import Location from "./Location/Location";
 import EventDetailsSection from "./EventDetailsSection/EventDetailsSection";
+import NavLocationOverview from "./NavLocationOverview/NavLocationOverview";
 import { Toast } from "primereact/toast";
 export default function ConferencePageAdmin({ selectedConferenceID,conference,fetchConfernceData,conferencevideoSection}) {
   const toast = useRef(null);
@@ -45,6 +46,7 @@ export default function ConferencePageAdmin({ selectedConferenceID,conference,fe
     "Supporting Journal": <SupportingJournalAdmin selectedConferenceID={selectedConferenceID} supportingJournalData={conference.supportingJournal}  toast={toast} fetchConfernceData={fetchConfernceData}/>,
     Location: <Location   selectedConferenceID={selectedConferenceID} LocationData={conference.location}  toast={toast} fetchConfernceData={fetchConfernceData} />,
     'Event Details Section': <EventDetailsSection selectedConferenceID={selectedConferenceID} EventDetailsSectionData={conference.eventDetails}  toast={toast} fetchConfernceData={fetchConfernceData}  />,
+    "Location Overview": <NavLocationOverview Location={selectedConferenceID} toast={toast} fetchData={fetchConfernceData}/>,
 
   };
   const handleEditClick = (e) => {

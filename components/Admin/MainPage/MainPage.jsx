@@ -54,7 +54,7 @@ export default function MainPage({}) {
     "Welcome Content": <WelcomeContent WelcomeContent={mainPageData.welcomeContent} toast={toast} fetchData={fetchData}/>,
     "Video Section": <VideoSection VideoSection={mainPageData.videoSection} toast={toast} fetchData={fetchData}/>,
     Category: <CategoryPage categoryData={mainPageData.categories} toast={toast} fetchData={fetchData} />,
-    "Location Overview": <NavLocationOverview Location={mainPageData.location} toast={toast} fetchData={fetchData}/>,
+    // "Location Overview": <NavLocationOverview Location={mainPageData.location} toast={toast} fetchData={fetchData}/>,
   };
 
   return (

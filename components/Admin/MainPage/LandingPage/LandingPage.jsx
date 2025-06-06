@@ -19,10 +19,14 @@ export default function LandingPage({ LandingPageData, toast }) {
     initialValues: {
       heading: LandingPageData.heading || "",
       subTitle: LandingPageData.subTitle || "",
+            headerTexting: Location.headerTexting || "", // Added for extra field
+
     },
     validationSchema: Yup.object({
       heading: Yup.string().required("Heading is required"),
       subTitle: Yup.string().required("Sub Title is required"),
+            headerTexting: Yup.string().required("Header Texting is required"),
+      
     }),
     onSubmit: async (values) => {
       setButtonLoading(true);
@@ -125,6 +129,19 @@ export default function LandingPage({ LandingPageData, toast }) {
         </div>
       </div>
 
+        <div className="col-md-12 mb-3">
+          <label className="form-label">Header Texting</label>
+          <input
+            type="text"
+            name="headerTexting"
+            className="form-control"
+            placeholder="Join more than 7,000+ Marketers in Budapest 4-5 September 2025"
+            {...formik.getFieldProps("headerTexting")}
+          />
+          {formik.touched.headerTexting && formik.errors.headerTexting && (
+            <div className="text-danger">{formik.errors.headerTexting}</div>
+          )}
+        </div>
       <div className=" mt-4 p-2 d-flex justify-content-start align-items-center gap-2 w-100">
         <Button
           label="Save Changes"
