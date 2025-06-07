@@ -20,10 +20,10 @@ const SponsorsExhibitorsDetails = ({ conference }) => {
               </Link>
                 &nbsp;&nbsp;&nbsp;
                 <div className={ConferenceDetailsStyles["heading"]}>
-                  <h3 className="text-uppercase text-white">Sponsors & Exhibitors</h3>
-                  <p className="text-white ">
+                  <h2 className="text-uppercase ">Sponsors & Exhibitors</h2>
+                  <h4 className="text-white ">
                  {conference?.name}
-                  </p>
+                  </h4>
                   <p className="text-white fs-6 ">
                 {conference?.conference?.landingPage?.startDate}     |     {conference?.conference?.landingPage?.location}
                   </p>

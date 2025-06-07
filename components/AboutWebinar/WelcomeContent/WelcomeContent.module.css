@@ -4,10 +4,11 @@
 }
 
 .content-container{
-    height: 600px;
-    overflow-y: scroll;
+    max-height: 600px;
+    overflow-y: auto;
     scrollbar-width: thin; /* For Firefox */
     scrollbar-color: #F4A300 #ffffff; /* Thumb and track color */
+
 }
 
 .content-container p{

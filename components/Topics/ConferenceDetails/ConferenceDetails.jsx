@@ -55,9 +55,9 @@ const ConferenceDetails = ({
                 className={`col-md-12 col-lg-9    ${ConferenceDetailsStyles["heading"]}`}
               >
                 <div className="">
-                  <h5 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
+                  <h2 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
                     {conference?.title}
-                  </h5>
+                  </h2>
                   <h4 className="text-uppercase text-white mb-3 mb-md-1">
                     {conferenceName}
                   </h4>

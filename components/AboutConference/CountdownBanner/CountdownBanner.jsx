@@ -46,7 +46,7 @@ useEffect(() => {
 
   return (
     <div className={`fixed-bottom  ${styles.banner}`}>
-      <div className="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center">
+      <div className="container d-flex flex-column flex-lg-row  justify-content-between align-items-center text-center">
         <h5 className="text-dark m-0 fw-bold">EVENT STARTS IN:</h5>
 
         <div className="d-flex gap-3 flex-wrap justify-content-center align-items-center">
@@ -64,12 +64,12 @@ useEffect(() => {
 </div>
 
 <div className="d-flex gap-2">
- <Link href={ `/conference/${conference._id}/registration`} className="mt-2 mt-md-0">
+ <Link href={ `/conference/${conference._id}/registration`} className="mt-2">
           <button className={` fw-bold text-uppercase ${styles.brochure}`}>
             brochure
           </button>
         </Link>
-        <Link href={ `/conference/${conference._id}/registration`} className="mt-2 mt-md-0">
+        <Link href={ `/conference/${conference._id}/registration`} className="mt-2 ">
           <button className={`fw-bold ${styles.ticketBtn}`}>
             GET TICKET <img src="/icons/arrow-circle-up.png" alt="Arrow Icon" />
           </button>

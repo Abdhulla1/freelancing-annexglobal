@@ -1,16 +1,15 @@
 .header {
   background: linear-gradient(90deg, #A1A1A1 0%, #3B3B3B 100%);
-  padding: 5px;
   text-align: center;
   color: white;
-  font-weight: 500;
-  font-size: 18px;
+  font-weight: 700;
+  font-size: 25px;
   border-radius: 20px;
   border: 1px solid #000000;
 }
 
 .card {
-  width: 100%;
+  width: 80%;
   background: white;
   text-align: center;
   overflow: hidden;
@@ -29,7 +28,8 @@
     transition: all 0.3s ease; /* Smooth transition */
 
 }
-.card-header:hover {
+
+.card:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.512);
     transform: translateY(-2px);
 

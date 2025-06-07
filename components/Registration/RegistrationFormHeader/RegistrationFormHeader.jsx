@@ -9,7 +9,7 @@ const RegistrationFormHeader = ({ conference }) => {
         <div className="row d-flex flex-column align-items-center justify-content-center ">
           <div className=" col-md-12 col-lg-8 col-xl-7 d-flex align-items-center justify-content-center  mt-lg-0">
             <div>
-              <div className="d-flex  flex-wrap flex-md-nowrap  align-items-center justify-content-center justify-content-md-start">
+              <div className="d-flex  flex-wrap flex-md-nowrap  justify-content-center justify-content-md-start">
                 <Link
                   href={`/conference/${conference._id}`}
                   className="text-decoration-none"
@@ -24,12 +24,12 @@ const RegistrationFormHeader = ({ conference }) => {
                 <div
                   className={`col-md-12 col-lg-9  mt-3 mt-lg-0  ${ConferenceDetailsStyles["heading"]}`}
                 >
-                  <h6 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
-                    {conference?.name}
-                  </h6>
-                  <h5 className="text-uppercase text-white mb-3 mb-md-1">
-                    {conference?.conference?.landingPage?.title}
-                  </h5>
+                  <h2 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
+                  {conference?.conference?.landingPage?.title} 
+                  </h2>
+                  <h4 className="text-uppercase text-white mb-3 mb-md-1">
+                  {conference?.name}
+                  </h4>
                   <p className="text-white fst-italic">
                     {`Theme: ${conference?.conference?.landingPage?.theme}`}
                   </p>

@@ -133,8 +133,8 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
         )}
       </Sidebar>
       <div className="container mt-5">
-        <div className="col-xl-4 col-lg-4 col-md-6 ">
-          <div className={style["header"]}>MEET OUR ORGANIZING COMMITTEE</div>
+        <div className="col-md-5">
+          <div className={` pt-2   ${style["header"]} `}>MEET OUR ORGANIZING COMMITTEE</div>
         </div>
 
         {/* <div className="mt-4">
@@ -146,7 +146,7 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
         // 📱 Mobile View - Grid without slider
         <div className="row">
           {slides.flat().map((speaker, index) => (
-            <div className="col-6 mb-3" key={index}>
+            <div className=" mb-3" key={index}>
               <div className={style["card"]}>
                 <div className={style["card-header"]}>
                   <img

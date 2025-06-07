@@ -53,7 +53,7 @@ const ConferenceDetails = ({
               {/* &nbsp; */}
 
               <div
-                className={`col-md-12 col-lg-9    ${ConferenceDetailsStyles["heading"]}`}
+                className={`col-md-12 col-lg-9 ${ConferenceDetailsStyles["heading"]}`}
               >
                 <div className="">
                   <h2 className="text-uppercase text-warning opacity-75 mb-3  text-md-start mb-md-1">

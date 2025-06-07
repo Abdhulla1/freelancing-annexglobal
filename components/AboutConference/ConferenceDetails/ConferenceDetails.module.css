@@ -2,8 +2,8 @@
   background-image:  var(--bg-image);
   padding: 10px;
   background-size: cover;
-    background-position: center;
-    padding-left: 50px;
+  background-position: center;
+    /* padding-left: 50px; */
 }
 
 .conferencelogo {

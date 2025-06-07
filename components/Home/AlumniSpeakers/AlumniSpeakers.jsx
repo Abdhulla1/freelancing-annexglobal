@@ -22,6 +22,7 @@ const CustomArrow = ({ className, style, onClick, direction }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        top:"39%"
       }}
       onClick={onClick}
     >
@@ -140,7 +141,7 @@ const AlumniSpeakers = ({ conference }) => {
       </Sidebar>
       <div className="container mt-5">
         <div className="col-xl-3 col-lg-4 col-md-6 ">
-          <div className={AlumniSpeakerStyles["header"]}>MEET OUR SPEAKERS</div>
+          <div className={` d-flex justify-content-center align-items-center pt-2  ${AlumniSpeakerStyles["header"]}`}>MEET OUR SPEAKERS</div>
         </div>
         <div className=" p-2 container flex-wrap">
           <Slider {...settings}>
@@ -149,7 +150,7 @@ const AlumniSpeakers = ({ conference }) => {
                 <div className="container p-5">
                   <div className="row">
                     {slide.map((speaker, i) => (
-                      <div className="col-md-6 col-lg-4 col-xl-3 mb-3" key={i}>
+                      <div className="col-md-6 col-lg-4 col-xl-3 mb-2" key={i}>
                         <div className={AlumniSpeakerStyles["card"]}>
                           <div className={AlumniSpeakerStyles["card-header"]}>
                             <img
