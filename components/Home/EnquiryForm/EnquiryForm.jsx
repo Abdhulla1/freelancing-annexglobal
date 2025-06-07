@@ -68,7 +68,7 @@ const EnquiryForm = () => {
             }}
           >
             {({ isSubmitting }) => (
-              <Form className="p-4 mx-auto col-md-5 col-sm-8 col-12 rounded-lg shadow-md ">
+              <Form className="p-4 mx-auto col-md-8 col-lg-5 col-12 rounded-lg shadow-md ">
                 <div className="mb-4">
                   <label className="block text-white mb-2 font-semibold">
                     Name

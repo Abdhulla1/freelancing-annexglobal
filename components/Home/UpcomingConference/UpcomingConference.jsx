@@ -116,7 +116,7 @@ const UpcomingConference = ({ conference, honeyComb }) => {
                       href={`/conference/${event.buylink}`}
                       className={`text-decoration-none ${
                         isMobile
-                          ? "custom-mobile-col col-6"
+                          ? "custom-mobile-col col-12 col-sm-6"
                           : "col-12 col-sm-12 col-md-6 col-lg-4"
                       } mb-3`}
                       key={i}

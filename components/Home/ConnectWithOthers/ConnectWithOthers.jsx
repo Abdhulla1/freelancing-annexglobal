@@ -48,7 +48,7 @@ const dynamicSettings = {
       <div className="container col-xl-11 col-lg-12">
         <div className={connectWithOthers["members-section"]}>
           <div className="row p-0 p-md-3">
-            <div className="col-md-3 ps-5 p-4 d-flex align-items-center">
+            <div className="col-lg-3 ps-5 p-4 d-flex align-items-center">
               <div>
                 <h3 className="text-white text-capitalize fw-bold">
                   Connect with other members
@@ -60,7 +60,7 @@ const dynamicSettings = {
                 </h6>
               </div>
             </div>
-            <div className="col-md-9">
+            <div className="col-lg-9">
               <div className={connectWithOthers["excess-slider"]}>
                 <Slider ref={sliderRef} {...dynamicSettings}>
                   {testimonials?.map((item, i) => (
@@ -69,7 +69,7 @@ const dynamicSettings = {
                         <div className={connectWithOthers["card-header"]}>
                           <img src={item.imageUrl} alt={item.name} />
                         </div>
-                        <div className={connectWithOthers["card-body"]}>
+                        <div className={` py-3 px-2 ${connectWithOthers["card-body"]}` }>
                           <div className={connectWithOthers["quote-icon"]}>
                             {item.videoUrl ? (
                               <Link

@@ -22,7 +22,7 @@ const HoneycombTabs = ({ data }) => {
   };
 
   return (
-    <div className={`container d-none d-md-flex ${styles.honeycombContainer}`}>
+    <div className={`container d-none d-lg-flex ${styles.honeycombContainer}`}>
       {rows.map((row, rowIndex) => (
         <div className="row" key={rowIndex}>
           {row.map((category, colIndex) => (

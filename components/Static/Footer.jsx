@@ -271,9 +271,11 @@ const Footer = () => {
         />
         <div className={footerStyle["footer-links"]}>
           <div className="col-xl-8 col-md-12 mx-auto">
-            <div className="d-flex justify-content-center flex-wrap text-white">
-              <Link href={"/contact-us"}>Contact Us</Link> •
-              <Link href={"/privacy-policy"}> Privacy Policy</Link> •
+            <div className="d-flex justify-content-center align-items-center text-white">
+              <Link href={"/contact-us"}>Contact Us</Link> 
+              <div style={{width:"8px",height:"8px",backgroundColor:"#ffff", borderRadius:"100%"}}></div>
+              <Link href={"/privacy-policy"}> Privacy Policy</Link> 
+              <div style={{width:"8px",height:"8px",backgroundColor:"#ffff", borderRadius:"100%"}}></div>
               <Link href={"/terms-and-conditions"}>Terms & Conditions</Link>
             </div>
           </div>

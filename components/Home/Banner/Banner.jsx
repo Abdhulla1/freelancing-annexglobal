@@ -34,7 +34,9 @@ const Banner = ({data}) => {
         {/* <h4 className="fw-bold">ANNEX GLOBAL CONFERENCES</h4> */}
         <h4 className={`fw-bold ${BannerStyle["welcome"]}`}>WELCOME TO</h4>
         {/* <h1 className={`text-uppercase ${BannerStyle["location"]}`}>{data?.detail?.landingPage?.heading}</h1> */}
-        <h1 className={`text-uppercase ${BannerStyle["location"]}`}>ANNEX GLOBAL CONFERENCES</h1>
+        <h4 className={`text-uppercase ${BannerStyle["location"]} py-3`}>ANNEX GLOBAL CONFERENCES</h4>
+        <br/>
+        <h1 className={`text-uppercase ${BannerStyle["location"]}`}>DUBAI</h1>
         <p className={`mt-3 h5 fw-light lh-sm ${BannerStyle["welcome"]}`} style={{ color: "#D0D0D0", fontSize: "1.7rem" }}>
           {data?.detail?.landingPage?.subTitle} 
         </p>
@@ -42,8 +44,8 @@ const Banner = ({data}) => {
      
         </div>
         
-        <div className="mt-0">
-        <div className={`ps-2 pe-2 ${BannerStyle["bottom-end-section"]}`}>
+        <div className="mt-5">
+        <div className={`ps-2 pe-2 pb-3 ${BannerStyle["bottom-end-section"]}`}>
           <div className={BannerStyle["badge"]}>
             Attended by top reputed organizations
           </div>

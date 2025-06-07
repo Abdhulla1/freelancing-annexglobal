@@ -15,7 +15,7 @@
 
 .content {
   position: absolute;
-  top: 50%;
+  top: 43%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
@@ -68,10 +68,9 @@
 }
 
 .location {
-      font-family: 'Good Times', sans-serif;
+  font-family: 'Good Times', sans-serif;
   font-weight: 400;
-  font-size: 58px;
-  line-height: 80px;
+  line-height: 40px;
   text-align: center;
   text-transform: uppercase;
   position: relative;

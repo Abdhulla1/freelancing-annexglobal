@@ -21,11 +21,11 @@ const AboutMission = ({ conference }) => {
 
   return (
     <div
-      className={`bg-black pt-5 pb-5 ${AboutMissionStyle["about-mission-container"]}`}
+      className={`bg-black  px-3 px-md-5 py-5  ${AboutMissionStyle["about-mission-container"]}`}
     >
       <div className="container-lg">
         <div className="row">
-          <div className="col-md-6 d-flex">
+          <div className="col-lg-6 d-flex">
             <div className={AboutMissionStyle["image-container"]}>
               {!showVideo ? (
                 <div
@@ -63,17 +63,23 @@ const AboutMission = ({ conference }) => {
                     className="w-200 h-100"
                   ></iframe>
                 </div>
-              )}
+               )}  
             </div>
           </div>
 
-          <div className="col-md-6 d-flex justify-content-center align-items-center mt-3 mt-md-0 p-3">
+          <div className="col-lg-6 d-flex justify-content-center align-items-center mt-3 mt-md-0 p-3">
             <div>
               <h3 className="text-white text-uppercase">
                 {videoSection?.title || "About the mission"}
               </h3>
-              <div className="mt-3 text-white fw-normal">
+              <div className="mt-3 text-white fw-normal fs-5">
                 <div
+                 style={{
+                  wordWrap: "break-word",
+                  overflowWrap: "break-word",
+                  whiteSpace: "normal",
+                  lineHeight:1.6,
+                }}
                   className={`ql-editor ${AboutMissionStyle["lineheight"]}`}
                   dangerouslySetInnerHTML={{
                     __html: videoSection?.content || "",

@@ -21,12 +21,12 @@ const AboutAnnex = ({ data }) => {
           "Welcome to Annex Global Conferences"}
       </p>
       <div
-        className="mt-4 container-md ql-editor"
+        className="mt-4 container-md ql-editor w-md-75 fs-5 fs-md-6  "
         style={{
-          width: "70%",
           wordWrap: "break-word",
           overflowWrap: "break-word",
           whiteSpace: "normal",
+          lineHeight:1.6,
         }}
         dangerouslySetInnerHTML={{ __html: htmlWithClass || "" }}
       />
