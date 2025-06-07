@@ -53,7 +53,7 @@ const dynamicSettings = {
                 <h3 className="text-white text-capitalize fw-bold">
                   Connect with other members
                 </h3>
-                <h6 className="text-white fw-normal mt-3">
+                <h6 className="text-white fw-normal mt-3 lh-base">
                   The Annex Global Conference stands as a premier international
                   forum that brings together visionaries, industry leaders,
                   entrepreneurs, and changemakers from around the world.
