@@ -225,13 +225,13 @@ export default function Navbar() {
             <Link href={"/"} className="text-decoration-none">
               <img src="/icons/annexWithText.png" alt="Logo" />
             </Link>
-            {/* <div className="mt-2"> */}
+            <div className="mt-2">
               {/* Location/Weather*/}
-              {/* <p className={`d-none  d-xxl-block ${NavbarStyles["sub-title"]}`}>
+              <p className={`d-none  d-xxl-block ${NavbarStyles["sub-title"]}`}>
                 {data?.detail?.location} &nbsp;•&nbsp;{data?.detail?.dates}&nbsp;•&nbsp;
                 <i className="bx bxs-sun text-warning" /> {data?.detail?.weather}
-              </p> */}
-            {/* </div> */}
+              </p>
+            </div>
           </div>
 
           <button

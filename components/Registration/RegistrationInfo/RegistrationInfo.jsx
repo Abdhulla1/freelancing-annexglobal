@@ -16,10 +16,10 @@ const RegistrationInfo = ({ conference }) => {
         </div>
         <div className="ms-3 text-start col-7">
           <h4 className={SupportingJournalsStyles["title"]}>{data.title}</h4>
-          <div
+          {/* <div
             className={`text-muted text-capitalize ql-editor text-truncate ${SupportingJournalsStyles["lineheight"]}`}
             dangerouslySetInnerHTML={{ __html: data.content }}
-          />
+          /> */}
         </div>
 
         <div>

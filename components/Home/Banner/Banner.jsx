@@ -36,7 +36,7 @@ const Banner = ({data}) => {
         {/* <h1 className={`text-uppercase ${BannerStyle["location"]}`}>{data?.detail?.landingPage?.heading}</h1> */}
         <h4 className={`text-uppercase ${BannerStyle["location"]} py-3`}>ANNEX GLOBAL CONFERENCES</h4>
         <br/>
-        <h1 className={`text-uppercase ${BannerStyle["location"]}`}>DUBAI</h1>
+        {/* <h1 className={`text-uppercase ${BannerStyle["location"]}`}>DUBAI</h1> */}
         <p className={`mt-3 h5 fw-light lh-sm ${BannerStyle["welcome"]}`} style={{ color: "#D0D0D0", fontSize: "1.7rem" }}>
           {data?.detail?.landingPage?.subTitle} 
         </p>

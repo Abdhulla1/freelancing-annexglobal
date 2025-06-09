@@ -15,7 +15,7 @@ const ConferenceDetails = ({
   buttonProps = { name: null, href: null },
 }) => {
   const headerImages = headerPanelImages || conference?.webinar?.headerPanelImages
-
+console.log(conference)
   return (
     <div
       className={ConferenceDetailsStyles["container"]}
@@ -42,12 +42,12 @@ const ConferenceDetails = ({
                 <div
                   className={`rounded mt-3 text-center d-none d-md-block position-relative ${ConferenceDetailsStyles["certification"]}`}
                 >
-                  {/* <Image
+                  <Image
                     src={conference?.certificationImage}
                     fill
                     alt="Certification"
                     style={{ objectFit: "contain" }}
-                  /> */}
+                  />
                 </div>
               </div>
               {/* &nbsp; */}
@@ -56,7 +56,7 @@ const ConferenceDetails = ({
                 className={`col-md-12 col-lg-9 ${ConferenceDetailsStyles["heading"]}`}
               >
                 <div className="">
-                  <h2 className="text-uppercase text-warning opacity-75 mb-3  text-md-start mb-md-1">
+                  <h2 className=" opacity-75 mb-3  text-md-start mb-md-1">
                     {conference?.title}
                   </h2>
                   <div className={ConferenceDetailsStyles["scrolling-wrapper"]}>

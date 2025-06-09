@@ -28,7 +28,14 @@
   object-fit: cover;
   border-radius: 50%;
 }
+.heading >div h2 {
 
+  /* Apply gradient to text */
+  background: linear-gradient(180deg, #F4A300 0%, rgba(190, 127, 0, 0.682) 63.08%, rgba(142, 95, 0, 0.4) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
+  
+}
 
 .heading h5{
     line-height: 1.5;
