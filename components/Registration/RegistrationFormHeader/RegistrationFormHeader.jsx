@@ -24,14 +24,15 @@ const RegistrationFormHeader = ({ conference }) => {
                 <div
                   className={`col-md-12 col-lg-9  mt-3 mt-lg-0  ${ConferenceDetailsStyles["heading"]}`}
                 >
-                  <h2 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
+                  <h2 className="text-warning opacity-75 mb-3 mb-md-1">
                   {conference?.conference?.landingPage?.title} 
                   </h2>
                   <h4 className="text-uppercase text-white mb-3 mb-md-1">
                   {conference?.name}
                   </h4>
                   <p className="text-white fst-italic">
-                    {`Theme: ${conference?.conference?.landingPage?.theme}`}
+                        <b>Theme:</b> {` ${conference?.conference?.landingPage?.theme}`}
+      
                   </p>
                   <div className={`mt-1 ${ConferenceDetailsStyles["timings"]}`}>
                     <div className="d-inline-flex flex-nowrap align-items-center justify-content-center  gap-2 p-1">

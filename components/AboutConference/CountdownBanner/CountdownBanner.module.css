@@ -5,11 +5,16 @@
   box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.2);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-
+  position: fixed !important;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030;
+  padding: 6px 0;
 }
 
 .timeBox {
-  font-size: 16px; 
+  font-size: 16px;
   color: #001f3f;
 }
 
@@ -24,19 +29,19 @@
 
 .ticketBtn {
   border-radius: 25px;
-  padding: 6px 16px; 
-  font-size: 16px;    
+  padding: 6px 16px;
+  font-size: 16px;
   text-align: center;
   color: #121989;
-   background: var(--btn-gradient);
+  background: var(--btn-gradient);
   font-weight: 500;
   border: none;
 }
 .brochure {
-  background: linear-gradient(90deg, #000000 0%, #4E4E4E 100%);
+  background: linear-gradient(90deg, #000000 0%, #4e4e4e 100%);
   border: 1px solid #000000;
   color: white;
-  padding: 6px 16px; 
+  padding: 6px 16px;
   font-size: 16px;
   border-radius: 62px;
   cursor: pointer;

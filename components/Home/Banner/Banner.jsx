@@ -50,7 +50,7 @@ const Banner = ({data}) => {
             Attended by top reputed organizations
           </div>
         </div>
-          <Marquee gradient={true} autoFill={true} gradientColor='transparent'>
+          <Marquee Marqueegradient={true} autoFill={true} gradientColor='transparent'>
             <img src="images/reputed-organizations/cipla.png" className={BannerStyle["marquee-logo"]} alt="" />
             <img src="images/reputed-organizations/dr-reddy.png" className={BannerStyle["marquee-logo"]} alt="" />
             <img src="images/reputed-organizations/gsk.png" className={BannerStyle["marquee-logo"]} alt="" />

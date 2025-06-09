@@ -1,7 +1,7 @@
 import React from "react";
 import ConferenceCardStyle from "./ConferenceCard.module.css";
 import Link from "next/link";
-
+import Image from "next/image";
 const ConferenceCard = ({
   image,
   date,
@@ -14,7 +14,7 @@ const ConferenceCard = ({
   return (
     <div className={` ${ConferenceCardStyle["container"]}`}>
       <div className={ConferenceCardStyle["image-section"]}>
-        <img src={image} alt={heading} />
+        <Image src={image} height={220} width={370} alt={heading} objectFit="cover"/>
         <div className={ConferenceCardStyle["overlay"]}>
           {date} &nbsp;&nbsp; | &nbsp;&nbsp; {location}
         </div>

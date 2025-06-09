@@ -48,7 +48,8 @@ console.log("upcomingConferences", upcomingConferences);
         return (
           <div key={index} className={`p-4 ${Style.container}`}>
             <h3 className="text-uppercase text-center mt-5">
-              {`${event.monthAndYear} conferences | ${event.location}`}
+              {/* {`${event.monthAndYear} conferences | ${event.location}`} */}
+              {`Past Conferences`}
             </h3>
             <div className="mt-4">
               <div className="container">

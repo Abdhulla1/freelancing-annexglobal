@@ -342,10 +342,10 @@ select.form-control {
 
 
 @media screen and (min-width: 1024px) {
-  html {
+  /* html {
     transform: scale(1);
     transform-origin: top center;
-  }
+  } */
 
   body {
     overflow-x: hidden;

@@ -3,6 +3,7 @@ import ConferenceDetailsStyles from "./ConferenceDetails.module.css";
 import bgImageDefault from "@/public/images/conferences/upcoming-bg.webp";
 import Image from "next/image";
 import Link from "next/link";
+import Marquee from "react-fast-marquee";
 
 const ConferenceDetails = ({
   conference,
@@ -41,12 +42,14 @@ const ConferenceDetails = ({
                 <div
                   className={`rounded mt-3 text-center d-none d-md-block position-relative ${ConferenceDetailsStyles["certification"]}`}
                 >
-                  {/* <Image
-                    src={"/images/conferences/certificate.jpg"}
-                    fill
-                    alt="Certification"
-                    style={{ objectFit: "contain" }}
-                  /> */}
+                   {conference?.certificationImage && (
+                                      <Image
+                                        src={conference?.certificationImage}
+                                        fill
+                                        alt="Certification"
+                                        style={{ objectFit: "contain" }}
+                                      />
+                                    )}
                 </div>
               </div>
               {/* &nbsp; */}
@@ -55,15 +58,21 @@ const ConferenceDetails = ({
                 className={`col-md-12 col-lg-9    ${ConferenceDetailsStyles["heading"]}`}
               >
                 <div className="">
-                  <h2 className="text-uppercase text-warning opacity-75 mb-3 mb-md-1">
+                  <h2 className=" text-warning opacity-75 mb-3 mb-md-1">
                     {conference?.title}
                   </h2>
-                  <h4 className="text-uppercase text-white mb-3 mb-md-1">
-                    {conferenceName}
-                  </h4>
+                  <Marquee Marqueegradient={true} autoFill={true} gradientColor='transparent' speed={50}
+  pauseOnHover={true}>
+                    <h3
+                      className={`text-uppercase fw-bold text-white mb-3 mb-md-3 `}
+                    >
+                      {conferenceName}
+                    </h3>
+                    <div style={{ width: "60px" }}></div> 
+                  </Marquee>
                   <p className="text-white fst-italic">
-                    {
-                      `Theme: ${conference?.theme}`
+                        <b>Theme:</b>  {
+                      ` ${conference?.theme}`
                     }
                   </p>
                 </div>

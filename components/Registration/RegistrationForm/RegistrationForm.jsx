@@ -482,6 +482,7 @@ export default function RegistrationForm({ conference }) {
                 checked={formik.values.termsAccepted}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                  style={{ border: "2px solid black" }}
               />
               <label className="form-check-label" htmlFor="termsAccepted">
                 I agree to the{" "}
@@ -493,7 +494,7 @@ export default function RegistrationForm({ conference }) {
                 </div>
               )}
             </div>
-
+            <Image src={'/icons/payments.png'} width={128} height={44} alt="Payment"/> 
             <div className="d-flex justify-content-end">
               <button type="submit" className={`btn ${styles["brand-btn"]}`}>
                 Continue

@@ -10,7 +10,7 @@ const LocationandServices = ({
     <div className={LocationandServicesStyles["container"]}>
       <div className="container px-3 px-md-5">
         <div className="row py-5 gx-6">
-          <div className="col-md-5 d-flex justify-content-center align-items-center">
+          <div className="col-md-5 d-flex justify-content-center align-items-start">
             <iframe
               src={locationAndServices?.mapsEmbedLink}
               width="100%"
@@ -23,7 +23,7 @@ const LocationandServices = ({
           </div>
           <div className="col-md-7 d-flex align-items-start gap-2">
             <div className="ms-3 mt-3 mt-md-0 w-100">
-              <h3 className="text-white mb-3">Venue</h3>
+              <h3 className="text-white mb-3">{locationAndServices?.title}</h3>
 
               <div
                 className={`text-white ql-editor h5 fw-normal ${LocationandServicesStyles["lineheight"]}`}

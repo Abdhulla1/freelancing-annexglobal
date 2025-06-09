@@ -1,5 +1,7 @@
 .container {
   background-image: url("/images/conferences/sponsors-exhibitors-bg.png");
+   padding: 10px;
+
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -7,44 +9,70 @@
 
 .conferencelogo {
   width: auto;
-  height: 190px;
+  height: 210px;
+}
+.certification{
+  height: 140px;
+  width: 110px;
 }
 .ocm{
   object-fit: fill;
   margin-left: 120px;
 }
-.heading h2 {
-  line-height: 1;
-  font-weight: bold;
+.logoWrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  top: -10px;    
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.logoImage {
+  object-fit: cover;
+  border-radius: 50%;
+}
+.heading >div h2 {
+
   /* Apply gradient to text */
-  background: linear-gradient(180deg, #F4A300 0%, rgba(190, 127, 0, 0.682) 63.08%, rgba(142, 95, 0, 0.4) 100%);
+    font-weight: bold;
+background: linear-gradient(
+  180deg,
+  #ffb700 0%,            /* Brighter than #F4A300 */
+  rgba(236, 170, 2, 0.85) 63.08%,  /* Brighter and a bit more opaque */
+  rgba(180, 120, 0, 0.5) 100%      /* Lightened and slightly more visible */
+);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;  
   
 }
 
-.heading p{
-  line-height: 2;
-  font-size: 21px;
+.heading h5{
+    line-height: 1.5;
+}
+.heading h4{
+    line-height: 2;
 }
 
 @media only screen and (max-width: 600px) {
-  .heading h5{
+  .heading p{
     font-size: 12px;
-}.container{
-  padding: 10px;
 }
-
 }
 
 .timings{
-    background: rgba(106, 106, 106, 0.1); 
+    background:#3CCDE41F; 
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 12px; 
-    padding: 20px; 
+    padding: 5px; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-size: 13px;
+    letter-spacing: 0px;
 }
+
+
+
 
 .scroll-container {
   width: 100%;
@@ -83,7 +111,8 @@
 
 .card {
   width: 100%;
-  background: rgba(106, 106, 106, 0.1);
+  background: #FFFFFF0F;
+  
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 8px;
@@ -94,8 +123,8 @@
   font-size: 18px;
 }
 .brand-btn {
-  background: #F4A300;
-  color: white;
+  background: linear-gradient(90deg, #F4A300 0%, #FFEA61 100%);
+  color: black;
   padding: 10px 20px;
   font-size: 16px;
   border: none;
@@ -106,7 +135,8 @@
 }
 
 .brand-btn:hover {
-  background: #b47800;
-  transition-duration: 0.3s;
+  background: linear-gradient(90deg, #da9100 0%, #FFEA61 100%);
+    transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   color: white;
 }

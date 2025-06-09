@@ -164,7 +164,7 @@
   padding-bottom: 4px;
   color: #000;
   text-decoration: none;
-  display: flex; /* Use flexbox to align items */
+  display: flex; 
   align-items: center;  
   font-family: Manrope;
   font-weight: 500;
@@ -177,9 +177,9 @@
   left: 50%;
   border-radius: 20px;
   transform: translateX(-50%);
-  width: 20px; /* Width of the line */
-  height: 3px; /* Thickness of the line */
-  background-color: #121989; /* Blue color */
+  width: 20px; 
+  height: 3px; 
+  background-color: #121989; 
 
   
 }

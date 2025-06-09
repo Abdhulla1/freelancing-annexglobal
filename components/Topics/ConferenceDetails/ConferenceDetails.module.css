@@ -6,14 +6,39 @@
   background-position: center;
 }
 
-.logoWrapper {
+/* .logoWrapper {
   position: relative;
-  width: 210px;      /* Adjust based on your design */
+  width: 210px;      
   height: 210px;
   border-radius: 50%;
   overflow: hidden;
-  /* background-color: #fff;  */
+
+} */
+ .logoWrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  
+  top: -10px;    
+  border-radius: 50%;
+  overflow: hidden;
+
 }
+.heading >div h2 {
+
+  /* Apply gradient to text */
+    font-weight: bold;
+background: linear-gradient(
+  180deg,
+  #ffb700 0%,            /* Brighter than #F4A300 */
+  rgba(236, 170, 2, 0.85) 63.08%,  /* Brighter and a bit more opaque */
+  rgba(180, 120, 0, 0.5) 100%      /* Lightened and slightly more visible */
+);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  
+  
+}
+
 
 .logoImage {
   object-fit: cover;

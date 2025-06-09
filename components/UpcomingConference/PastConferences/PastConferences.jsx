@@ -54,9 +54,11 @@ var settings = {
   ],
 };
 
+
 const PastConferences = () => {
   const sliderRef = useRef(null);
   const { data: pastConferenceData } = useConferenceLandingPage("past");
+
   const pastConference = pastConferenceData?.detail?.map((conference) => ({
     image: conference?.cardBgImage,
     date: conference?.conference?.landingPage?.startDate, // Replace with dynamic data if available
@@ -65,7 +67,7 @@ const PastConferences = () => {
     desc: conference?.conference?.landingPage?.theme, // Replace with dynamic description if available
     buylink: null, // Add a dynamic link if available
   }));
-
+  console.log("pastConference",pastConference)
   return (
     <div className={`px-0 ${UpcomingConferencesStyle["container"]}`}>
       <div className={UpcomingConferencesStyle["topspacer"]}>

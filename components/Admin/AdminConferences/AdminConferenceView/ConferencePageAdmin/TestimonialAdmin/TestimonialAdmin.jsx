@@ -284,7 +284,7 @@ useEffect(()=>{
         name: values.name,
         designation: values.designation,
         content: values.content,
-        ratings: 0,
+        ratings: ratings,
         videoUrl: isvideoLinkEnable ? values.videoUrl : "",
         imageUrl,
       };

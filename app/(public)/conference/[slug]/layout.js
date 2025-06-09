@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import CountdownBanner from "@/components/AboutConference/CountdownBanner/CountdownBanner";
-import { useConferenceDetails } from '@/hooks/useWeather';
-import { useParams, useRouter } from 'next/navigation';
+import { useConferenceDetails } from "@/hooks/useWeather";
+import { useParams, useRouter } from "next/navigation";
 
 export default function Layout({ children }) {
   const params = useParams();
@@ -24,8 +24,8 @@ export default function Layout({ children }) {
 
   return (
     <>
- <main>{children}</main>
-       <CountdownBanner conference={conferenceData.detail} />
+      {children}
+      <CountdownBanner conference={conferenceData.detail} />
     </>
   );
 }

@@ -3,6 +3,7 @@ import ConferenceDetailsStyles from "./ConferenceDetails.module.css";
 import bgImageDefault from "@/public/images/conferences/upcoming-bg.webp";
 import Link from "next/link";
 import Image from "next/image";
+import Marquee from "react-fast-marquee";
 
 const ConferenceDetails = ({
   conference,
@@ -14,8 +15,9 @@ const ConferenceDetails = ({
   conferenceName,
   buttonProps = { name: null, href: null },
 }) => {
-  const headerImages = headerPanelImages || conference?.webinar?.headerPanelImages
-console.log(conference)
+  const headerImages =
+    headerPanelImages || conference?.webinar?.headerPanelImages;
+  console.log(conference);
   return (
     <div
       className={ConferenceDetailsStyles["container"]}
@@ -23,7 +25,7 @@ console.log(conference)
     >
       <div className="ms-3 justify-content-center ps-0 p-2">
         <div className="row gap-1">
-          <div className="col-md-12 col-lg-8 col-xl-6 d-flex align-items-center mt-5 mt-lg-0">
+          <div className="col-md-12 col-lg-6 col-xl-6 d-flex align-items-center mt-5 mt-lg-0">
             <div className="d-flex flex-wrap flex-md-nowrap  align-items-center justify-content-center justify-content-md-start  p-3">
               <div className="row justify-content-center me-3 ">
                 <Link
@@ -42,12 +44,14 @@ console.log(conference)
                 <div
                   className={`rounded mt-3 text-center d-none d-md-block position-relative ${ConferenceDetailsStyles["certification"]}`}
                 >
-                  <Image
-                    src={conference?.certificationImage}
-                    fill
-                    alt="Certification"
-                    style={{ objectFit: "contain" }}
-                  />
+                  {conference?.certificationImage && (
+                    <Image
+                      src={conference?.certificationImage}
+                      fill
+                      alt="Certification"
+                      style={{ objectFit: "contain" }}
+                    />
+                  )}
                 </div>
               </div>
               {/* &nbsp; */}
@@ -56,19 +60,21 @@ console.log(conference)
                 className={`col-md-12 col-lg-9 ${ConferenceDetailsStyles["heading"]}`}
               >
                 <div className="">
-                  <h2 className=" opacity-75 mb-3  text-md-start mb-md-1">
+                  <h2 className=" opacity-75 mb-3  text-md-start mb-md-2">
                     {conference?.title}
                   </h2>
-                  <div className={ConferenceDetailsStyles["scrolling-wrapper"]}>
-  <h4 className={`text-uppercase text-white mb-3 mb-md-1 ${ConferenceDetailsStyles["scrolling-text"]}`}>
-    {conferenceName}
-  </h4>
-</div>
+                  <Marquee style={{  maxWidth: '80%'}} Marqueegradient={true} autoFill={true} gradientColor='transparent' speed={50}
+  pauseOnHover={true}>
+                    <h3
+                      className={`text-uppercase fw-bold text-white mb-3 mb-md-3 `}
+                    >
+                      {conferenceName}
+                    </h3>
+                    <div style={{ width: "60px" }}></div> 
+                  </Marquee>
 
-                  <p className="text-white fst-italic">
-                    {
-                      `Theme: ${conference?.theme}`
-                    }
+                  <p className="m-0 text-white fst-italic">
+                    <b>Theme:</b> {` ${conference?.theme}`}
                   </p>
                 </div>
 
@@ -133,9 +139,9 @@ console.log(conference)
             </div>
           </div>
           <div
-            className={`col-md-12 col-lg-3 col-xl-5 mx-auto d-none d-xl-block`}
+            className={`col-md-12 col-lg-3 col-xl-5 mx-auto d-none d-xxl-block`}
           >
-            {Component && <Component conference={headerImages}  />}
+            {Component && <Component conference={headerImages} />}
           </div>
         </div>
       </div>
