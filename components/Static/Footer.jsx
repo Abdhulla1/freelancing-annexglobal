@@ -42,10 +42,10 @@ const Footer = () => {
             <img src="/icons/annexWithText.png" alt="Logo" />
           </Link>
         </div>
-        <small className="ms-1 text-white">
+        {/* <small className="ms-1 text-white">
           {" "}
           {data?.detail?.location} • {data?.detail?.dates}
-        </small>
+        </small> */}
         <div className="mt-4 col">
           <div className="d-inline-flex justify-content-center gap-3">
             {/*Facebook*/}

@@ -6,7 +6,7 @@ const LocationandServices = ({ locationAndServices, landingPageContent, id }) =>
     <div className={LocationandServicesStyles["container"]}>
       <div className="container px-3 px-md-5">
         <div className="row py-5 gx-6">
-          <div className="col-md-5 d-flex justify-content-center align-items-stretch">
+          <div className="col-md-5 d-flex justify-content-center align-items-center">
             <iframe
               src={locationAndServices?.mapsEmbedLink}
               width="100%"
@@ -17,73 +17,64 @@ const LocationandServices = ({ locationAndServices, landingPageContent, id }) =>
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
-          <div className="col-md-7 d-flex align-items-center">
-            <div style={{ marginLeft: "10px" }} className="mt-3 mt-md-0">
-              <h3 style={{ marginLeft: "10px" }} className="text-white">Venue</h3>
-              <div
-                className={
-                  "text-white ql-editor h5 fw-normal " +
-                  LocationandServicesStyles["lineheight"]
-                }
-                dangerouslySetInnerHTML={{
-                  __html: locationAndServices?.content,
-                }}
-              ></div>
+<div className="col-md-7 d-flex align-items-start gap-2">
+  <div className="ms-3 mt-3 mt-md-0 w-100">
+    <h3 className="text-white mb-3">Venue</h3>
 
-              <div style={{ marginLeft: "10px" }} className="mt-3">
-                <div
-                  className={`mt-4 ml-3 mb-5 d-flex justify-content-md-around flex-wrap ${LocationandServicesStyles["timings"]}`}
-                >
-                  <div className="d-inline-flex flex-nowrap align-items-center justify-content-center  gap-2 p-1">
-                    <div>
-                      {/* <i
-                          className={`pi h6 pi-calendar  ${ConferenceDetailsStyles["icons"]}`}
-                        ></i> */}
-                      <span className="fs-5 text-center">📅</span>
-                    </div>
-                    <div className="text-white mt-3">
-                      <b>{landingPageContent?.startDate}</b>
-                      <p className="opacity-75">Date</p>
-                    </div>
-                    <div className="ms-3 fs-2 text-white opacity-75">|</div>
-                  </div>
-                  <div className="d-inline-flex align-items-center gap-2 p-1">
-                    <div>
-                      {/* <i
-                          className={`pi h6 pi-map-marker   ${ConferenceDetailsStyles["icons"]}`}
-                        ></i> */}
+    <div
+      className={`text-white ql-editor h5 fw-normal ${LocationandServicesStyles["lineheight"]}`}
+      style={{ padding: 0, overflowX: 'hidden' }}
+      dangerouslySetInnerHTML={{
+        __html: locationAndServices?.content,
+      }}
+    ></div>
 
-                      <span className="fs-5 text-center">🧭</span>
-                    </div>
-                    <div className="text-white  mt-3">
-                      <b>{landingPageContent?.location}</b>
-                      <p className="opacity-75">Location</p>
-                    </div>
-                    <div className="ms-3 fs-2 text-white opacity-75">|</div>
-                  </div>
-                  <div className="d-inline-flex align-items-center gap-2 p-1">
-                    <div>
-                      {/* <i
-                          className={`pi h6 pi-clipboard  ${ConferenceDetailsStyles["icons"]}`}
-                        ></i> */}
-                      <span className="fs-5 text-center">🏨</span>
-                    </div>
-                    <div className="text-white mt-3">
-                      <b>{landingPageContent?.address}</b>
-                      <p className="opacity-75">Hotel</p>
-                    </div>
-                  </div>
-                <Link
-                  href={`/conference/${id}/venue`}
-                  className="brand-btn col-5 text-center  mt-4 text-decoration-none"
-                >
-                  See Hotels &nbsp;&nbsp;
-                  <i className="pi pi-arrow-right"></i>
-                </Link>
-                </div>
-              </div>
-            </div>
+    <div className="mt-4">
+      <div
+        className={`d-flex flex-wrap justify-content-between gap-4 ${LocationandServicesStyles["timings"]}`}
+      >
+        {/* Date */}
+        <div className="d-flex align-items-center gap-3">
+          <span className="fs-5">📅</span>
+          <div className="text-white">
+            <b>{landingPageContent?.startDate}</b>
+            <p className="opacity-75 mb-0">Date</p>
           </div>
+        </div>
+
+        {/* Location */}
+        <div className="d-flex align-items-center gap-3">
+          <span className="fs-5">🧭</span>
+          <div className="text-white">
+            <b>{landingPageContent?.location}</b>
+            <p className="opacity-75 mb-0">Location</p>
+          </div>
+        </div>
+
+        {/* Hotel */}
+        <div className="d-flex align-items-center gap-3">
+          <span className="fs-5">🏨</span>
+          <div className="text-white">
+            <b>{landingPageContent?.address}</b>
+            <p className="opacity-75 mb-0">Hotel</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Link */}
+      <div className="mt-4">
+        <Link
+          href={`/conference/${id}/venue`}
+          className="brand-btn text-center text-decoration-none"
+        >
+          See Hotels &nbsp;&nbsp;
+          <i className="pi pi-arrow-right"></i>
+        </Link>
+      </div>
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
     </div>

@@ -21,11 +21,11 @@ export default function Layout({ children }) {
   if (isLoading || !conferenceData?.detail) {
     return <div>Loading...</div>;
   }
-  console.log("Conference Data:", conferenceData);
+
   return (
-    <div>
-      <CountdownBanner conference={conferenceData.detail} />
-      {children}
-    </div>
+    <>
+ <main>{children}</main>
+       <CountdownBanner conference={conferenceData.detail} />
+    </>
   );
 }

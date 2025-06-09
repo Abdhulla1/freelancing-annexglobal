@@ -49,16 +49,18 @@ const dynamicSettings = {
         <div className={connectWithOthers["members-section"]}>
           <div className="row p-0 p-md-3">
             <div className="col-lg-3 ps-5 p-4 d-flex align-items-center">
-              <div>
-                <h3 className="text-white text-capitalize fw-bold">
-                  Connect with other members
-                </h3>
-                <h6 className="text-white fw-normal mt-3 lh-base">
-                  The Annex Global Conference stands as a premier international
-                  forum that brings together visionaries, industry leaders,
-                  entrepreneurs, and changemakers from around the world.
-                </h6>
-              </div>
+        <div>
+  <h3 className="text-white text-capitalize fw-bold">
+    Hear from Our Past Conference Members
+  </h3>
+  <h6 className="text-white fw-normal mt-3 lh-base">
+    Discover insights and experiences from past participants of the Annex Global Conference —
+    a prestigious platform uniting thought leaders, innovators, and professionals from diverse industries.
+    Learn how our members have benefited from meaningful connections, groundbreaking discussions, 
+    and transformative opportunities at this world-renowned event.
+  </h6>
+</div>
+
             </div>
             <div className="col-lg-9">
               <div className={connectWithOthers["excess-slider"]}>

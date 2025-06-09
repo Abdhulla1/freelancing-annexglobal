@@ -262,7 +262,9 @@ export default function AdminsTable() {
                     <button
                       className="btn btn-outline-secondary rounded"
                       name="edit"
-                      onClick={(e) => handleSidebar(e.target.name, element)}
+                      onClick={(e) =>
+                        handleSidebar(e.currentTarget.name, element)
+                      }
                     >
                       <i className="bx bx-edit-alt"></i>
                     </button>
@@ -278,9 +280,6 @@ export default function AdminsTable() {
                     >
                       <i className="bx bx-refresh"></i>
                     </button>
-                    {/* <button className="btn btn-outline-secondary rounded">
-                      <i className="bx bx-lock"></i>
-                    </button> */}
                   </td>
                 </tr>
               ))}

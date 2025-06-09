@@ -45,13 +45,16 @@ const PastConference = ({ pastConference }) => {
         <Slider ref={sliderRef} {...settings}>
           {pastConference.map((item, index) => (
             <div key={item.imageId || index}>
-              <div className="px-2">
-                <img
-                  src={item.imageUrl}
-                  className={PastConferenceStyles["conf_image"]}
-                  alt={`Conference Image ${index + 1}`}
-                />
-              </div>
+            <div className="px-2">
+  <div className={PastConferenceStyles["image-wrapper"]}>
+    <img
+      src={item.imageUrl}
+      className={PastConferenceStyles["conf_image"]}
+      alt={`Conference Image ${index + 1}`}
+    />
+  </div>
+</div>
+
             </div>
           ))}
         </Slider>

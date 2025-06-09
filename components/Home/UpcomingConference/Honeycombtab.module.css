@@ -32,6 +32,10 @@
   background: linear-gradient(90deg, #101679 0%, #121989 35.87%, #0B0F51 57.37%, #060723 100%);
   color: #FFFFFF;
 }
+.honeycombButton:hover {
+  background: linear-gradient(90deg, #101679 0%, #121989 35.87%, #0B0F51 57.37%, #060723 100%);
+  color: #FFFFFF;
+}
 
 /* Border effect using pseudo-element */
 .honeycombButton::before {

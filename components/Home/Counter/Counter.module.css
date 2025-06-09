@@ -9,7 +9,7 @@
     background-image: url('/images/home/home-count.png');
     background-size: cover;
     padding: 10px;
-    padding-bottom: 20px;
+    /* padding-bottom: 20px; */
 }
 
 .counter-bg::before {

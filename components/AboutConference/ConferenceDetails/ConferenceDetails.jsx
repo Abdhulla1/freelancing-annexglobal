@@ -59,9 +59,12 @@ const ConferenceDetails = ({
                   <h2 className="text-uppercase text-warning opacity-75 mb-3  text-md-start mb-md-1">
                     {conference?.title}
                   </h2>
-                  <h4 className="text-uppercase text-white mb-3 mb-md-1">
-                    {conferenceName}
-                  </h4>
+                  <div className={ConferenceDetailsStyles["scrolling-wrapper"]}>
+  <h4 className={`text-uppercase text-white mb-3 mb-md-1 ${ConferenceDetailsStyles["scrolling-text"]}`}>
+    {conferenceName}
+  </h4>
+</div>
+
                   <p className="text-white fst-italic">
                     {
                       `Theme: ${conference?.theme}`

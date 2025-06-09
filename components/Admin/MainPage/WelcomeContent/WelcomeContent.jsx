@@ -94,7 +94,7 @@ const valuesChanged =
         labelName="Content"
         initialValue={formik.values.content}
         onChange={(value) => formik.setFieldValue("content", value)}
-        height="120px"
+        height="320px"
       />
       {formik.touched.content && formik.errors.content && (
         <div className="text-danger mt-2">{formik.errors.content}</div>
