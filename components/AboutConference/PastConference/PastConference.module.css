@@ -1,5 +1,5 @@
 .image-wrapper {
-  border-radius: 10px;
+  border-radius: 40px;
   width: 100%;
   height: 300px;
   overflow: hidden;
@@ -11,14 +11,13 @@
   transform: scale(1.02);
   /* Original box-shadow: box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); */
 
-  /* Golden Box-Shadow with Glow Effect */
-  box-shadow:
-    0 0 5px 5px rgba(255, 215, 0, 0.7), /* Initial golden glow */
-    0 0 3px 5px rgba(255, 215, 0, 0.5), /* Wider, softer golden glow */
-    0 2px 4px rgba(0, 0, 0, 0.2); /* Keep a subtle dark shadow for depth */
+  /* box-shadow:
+    0 0 5px 5px rgba(255, 215, 0, 0.7), 
+    0 0 3px 5px rgba(255, 215, 0, 0.5), 
+    0 2px 4px rgba(0, 0, 0, 0.2); 
 
-  /* Optional: Add a subtle animation for a more dynamic glow */
-  animation: goldenGlow 1.5s infinite alternate; /* Applies the glow animation */
+  
+  animation: goldenGlow 1.5s infinite alternate;  */
 }
 
 /* Keyframes for the golden glowing animation */

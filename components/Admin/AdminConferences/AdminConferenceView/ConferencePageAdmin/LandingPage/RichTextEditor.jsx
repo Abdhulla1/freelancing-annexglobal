@@ -78,7 +78,8 @@ const RichTextEditor = ({
       <Editor
         value={text}
         onTextChange={handleTextChange}
-        style={{ height: 'auto' }}
+        // style={{ height: 'auto' }}
+        style={{ height }}
         // headerTemplate={header}
         onKeyDown={handleKeyDown} // Attach keydown handler to block input
       />

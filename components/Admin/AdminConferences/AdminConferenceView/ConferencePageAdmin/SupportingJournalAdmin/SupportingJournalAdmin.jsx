@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import { uploadImage } from "@/service/mediaManagemnt";
 import { updateSupportingJournal } from "@/service/AdminConfernecePages/confernce"; // adjust import
 import { Button } from "primereact/button";
+import { InputSwitch } from "primereact/inputswitch";
 
 export default function SupportingJournalAdmin({
   selectedConferenceID,
@@ -39,7 +40,35 @@ export default function SupportingJournalAdmin({
 
     return filledData;
   })();
+const handleStatusChange = async (newStatus, id) => {
+    try {
+      const response = await updateTestiMonialStatus(selectedConferenceID,id, {status:newStatus});
 
+      if (response.status === 200) {
+        // Update local state
+        fetchConfernceData(); 
+        toast.current?.show({
+          severity: "success",
+          summary: "Updated",
+          detail: response.data.detail[0].msg || "Status updated successfully",
+        });
+      } else {
+        console.log(response.response.data.detail[0].msg);
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail:
+            response.response.data.detail[0].msg || "Status update failed",
+        });
+      }
+    } catch (err) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Error",
+        detail: "Status update failed",
+      });
+    }
+  };
   const handleSidebar = (type, data = null) => {
     const componentsMap = {
       view: {
@@ -92,7 +121,10 @@ export default function SupportingJournalAdmin({
             <td className="p-2 table-heading">Logo Image</td>
             <td className="p-2 table-heading">Title</td>
             <td className="p-2 table-heading">Content</td>
+                            <td className="p-2 table-heading">Status</td>
+
             <td className="p-2 table-heading">Action</td>
+            
           </tr>
         </thead>
         <tbody>
@@ -108,8 +140,22 @@ export default function SupportingJournalAdmin({
                 />{" "}
               </td>
               <td className="p-3 table-data">{element.title}</td>
-              <td className="p-3  table-data text-truncate"
-                      style={{ maxWidth: "200px" }}>{element.content}</td>
+              <td
+                className="p-3  table-data text-truncate"
+                style={{ maxWidth: "200px" }}
+              >
+                {element.content}
+              </td>
+              <td className="p-3  table-data ">
+                {" "}
+                <InputSwitch
+                  checked={element.status}
+                  onChange={(e) =>
+                    handleStatusChange(e.value, element.testimonialId)
+                  }
+                  style={{ scale: "0.7" }}
+                />
+              </td>
               <td className="p-3 table-data ">
                 <div className="d-flex gap-1  justify-content-center flex-nowrap">
                   <button

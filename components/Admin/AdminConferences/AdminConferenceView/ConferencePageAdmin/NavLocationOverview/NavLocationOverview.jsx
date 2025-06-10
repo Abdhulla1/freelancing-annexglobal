@@ -15,14 +15,14 @@ export default function NavLocationOverview({ Location, toast, fetchData }) {
       longitude: Location.longitude || "",
       location: Location.location || "", // Typo preserved as per original
       dates: Location.dates || "",
-      headerTexting: Location.headerTexting || "", // Added for extra field
+      // headerTexting: Location.headerTexting || "", 
     },
     validationSchema: Yup.object({
       latitude: Yup.string().required("Latitude is required"),
       longitude: Yup.string().required("Longitude is required"),
       location: Yup.string().required("Location is required"),
       dates: Yup.string().required("Dates are required"),
-      headerTexting: Yup.string().required("Header Texting is required"),
+      // headerTexting: Yup.string().required("Header Texting is required"),
     }),
     onSubmit: async (values) => {
       setLoading(true);
@@ -61,8 +61,8 @@ export default function NavLocationOverview({ Location, toast, fetchData }) {
     formik.values.latitude !== Location.latitude ||
     formik.values.longitude !== Location.longitude ||
     formik.values.location !== Location.loation ||
-    formik.values.dates !== Location.dates ||
-    formik.values.headerTexting !== Location.headerTexting;
+    formik.values.dates !== Location.dates ;
+    // formik.values.headerTexting !== Location.headerTexting;
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -123,7 +123,7 @@ export default function NavLocationOverview({ Location, toast, fetchData }) {
           )}
         </div>
 
-        <div className="col-md-12 mb-3">
+        {/* <div className="col-md-12 mb-3">
           <label className="form-label">Header Texting</label>
           <input
             type="text"
@@ -135,7 +135,7 @@ export default function NavLocationOverview({ Location, toast, fetchData }) {
           {formik.touched.headerTexting && formik.errors.headerTexting && (
             <div className="text-danger">{formik.errors.headerTexting}</div>
           )}
-        </div>
+        </div> */}
       </div>
 
       <div className="mt-5 p-2 d-flex justify-content-start gap-2">

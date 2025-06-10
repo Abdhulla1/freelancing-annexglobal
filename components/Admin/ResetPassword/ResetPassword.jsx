@@ -21,7 +21,7 @@ export default function ResetPassword() {
   };
   return (
     <div className={`container-fluid ${style["login-container"]}`}>
-      <div className="row p-5 d-flex justify-content-center align-items-center h-100">
+      <div className="row p-5 d-flex justify-content-center align-items-center vh-100">
         <div className="container col-12 col-md-6 d-flex justify-content-center align-items-center flex-column">
           <Image
             src={"/icons/annex-global-logo.png"}

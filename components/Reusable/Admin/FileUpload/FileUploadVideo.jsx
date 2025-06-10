@@ -7,6 +7,7 @@ export default function FileUploadVideo({
   showTitle = true,
   showBorder = true,
   videoUrl = "",
+  dimensionNote="",
   onFileChange,
 }) {
   const inputRef = useRef();
@@ -83,6 +84,11 @@ export default function FileUploadVideo({
           <p className="fw-light text-black mb-2" style={{ fontSize: "14px" }}>
             <em>Please upload video</em>
           </p>
+          {dimensionNote && (
+    <p className=" text-black" style={{ fontSize: "10px" }}>
+      <em>{dimensionNote}</em>
+    </p>
+  )}
           <input
             type="file"
             ref={inputRef}

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
+// import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
+import FileUploadVideo from "@/components/Reusable/Admin/FileUpload/FileUploadVideo";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { uploadImage } from "@/service/mediaManagemnt";
@@ -95,15 +96,15 @@ export default function LandingPage({ LandingPageData, toast }) {
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <FileUpload
-        title="Upload Image"
+      <FileUploadVideo
+        title="Upload Video"
         onFileChange={handleFileChange}
         imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
         dimensionNote="Recommended dimensions: Width 1900px × Height 1000px"
         style={{ objectFit: "cover", borderRadius: "8px" }}
       />
       <div className="mt-4">
-        <div className="col-md-8 mb-3">
+        {/* <div className="col-md-8 mb-3">
           <label className="form-label">Heading</label>
           <input
             type="text"
@@ -114,9 +115,9 @@ export default function LandingPage({ LandingPageData, toast }) {
           {formik.touched.heading && formik.errors.heading && (
             <div className="text-danger">{formik.errors.heading}</div>
           )}
-        </div>
+        </div> */}
         <div className="col-md-8 mb-3">
-          <label className="form-label">Sub Title</label>
+          <label className="form-label">Theme</label>
           <input
             type="text"
             className="form-control"
