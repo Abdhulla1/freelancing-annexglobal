@@ -15,7 +15,7 @@ const ScientificProgram = ({ conference }) => {
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
   const headerPanelImages = conference?.scientificProgram?.headerPanelImages || [];
-
+ const brochure=conference?.brochure || null;
   return (
     <>
       <ConferenceDetails
@@ -28,7 +28,7 @@ const ScientificProgram = ({ conference }) => {
         Component={RightPannel}
       />
       <ScientificProgramCarousel conference={conference} />
-      <Prospectus conference={prospectUsContent} id={id} />
+      <Prospectus conference={prospectUsContent} id={id} brochure={brochure} />
       <EnquiryForm />
     </>
   );

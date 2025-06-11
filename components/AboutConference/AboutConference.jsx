@@ -37,6 +37,8 @@ const AboutConference = ({ conference }) => {
   const testimonialContent = conference?.conference?.testimonial || [];
   const prospectUsContent = conference?.conference?.eventDetails || "";
   const aboutMissionContent = conference?.conferencevideoSection
+  const brochure=conference?.brochure || null;
+
   return (
     <>
       <ConferenceDetails
@@ -70,7 +72,7 @@ const AboutConference = ({ conference }) => {
 
       {/* <QueriesAnswered/> */}
       <LocationandServices locationAndServices={locationAndServices} landingPageContent={landingPageContent} id={id} />
-      <Prospectus conference={prospectUsContent} id={id} />
+      <Prospectus conference={prospectUsContent} id={id} conferenceName={conferenceName} brochure={brochure} />
       {/* <ConnectWithOthers/> */}
       <EnquiryForm />
     </>

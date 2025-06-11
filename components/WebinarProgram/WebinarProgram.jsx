@@ -16,6 +16,7 @@ const WebinarProgram = ({ conference }) => {
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
   const headerPanelImages = conference?.webinarProgram?.headerPanelImages || [];
+   const brochure=conference?.brochure || null;
   return (
     <>
       <ConferenceDetails
@@ -28,7 +29,7 @@ const WebinarProgram = ({ conference }) => {
         bgImage={bgImage}
       />
       <WebinarProgramCarousel conference={webinarProgramContent} />
-      <Prospectus conference={prospectUsContent} id={id} />
+      <Prospectus conference={prospectUsContent} id={id} brochure={brochure}/>
       <EnquiryForm />
     </>
   );

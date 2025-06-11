@@ -14,12 +14,13 @@ const ConferenceSpeakers = ({conference}) => {
   const id = conference?._id
   const prospectUsContent = conference?.conference?.eventDetails || "";
   const headerPanelImages = conference?.speakers?.headerPanelImages || [];
+   const brochure=conference?.brochure || null;
  
   return (
     <div>
       <ConferenceDetails conference={landingPageContent} logoUrl={logoUrl} headerPanelImages={headerPanelImages} bgImage={bgImage} id={id} conferenceName={conferenceName} Component={RightPannel} />
       <AlumniSpeakers conference={conference}/>
-      <Prospectus conference={prospectUsContent} id={id} />
+      <Prospectus conference={prospectUsContent} id={id} brochure={brochure} />
       <EnquiryForm/>
     </div>
   )

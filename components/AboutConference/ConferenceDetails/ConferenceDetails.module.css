@@ -64,6 +64,9 @@ background: linear-gradient(
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     font-size: 13px;
     letter-spacing: 0px;
+ 
+  max-width: 100%;
+  width: fit-content;
 }
 
 .scroll-container {

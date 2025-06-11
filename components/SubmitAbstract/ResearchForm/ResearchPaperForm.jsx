@@ -9,12 +9,12 @@ import { Toast } from "primereact/toast";
 import { useResearchForm, useUploadPdf } from "@/hooks/useWeather";
 import { useMutation } from "@tanstack/react-query";
 
-const ResearchPaperForm = () => {
+const ResearchPaperForm = ({abstract,conferenceName}) => {
   const toast = useRef(null);
   const researchFormMutation = useResearchForm();
   const uploadPdfMutation = useUploadPdf();
   const params = useParams();
-  const conferenceName = params?.slug;
+  // const conferenceName = params?.slug;
   const formik = useFormik({
     initialValues: {
       conference: conferenceName || "",
@@ -138,10 +138,11 @@ const ResearchPaperForm = () => {
     <div className={styles.wrapper}>
       <Toast ref={toast} />
       <div className={styles.downloadSection}>
-        <button className={styles.downloadButton}>
+      
+       { abstract &&<button className={styles.downloadButton}>
           DOWNLOAD THE SAMPLE ABSTRACT HERE{" "}
-          <span className={styles.downloadLink}>Download</span>
-        </button>
+          <a href={abstract} target="_blank"  className={styles.downloadLink}>Download</a>
+        </button>}
       </div>
 
       <div className={`card ${styles.formCard}`}>

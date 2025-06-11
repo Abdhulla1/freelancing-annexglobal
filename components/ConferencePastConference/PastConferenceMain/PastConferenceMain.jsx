@@ -15,7 +15,7 @@ export default function PastConferenceMain({ conference }) {
       date: formattedDate,
     };
   });
-
+console.log(conferenceData?.detail);
   const handleSelectChange = (e) => {
     const selectedDate = e.target.value;
     const selectedConference = conferenceDatesWithIds.find(

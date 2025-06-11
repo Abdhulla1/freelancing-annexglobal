@@ -74,6 +74,28 @@ export async function savePermalink(id,formData) {
      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update"
           throw new Error(message);  }
 }
+export async function restPasswordLink(formData) {
+  try {
+    const response = await axiosInstance.patch(
+      `/controlled/access/admin/forgot/password`,
+     formData
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update"
+          throw new Error(message);  }
+}
+export async function restPassword(formData) {
+  try {
+    const response = await axiosInstance.patch(
+      `/controlled/access/admin/forgot/password`,
+     formData
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update"
+          throw new Error(message);  }
+}
 export async function getallConferencesNames() {
   try {
     const response = await axiosInstance.get(

@@ -28,6 +28,7 @@ const AboutWebinar = ({ conference }) => {
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
   const headerPanelImages = conference?.webinar?.headerPanelImages || [];  
+   const brochure=conference?.brochure || null;
   return (
     <>
       <ConferenceDetails
@@ -49,7 +50,7 @@ const AboutWebinar = ({ conference }) => {
       <DiscoverySessions conference={discoverySessions} />
       <AlumniSpeakers conference={conference} />
       <QueriesAnswered conference={queriesAnswered} />
-      <Prospectus conference={prospectUsContent} id={id} />
+      <Prospectus conference={prospectUsContent} id={id} brochure={brochure}/>
       {/* <ConnectWithOthers conference={conference}/> */}
       <EnquiryForm />
     </>

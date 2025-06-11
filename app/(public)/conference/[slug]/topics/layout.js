@@ -33,7 +33,8 @@ export default function Layout({ children }) {
   const conferenceName = conferenceData.detail.conference?.landingPage?.conference;
   const prospectUsContent = conferenceData.detail.conference?.eventDetails || "";
   const headerPanelImages = conferenceData?.detail?.topics?.landingPage || [];
-  
+   const brochure=conferenceData?.detail?.brochure || null;
+
   return (
     <>
       <ConferenceDetails
@@ -46,7 +47,7 @@ export default function Layout({ children }) {
         id={id}
       />
       {children}
-      <Prospectus conference={prospectUsContent} id={id} />
+      <Prospectus conference={prospectUsContent} id={id} brochure={brochure}/>
     </>
   );
 }

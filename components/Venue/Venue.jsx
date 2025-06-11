@@ -10,6 +10,7 @@ export default function Venue({ conference }) {
   const venueMap = conference?.venue?.maps || "";
   const prospectUsContent = conference?.conference?.eventDetails || "";
   const id = conference?._id;
+   const brochure=conference?.brochure || null;
   return (
     <>
       <VenueDetails conference={venueDetails} />
@@ -21,7 +22,7 @@ export default function Venue({ conference }) {
       />
       
       <VenueLocation conference={venueLocation} map={venueMap} />
-      <Prospectus conference={prospectUsContent} id={id} />
+      <Prospectus conference={prospectUsContent} id={id} brochure={brochure}/>
     </>
   );
 }

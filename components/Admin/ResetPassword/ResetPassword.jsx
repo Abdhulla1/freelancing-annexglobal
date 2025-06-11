@@ -1,26 +1,75 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import style from "./ResetPassword.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { Toast } from "primereact/toast";
+import { restPassword } from "@/service/adminConference";
+// PrimeReact CSS assumed to be globally imported
+// e.g., import 'primereact/resources/themes/saga-blue/theme.css';
 
-export default function ResetPassword() {
-  const [loginData, setLoginData] = useState({
-    username: "",
-    password: "",
-  });
-  const [forgotPassword, setForgotPassword] = useState({
-    resetEmail: "",
-  });
+export default function ResetPassword({ securityKey }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isPasswordChanged, setIsPasswordChanged] = useState(false);
+  const toast = useRef(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Login Submited" + loginData);
-  };
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: Yup.object({
+      password: Yup.string()
+        .min(8, "Password must be at least 8 characters")
+        .required("Password is required"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password"), null], "Passwords must match")
+        .required("Confirm your password"),
+    }),
+    onSubmit: async (values) => {
+      try {
+        const payload = {
+          actionType: "Send",
+          email: "",
+          password: values.confirmPassword,
+          securityKey: securityKey,
+        };
+        // Replace with your actual API endpoint for forgot password
+        const response = await restPassword(payload);
+        const data = response.data;
+
+        if (data.status === 200) {
+          setIsPasswordChanged(true);
+          toast.current.show({
+            severity: "success",
+            summary: "Success",
+            detail: "Password reset successfully!",
+            life: 3000,
+          });
+        } else {
+          toast.current.show({
+            severity: "error",
+            summary: "Request Failed",
+            detail: data.message || "Failed to Reset. Please try again.",
+            life: 3000,
+          });
+        }
+      } catch (err) {
+        toast.current.show({
+          severity: "error",
+          summary: "Error",
+          detail: err.message || "Something went wrong while requesting password reset.",
+          life: 3000,
+        });
+      }
+    },
+  });
+
   return (
     <div className={`container-fluid ${style["login-container"]}`}>
+      <Toast ref={toast} />
       <div className="row p-5 d-flex justify-content-center align-items-center vh-100">
         <div className="container col-12 col-md-6 d-flex justify-content-center align-items-center flex-column">
           <Image
@@ -54,9 +103,14 @@ export default function ResetPassword() {
                 Create a New Password
               </h3>
               <p className="text-white text-capitalize">
-                Enter a strong new password to secure your account{" "}
+                Enter a strong new password to secure your account
               </p>
-              <form onSubmit={handleSubmit} noValidate className="w-50 mt-4">
+              <form
+                onSubmit={formik.handleSubmit}
+                className="w-50 mt-4"
+                noValidate
+              >
+                {/* New Password */}
                 <div className="mb-4">
                   <label htmlFor="password" className="form-label text-white">
                     New Password
@@ -68,14 +122,10 @@ export default function ResetPassword() {
                       name="password"
                       autoComplete="new-password"
                       className={`form-control ${style["input"]} pe-5 `}
-                      placeholder="Enter New password"
-                      value={loginData.password}
-                      onChange={(e) =>
-                        setLoginData({
-                          ...loginData,
-                          [e.target.name]: e.target.value,
-                        })
-                      }
+                      placeholder="Enter New Password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                     <i
                       className={`pi ${
@@ -86,30 +136,37 @@ export default function ResetPassword() {
                         right: "15px",
                         transform: "translateY(-50%)",
                         cursor: "pointer",
+                        zIndex: 2,
                       }}
                       onClick={() => setShowPassword((prev) => !prev)}
                     />
                   </div>
+                  {formik.touched.password && formik.errors.password && (
+                    <small className="text-danger d-block mt-1">
+                      {formik.errors.password}
+                    </small>
+                  )}
                 </div>
+
+                {/* Confirm Password */}
                 <div className="mb-2">
-                  <label htmlFor="password" className="form-label text-white">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="form-label text-white"
+                  >
                     Confirm New Password
                   </label>
                   <div className="position-relative">
                     <input
                       type={showPassword ? "text" : "password"}
-                      id="password"
-                      name="password"
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      autoComplete="new-password"
                       className={`form-control ${style["input"]} pe-5 `}
                       placeholder="Enter Confirm New Password"
-                      value={loginData.password}
-                      autoComplete="new-password"
-                      onChange={(e) =>
-                        setLoginData({
-                          ...loginData,
-                          [e.target.name]: e.target.value,
-                        })
-                      }
+                      value={formik.values.confirmPassword}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
                     <i
                       className={`pi ${
@@ -120,22 +177,29 @@ export default function ResetPassword() {
                         right: "15px",
                         transform: "translateY(-50%)",
                         cursor: "pointer",
+                        zIndex: 2,
                       }}
                       onClick={() => setShowPassword((prev) => !prev)}
                     />
                   </div>
+                  {formik.touched.confirmPassword &&
+                    formik.errors.confirmPassword && (
+                      <small className="text-danger d-block mt-1">
+                        {formik.errors.confirmPassword}
+                      </small>
+                    )}
                 </div>
+
                 <button
                   type="submit"
-                  onClick={() => setIsPasswordChanged(true)}
-                  className={`p-1  text-white rounded mt-3 w-100 text-white main-btn }`}
+                  className={`p-1 text-white rounded mt-3 w-100 main-btn`}
                 >
                   Reset password
                 </button>
+
                 <Link
                   href={"/admin-annex-global-conferences"}
                   className={` text-decoration-none d-block text-center text-capitalize mt-4 ${style["go-to-btn"]}`}
-                  style={{ cursor: "pointer" }}
                 >
                   ← Back to Login
                 </Link>
@@ -156,8 +220,7 @@ export default function ResetPassword() {
               </p>
               <Link
                 href={"/admin-annex-global-conferences"}
-                className={`p-1  text-white rounded text-decoration-none d-block text-center w-50 text-capitalize mt-4 main-btn }`}
-                style={{ cursor: "pointer" }}
+                className={`p-1 text-white rounded text-decoration-none d-block text-center w-50 text-capitalize mt-4 main-btn`}
               >
                 Go to Login
               </Link>

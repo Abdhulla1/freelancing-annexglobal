@@ -84,15 +84,25 @@ export default function RightPannel({conference, id}) {
         <div className="mt-5 d-flex justify-content-between align-items-end">
           <div className="d-flex justify-content-start align-items-center">
             <button
-              className={`brand-btn px-3`}
+              className={`brand-btn px-3 d-flex justify-content-center align-items-center`}
               onClick={() => sliderRef.current.slickPrev()}
+              style={{
+    height: '45px', 
+    width: '45px',
+  
+  }}
             >
               <i className="pi-angle-left pi"></i>
             </button>{" "}
             &nbsp;&nbsp;
             <button
-              className={`brand-btn px-3 `}
+              className={`brand-btn px-3 d-flex justify-content-center align-items-center `}
               onClick={() => sliderRef.current.slickNext()}
+              style={{
+    height: '45px', 
+    width: '45px',
+  
+  }}
             >
               <i className="pi-angle-right pi"></i>
             </button>

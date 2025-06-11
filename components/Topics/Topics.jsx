@@ -12,7 +12,7 @@ export default function Topics({ conference }) {
   const conferenceName = conference?.conference?.landingPage?.conference;
   const logoUrl = conference?.logoUrl;
   const discoverySessions = conference?.conference?.topics || "";
-
+ const brochure=conference?.brochure || null;
   return (
     <>
       <ConferenceDetails
@@ -22,7 +22,7 @@ export default function Topics({ conference }) {
         conference={conference}
       />
       <DiscoverySessions conference={discoverySessions} />
-      <Prospectus conference={prospectUsContent} id={id} />
+      <Prospectus conference={prospectUsContent} id={id} brochure={brochure} />
     </>
   );
 }

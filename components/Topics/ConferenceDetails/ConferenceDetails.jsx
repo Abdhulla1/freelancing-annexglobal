@@ -25,7 +25,11 @@ const ConferenceDetails = ({
         <div className="row gap-1">
           <div className="col-md-12 col-lg-8 col-xl-6 d-flex align-items-center mt-5 mt-lg-0">
             <div className="d-flex flex-wrap flex-md-nowrap  align-items-center justify-content-center justify-content-md-start  p-3">
-              <div className="row justify-content-center me-3 ">
+              {/* <div className="row justify-content-center me-3 "> */}
+                 <div
+                className="d-flex flex-column align-items-center me-5"
+                style={{ maxWidth: "190px", width: "100%" }}
+              >
                 <Link
                   href={`/conference/${conference?.id}`}
                   className={`text-decoration-none `}

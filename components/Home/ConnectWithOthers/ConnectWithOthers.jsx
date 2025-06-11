@@ -28,20 +28,17 @@ const settings = {
   ],
 };
 
-
-
-const ConnectWithOthers = ({conference}) => {
+const ConnectWithOthers = ({ conference }) => {
   // const { mutate, data, isPending, isError } = useTestimonial();
   const sliderRef = useRef(null);
 
   const testimonials = conference?.filter((item) => item.status);
 
-const dynamicSettings = {
-  ...settings,
-  slidesToShow: Math.min(testimonials?.length, 3), // 1 item = 1 slide
-  infinite: testimonials?.length > 1, // Avoid infinite loop for single slide
-};
-
+  const dynamicSettings = {
+    ...settings,
+    slidesToShow: Math.min(testimonials?.length, 3), // 1 item = 1 slide
+    infinite: testimonials?.length > 1, // Avoid infinite loop for single slide
+  };
 
   return (
     <div className={connectWithOthers["container"]}>
@@ -49,18 +46,19 @@ const dynamicSettings = {
         <div className={connectWithOthers["members-section"]}>
           <div className="row p-0 p-md-3">
             <div className="col-lg-3 ps-5 p-4 d-flex align-items-center">
-        <div>
-  <h3 className="text-white text-capitalize fw-bold">
-    Hear from Our Past Conference Members
-  </h3>
-  <h6 className="text-white fw-normal mt-3 lh-base">
-    Discover insights and experiences from past participants of the Annex Global Conference —
-    a prestigious platform uniting thought leaders, innovators, and professionals from diverse industries.
-    Learn how our members have benefited from meaningful connections, groundbreaking discussions, 
-    and transformative opportunities at this world-renowned event.
-  </h6>
-</div>
-
+              <div>
+                <h3 className="text-white text-capitalize fw-bold">
+                  Hear from Our Past Conference Members
+                </h3>
+                <h6 className="text-white fw-normal mt-3 lh-base">
+                  Discover insights and experiences from past participants of
+                  the Annex Global Conference — a prestigious platform uniting
+                  thought leaders, innovators, and professionals from diverse
+                  industries. Learn how our members have benefited from
+                  meaningful connections, groundbreaking discussions, and
+                  transformative opportunities at this world-renowned event.
+                </h6>
+              </div>
             </div>
             <div className="col-lg-9">
               <div className={connectWithOthers["excess-slider"]}>
@@ -71,7 +69,9 @@ const dynamicSettings = {
                         <div className={connectWithOthers["card-header"]}>
                           <img src={item.imageUrl} alt={item.name} />
                         </div>
-                        <div className={` py-3 px-2 ${connectWithOthers["card-body"]}` }>
+                        <div
+                          className={` py-3 px-2 ${connectWithOthers["card-body"]}`}
+                        >
                           <div className={connectWithOthers["quote-icon"]}>
                             {item.videoUrl ? (
                               <Link
@@ -109,15 +109,23 @@ const dynamicSettings = {
                 <div className="mt-3">
                   <div className="d-flex align-items-center">
                     <button
-                      className="brand-btn p-0 px-2 py-1"
+                      className="brand-btn p-0 px-2 py-1 d-flex justify-content-center align-items-center "
                       onClick={() => sliderRef.current.slickPrev()}
+                      style={{
+                        height: "32px",
+                        width: "32px",
+                      }}
                     >
                       <i className="pi-angle-left pi"></i>
                     </button>
                     &nbsp;&nbsp;
                     <button
-                      className="brand-btn p-0 px-2 py-1"
+                      className="brand-btn p-0 px-2 py-1 d-flex justify-content-center align-items-center"
                       onClick={() => sliderRef.current.slickNext()}
+                      style={{
+                        height: "32px",
+                        width: "32px",
+                      }}
                     >
                       <i className="pi-angle-right pi"></i>
                     </button>

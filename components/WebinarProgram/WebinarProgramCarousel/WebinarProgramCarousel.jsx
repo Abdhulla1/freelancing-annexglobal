@@ -77,7 +77,7 @@ const WebinarProgramCarousel = ({conference}) => {
           </div>
           <button
             onClick={() => window.open(conferencePrograms[currentIndex]?.programFile, "_blank")}
-           className={`btn  text-white ${styles.downloadButton}`}>
+           className={`brand-btn  text-white ${styles.downloadButton}`}>
             {conferencePrograms[currentIndex]?.programDate} | Download
           </button>
         </div>

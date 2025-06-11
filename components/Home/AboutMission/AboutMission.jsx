@@ -23,7 +23,7 @@ const AboutMission = ({ conference }) => {
     <div
       className={`bg-black  px-3 px-md-5 py-5  ${AboutMissionStyle["about-mission-container"]}`}
     >
-      <div className="px-5">
+      <div className="container">
         <div className="row">
           <div className="col-lg-7 d-flex ">
             <div className={AboutMissionStyle["image-container"]}>
@@ -69,7 +69,7 @@ const AboutMission = ({ conference }) => {
 
           <div className="col-lg-4 d-flex justify-content-center align-items-center mt-3 mt-md-0 p-2 ms-md-3">
             <div>
-              <h3 className="text-white text-uppercase">
+              <h3 className="text-white fw-bold text-uppercase">
                 {videoSection?.title || "About the mission"}
               </h3>
               <div className="mt-3 text-white fw-normal fs-5">

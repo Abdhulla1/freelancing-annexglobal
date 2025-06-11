@@ -17,7 +17,7 @@ const OrganizingComiteeMembers = ({ conference }) => {
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
   const headerPanelImages = conference?.ocm?.headerPanelImages || [];
-  console.log("Header Panel Images:", headerPanelImages);
+   const brochure=conference?.brochure || null;
   return (
     <>
       <ConferenceDetails
@@ -30,7 +30,7 @@ const OrganizingComiteeMembers = ({ conference }) => {
         bgImage={bgImage}
       />
       <OrganizingCommitee organizingCommittee={organizingCommittee} />
-      <Prospectus conference={prospectUsContent} id={id} />
+      <Prospectus conference={prospectUsContent} id={id} brochure={brochure} />
       <EnquiryForm />
     </>
   );

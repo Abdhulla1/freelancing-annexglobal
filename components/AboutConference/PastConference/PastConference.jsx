@@ -61,17 +61,17 @@ const PastConference = ({ pastConference }) => {
       <div className="mt-5">
         <div className="d-flex align-items-center justify-content-center">
           <button
-            className={`${PastConferenceStyles["slider-btn"]} ${PastConferenceStyles["btn1"]} btn p-0 px-2 py-1`}
+            className={`${PastConferenceStyles["slider-btn"]} ${PastConferenceStyles["btn1"]} btn d-flex justify-content-center align-items-center p-0 px-2 py-1`}
             onClick={() => sliderRef.current.slickPrev()}
           >
             <i className="pi-angle-left pi"></i>
           </button>{" "}
           &nbsp;&nbsp; &nbsp;&nbsp;
           <button
-            className={`${PastConferenceStyles["slider-btn"]} ${PastConferenceStyles["btn2"]} btn p-0 px-2 py-1`}
+            className={`${PastConferenceStyles["slider-btn"]} ${PastConferenceStyles["btn2"] } d-flex justify-content-center align-items-center text-center btn p-0 px-2 py-1`}
             onClick={() => sliderRef.current.slickNext()}
           >
-            <i className="pi-angle-right pi"></i>
+            <i className="pi-angle-right pi" ></i>
           </button>
         </div>
       </div>

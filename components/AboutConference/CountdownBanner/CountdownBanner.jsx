@@ -64,7 +64,7 @@ useEffect(() => {
 </div>
 
 <div className="d-flex gap-2">
- <Link href={ `/conference/${conference._id}/registration`} className="mt-2">
+ <Link href={`/conference/${conference._id}/download-brochure`} className="mt-2">
           <button className={` fw-bold text-uppercase ${styles.brochure}`}>
             brochure
           </button>

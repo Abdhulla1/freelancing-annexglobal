@@ -30,10 +30,10 @@ const prospectusData = [
   },
 ];
 
-const Prospectus = ({ conference, id }) => {
+const Prospectus = ({ conference, id,conferenceName,brochure}) => {
   const params = useParams();
   const toast = useRef(null);
-  const conferenceName = params?.slug;
+  // const conferenceName = params?.slug;
   const BrochureMutation = useBrochure();
   const [activeIndex, setActiveIndex] = useState(1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -84,6 +84,7 @@ const Prospectus = ({ conference, id }) => {
           detail: "Form submitted successfully",
           life: 3000,
         });
+        handleDownloadPdf()
         setIsDialogOpen(false);
         resetForm();
       },
@@ -97,6 +98,16 @@ const Prospectus = ({ conference, id }) => {
         console.error("Error submitting form:", error);
       },
     });
+  };
+ const handleDownloadPdf = () => {
+    const pdfLink = brochure; 
+    const suggestedFileName = "document.pdf";
+    const link = document.createElement('a');
+    link.href = pdfLink;
+    link.setAttribute('download', suggestedFileName); // This attribute forces download and suggests filename
+    document.body.appendChild(link); // Append to body to make it clickable
+    link.click(); // Programmatically click the link to trigger download
+    document.body.removeChild(link); // Remove the temporary link
   };
 
   return (
@@ -114,12 +125,12 @@ const Prospectus = ({ conference, id }) => {
               className={`ql-editor ${ProspectusStyles["passage"]}`}
               dangerouslySetInnerHTML={{ __html: conference?.content || "" }}
             />
-            <button
+        {   brochure && <button
               className={ProspectusStyles["btn-download"]}
               onClick={() => setIsDialogOpen(true)}
             >
               Download Brochure
-            </button>
+            </button>}
           </div>
 
           <div className="col-md-7">
@@ -332,6 +343,7 @@ const Prospectus = ({ conference, id }) => {
                   <button
                     type="submit"
                     className="btn main-btn text-white px-5"
+                    
                   >
                     Submit
                   </button>

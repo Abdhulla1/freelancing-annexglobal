@@ -25,9 +25,12 @@ const ConferenceDetails = ({
     >
       <div className="ms-3 justify-content-center ps-0 p-2">
         <div className="row gap-1">
-          <div className="col-md-12 col-lg-6 col-xl-6 d-flex align-items-center mt-5 mt-lg-0">
+          <div className="col-md-12 col-lg-8 col-xl-6 d-flex align-items-center mt-5 mt-lg-0 ">
             <div className="d-flex flex-wrap flex-md-nowrap  align-items-center justify-content-center justify-content-md-start  p-3">
-              <div className="row justify-content-center me-3 ">
+              <div
+                className="d-flex flex-column align-items-center me-5"
+                style={{ maxWidth: "190px", width: "100%" }}
+              >
                 <Link
                   href={`/conference/${id}`}
                   className={`text-decoration-none `}
@@ -54,7 +57,6 @@ const ConferenceDetails = ({
                   )}
                 </div>
               </div>
-              {/* &nbsp; */}
 
               <div
                 className={`col-md-12 col-lg-9 ${ConferenceDetailsStyles["heading"]}`}
@@ -63,14 +65,20 @@ const ConferenceDetails = ({
                   <h2 className=" opacity-75 mb-3  text-md-start mb-md-2">
                     {conference?.title}
                   </h2>
-                  <Marquee style={{  maxWidth: '80%'}} Marqueegradient={true} autoFill={true} gradientColor='transparent' speed={50}
-  pauseOnHover={true}>
+                  <Marquee
+                    style={{ maxWidth: "80%" }}
+                    Marqueegradient={true}
+                    autoFill={true}
+                    gradientColor="transparent"
+                    speed={50}
+                    pauseOnHover={true}
+                  >
                     <h3
                       className={`text-uppercase fw-bold text-white mb-3 mb-md-3 `}
                     >
                       {conferenceName}
                     </h3>
-                    <div style={{ width: "60px" }}></div> 
+                    <div style={{ width: "60px" }}></div>
                   </Marquee>
 
                   <p className="m-0 text-white fst-italic">

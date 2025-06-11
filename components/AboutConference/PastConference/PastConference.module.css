@@ -24,17 +24,16 @@
 @keyframes goldenGlow {
   from {
     /* This 'from' state defines the *initial* appearance of the glow when hover starts */
-    box-shadow:
-      0 0 10px 3px rgba(255, 215, 0, 0.6), /* Slightly less intense initial golden glow */
-      0 0 20px 7px rgba(255, 215, 0, 0.4), /* Softer, wider golden glow */
-      0 12px 24px rgba(0, 0, 0, 0.2); /* Base dark shadow for depth */
+    box-shadow: 0 0 10px 3px rgba(255, 215, 0, 0.6),
+      /* Slightly less intense initial golden glow */ 0 0 20px 7px
+        rgba(255, 215, 0, 0.4),
+      /* Softer, wider golden glow */ 0 12px 24px rgba(0, 0, 0, 0.2); /* Base dark shadow for depth */
   }
   to {
     /* This 'to' state defines the *peak* appearance of the glow during the animation */
-    box-shadow:
-      0 0 20px 8px rgba(255, 215, 0, 0.8), /* More intense golden glow */
-      0 0 40px 15px rgba(255, 215, 0, 0.6), /* Even wider, softer golden glow */
-      0 12px 24px rgba(0, 0, 0, 0.2); /* Base dark shadow for depth */
+    box-shadow: 0 0 20px 8px rgba(255, 215, 0, 0.8),
+      /* More intense golden glow */ 0 0 40px 15px rgba(255, 215, 0, 0.6),
+      /* Even wider, softer golden glow */ 0 12px 24px rgba(0, 0, 0, 0.2); /* Base dark shadow for depth */
   }
 }
 .conf_image {
@@ -48,19 +47,34 @@
   transform: scale(1.05);
 }
 
-
-.slider-btn{
- 
-    border-radius: 50%;
-    padding: 15px 20px !important;
+.slider-btn {
+  border-radius: 50%;
+  padding: 15px 20px !important;
 }
 
-.btn2{
-    background: linear-gradient(45deg, #00004d, #0000a6);
-    color: white;
+.btn2 {
+  background: linear-gradient(45deg, #00004d, #0000a6);
+  color: white;
+  transition-duration: 0.3s;
+  height: 50px;
+  width: 50px;
 }
 
-.btn1{
-    border: 1px #0000a6 solid;
-    color: #0000a6;
+.btn1 {
+  background: linear-gradient(45deg, #00004d, #0000a6);
+  color: white;
+  transition-duration: 0.3s;
+    height: 50px;
+  width: 50px;
+}
+
+.btn1:hover {
+  background: linear-gradient(45deg, #00004d, #0000a6);
+  color: white;
+  transform: translateY(-2px);
+}
+.btn2:hover {
+  background: linear-gradient(45deg, #00004d, #0000a6);
+  color: white;
+  transform: translateY(-2px);
 }

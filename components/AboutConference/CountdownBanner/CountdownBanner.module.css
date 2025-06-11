@@ -36,7 +36,16 @@
   background: var(--btn-gradient);
   font-weight: 500;
   border: none;
+    transition-duration: 0.3s;
+
 }
+.ticketBtn:hover {
+  background: var(--btn-hover-gradient);
+  color: white;
+    transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
 .brochure {
   background: linear-gradient(90deg, #000000 0%, #4e4e4e 100%);
   border: 1px solid #000000;
@@ -48,7 +57,12 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition-duration: 0.3s;
 }
-
+.brochure:hover {
+  background: linear-gradient(120deg, #A1A1A1 0%, #3B3B3B 100%);
+  color: white;
+    transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
 .ticketBtn > img {
   height: 24px; /* ↓ Smaller icon */
   width: 24px;
