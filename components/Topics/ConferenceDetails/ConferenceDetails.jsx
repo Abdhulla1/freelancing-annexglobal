@@ -65,7 +65,7 @@ const ConferenceDetails = ({
                   <h2 className=" text-warning opacity-75 mb-3 mb-md-1">
                     {conference?.title}
                   </h2>
-                  <Marquee Marqueegradient={true} autoFill={true} gradientColor='transparent' speed={50}
+                  <Marquee  style={{ maxWidth: "80%" }} Marqueegradient={true} autoFill={true} gradientColor='transparent' speed={50}
   pauseOnHover={true}>
                     <h3
                       className={`text-uppercase fw-bold text-white mb-3 mb-md-3 `}

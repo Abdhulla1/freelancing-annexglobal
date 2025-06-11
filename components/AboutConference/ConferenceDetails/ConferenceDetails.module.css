@@ -49,6 +49,7 @@ background: linear-gradient(
     line-height: 2;
 }
 
+
 @media only screen and (max-width: 600px) {
   .heading p{
     font-size: 12px;
