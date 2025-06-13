@@ -1,44 +1,76 @@
-
-'use client'
-import React,{useState} from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Style from "./PastConference.module.css";
-import { useConferenceLandingPage } from "@/hooks/useWeather";
-
+import {
+  useConferenceLandingPage
+} from "@/hooks/useWeather";
+import { api } from "@/service/api";
 
 import Link from "next/link";
 
 const PastConference = () => {
-    const { data: conferenceData } = useConferenceLandingPage("past");
-     const [expandedIndexes, setExpandedIndexes] = useState([]);
-  
-    const toggleShowMore = (sectionIndex) => {
-      setExpandedIndexes((prev) =>
-        prev.includes(sectionIndex)
-          ? prev.filter((i) => i !== sectionIndex)
-          : [...prev, sectionIndex]
-      );
+  const { data: conferenceData } = useConferenceLandingPage("past");
+  const [expandedIndexes, setExpandedIndexes] = useState([]);
+  const [resolvedIds, setResolvedIds] = useState({});
+
+  const toggleShowMore = (sectionIndex) => {
+    setExpandedIndexes((prev) =>
+      prev.includes(sectionIndex)
+        ? prev.filter((i) => i !== sectionIndex)
+        : [...prev, sectionIndex]
+    );
+  };
+  useEffect(() => {
+    const fetchPresentIds = async () => {
+      if (!conferenceData?.detail) return;
+
+      const promises = conferenceData.detail.map(async (conf) => {
+        const name = conf?.name;
+        try {
+          const res = await api.get("/present/conference", {
+            params: { name },
+          });
+          const presentId = res?.data?.detail?._id;
+          return { name, id: presentId };
+        } catch {
+          return { name, id: null };
+        }
+      });
+
+      const results = await Promise.all(promises);
+      const idMap = {};
+      results.forEach(({ name, id }) => {
+        if (name && id) idMap[name] = id;
+      });
+      setResolvedIds(idMap);
     };
 
-    const upcomingConferences = [
-  {
-    monthAndYear: "May-2025",
-    location: "Dubai",
-    conferences: conferenceData?.detail?.map((conf) => ({
-      date: conf?.conference?.landingPage?.startDate,
-      image: conf?.cardBgImage,
-      title: conf?.name,
-      location: conf?.conference?.landingPage?.location,
-      id: conf?._id,
-      icon: conf?.logoUrl,
-    })),
-  },
-];
+    fetchPresentIds();
+  }, [conferenceData]);
 
-console.log("upcomingConferences", upcomingConferences);
+  const upcomingConferences = [
+    {
+      monthAndYear: "May-2025",
+      location: "Dubai",
+      conferences: conferenceData?.detail?.map((conf) => ({
+        date: conf?.conference?.landingPage?.startDate,
+        image: conf?.cardBgImage,
+        title: conf?.name,
+        location: conf?.conference?.landingPage?.location,
+        id: conf?._id,
+        icon: conf?.logoUrl,
+      })),
+    },
+  ];
+  const getConferenceID = (conference) => {
+  const resolvedId = resolvedIds[conference.title];
+  return resolvedId || conference.id;
+};
+
 
 
   return (
-<div className="container-fluid">
+    <div className="container-fluid">
       {upcomingConferences?.map((event, index) => {
         const isExpanded = expandedIndexes.includes(index);
         const conferencesToShow = isExpanded
@@ -46,6 +78,7 @@ console.log("upcomingConferences", upcomingConferences);
           : event?.conferences?.slice(0, 6);
 
         return (
+          
           <div key={index} className={`p-4 ${Style.container}`}>
             <h3 className="text-uppercase text-center mt-5">
               {/* {`${event.monthAndYear} conferences | ${event.location}`} */}
@@ -56,15 +89,17 @@ console.log("upcomingConferences", upcomingConferences);
                 <div className="row">
                   {conferencesToShow?.map((conference, i) => (
                     <Link
-                      href={`/conference/${conference.id}`}
+                       href={getConferenceID(conference) ? `/conference/${getConferenceID(conference)}` : "#"}
                       className="text-decoration-none col-md-6 col-lg-4 mb-3"
                       key={i}
                     >
                       <div className={Style["upcoming-events-card"]}>
-                        <span className={Style["date"]}>
-                          {conference.date}
-                        </span>
-                        <img src={conference.image} alt="Event" className="img-fluid" />
+                        <span className={Style["date"]}>{conference.date}</span>
+                        <img
+                          src={conference.image}
+                          alt="Event"
+                          className="img-fluid"
+                        />
                         <div className={Style["content"]}>
                           <div className={Style["event-title"]}>
                             {conference.title}

@@ -14,10 +14,10 @@ import LandingPage from "./LandingPage";
 export default function WebinarPageAdmin({ selectedConferenceID,webinar,fetchConfernceData}) {
     const toast = useRef(null);
   
-  const [activeTab, setActiveTab] = useState("Header Panel Images"); // default to first tab
+  const [activeTab, setActiveTab] = useState("Landing Page"); // default to first tab
   const tabs = {
     "Landing Page": <LandingPage selectedConferenceID={selectedConferenceID}
-        LandingPageData={webinar.welcomeContent}
+        LandingPageData={webinar.landingPage}
         fetchConfernceData={fetchConfernceData} 
         toast={toast}/>,
     "Header Panel Images": <WebinarLandingAdmin selectedConferenceID={selectedConferenceID}
@@ -37,7 +37,7 @@ export default function WebinarPageAdmin({ selectedConferenceID,webinar,fetchCon
         fetchConfernceData={fetchConfernceData} 
         toast={toast}/> ,
   };
-  
+
   return (
     <>
       <Toast ref={toast} />

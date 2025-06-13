@@ -80,6 +80,9 @@ export default function Login() {
         const payload = {
           actionType: "Send",
           email: values.resetEmail,
+  
+          password: "",
+          securityKey: "",
         };
         // Replace with your actual API endpoint for forgot password
         const response = await restPasswordLink(payload);
@@ -89,7 +92,9 @@ export default function Login() {
           toast.current.show({
             severity: "warning",
             summary: "Reset Link Sent",
-            detail: data?.detail[0].msg || "Please check your email for the password reset link.",
+            detail:
+              data?.detail[0].msg ||
+              "Please check your email for the password reset link.",
             life: 3000,
           });
           setIsForgotPasswordOpen(false);

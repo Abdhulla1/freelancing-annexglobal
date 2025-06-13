@@ -37,7 +37,7 @@ export default function ConferencePageAdmin({ selectedConferenceID,conference,fe
       />
     ),
     "Video Section": (
-      <VideoSection selectedConferenceID={selectedConferenceID} VideoSectionData={conferencevideoSection}  fetchConfernceData={fetchConfernceData}  toast={toast} />
+      <VideoSection selectedConferenceID={selectedConferenceID} VideoSectionData={conference.videoSection}  fetchConfernceData={fetchConfernceData}  toast={toast} />
     ),
     // FAQ: <FAQAdmin />,
     Topics: <TopicsAdmin  selectedConferenceID={selectedConferenceID} topicsData={conference.topics}  toast={toast} fetchConfernceData={fetchConfernceData}/>,
@@ -46,7 +46,7 @@ export default function ConferencePageAdmin({ selectedConferenceID,conference,fe
     "Supporting Journal": <SupportingJournalAdmin selectedConferenceID={selectedConferenceID} supportingJournalData={conference.supportingJournal}  toast={toast} fetchConfernceData={fetchConfernceData}/>,
     Location: <Location   selectedConferenceID={selectedConferenceID} LocationData={conference.location}  toast={toast} fetchConfernceData={fetchConfernceData} />,
     'Event Details Section': <EventDetailsSection selectedConferenceID={selectedConferenceID} EventDetailsSectionData={conference.eventDetails}  toast={toast} fetchConfernceData={fetchConfernceData}  />,
-    "Location Overview": <NavLocationOverview Location={selectedConferenceID} toast={toast} fetchData={fetchConfernceData}/>,
+    "Location Overview": <NavLocationOverview Location={conference.locationOverview} selectedConferenceID={selectedConferenceID} toast={toast} fetchData={fetchConfernceData}/>,
 
   };
   const handleEditClick = (e) => {

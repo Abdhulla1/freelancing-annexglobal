@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DropZoneFile from "@/components/Reusable/DropeZone/DropZoneFile";
-import { uploadPDF } from "@/service/mediaManagemnt";
+import { uploadPDF,deleteMedia} from "@/service/mediaManagemnt";
 import { updateAbstract } from "@/service/AdminConfernecePages/confernce";
 export default function UploadAbstract({
   selectedConferenceID,
@@ -28,12 +28,12 @@ export default function UploadAbstract({
           toast.current?.show({
             severity: "success",
             summary: "Success",
-            detail: "Brochure uploaded successfully",
+            detail: "Abstract uploaded successfully",
             life: 3000,
           });
           fetchConfernceData();
         } else {
-          throw new Error("Failed to update brochure");
+          throw new Error("Failed to update Abstract");
         }
 
         setUploadedFileUrl(url);
@@ -44,17 +44,57 @@ export default function UploadAbstract({
         toast.current?.show({
             severity: "success",
             summary: "Success",
-            detail: error.message||"Brochure uploaded Failed",
+            detail: error.message||"Abstract uploaded Failed",
             life: 3000,
           });
     }
   };
-  const handleRemove = () => {
-    setSelectedFile(null);
-    setUploadedFileUrl("");
-    setUploadProgress(0);
-  };
+  // const handleRemove = () => {
+  //   setSelectedFile(null);
+  //   setUploadedFileUrl("");
+  //   setUploadProgress(0);
+  // };
+ const handleRemove = async () => {
+    try {
+      const response = await updateAbstract(selectedConferenceID, {
+        abstract: "",
+      });
 
+      if (response.status === 200) {
+        // Only delete the Abstract after successful update
+        if (uploadedFileUrl) {
+          try {
+            await deleteMedia("pdf", uploadedFileUrl);
+          } catch (deleteError) {
+            throw new Error("Failed to Delete Abstract");
+          }
+        }
+
+        toast.current?.show({
+          severity: "success",
+          summary: "Removed",
+          detail: "Abstract removed successfully",
+          life: 3000,
+        });
+
+        // Clear local state
+        setSelectedFile(null);
+        setUploadedFileUrl("");
+        setUploadProgress(0);
+
+        fetchConfernceData();
+      } else {
+        throw new Error("Failed to update Abstract");
+      }
+    } catch (error) {
+      toast.current?.show({
+        severity: "error",
+        summary: "Remove Failed",
+        detail: error.message || "Failed to remove Abstract",
+        life: 3000,
+      });
+    }
+  };
   return (
     <div className="mt-5 ">
       <div className="d-flex justify-content-between"></div>

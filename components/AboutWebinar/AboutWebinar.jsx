@@ -21,6 +21,8 @@ const AboutWebinar = ({ conference }) => {
   // const bgImage = { src: conference?.cardBgImage || "" };
 
   const landingPage = conference?.conference?.landingPage || {};
+  const webinarlandingPage = conference?.webinar?.landingPage || {};
+
   const discoverySessions = conference?.topics?.essentialInnovation || "";
   const alumniSpeakers = conference?.alumniSpeakers || [];
   const queriesAnswered = conference?.webinar?.queriesAns || "";
@@ -29,10 +31,15 @@ const AboutWebinar = ({ conference }) => {
   const prospectUsContent = conference?.conference?.eventDetails || "";
   const headerPanelImages = conference?.webinar?.headerPanelImages || [];  
    const brochure=conference?.brochure || null;
+   const landingPageData={
+     ...landingPage,
+    ... webinarlandingPage
+    }
+    console.log("landingPage",landingPageData)
   return (
     <>
       <ConferenceDetails
-        conference={landingPage}
+        conference={landingPageData}
         Component={RightPannel}
         headerPanelImages={headerPanelImages}
         bgImage={bgImage}

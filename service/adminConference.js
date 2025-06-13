@@ -107,3 +107,15 @@ export async function getallConferencesNames() {
           throw new Error(message);
   }
 }
+  export async function deleteConference(id) {
+   
+  try {
+    const response = await axiosInstance.delete(
+      `/conference/${id}/delete/conference`
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Delete Conference"
+          throw new Error(message);
+  }
+}

@@ -405,7 +405,7 @@ export async function saveEventTimingsSection(formdata, id) {
 }
 
   export async function patchProgram( id,formdata,program_id = null) {
-      const query = program_id ? `?faq_id=${program_id}` : "";
+      const query = program_id ? `?program_id=${program_id}` : "";
   try {
     const response = await axiosInstance.patch(
       `/conference/${id}/scientific/webinar/program${query}`,
@@ -673,6 +673,41 @@ export async function savePastConferenceGallery(formdata, id) {
     return response;
   } catch (error) {
      const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Fetch Past Conference"
+          throw new Error(message);
+  }
+}
+export async function updateLocationOverviewConference(id,formData) {
+  try {
+    const response = await axiosInstance.patch(`/conference/${id}/location/overview`,
+     formData
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update Location Overview"
+          throw new Error(message);  }
+} 
+ export async function updateSupportingJournalStatus(id,formdata) {
+   
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/supporting/journal/status`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+     const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Update SupportingJournal Status"
+          throw new Error(message);
+  }
+}
+export async function saveConferenceWebinarLandingPage(formdata, id) {
+  try {
+    const response = await axiosInstance.patch(
+      `/conference/${id}/webinar/landing/page`,
+      formdata
+    );
+    return response;
+  } catch (error) {
+   const message = error?.response?.data?.detail?.[0]?.msg || "Failed to Save Conference Webinar LandingPage"
           throw new Error(message);
   }
 }

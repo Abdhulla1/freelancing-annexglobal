@@ -13,13 +13,14 @@ import { Button } from "primereact/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { getallConferencesNames } from "@/service/adminConference";
-import { uploadImage } from "@/service/mediaManagemnt";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
 import {
   saveSpeaker,
   getSpeakerTableResponse,
   deleteSpeaker,
   updateSpeakerStatus,
-  getSpeakerPageResponse,updateSpeaker,
+  getSpeakerPageResponse,
+  updateSpeaker,
 } from "@/service/speakerService";
 
 export default function SpeakersTabelAdmin() {
@@ -69,16 +70,15 @@ export default function SpeakersTabelAdmin() {
         detail: "Failed to load Conferences.",
         life: 3000,
       });
-    } 
+    }
   };
   useEffect(() => {
-fetchAllConferencesNamesData()
+    fetchAllConferencesNamesData();
     fetchData();
   }, []);
   useEffect(() => {
     fetchData(currentPage);
   }, [currentPage]);
-  
 
   const handleStatusChange = async (newStatus, id) => {
     try {
@@ -97,7 +97,6 @@ fetchAllConferencesNamesData()
           detail: response.data.detail[0].msg || "Status updated successfully",
         });
       } else {
-        console.log(response.response.data.detail[0].msg);
         toast.current?.show({
           severity: "error",
           summary: "Error",
@@ -114,7 +113,7 @@ fetchAllConferencesNamesData()
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, imageUrl) => {
     try {
       await deleteSpeaker(id);
       toast.current.show({
@@ -123,6 +122,11 @@ fetchAllConferencesNamesData()
         detail: "Speaker has been deleted.",
         life: 3000,
       });
+      try {
+        await deleteMedia("image", imageUrl);
+      } catch {
+        console.error("Failed to Delete");
+      }
       fetchData(currentPage);
       // Estimate how many items will remain after deletion
       const remainingItems = speakerData.length - 1;
@@ -143,9 +147,9 @@ fetchAllConferencesNamesData()
     }
   };
 
-  const confirmDelete = (id) => {
+  const confirmDelete = (id, imageUrl) => {
     const accept = () => {
-      handleDelete(id);
+      handleDelete(id, imageUrl);
     };
     const reject = () => {
       console.log("rejectcted");
@@ -172,10 +176,15 @@ fetchAllConferencesNamesData()
       },
       edit: {
         header: "Edit Speaker",
-        content: <Edit tableData={data} toast={toast}
+        content: (
+          <Edit
+            tableData={data}
+            toast={toast}
             setIsVisible={setIsVisible}
             fetchData={fetchData}
-             conferencesData={conferencesData} />,
+            conferencesData={conferencesData}
+          />
+        ),
       },
       add: {
         header: "Add Speaker",
@@ -243,62 +252,62 @@ fetchAllConferencesNamesData()
             </thead>
             <tbody>
               {speakerData.map((element, i) => (
-                  <tr key={i}>
-                    <td className="p-3 table-data">
-                      <Image
-                        src={
-                          element.imageUrl || "/icons/DefaultPreviewImage.png"
+                <tr key={i}>
+                  <td className="p-3 table-data">
+                    <Image
+                      src={element.imageUrl || "/icons/DefaultPreviewImage.png"}
+                      height={90}
+                      width={110}
+                      alt="speaker Image"
+                      style={{ objectFit: "cover", borderRadius: "8px" }}
+                    />
+                  </td>
+                  <td className="p-3 table-data">{element.name}</td>
+                  <td className="p-3 table-data">{element.title}</td>
+                  <td className="p-3  table-data ">{element.companyDetails}</td>
+                  <td className="p-3  table-data text-nowrap ">
+                    {element.author}
+                  </td>
+                  <td className="p-3  table-data ">
+                    {" "}
+                    <InputSwitch
+                      checked={element.status}
+                      onChange={(e) => handleStatusChange(e.value, element._id)}
+                      style={{ scale: "0.7" }}
+                    />
+                  </td>
+                  <td className="p-3 table-data ">
+                    <div className="d-flex gap-1  justify-content-center flex-nowrap">
+                      <button
+                        name="edit"
+                        className="btn btn-outline-secondary rounded"
+                        onClick={(e) =>
+                          handleModel(e.currentTarget.name, element)
                         }
-                        height={90}
-                        width={110}
-                        alt="speaker Image"
-                        style={{ objectFit: "cover", borderRadius: "8px" }}
-                      />
-                    </td>
-                    <td className="p-3 table-data">{element.name}</td>
-                    <td className="p-3 table-data">{element.title}</td>
-                    <td className="p-3  table-data ">
-                      {element.companyDetails}
-                    </td>
-                    <td className="p-3  table-data text-nowrap ">
-                      {element.author}
-                    </td>
-                    <td className="p-3  table-data ">
-                      {" "}
-                      <InputSwitch
-                        checked={element.status}
-                        onChange={(e) =>
-                          handleStatusChange(e.value, element._id)
+                      >
+                        <i className="bx bx-edit-alt"></i>
+                      </button>
+                      <button
+                        className="btn btn-outline-secondary rounded"
+                        onClick={() =>
+                          confirmDelete(element._id, element.imageUrl)
                         }
-                        style={{ scale: "0.7" }}
-                      />
-                    </td>
-                    <td className="p-3 table-data ">
-                      <div className="d-flex gap-1  justify-content-center flex-nowrap">
-                        <button
-                          name="edit"
-                          className="btn btn-outline-secondary rounded"
-                          onClick={(e) => handleModel(e.target.name, element)}
-                        >
-                          <i className="bx bx-edit-alt"></i>
-                        </button>
-                        <button
-                          className="btn btn-outline-secondary rounded"
-                          onClick={() => confirmDelete(element._id)}
-                        >
-                          <i className="bx bx-trash-alt"></i>
-                        </button>
-                        <button
-                          name="view"
-                          className="btn btn-outline-warning rounded"
-                          onClick={(e) => handleModel(e.target.name, element)}
-                        >
-                          <i className="bx bx-chevron-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      >
+                        <i className="bx bx-trash-alt"></i>
+                      </button>
+                      <button
+                        name="view"
+                        className="btn btn-outline-warning rounded"
+                        onClick={(e) =>
+                          handleModel(e.currentTarget.name, element)
+                        }
+                      >
+                        <i className="bx bx-chevron-right"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
           <Paginator
@@ -324,15 +333,14 @@ fetchAllConferencesNamesData()
   );
 }
 
-function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
+function Edit({ tableData, toast, fetchData, setIsVisible, conferencesData }) {
   const [data, setData] = useState({});
- const [upload, setUpload] = useState({ file: null, imageUrl: "" });
+  const [upload, setUpload] = useState({ file: null, imageUrl: "" });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
-
-    useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -368,20 +376,19 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
     setImageError(null);
   };
 
- const submitSpeaker = async (data) => {
+  const submitSpeaker = async (data) => {
     setButtonLoading(true);
     try {
       // STEP 1: Check if image is present
       let imageUrl = upload.imageUrl;
-  
-        if (upload.file) {
-          const res = await uploadImage(upload.file);
-          if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
-            throw new Error("Failed to upload image");
-          }
-          imageUrl = res.data.detail.message[0].url;
-        }
 
+      if (upload.file) {
+        const res = await uploadImage(upload.file);
+        if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
+          throw new Error("Failed to upload image");
+        }
+        imageUrl = res.data.detail.message[0].url;
+      }
 
       // STEP 4: Prepare payload and call API
       const payLoad = {
@@ -393,15 +400,28 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
         imageUrl: imageUrl,
       };
 
-      const response = await updateSpeaker(tableData._id,payLoad);
+      const response = await updateSpeaker(tableData._id, payLoad);
 
       if (response.status === 200) {
         toast.current?.show({
           severity: "success",
           summary: "updated",
-          detail:
-            response.data.detail[0].msg || "Speaker Updated successfully",
+          detail: response.data.detail[0].msg || "Speaker Updated successfully",
         });
+        if (
+          upload.file && // user chose a new file
+          tableData.imageUrl &&
+          typeof tableData.imageUrl === "string" &&
+          !tableData.imageUrl.startsWith("blob:") &&
+          tableData.imageUrl !== imageUrl // ensure it's not the same
+        ) {
+          try {
+            await deleteMedia("image", tableData.imageUrl);
+          } catch (err) {
+            console.warn("Failed to delete old image", err);
+          }
+        }
+
         setIsVisible(false);
         fetchData();
       } else {
@@ -428,7 +448,7 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
     initialValues: {
       name: data.name || "",
       title: data.title || "",
-      author: data.author ||"",
+      author: data.author || "",
       bio: data.bioData || "",
       companyDetails: data.companyDetails || "",
     },
@@ -452,21 +472,21 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
       submitSpeaker(finalData);
     },
   });
-    if (loading) {
-      return (
-        <div className="d-flex justify-content-center align-items-center py-5">
-          <ProgressSpinner
-            style={{ width: "50px", height: "50px" }}
-            strokeWidth="5"
-            fill="var(--surface-ground)"
-            animationDuration=".5s"
-          />
-        </div>
-      );
-    }
-  
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center py-5">
+        <ProgressSpinner
+          style={{ width: "50px", height: "50px" }}
+          strokeWidth="5"
+          fill="var(--surface-ground)"
+          animationDuration=".5s"
+        />
+      </div>
+    );
+  }
+
   return (
-      <form
+    <form
       onSubmit={formik.handleSubmit}
       className="d-flex gap-3 container flex-column h-100"
     >
@@ -506,30 +526,31 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
         )}
       </div>
 
-     <div className="mb-3">
+      <div className="mb-3">
         <label className="form-label">Author*</label>
-             {conferencesData.length === 0 ? (
+        {conferencesData.length === 0 ? (
           <div className="alert alert-warning p-2 mt-2" role="alert">
             No Conferences found. Please add Conferences first.
           </div>
         ) : (
-        <select
-          name="author"
-          className={`form-select ${
-            formik.touched.author && formik.errors.author ? "is-invalid" : ""
-          }`}
-          value={formik.values.author}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        >
-          <option value="">Select Author</option>
-  
+          <select
+            name="author"
+            className={`form-select ${
+              formik.touched.author && formik.errors.author ? "is-invalid" : ""
+            }`}
+            value={formik.values.author}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            <option value="">Select Author</option>
+
             {conferencesData.map((user, i) => (
               <option key={i} value={user}>
                 {user}
               </option>
             ))}
-        </select>)}
+          </select>
+        )}
         {formik.touched.author && formik.errors.author && (
           <div className="text-danger">{formik.errors.author}</div>
         )}
@@ -558,8 +579,8 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
         title="Speaker Image Upload*"
         showBorder={true}
         onFileChange={handleFileChange}
-          imageUrl={upload.imageUrl}
-          dimensionNote="Recommended dimensions: Width 250px × Height 270px"
+        imageUrl={upload.imageUrl}
+        dimensionNote="Recommended dimensions: Width 250px × Height 270px"
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}
 
@@ -575,7 +596,6 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
         )}
       </div>
 
-
       <Button
         label="Update Speaker"
         type="submit"
@@ -586,11 +606,11 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
     </form>
   );
 }
-function Add({ toast, fetchData, setIsVisible,conferencesData}) {
+function Add({ toast, fetchData, setIsVisible, conferencesData }) {
   const [upload, setUpload] = useState({ file: null });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
-  
+
   const submitSpeaker = async (data) => {
     setButtonLoading(true);
     try {
@@ -625,8 +645,7 @@ function Add({ toast, fetchData, setIsVisible,conferencesData}) {
         toast.current?.show({
           severity: "success",
           summary: "Saved",
-          detail:
-            response.data.detail[0].msg || "Speaker created successfully",
+          detail: response.data.detail[0].msg || "Speaker created successfully",
         });
         setIsVisible(false);
         fetchData();
@@ -729,28 +748,29 @@ function Add({ toast, fetchData, setIsVisible,conferencesData}) {
 
       <div className="mb-3">
         <label className="form-label">Author*</label>
-             {conferencesData.length === 0 ? (
+        {conferencesData.length === 0 ? (
           <div className="alert alert-warning p-2 mt-2" role="alert">
             No Conferences found. Please add Conferences first.
           </div>
         ) : (
-        <select
-          name="author"
-          className={`form-select ${
-            formik.touched.author && formik.errors.author ? "is-invalid" : ""
-          }`}
-          value={formik.values.author}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        >
-          <option value="">Select Author</option>
-  
+          <select
+            name="author"
+            className={`form-select ${
+              formik.touched.author && formik.errors.author ? "is-invalid" : ""
+            }`}
+            value={formik.values.author}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            <option value="">Select Author</option>
+
             {conferencesData.map((user, i) => (
               <option key={i} value={user}>
                 {user}
               </option>
             ))}
-        </select>)}
+          </select>
+        )}
         {formik.touched.author && formik.errors.author && (
           <div className="text-danger">{formik.errors.author}</div>
         )}
@@ -781,7 +801,6 @@ function Add({ toast, fetchData, setIsVisible,conferencesData}) {
         showBorder={true}
         onFileChange={handleFileChange}
         dimensionNote="Recommended dimensions: Width 250px × Height 270px"
-
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}
 
@@ -890,9 +909,9 @@ function View({ tableData, toast }) {
 
             <div>
               <label className="form-label mb-2">Bio-Data</label>
-            
-               <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-                 {data.bioData}
+
+              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+                {data.bioData}
               </p>
             </div>
             <div>

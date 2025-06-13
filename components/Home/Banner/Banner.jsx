@@ -23,8 +23,8 @@ const Banner = ({data}) => {
         className={BannerStyle["video"]}
         style={{ objectFit: "cover" }}
       >
-        <source src="https://api.annexglobalconferences.com/api/v1/media/stream/video?video=WhatsApp Video 2025-06-06 at 14-d789fdd7-c464-4168-88d0-973a989f13f0.mp4" type="video/mp4" />
-        {/* <source src={data?.detail?.landingPage?.imageUrl} type="video/mp4" /> */}
+        {/* <source src="https://api.annexglobalconferences.com/api/v1/media/stream/video?video=WhatsApp Video 2025-06-06 at 14-d789fdd7-c464-4168-88d0-973a989f13f0.mp4" type="video/mp4" /> */}
+        <source src={data?.detail?.landingPage?.imageUrl ||"https://api.annexglobalconferences.com/api/v1/media/stream/video?video=WhatsApp Video 2025-06-06 at 14-d789fdd7-c464-4168-88d0-973a989f13f0.mp4" } type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className={BannerStyle["content"]}>

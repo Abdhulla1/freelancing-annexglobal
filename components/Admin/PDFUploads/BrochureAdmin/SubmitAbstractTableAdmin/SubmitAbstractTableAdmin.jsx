@@ -8,6 +8,7 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { getAllSubmittedAbstracts, deleteSubmittedAbstract } from "@/service/pdfUploads";
 import Image from "next/image";
 import Link from "next/link";
+import {deleteMedia } from "@/service/mediaManagemnt";
 
 export default function SubmitAbstractTableAdmin({userData}) {
   const [abstractData, setAbstractData] = useState([]);
@@ -41,7 +42,7 @@ export default function SubmitAbstractTableAdmin({userData}) {
     fetchData(currentPage);
   }, [currentPage]);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id,attachFiles) => {
     try {
       await deleteSubmittedAbstract(id);
       toast.current.show({
@@ -51,6 +52,11 @@ export default function SubmitAbstractTableAdmin({userData}) {
         life: 3000,
       });
 
+ try {
+        await deleteMedia("pdf", attachFiles);
+      } catch {
+        console.error("Failed to Delete");
+      }
       const remaining = abstractData.length - 1;
       if (remaining === 0 && currentPage > 1) {
         setCurrentPage((prev) => prev - 1);
@@ -67,14 +73,14 @@ export default function SubmitAbstractTableAdmin({userData}) {
     }
   };
 
-  const confirmDelete = (id) => {
+  const confirmDelete = (id,attachFiles) => {
     confirmDialog({
       message: <Delete />,
       acceptLabel: "OK",
       rejectLabel: "Cancel",
       acceptClassName: "btn px-5 btn-warning text-white shadow-none",
       rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
-      accept: () => handleDelete(id),
+      accept: () => handleDelete(id,attachFiles),
       reject: () => {},
       className: "custom-confirm-dialog",
     });
@@ -154,7 +160,7 @@ export default function SubmitAbstractTableAdmin({userData}) {
                     <div className="d-flex gap-1 justify-content-center flex-nowrap">
                       <button
                         className="btn btn-outline-secondary rounded"
-                        onClick={() => confirmDelete(element._id)}
+                        onClick={() => confirmDelete(element._id,element.attachFiles)}
                       >
                         <i className="bx bx-trash-alt"></i>
                       </button>

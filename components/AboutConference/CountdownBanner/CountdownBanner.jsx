@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./CountdownBanner.module.css";
 
-const CountdownBanner = ({conference}) => {
-const conferenceTiming = conference?.conference?.landingPage;
+const CountdownBanner = ({conferenceTiming,id}) => {
+// const conferenceTiming = conference?.conference?.landingPage;
 const startDate = conferenceTiming?.startDate;
 const startTime = conferenceTiming?.startTime;
   const [timeLeft, setTimeLeft] = useState({
@@ -64,12 +64,12 @@ useEffect(() => {
 </div>
 
 <div className="d-flex gap-2">
- <Link href={`/conference/${conference._id}/download-brochure`} className="mt-2">
+ <Link href={`/conference/${id}/download-brochure`} className="mt-2">
           <button className={` fw-bold text-uppercase ${styles.brochure}`}>
             brochure
           </button>
         </Link>
-        <Link href={ `/conference/${conference._id}/registration`} className="mt-2 ">
+        <Link href={ `/conference/${id}/registration`} className="mt-2 ">
           <button className={`fw-bold ${styles.ticketBtn}`}>
             GET TICKET <img src="/icons/arrow-circle-up.png" alt="Arrow Icon" />
           </button>

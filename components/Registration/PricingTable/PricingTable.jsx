@@ -2,33 +2,6 @@ import { useState, useEffect } from "react";
 import styles from "./PricingTable.module.css";
 
 
-
-// const pricingOptions = [
-//   {
-//     type: "Speaker Registration - 1 Days Entry Ticket",
-//     early: 322,
-//     mid: 522,
-//     final: 722,
-//   },
-//   {
-//     type: "Speaker Registration - 2 Days Entry Ticket",
-//     early: 322,
-//     mid: 522,
-//     final: 722,
-//   },
-//   { type: "Poster Registration", early: 322, mid: 522, final: 722 },
-//   { type: "Delegate Registration", early: 322, mid: 522, final: 722 },
-//   { type: "Student Registration", early: 322, mid: 522, final: 722 },
-//   {
-//     type: "Webinar/Virtual Conference Registration",
-//     early: 322,
-//     mid: 522,
-//     final: 722,
-//   },
-//   { type: "Video Presentation", early: 322, mid: 522, final: 722 },
-//   { type: "E-Poster Presentation", early: 322, mid: 522, final: 722 },
-// ];
-
 const FormSelect = ({
   label,
   name,

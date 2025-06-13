@@ -12,11 +12,16 @@ const WebinarProgram = ({ conference }) => {
   const logoUrl = conference?.logoUrl;
   const welcomeContent = conference?.conference?.welcomeContent || "";
   const landingPageContent = conference?.conference?.landingPage || "";
+  const webinarlandingPage = conference?.webinar?.landingPage || {};
   const webinarProgramContent = conference?.webinarProgram?.scientificProgramAdmin || "";
   const conferenceName = conference?.conference?.landingPage?.conference;
   const prospectUsContent = conference?.conference?.eventDetails || "";
   const headerPanelImages = conference?.webinarProgram?.headerPanelImages || [];
    const brochure=conference?.brochure || null;
+    const landingPageData={
+     ...landingPageContent,
+    ... webinarlandingPage
+    }
   return (
     <>
       <ConferenceDetails
@@ -24,7 +29,7 @@ const WebinarProgram = ({ conference }) => {
         logoUrl={logoUrl}
         headerPanelImages={headerPanelImages}
         id={id}
-        conference={landingPageContent}
+        conference={landingPageData}
         Component={RightPannel}
         bgImage={bgImage}
       />

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { saveConferenceLandingPage } from "@/service/AdminConfernecePages/confernce";
+import { saveConferenceWebinarLandingPage } from "@/service/AdminConfernecePages/confernce";
 export default function LandingPage({
   selectedConferenceID,
   toast,
@@ -15,12 +15,12 @@ export default function LandingPage({
     enableReinitialize: true,
     initialValues: {
      
-      startDate: LandingPageData.startDate || "",
-      endDate: LandingPageData.endDate || "",
-      location: LandingPageData.location || "",
-      address: LandingPageData.address || "",
-      startTime: LandingPageData.startTime || "",
-      endTime: LandingPageData.endTime || "",
+      startDate: LandingPageData?.startDate || "",
+      endDate: LandingPageData?.endDate || "",
+      location: LandingPageData?.location || "",
+      address: LandingPageData?.address || "",
+      startTime: LandingPageData?.startTime || "",
+      endTime: LandingPageData?.endTime || "",
     },
     validationSchema: Yup.object({
   
@@ -33,19 +33,12 @@ export default function LandingPage({
    
     }),
     onSubmit: async (values) => {
-  
-
-      setImageError("");
       setButtonLoading(true);
-
       try {
-  
-
         const payload = {
           ...values,
         };
-
-        const response = await saveConferenceLandingPage(
+        const response = await saveConferenceWebinarLandingPage(
           payload,
           selectedConferenceID
         );
@@ -80,12 +73,6 @@ export default function LandingPage({
       }
     },
   });
-
-  const handleFileChange = (file) => {
-    const preview = file ? URL.createObjectURL(file) : "";
-    setUpload({ file, imageUrl: preview });
-    setImageError(""); // clear on valid image selection
-  };
 
   return (
     <form onSubmit={formik.handleSubmit}>

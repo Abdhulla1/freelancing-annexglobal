@@ -6,12 +6,10 @@ import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Paginator } from "primereact/paginator";
-import { InputSwitch } from "primereact/inputswitch";
-import { Dialog } from "primereact/dialog";
 import { Sidebar } from "primereact/sidebar";
 import { Rating } from "primereact/rating";
 import { useFormik } from "formik";
-import { uploadImage } from "@/service/mediaManagemnt";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
 import * as Yup from "yup";
 import {
   patchPastConferenceTestimonial,
@@ -34,11 +32,14 @@ export default function TestimonialAdmin({
   const [first, setFirst] = useState(0); // starting index
   const [rows, setRows] = useState(10); // rows per page
 
-  const handleDelete = async (testimonialId) => {
+  const handleDelete = async (testimonialId, imageUrl) => {
     try {
-      const response = await deletePastConfernceTestiMonial(selectedConferenceID, {
-        testimonialId: testimonialId,
-      });
+      const response = await deletePastConfernceTestiMonial(
+        selectedConferenceID,
+        {
+          testimonialId: testimonialId,
+        }
+      );
       if (response.status !== 200) {
         throw new Error(
           response.data.detail[0].msg || "Failed to delete testimonial"
@@ -50,6 +51,11 @@ export default function TestimonialAdmin({
         detail: "TestiMonial has been deleted.",
         life: 3000,
       });
+      try {
+        await deleteMedia("image", imageUrl);
+      } catch {
+        console.error("Failed to Delete");
+      }
       fetchConfernceData();
     } catch (error) {
       toast.current.show({
@@ -60,40 +66,10 @@ export default function TestimonialAdmin({
       });
     }
   };
-  const handleStatusChange = async (newStatus, id) => {
-    try {
-      const response = await updateTestiMonialStatus(selectedConferenceID, id, {
-        status: newStatus,
-      });
 
-      if (response.status === 200) {
-        // Update local state
-        fetchConfernceData();
-        toast.current?.show({
-          severity: "success",
-          summary: "Updated",
-          detail: response.data.detail[0].msg || "Status updated successfully",
-        });
-      } else {
-        console.log(response.response.data.detail[0].msg);
-        toast.current?.show({
-          severity: "error",
-          summary: "Error",
-          detail:
-            response.response.data.detail[0].msg || "Status update failed",
-        });
-      }
-    } catch (err) {
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: "Status update failed",
-      });
-    }
-  };
-  const confirmDelete = (testimonialId) => {
+  const confirmDelete = (testimonialId, imageUrl) => {
     const accept = () => {
-      handleDelete(testimonialId);
+      handleDelete(testimonialId, imageUrl);
     };
     confirmDialog({
       message: <Delete />,
@@ -200,20 +176,26 @@ export default function TestimonialAdmin({
                       <button
                         name="edit"
                         className="btn btn-outline-secondary rounded"
-                        onClick={(e) => handleSidebar(e.target.name, element)}
+                        onClick={(e) =>
+                          handleSidebar(e.currentTarget.name, element)
+                        }
                       >
                         <i className="bx bx-edit-alt"></i>
                       </button>
                       <button
                         className="btn btn-outline-secondary rounded"
-                        onClick={() => confirmDelete(element.testimonialId)}
+                        onClick={() =>
+                          confirmDelete(element.testimonialId, element.imageUrl)
+                        }
                       >
                         <i className="bx bx-trash-alt"></i>
                       </button>
                       <button
                         name="view"
                         className="btn btn-outline-warning rounded"
-                        onClick={(e) => handleSidebar(e.target.name, element)}
+                        onClick={(e) =>
+                          handleSidebar(e.currentTarget.name, element)
+                        }
                       >
                         <i className="bx bx-chevron-right"></i>
                       </button>
@@ -246,7 +228,10 @@ export default function TestimonialAdmin({
   );
 }
 function Edit({ data, selectedConferenceID, setIsVisible, toast, fetchData }) {
-  const [upload, setUpload] = useState({ file: null, imageUrl: data.imageUrl || "" });
+  const [upload, setUpload] = useState({
+    file: null,
+    imageUrl: data.imageUrl || "",
+  });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
 
@@ -290,6 +275,17 @@ function Edit({ data, selectedConferenceID, setIsVisible, toast, fetchData }) {
           detail:
             response.data.detail[0].msg || "Testimonial updated successfully",
         });
+        if (
+          upload.file &&
+          data.imageUrl &&
+          !data.imageUrl.startsWith("blob:")
+        ) {
+          try {
+            await deleteMedia("image", data.imageUrl);
+          } catch {
+            throw new Error("Failed to Delete");
+          }
+        }
         setIsVisible(false);
         fetchData();
       } else {
@@ -442,7 +438,6 @@ function Edit({ data, selectedConferenceID, setIsVisible, toast, fetchData }) {
 }
 
 function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
-
   const [upload, setUpload] = useState({ file: null });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -473,7 +468,10 @@ function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
         imageUrl,
       };
 
-      const response = await patchPastConferenceTestimonial(selectedConferenceID, payLoad);
+      const response = await patchPastConferenceTestimonial(
+        selectedConferenceID,
+        payLoad
+      );
 
       if (response.status === 200) {
         toast.current?.show({
@@ -522,19 +520,18 @@ function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
       content: Yup.string().required("Content is required"),
       publishedOn: Yup.string().required("Date is required"),
     }),
-    
-      onSubmit: (values) => {
+
+    onSubmit: (values) => {
       if (!upload.file) {
         setImageError("Image is required");
         return;
       }
 
-      setImageError(null); 
+      setImageError(null);
 
       const finalData = {
         ...values,
         image: upload.file,
-
       };
       submitTestimonial(finalData);
     },

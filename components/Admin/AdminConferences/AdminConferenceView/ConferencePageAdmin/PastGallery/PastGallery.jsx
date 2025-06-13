@@ -1,57 +1,58 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import { uploadImage } from "@/service/mediaManagemnt";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
+import {
+  patchPastGallery,
+  deletePastGalleryImage,
+} from "@/service/AdminConfernecePages/confernce";
 
-import { patchPastGallery,deletePastGalleryImage } from "@/service/AdminConfernecePages/confernce";
 export default function PastGallery({
   selectedConferenceID,
   toast,
   PastGalleryData = [],
   fetchConfernceData,
 }) {
-const [uploads, setUploads] = useState(() => {
-  if (PastGalleryData.length > 0) {
+  const [uploads, setUploads] = useState([]);
+
+  // Initialize or sync uploads from backend
+  useEffect(() => {
+    const maxInitial = 7;
     const existing = PastGalleryData.map((img, i) => ({
-      id: Date.now() + i,
+      id: img.imageId || `slot-${i}`,
       imageUrl: img.imageUrl,
       imageId: img.imageId,
       uploaded: true,
     }));
 
-    const fillers = Array.from({ length: 7 - existing.length }, (_, i) => ({
-      id: Date.now() + 100 + i,
-      imageUrl: "",
-      imageId: null,
-      uploaded: false,
-    }));
+    const fillers = Array.from(
+      { length: maxInitial - existing.length },
+      (_, i) => ({
+        id: `empty-${i}`,
+        imageUrl: "",
+        imageId: null,
+        uploaded: false,
+      })
+    );
 
-    return [...existing, ...fillers];
-  } else {
-    return Array.from({ length: 7 }, (_, i) => ({
-      id: Date.now() + i,
-      imageUrl: "",
-      imageId: null,
-      uploaded: false,
-    }));
-  }
-});
-
+    setUploads([...existing, ...fillers]);
+  }, [PastGalleryData]);
 
   const handleAddUpload = () => {
-    setUploads([
-      ...uploads,
-      { id: Date.now(), imageUrl: "", imageId: null, uploaded: false },
+    const newId = `new-${Date.now()}`;
+    setUploads((prev) => [
+      ...prev,
+      { id: newId, imageUrl: "", imageId: null, uploaded: false },
     ]);
   };
 
   const handleRemoveUpload = async (upload) => {
     if (upload.uploaded && upload.imageId) {
       try {
-        const response = await deletePastGalleryImage(
-          selectedConferenceID,
-          { imageId: upload.imageId }
-        );
+        const response = await deletePastGalleryImage(selectedConferenceID, {
+          imageId: upload.imageId,
+        });
+
         if (response.status === 200) {
           toast.current.show({
             severity: "success",
@@ -60,6 +61,14 @@ const [uploads, setUploads] = useState(() => {
               response.data?.detail?.[0]?.msg || "Deleted successfully.",
             life: 3000,
           });
+
+          try {
+            await deleteMedia("image", upload.imageUrl);
+          } catch {
+            console.warn("Failed to delete media image");
+          }
+
+          await fetchConfernceData();
         }
       } catch (error) {
         toast.current.show({
@@ -71,12 +80,18 @@ const [uploads, setUploads] = useState(() => {
         return;
       }
     }
+
     setUploads((prev) => prev.filter((u) => u.id !== upload.id));
   };
 
   const handleFileChange = async (file, id) => {
     try {
       const preview = file ? URL.createObjectURL(file) : null;
+
+      const uploadItem = uploads.find((u) => u.id === id);
+      const oldImageUrl = uploadItem?.imageUrl;
+      const imageIdToPatch = uploadItem?.imageId || null;
+
       setUploads((prev) =>
         prev.map((upload) =>
           upload.id === id ? { ...upload, imageUrl: preview } : upload
@@ -89,12 +104,11 @@ const [uploads, setUploads] = useState(() => {
       }
 
       const imageUrl = res.data.detail.message[0].url;
- const payload = { imageUrl:imageUrl }; 
-      const uploadItem = uploads.find((u) => u.id === id);
+
       const patchRes = await patchPastGallery(
         selectedConferenceID,
-           { imageUrl },
-        uploadItem?.imageId || null
+        { imageUrl },
+        imageIdToPatch
       );
 
       if (patchRes.status === 200) {
@@ -106,7 +120,7 @@ const [uploads, setUploads] = useState(() => {
           life: 3000,
         });
 
-        const updatedImageId = patchRes.data?.detail?.[0]?.id; // optional
+        const updatedImageId = patchRes.data?.detail?.[0]?.id;
 
         setUploads((prev) =>
           prev.map((upload) =>
@@ -121,7 +135,15 @@ const [uploads, setUploads] = useState(() => {
           )
         );
 
-        fetchConfernceData();
+        if (uploadItem?.uploaded && oldImageUrl && oldImageUrl !== imageUrl) {
+          try {
+            await deleteMedia("image", oldImageUrl);
+          } catch (err) {
+            console.warn("Old image deletion failed", err);
+          }
+        }
+
+        await fetchConfernceData();
       }
     } catch (error) {
       toast.current.show({
@@ -160,16 +182,17 @@ const [uploads, setUploads] = useState(() => {
                 showBorder={false}
                 showTitle={false}
                 dimensionNote="Recommended dimensions: Width 800px × Height 500px"
-                imageUrl={upload.imageUrl || "/icons/DefaultPreviewImage.png"}
+                imageUrl={
+                  upload.imageUrl || "/icons/DefaultPreviewImage.png"
+                }
                 onFileChange={(file) => handleFileChange(file, upload.id)}
               />
             </div>
             <button
-            // disabled={!upload.uploaded} 
               className="btn btn-sm btn-outline-danger"
               onClick={() => handleRemoveUpload(upload)}
               title="Delete"
-               disabled={index < 7} 
+              disabled={index < 7}
             >
               <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>
             </button>

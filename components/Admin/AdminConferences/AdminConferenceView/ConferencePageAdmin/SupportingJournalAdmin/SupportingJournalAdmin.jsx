@@ -7,8 +7,11 @@ import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { uploadImage } from "@/service/mediaManagemnt";
-import { updateSupportingJournal } from "@/service/AdminConfernecePages/confernce"; // adjust import
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
+import {
+  updateSupportingJournal,
+  updateSupportingJournalStatus,
+} from "@/service/AdminConfernecePages/confernce"; // adjust import
 import { Button } from "primereact/button";
 import { InputSwitch } from "primereact/inputswitch";
 
@@ -34,19 +37,26 @@ export default function SupportingJournalAdmin({
 
     // Always show at least 3 rows — fill remaining with defaults
     const filledData = [...actualData];
-    while (filledData.length < 3) {
+    while (filledData.length < 8) {
       filledData.push(defaultEntry);
     }
 
     return filledData;
   })();
-const handleStatusChange = async (newStatus, id) => {
+  const handleStatusChange = async (newStatus, id) => {
     try {
-      const response = await updateTestiMonialStatus(selectedConferenceID,id, {status:newStatus});
+      const payload = {
+        journalId: id,
+        status: newStatus,
+      };
+      const response = await updateSupportingJournalStatus(
+        selectedConferenceID,
+        payload
+      );
 
       if (response.status === 200) {
         // Update local state
-        fetchConfernceData(); 
+        fetchConfernceData();
         toast.current?.show({
           severity: "success",
           summary: "Updated",
@@ -121,10 +131,9 @@ const handleStatusChange = async (newStatus, id) => {
             <td className="p-2 table-heading">Logo Image</td>
             <td className="p-2 table-heading">Title</td>
             <td className="p-2 table-heading">Content</td>
-                            <td className="p-2 table-heading">Status</td>
+            <td className="p-2 table-heading">Status</td>
 
             <td className="p-2 table-heading">Action</td>
-            
           </tr>
         </thead>
         <tbody>
@@ -151,7 +160,7 @@ const handleStatusChange = async (newStatus, id) => {
                 <InputSwitch
                   checked={element.status}
                   onChange={(e) =>
-                    handleStatusChange(e.value, element.testimonialId)
+                    handleStatusChange(e.value, element.journalId)
                   }
                   style={{ scale: "0.7" }}
                 />
@@ -161,14 +170,18 @@ const handleStatusChange = async (newStatus, id) => {
                   <button
                     name="edit"
                     className="btn btn-outline-secondary rounded"
-                    onClick={(e) => handleSidebar(e.target.name, element)}
+                    onClick={(e) =>
+                      handleSidebar(e.currentTarget.name, element)
+                    }
                   >
                     <i className="bx bx-edit-alt"></i>
                   </button>
                   <button
                     name="view"
                     className="btn btn-outline-warning rounded"
-                    onClick={(e) => handleSidebar(e.target.name, element)}
+                    onClick={(e) =>
+                      handleSidebar(e.currentTarget.name, element)
+                    }
                   >
                     <i className="bx bx-chevron-right"></i>
                   </button>
@@ -242,7 +255,7 @@ function Edit({
         const response = await updateSupportingJournal(
           selectedConferenceID,
           payload,
-          data.journal_id
+          data.journalId
         );
 
         if (response.status === 200) {
@@ -253,6 +266,17 @@ function Edit({
               response.data?.detail?.[0]?.msg ||
               "Supporting Journal updated successfully",
           });
+          if (
+            upload.file &&
+            data.logoUrl &&
+            !data.logoUrl.startsWith("blob:")
+          ) {
+            try {
+              await deleteMedia("image", data.logoUrl);
+            } catch {
+              throw new Error("Failed to Delete");
+            }
+          }
           fetchConfernceData();
           setIsVisible(false);
         } else {

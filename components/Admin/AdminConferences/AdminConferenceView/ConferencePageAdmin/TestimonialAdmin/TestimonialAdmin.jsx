@@ -11,9 +11,13 @@ import { Dialog } from "primereact/dialog";
 import { Sidebar } from "primereact/sidebar";
 import { Rating } from "primereact/rating";
 import { useFormik } from "formik";
-import { uploadImage } from "@/service/mediaManagemnt";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
 import * as Yup from "yup";
-import { patchTestimonial ,deleteTestiMonial,updateTestiMonialStatus} from "@/service/AdminConfernecePages/confernce";
+import {
+  patchTestimonial,
+  deleteTestiMonial,
+  updateTestiMonialStatus,
+} from "@/service/AdminConfernecePages/confernce";
 import { Button } from "primereact/button";
 
 export default function TestimonialTabelAdmin({
@@ -29,20 +33,30 @@ export default function TestimonialTabelAdmin({
     content: null,
   });
   const [first, setFirst] = useState(0); // starting index
-const [rows, setRows] = useState(10); // rows per page
+  const [rows, setRows] = useState(10); // rows per page
 
-  const handleDelete = async (testimonialId) => {
+  const handleDelete = async (testimonialId, imageUrl) => {
     try {
-      const response=await deleteTestiMonial(selectedConferenceID,{testimonialId:testimonialId});
-     if(response.status !== 200) {
-        throw new Error(response.data.detail[0].msg || "Failed to delete testimonial");
-     }
+      const response = await deleteTestiMonial(selectedConferenceID, {
+        testimonialId: testimonialId,
+      });
+      if (response.status !== 200) {
+        throw new Error(
+          response.data.detail[0].msg || "Failed to delete testimonial"
+        );
+      }
       toast.current.show({
         severity: "success",
         summary: "Deleted",
         detail: "TestiMonial has been deleted.",
         life: 3000,
       });
+
+      try {
+        await deleteMedia("image", imageUrl);
+      } catch {
+        throw new Error("Failed to Delete");
+      }
       fetchConfernceData();
     } catch (error) {
       toast.current.show({
@@ -55,11 +69,13 @@ const [rows, setRows] = useState(10); // rows per page
   };
   const handleStatusChange = async (newStatus, id) => {
     try {
-      const response = await updateTestiMonialStatus(selectedConferenceID,id, {status:newStatus});
+      const response = await updateTestiMonialStatus(selectedConferenceID, id, {
+        status: newStatus,
+      });
 
       if (response.status === 200) {
         // Update local state
-        fetchConfernceData(); 
+        fetchConfernceData();
         toast.current?.show({
           severity: "success",
           summary: "Updated",
@@ -82,9 +98,9 @@ const [rows, setRows] = useState(10); // rows per page
       });
     }
   };
-  const confirmDelete = (testimonialId) => {
+  const confirmDelete = (testimonialId, imageUrl) => {
     const accept = () => {
-      handleDelete(testimonialId);
+      handleDelete(testimonialId, imageUrl);
     };
     confirmDialog({
       message: <Delete />,
@@ -107,14 +123,20 @@ const [rows, setRows] = useState(10); // rows per page
       edit: {
         header: "Edit Testimonial",
         content: (
-          <Edit data={data}  selectedConferenceID={selectedConferenceID} toast={toast}  fetchData={fetchConfernceData} setIsVisible={setIsVisible} />
+          <Edit
+            data={data}
+            selectedConferenceID={selectedConferenceID}
+            toast={toast}
+            fetchData={fetchConfernceData}
+            setIsVisible={setIsVisible}
+          />
         ),
       },
       add: {
         header: "Add Testimonial",
         content: (
           <Add
-          selectedConferenceID={selectedConferenceID}
+            selectedConferenceID={selectedConferenceID}
             toast={toast}
             setIsVisible={setIsVisible}
             fetchData={fetchConfernceData}
@@ -148,7 +170,7 @@ const [rows, setRows] = useState(10); // rows per page
         </>
       </Sidebar>
       <ConfirmDialog draggable={false} />
-      { testimonialData.length === 0 ? (
+      {testimonialData.length === 0 ? (
         <div className="text-center w-100 py-5">
           <h5>No testimonials found</h5>
           <p>Try adding a new testimonial using the + button.</p>
@@ -168,73 +190,77 @@ const [rows, setRows] = useState(10); // rows per page
             </thead>
             <tbody>
               {testimonialData.slice(first, first + rows).map((element, i) => (
-                  <tr key={i}>
-                    <td className="p-3 table-data">
-                      <Image
-                        src={
-                          element.imageUrl || "/icons/DefaultPreviewImage.png"
+                <tr key={i}>
+                  <td className="p-3 table-data">
+                    <Image
+                      src={element.imageUrl || "/icons/DefaultPreviewImage.png"}
+                      height={90}
+                      width={110}
+                      alt="Testimonial Image"
+                      style={{ objectFit: "cover", borderRadius: "8px" }}
+                    />
+                  </td>
+                  <td className="p-3 table-data">{element.name}</td>
+                  <td className="p-3 table-data">{element.designation}</td>
+                  <td
+                    className="p-3  table-data text-truncate"
+                    style={{ maxWidth: "200px" }}
+                  >
+                    {element.content}
+                  </td>
+                  <td className="p-3  table-data ">
+                    {" "}
+                    <InputSwitch
+                      checked={element.status}
+                      onChange={(e) =>
+                        handleStatusChange(e.value, element.testimonialId)
+                      }
+                      style={{ scale: "0.7" }}
+                    />
+                  </td>
+                  <td className="p-3 table-data ">
+                    <div className="d-flex gap-1  justify-content-center flex-nowrap">
+                      <button
+                        name="edit"
+                        className="btn btn-outline-secondary rounded"
+                        onClick={(e) =>
+                          handleSidebar(e.currentTarget.name, element)
                         }
-                        height={90}
-                        width={110}
-                        alt="Testimonial Image"
-                        style={{ objectFit: "cover", borderRadius: "8px" }}
-                      />
-                    </td>
-                    <td className="p-3 table-data">{element.name}</td>
-                    <td className="p-3 table-data">{element.designation}</td>
-                    <td
-                      className="p-3  table-data text-truncate"
-                      style={{ maxWidth: "200px" }}
-                    >
-                      {element.content}
-                    </td>
-                    <td className="p-3  table-data ">
-                      {" "}
-                      <InputSwitch
-                        checked={element.status}
-                        onChange={(e) =>
-                          handleStatusChange(e.value, element.testimonialId)
+                      >
+                        <i className="bx bx-edit-alt"></i>
+                      </button>
+                      <button
+                        className="btn btn-outline-secondary rounded"
+                        onClick={() =>
+                          confirmDelete(element.testimonialId, element.imageUrl)
                         }
-                        style={{ scale: "0.7" }}
-                      />
-                    </td>
-                    <td className="p-3 table-data ">
-                      <div className="d-flex gap-1  justify-content-center flex-nowrap">
-                        <button
-                          name="edit"
-                          className="btn btn-outline-secondary rounded"
-                          onClick={(e) => handleSidebar(e.target.name, element)}
-                        >
-                          <i className="bx bx-edit-alt"></i>
-                        </button>
-                        <button
-                          className="btn btn-outline-secondary rounded"
-                          onClick={() => confirmDelete(element.testimonialId)}
-                        >
-                          <i className="bx bx-trash-alt"></i>
-                        </button>
-                        <button
-                          name="view"
-                          className="btn btn-outline-warning rounded"
-                          onClick={(e) => handleSidebar(e.target.name, element)}
-                        >
-                          <i className="bx bx-chevron-right"></i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      >
+                        <i className="bx bx-trash-alt"></i>
+                      </button>
+                      <button
+                        name="view"
+                        className="btn btn-outline-warning rounded"
+                        onClick={(e) =>
+                          handleSidebar(e.currentTarget.name, element)
+                        }
+                      >
+                        <i className="bx bx-chevron-right"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
-         <Paginator
-        first={first}
-        rows={rows} // set rows using useState, e.g., 10
-        totalRecords={testimonialData.length}
-        onPageChange={(e) => {
-          setFirst(e.first);
-        }}
-        className="mt-4"
-      />
+          <Paginator
+            first={first}
+            rows={rows} // set rows using useState, e.g., 10
+            totalRecords={testimonialData.length}
+            onPageChange={(e) => {
+              setFirst(e.first);
+            }}
+            className="mt-4"
+          />
         </>
       )}
       <button
@@ -248,18 +274,18 @@ const [rows, setRows] = useState(10); // rows per page
     </div>
   );
 }
-function Edit({ data,  selectedConferenceID, setIsVisible, toast, fetchData }) {
+function Edit({ data, selectedConferenceID, setIsVisible, toast, fetchData }) {
   const [isvideoLinkEnable, setIsvideoLinkEnable] = useState(false);
   const [ratings, setRatings] = useState(0);
   const [upload, setUpload] = useState({ file: null, imageUrl: "" });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
 
-useEffect(()=>{
-  setIsvideoLinkEnable(!!data.videoUrl);
-          setRatings(data.ratings);
-          setUpload({ file: null, imageUrl: data.imageUrl });
-},[])
+  useEffect(() => {
+    setIsvideoLinkEnable(!!data.videoUrl);
+    setRatings(data.ratings);
+    setUpload({ file: null, imageUrl: data.imageUrl });
+  }, []);
 
   const handleFileChange = (file) => {
     const preview = file ? URL.createObjectURL(file) : null;
@@ -277,6 +303,7 @@ useEffect(()=>{
         if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
           throw new Error("Failed to upload image");
         }
+
         imageUrl = res.data.detail.message[0].url;
       }
 
@@ -289,14 +316,26 @@ useEffect(()=>{
         imageUrl,
       };
 
-      const response = await patchTestimonial(selectedConferenceID, payload,data.testimonialId);
+      const response = await patchTestimonial(
+        selectedConferenceID,
+        payload,
+        data.testimonialId
+      );
 
       if (response.status === 200) {
         toast.current?.show({
           severity: "success",
           summary: "Updated",
-          detail: response.data.detail[0].msg || "Testimonial updated successfully",
+          detail:
+            response.data.detail[0].msg || "Testimonial updated successfully",
         });
+        if ( upload.file &&data.imageUrl && !data.imageUrl.startsWith("blob:")) {
+          try {
+            await deleteMedia("image", data.imageUrl);
+          } catch {
+            throw new Error("Failed to Delete");
+          }
+        }
         setIsVisible(false);
         fetchData();
       } else {
@@ -338,7 +377,6 @@ useEffect(()=>{
     onSubmit: submitTestimonial,
   });
 
-
   return (
     <form
       onSubmit={formik.handleSubmit}
@@ -358,13 +396,19 @@ useEffect(()=>{
         />
         {imageError && <div className="text-danger mt-2">{imageError}</div>}
 
-        <label htmlFor="ratings" className="form-label d-flex align-items-center">
+        <label
+          htmlFor="ratings"
+          className="form-label d-flex align-items-center"
+        >
           Ratings
         </label>
         <Rating value={ratings} onChange={(e) => setRatings(e.value)} />
 
         <div className="mt-4">
-          <label htmlFor="videoLink" className="form-label d-flex align-items-center">
+          <label
+            htmlFor="videoLink"
+            className="form-label d-flex align-items-center"
+          >
             Video Link (YouTube) &nbsp;
             <InputSwitch
               checked={isvideoLinkEnable}
@@ -373,14 +417,19 @@ useEffect(()=>{
             />
           </label>
           <div className="input-group border rounded p-1">
-            <span className="btn rounded-2 text-white me-1" style={{ backgroundColor: "#111880" }}>
+            <span
+              className="btn rounded-2 text-white me-1"
+              style={{ backgroundColor: "#111880" }}
+            >
               <i className="bx bx-link-alt"></i>
             </span>
             <input
               type="text"
               name="videoUrl"
               className={`form-control border-0 ${
-                formik.touched.videoUrl && formik.errors.videoUrl ? "is-invalid" : ""
+                formik.touched.videoUrl && formik.errors.videoUrl
+                  ? "is-invalid"
+                  : ""
               }`}
               placeholder="https://www.youtube.com/watch?v=xxxx"
               disabled={!isvideoLinkEnable}
@@ -395,7 +444,9 @@ useEffect(()=>{
         </div>
 
         <div className="mb-3">
-          <label htmlFor="name" className="form-label">Name*</label>
+          <label htmlFor="name" className="form-label">
+            Name*
+          </label>
           <input
             type="text"
             name="name"
@@ -413,12 +464,16 @@ useEffect(()=>{
         </div>
 
         <div className="mb-3">
-          <label htmlFor="designation" className="form-label">Designation*</label>
+          <label htmlFor="designation" className="form-label">
+            Designation*
+          </label>
           <input
             type="text"
             name="designation"
             className={`form-control ${
-              formik.touched.designation && formik.errors.designation ? "is-invalid" : ""
+              formik.touched.designation && formik.errors.designation
+                ? "is-invalid"
+                : ""
             }`}
             placeholder="Enter Designation"
             value={formik.values.designation}
@@ -466,7 +521,6 @@ useEffect(()=>{
   );
 }
 
-
 function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
   const [isvideoLinkEnable, setIsvideoLinkEnable] = useState(false);
   const [ratings, setRatings] = useState(null);
@@ -501,7 +555,7 @@ function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
         imageUrl: imageUrl,
       };
 
-      const response = await patchTestimonial(selectedConferenceID,payLoad);
+      const response = await patchTestimonial(selectedConferenceID, payLoad);
 
       if (response.status === 200) {
         toast.current?.show({
@@ -573,7 +627,7 @@ function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
         ...values,
         ratings,
         image: upload.file,
-        videoUrl: isvideoLinkEnable ? values.videoUrl : "	",
+        videoUrl: isvideoLinkEnable ? values.videoUrl : "",
       };
       submitTestimonial(finalData);
     },
@@ -594,8 +648,7 @@ function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
           showBorder={true}
           onFileChange={handleFileChange}
           imageUrl={upload.file?.preview}
-                    dimensionNote="Recommended dimensions: Width 300px × Height 300px"
-
+          dimensionNote="Recommended dimensions: Width 300px × Height 300px"
         />
         {imageError && <div className="text-danger mt-2">{imageError}</div>}
 
@@ -730,56 +783,54 @@ function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
   );
 }
 function View({ data, toast }) {
-
-
   return (
     <div className="d-flex gap-4 flex-column">
+      {data && (
+        <>
+          <label className="form-label">Image</label>
 
-       { data && (
-          <>
-            <label className="form-label">Image</label>
-
-            <Image
-              src={data.imageUrl}
-              width={120}
-              height={120}
-              alt="Testimonial Image"
-              style={{ objectFit: "cover", borderRadius: "8px" }}
-            />
-            <label
-              htmlFor="title"
-              className="form-label d-flex align-items-center"
-            >
-              Ratings
-            </label>
-            {data.videoUrl && <div>
+          <Image
+            src={data.imageUrl}
+            width={120}
+            height={120}
+            alt="Testimonial Image"
+            style={{ objectFit: "cover", borderRadius: "8px" }}
+          />
+          <label
+            htmlFor="title"
+            className="form-label d-flex align-items-center"
+          >
+            Ratings
+          </label>
+          {data.videoUrl && (
+            <div>
               <label className="form-label  mb-2">Video</label>
               <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
                 {data.videoUrl}
               </p>
-            </div>}
-            <Rating value={data.ratings} disabled cancel={false} />
-            <div>
-              <label className="form-label  mb-2">Name</label>
-              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-                {data.name}
-              </p>
             </div>
-            <div>
-              <label className="form-label  mb-2">Designation</label>
-              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-                {data.designation}
-              </p>
-            </div>
-            <div>
-              <label className="form-label mb-2">Content</label>
-              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-                {data.content}
-              </p>
-            </div>
-          </>
-        )
-      }
+          )}
+          <Rating value={data.ratings} disabled cancel={false} />
+          <div>
+            <label className="form-label  mb-2">Name</label>
+            <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+              {data.name}
+            </p>
+          </div>
+          <div>
+            <label className="form-label  mb-2">Designation</label>
+            <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+              {data.designation}
+            </p>
+          </div>
+          <div>
+            <label className="form-label mb-2">Content</label>
+            <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+              {data.content}
+            </p>
+          </div>
+        </>
+      )}
     </div>
   );
 }

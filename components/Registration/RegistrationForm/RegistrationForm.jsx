@@ -260,7 +260,6 @@ export default function RegistrationForm({ conference }) {
                         },
                         {
                           onSuccess: (verificationResult) => {
-                            console.log("Verification result:", verificationResult);
                             if (verificationResult.detail[0].msg) {
                               toast.current.show({
                                 severity: "success",

@@ -2,10 +2,11 @@
 import React from "react";
 import UpcomingConferencesStyle from "./UpcomingConferences.module.css";
 import Slider from "react-slick";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import ConferenceCard from "./../../Reusable/ConferenceCard/ConferenceCard";
 import Link from "next/link";
 import { useConferenceLandingPage } from "@/hooks/useWeather";
+import { api } from "@/service/api";
 var settings = {
   dots: true,
   infinite: true,
@@ -54,7 +55,6 @@ var settings = {
   ],
 };
 
-
 const PastConferences = () => {
   const sliderRef = useRef(null);
   const { data: pastConferenceData } = useConferenceLandingPage("past");
@@ -67,7 +67,35 @@ const PastConferences = () => {
     desc: conference?.conference?.landingPage?.theme, // Replace with dynamic description if available
     buylink: null, // Add a dynamic link if available
   }));
-  console.log("pastConference",pastConference)
+  console.log("pastConference", pastConference);
+  const [resolvedIds, setResolvedIds] = useState({});
+  useEffect(() => {
+    const fetchPresentIds = async () => {
+      if (!pastConferenceData?.detail) return;
+
+      const promises = pastConferenceData.detail.map(async (conf) => {
+        const name = conf?.name;
+        try {
+          const res = await api.get("/present/conference", {
+            params: { name },
+          });
+          return { name, id: res?.data?.detail?._id };
+        } catch (err) {
+          return { name, id: null };
+        }
+      });
+
+      const results = await Promise.all(promises);
+      const idMap = {};
+      results.forEach(({ name, id }) => {
+        if (name && id) idMap[name] = id;
+      });
+      setResolvedIds(idMap);
+    };
+
+    fetchPresentIds();
+  }, [pastConferenceData]);
+
   return (
     <div className={`px-0 ${UpcomingConferencesStyle["container"]}`}>
       <div className={UpcomingConferencesStyle["topspacer"]}>

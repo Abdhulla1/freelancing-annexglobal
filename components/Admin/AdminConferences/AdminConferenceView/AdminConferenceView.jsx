@@ -12,7 +12,7 @@ import {
   getSelectedConference,
   updateConference,
   conferenceStatusToggle,
-  savePermalink,
+  savePermalink,deleteConference,
 } from "@/service/adminConference";
 import { useRouter } from "next/navigation";
 import { ProgressSpinner } from "primereact/progressspinner";
@@ -29,12 +29,13 @@ import FAQPageAdmin from "./FAQPageAdmin/FAQPageAdmin";
 import PastConferenceAdmin from "./PastConferenceAdmin/PastConferenceAdmin";
 import { uploadImage } from "@/service/mediaManagemnt";
 import { Toast } from "primereact/toast";
-
-export default function AdminConferenceView({ conference,userData }) {
-  console.log(userData)
+import Image from "next/image";
+export default function AdminConferenceView({ conference, userData }) {
   const [activeMenu, setActiveMenu] = useState("Conference");
   const [selectedConference, setSelectedConference] = useState(null);
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
   const [isDisabled, setIsDisabled] = useState(true);
   const [showStatusConfirm, setShowStatusConfirm] = useState(false);
   const [nextStatusAction, setNextStatusAction] = useState(""); // "Publish" or "Draft"
@@ -293,7 +294,45 @@ export default function AdminConferenceView({ conference,userData }) {
   const handleBack = () => {
     router.push("/admin-annex-global-conferences/dashboard/conference");
   };
-
+  const handleDelete = async (conferenceID) => {
+    try {
+      const response = await deleteConference(conferenceID);
+      if (response.status !== 200) {
+        throw new Error(
+          response.data.detail[0].msg || "Failed to delete testimonial"
+        );
+      }
+      toast.current.show({
+        severity: "success",
+        summary: "Deleted",
+        detail: "Conference has been deleted.",
+        life: 3000,
+      });
+      handleBack();
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: error.message || "Failed to delete. Please try again.",
+        life: 3000,
+      });
+    }
+  };
+  const confirmDelete = (conferenceID) => {
+    const accept = () => {
+      handleDelete(conferenceID);
+    };
+    confirmDialog({
+      message: <Delete />,
+      acceptLabel: "OK",
+      rejectLabel: "Cancel",
+      acceptClassName: "btn px-5 btn-warning text-white shadow-none",
+      rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
+      defaultFocus: "accept",
+      accept,
+      className: "custom-confirm-dialog",
+    });
+  };
   if (selectedConference === null) {
     return (
       <div
@@ -466,6 +505,32 @@ export default function AdminConferenceView({ conference,userData }) {
         }
         className="custom-confirm-dialog"
       />
+<ConfirmDialog
+  visible={showDeleteConfirm}
+  onHide={() => setShowDeleteConfirm(false)}
+  draggable={false}
+  message={<Delete />}
+  header="Confirm Delete"
+  footer={
+    <div className="d-flex justify-content-end">
+      <button
+        className="btn bg-white border me-3 shadow-none"
+        onClick={() => setShowDeleteConfirm(false)}
+      >
+        Cancel
+      </button>
+      <button
+        className="btn btn-danger text-white shadow-none"
+        onClick={() => {
+          handleDelete(selectedConference._id);
+          setShowDeleteConfirm(false);
+        }}
+      >
+        Yes, Delete
+      </button>
+    </div>
+  }
+/>
 
       <ConfirmDialog
         visible={showStatusConfirm}
@@ -493,12 +558,16 @@ export default function AdminConferenceView({ conference,userData }) {
 
       <div className="d-flex justify-content-between">
         <h5 className="fw-bold">
-          {userData.isRoleUser ? "":    <i
-            className="bx bx-chevron-left text-center cursor-pointer"
-            style={{ cursor: "pointer" }}
-            onClick={handleBack}
-          ></i>}
-       
+          {userData.isRoleUser ? (
+            ""
+          ) : (
+            <i
+              className="bx bx-chevron-left text-center cursor-pointer"
+              style={{ cursor: "pointer" }}
+              onClick={handleBack}
+            ></i>
+          )}
+
           {selectedConference.name}
           <button name="edit" className="btn " onClick={handleAddConference}>
             <i className="bx bx-edit-alt"></i>
@@ -536,6 +605,14 @@ export default function AdminConferenceView({ conference,userData }) {
               }}
             >
               {statusAction === "Publish" ? " Draft" : "Publish"}
+            </button>
+            <button
+              className={`btn btn-danger text-white`}
+              disabled={statusAction === "Publish" ? true : false}
+              onClick={() => setShowDeleteConfirm(true)}
+
+            >
+              Delete
             </button>
           </div>
         </div>
@@ -650,6 +727,18 @@ function ConfirmPublishDraft({ action }) {
         Please make sure all important details are complete and accurate before
         proceeding. Once confirmed, this action will update how the conference
         is displayed.
+      </p>
+    </div>
+  );
+}
+function Delete() {
+  return (
+    <div className="d-flex flex-column align-items-center text-center">
+      <Image src="/icons/delete.png" width={80} height={80} alt="DeleteIcon" />
+      <h5 className="mt-3">Delete Conference</h5>
+      <p className="mb-0 col-md-8">
+        Are you sure you want to delete this Conference? This action cannot be
+        undone.
       </p>
     </div>
   );

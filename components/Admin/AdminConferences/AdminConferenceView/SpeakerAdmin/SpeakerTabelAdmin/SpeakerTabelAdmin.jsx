@@ -10,8 +10,12 @@ import { Paginator } from "primereact/paginator";
 import { Button } from "primereact/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { uploadImage } from "@/service/mediaManagemnt";
-import {patchSpeakers, deleteSpeaker,updateSpeakerStatus} from "@/service/AdminConfernecePages/confernce";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
+import {
+  patchSpeakers,
+  deleteSpeaker,
+  updateSpeakerStatus,
+} from "@/service/AdminConfernecePages/confernce";
 export default function SpeakerTabelAdmin({
   selectedConferenceID,
   speakerData,
@@ -29,11 +33,14 @@ export default function SpeakerTabelAdmin({
 
   const handleStatusChange = async (newStatus, id) => {
     try {
-      const response = await updateSpeakerStatus(selectedConferenceID, {speakerId:id,status:newStatus});
+      const response = await updateSpeakerStatus(selectedConferenceID, {
+        speakerId: id,
+        status: newStatus,
+      });
 
       if (response.status === 200) {
         // Update local state
-        fetchConfernceData(); 
+        fetchConfernceData();
         toast.current?.show({
           severity: "success",
           summary: "Updated",
@@ -57,21 +64,28 @@ export default function SpeakerTabelAdmin({
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, imageUrl) => {
     try {
-  
-     const response=await deleteSpeaker(selectedConferenceID,{speakerId:id});
-           if(response.status !== 200) {
-              throw new Error(response.data.detail[0].msg || "Failed to delete Speaker");
-           }
+      const response = await deleteSpeaker(selectedConferenceID, {
+        speakerId: id,
+      });
+      if (response.status !== 200) {
+        throw new Error(
+          response.data.detail[0].msg || "Failed to delete Speaker"
+        );
+      }
       toast.current.show({
         severity: "success",
         summary: "Deleted",
         detail: "Speaker has been deleted.",
         life: 3000,
       });
+      try {
+        await deleteMedia("image", imageUrl);
+      } catch {
+        throw new Error("Failed to Delete");
+      }
       fetchConfernceData();
-      
     } catch (error) {
       toast.current.show({
         severity: "error",
@@ -82,9 +96,9 @@ export default function SpeakerTabelAdmin({
     }
   };
 
-  const confirmDelete = (id) => {
+  const confirmDelete = (id, imageUrl) => {
     const accept = () => {
-      handleDelete(id);
+      handleDelete(id, imageUrl);
     };
     const reject = () => {
       console.log("rejectcted");
@@ -114,8 +128,7 @@ export default function SpeakerTabelAdmin({
         content: (
           <Edit
             formData={data}
-                      selectedConferenceID={selectedConferenceID}
-
+            selectedConferenceID={selectedConferenceID}
             toast={toast}
             setIsVisible={setIsVisible}
             fetchData={fetchConfernceData}
@@ -126,7 +139,7 @@ export default function SpeakerTabelAdmin({
         header: "Add Speaker",
         content: (
           <Add
-          selectedConferenceID={selectedConferenceID}
+            selectedConferenceID={selectedConferenceID}
             toast={toast}
             setIsVisible={setIsVisible}
             fetchData={fetchConfernceData}
@@ -191,12 +204,14 @@ export default function SpeakerTabelAdmin({
                   <td className="p-3 table-data">{element.name}</td>
                   <td className="p-3 table-data">{element.title}</td>
                   <td className="p-3  table-data ">{element.companyDetails}</td>
-              
+
                   <td className="p-3  table-data ">
                     {" "}
                     <InputSwitch
                       checked={element.status}
-                      onChange={(e) => handleStatusChange(e.value, element.speakerId)}
+                      onChange={(e) =>
+                        handleStatusChange(e.value, element.speakerId)
+                      }
                       style={{ scale: "0.7" }}
                     />
                   </td>
@@ -205,20 +220,26 @@ export default function SpeakerTabelAdmin({
                       <button
                         name="edit"
                         className="btn btn-outline-secondary rounded"
-                        onClick={(e) => handleModel(e.target.name, element)}
+                        onClick={(e) =>
+                          handleModel(e.currentTarget.name, element)
+                        }
                       >
                         <i className="bx bx-edit-alt"></i>
                       </button>
                       <button
                         className="btn btn-outline-secondary rounded"
-                        onClick={() => confirmDelete(element.speakerId)}
+                        onClick={() =>
+                          confirmDelete(element.speakerId, element.imageUrl)
+                        }
                       >
                         <i className="bx bx-trash-alt"></i>
                       </button>
                       <button
                         name="view"
                         className="btn btn-outline-warning rounded"
-                        onClick={(e) => handleModel(e.target.name, element)}
+                        onClick={(e) =>
+                          handleModel(e.currentTarget.name, element)
+                        }
                       >
                         <i className="bx bx-chevron-right"></i>
                       </button>
@@ -251,12 +272,20 @@ export default function SpeakerTabelAdmin({
   );
 }
 
-function Edit({ formData,selectedConferenceID, toast, fetchData, setIsVisible }) {
-  const [upload, setUpload] = useState({ file: null, imageUrl: formData.imageUrl || ''});
+function Edit({
+  formData,
+  selectedConferenceID,
+  toast,
+  fetchData,
+  setIsVisible,
+}) {
+  const [upload, setUpload] = useState({
+    file: null,
+    imageUrl: formData.imageUrl || "",
+  });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [loading, setLoading] = useState(true);
-
 
   const handleFileChange = (file) => {
     const preview = file ? URL.createObjectURL(file) : null;
@@ -287,7 +316,11 @@ function Edit({ formData,selectedConferenceID, toast, fetchData, setIsVisible })
         imageUrl: imageUrl,
       };
 
-      const response = await patchSpeakers(selectedConferenceID,payLoad,formData.speakerId);
+      const response = await patchSpeakers(
+        selectedConferenceID,
+        payLoad,
+        formData.speakerId
+      );
 
       if (response.status === 200) {
         toast.current?.show({
@@ -295,6 +328,17 @@ function Edit({ formData,selectedConferenceID, toast, fetchData, setIsVisible })
           summary: "updated",
           detail: response.data.detail[0].msg || "Speaker Updated successfully",
         });
+        if (
+          upload.file &&
+          formData.imageUrl &&
+          !formData.imageUrl.startsWith("blob:")
+        ) {
+          try {
+            await deleteMedia("image", formData.imageUrl);
+          } catch {
+            throw new Error("Failed to Delete");
+          }
+        }
         setIsVisible(false);
         fetchData();
       } else {
@@ -331,7 +375,6 @@ function Edit({ formData,selectedConferenceID, toast, fetchData, setIsVisible })
       companyDetails: Yup.string().required("Company Details are required"),
     }),
     onSubmit: (values) => {
-
       setImageError(null);
       const finalData = {
         ...values,
@@ -340,7 +383,6 @@ function Edit({ formData,selectedConferenceID, toast, fetchData, setIsVisible })
       submitSpeaker(finalData);
     },
   });
-
 
   return (
     <form
@@ -434,7 +476,7 @@ function Edit({ formData,selectedConferenceID, toast, fetchData, setIsVisible })
     </form>
   );
 }
-function Add({selectedConferenceID, toast, fetchData, setIsVisible }) {
+function Add({ selectedConferenceID, toast, fetchData, setIsVisible }) {
   const [upload, setUpload] = useState({ file: null });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -466,7 +508,7 @@ function Add({selectedConferenceID, toast, fetchData, setIsVisible }) {
         imageUrl: imageUrl,
       };
 
-      const response = await patchSpeakers(selectedConferenceID,payLoad);
+      const response = await patchSpeakers(selectedConferenceID, payLoad);
 
       if (response.status === 200) {
         toast.current?.show({
@@ -622,48 +664,44 @@ function Add({selectedConferenceID, toast, fetchData, setIsVisible }) {
 }
 
 function View({ data }) {
-
- 
   return (
     <div className="d-flex gap-4 flex-column">
- 
-          <>
-            <div>
-              <label className="form-label  mb-2">Name</label>
-              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-                {data.name}
-              </p>
-            </div>
-            <div>
-              <label className="form-label  mb-2">title</label>
-              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-                {data.title}
-              </p>
-            </div>
-            <label className="form-label">Speaker Image</label>
-            <Image
-              src={data.imageUrl}
-              width={100}
-              height={100}
-              alt="Speaker Image"
-              style={{ objectFit: "cover", borderRadius: "8px" }}
-            />
+      <>
+        <div>
+          <label className="form-label  mb-2">Name</label>
+          <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+            {data.name}
+          </p>
+        </div>
+        <div>
+          <label className="form-label  mb-2">title</label>
+          <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+            {data.title}
+          </p>
+        </div>
+        <label className="form-label">Speaker Image</label>
+        <Image
+          src={data.imageUrl}
+          width={100}
+          height={100}
+          alt="Speaker Image"
+          style={{ objectFit: "cover", borderRadius: "8px" }}
+        />
 
-            <div>
-              <label className="form-label mb-2">Bio-Data</label>
+        <div>
+          <label className="form-label mb-2">Bio-Data</label>
 
-              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-                {data.bioData}
-              </p>
-            </div>
-            <div>
-              <label className="form-label mb-2">Company</label>
-              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-                {data.companyDetails}
-              </p>
-            </div>
-          </>
-      
+          <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+            {data.bioData}
+          </p>
+        </div>
+        <div>
+          <label className="form-label mb-2">Company</label>
+          <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+            {data.companyDetails}
+          </p>
+        </div>
+      </>
     </div>
   );
 }

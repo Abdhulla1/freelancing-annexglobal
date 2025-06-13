@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import RichTextEditor from "../LandingPage/RichTextEditor";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import { uploadImage } from "@/service/mediaManagemnt";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
 import { saveEventDetailsSection } from "@/service/AdminConfernecePages/confernce";
 
 export default function EventDetailsSection({
@@ -54,12 +54,10 @@ export default function EventDetailsSection({
           uploads.map(async (upload) => {
             if (upload.file) {
               const res = await uploadImage(upload.file);
-              if (
-                res.status !== 201 ||
-                !res.data?.detail?.message?.[0]?.url
-              ) {
+              if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
                 throw new Error("Image upload failed");
               }
+
               return res.data.detail.message[0].url;
             }
             return upload.imageUrl;
@@ -85,6 +83,25 @@ export default function EventDetailsSection({
               "Event details saved successfully.",
             life: 3000,
           });
+
+          for (let i = 0; i < uploads.length; i++) {
+            const upload = uploads[i];
+            const oldImage = EventDetailsSectionData?.images?.[i];
+
+            if (
+              upload.file && // a new file was uploaded
+              oldImage && // old image exists
+              oldImage !== upload.imageUrl && // image was actually replaced
+              !oldImage.startsWith("blob:")
+            ) {
+              try {
+                await deleteMedia("image", oldImage);
+              } catch {
+                throw new Error("Failed to Delete");
+              }
+            }
+          }
+
           fetchConfernceData();
         } else {
           toast.current.show({
@@ -163,7 +180,7 @@ export default function EventDetailsSection({
                     uploads[i].imageUrl || "/icons/DefaultPreviewImage.png"
                   }
                   onFileChange={(file) => handleFileChange(i, file)}
-                   dimensionNote="Recommended dimensions: Width 600px × Height 400px"
+                  dimensionNote="Recommended dimensions: Width 600px × Height 400px"
                 />
                 {imageErrors[i] && (
                   <div className="text-danger mt-1">{imageErrors[i]}</div>

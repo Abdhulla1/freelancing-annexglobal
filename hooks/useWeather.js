@@ -4,7 +4,7 @@ import {api, mediaApi, paymentApi} from '@/service/api';
 
 export const useWeather = () => {
   return useMutation({
-    mutationFn: () => api.post('/fetch/weather').then(res => res.data),
+    mutationFn: (data) => api.post('/fetch/weather', data).then(res => res.data),
   });
 };
 
@@ -108,7 +108,6 @@ export const useConferenceDetails = (conferenceName) => {
     queryFn: () => api.get(`/${conferenceName}/conferences`).then(res => res.data),
   });
 }
-
 
 export const useUploadPdf = () => {
   return useMutation({

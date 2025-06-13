@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { uploadImage } from "@/service/mediaManagemnt";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
 import { saveConferenceLandingPage } from "@/service/AdminConfernecePages/confernce";
 import RichTextEditor from "./RichTextEditor";
 
@@ -83,6 +83,17 @@ export default function LandingPage({
               "Landing Page saved successfully.",
             life: 3000,
           });
+          if (
+            upload.file && LandingPageData.certificationImage &&
+            !LandingPageData.certificationImage.startsWith("blob:")
+          ) {
+            try {
+              await deleteMedia("image", LandingPageData.certificationImage);
+            } catch {
+              throw new Error("Failed to Delete");
+            }
+          }
+
           fetchConfernceData();
         } else {
           toast.current.show({
@@ -121,6 +132,7 @@ export default function LandingPage({
         showBorder={true}
         showDelete={true}
         dimensionNote="Recommended dimensions: Width 570px × Height 760px"
+        toast={toast}
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}
 

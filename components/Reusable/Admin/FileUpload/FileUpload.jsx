@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { deleteMedia } from "@/service/mediaManagemnt";
 
 export default function FileUpload({
   title = "Upload Image",
@@ -9,7 +10,8 @@ export default function FileUpload({
   showDelete = false,
   imageUrl = "",
   onFileChange,
-   dimensionNote = "",
+  dimensionNote = "",
+  toast,
 }) {
   const inputRef = useRef();
   const [previewSrc, setPreviewSrc] = useState(
@@ -37,14 +39,35 @@ export default function FileUpload({
       setPreviewSrc("/icons/DefaultPreviewImage.png");
     }
   };
-const handleDelete = () => {
-  setPreviewSrc("/icons/DefaultPreviewImage.png");
-  setFileName("No File Chosen");
-  imageUrl="";
-  inputRef.current.value = ""; // reset file input
-  onFileChange?.(""); // notify parent about removal
-};
+  // const handleDelete = () => {
+  //   setPreviewSrc("/icons/DefaultPreviewImage.png");
+  //   setFileName("No File Chosen");
+  //   imageUrl="";
+  //   inputRef.current.value = "";
+  //   onFileChange?.("");
+  // };
+  const handleDelete = async () => {
+    try {
+      // ✅ If the image is from server (not a blob), call onDelete to trigger API
+      if (imageUrl && !imageUrl.startsWith("blob:")) {
+        await deleteMedia("image", imageUrl);
+        console.log("deleted");
+      }
 
+      // Reset everything
+      setPreviewSrc("/icons/DefaultPreviewImage.png");
+      setFileName("No File Chosen");
+      inputRef.current.value = "";
+      onFileChange?.(null); // notify parent image is removed
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Submission failed",
+        detail:  "Failed to Delete Image Page.",
+        life: 3000,
+      });
+    }
+  };
   const handleButtonClick = () => {
     inputRef.current.click();
   };
@@ -75,7 +98,6 @@ const handleDelete = () => {
             width={100}
             height={100}
             style={{ objectFit: "cover", borderRadius: "8px" }}
-            
           />
         </div>
 
@@ -85,10 +107,10 @@ const handleDelete = () => {
             <em>Please upload square image, size less than 100KB</em>
           </p>
           {dimensionNote && (
-    <p className=" text-black" style={{ fontSize: "10px" }}>
-      <em>{dimensionNote}</em>
-    </p>
-  )}
+            <p className=" text-black" style={{ fontSize: "10px" }}>
+              <em>{dimensionNote}</em>
+            </p>
+          )}
           <input
             type="file"
             ref={inputRef}
@@ -98,7 +120,7 @@ const handleDelete = () => {
           />
           <div className="d-flex mt-md-4 flex-column flex-sm-row align-items-start align-items-sm-center gap-2">
             <button
-            type="button"
+              type="button"
               className="btn btn-outline-warning px-3"
               style={{ whiteSpace: "nowrap", minWidth: "120px" }}
               onClick={handleButtonClick}
@@ -121,9 +143,9 @@ const handleDelete = () => {
         </div>
         {showDelete && (
           <button
-          type="button"
+            type="button"
             className="btn btn-sm btn-outline-danger text-center"
-             onClick={handleDelete}
+            onClick={handleDelete}
             title="Delete"
           >
             <i className="bx bx-trash" style={{ fontSize: "20px" }}></i>

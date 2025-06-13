@@ -1,7 +1,7 @@
 "use client";
 
 import { Sidebar } from "primereact/sidebar";
-import { useWeather } from '@/hooks/useWeather';
+import { useWeather } from "@/hooks/useWeather";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -9,20 +9,20 @@ import { useMainPage } from "@/hooks/useWeather";
 import NavbarStyles from "./Navbar.module.css";
 import useSessionStorageState from "use-local-storage-state"; // Using session storage hook
 export default function Navbar() {
-   const { data: Mdata, isPending: MisPending, isError: MisError } = useMainPage();
+  const {
+    data: Mdata,
+    isPending: MisPending,
+    isError: MisError,
+  } = useMainPage();
 
-    const { mutate, data, isPending, isError } = useWeather();
+  const { mutate, data, isPending, isError } = useWeather();
   const [isOpen, setIsOpen] = useState(false);
   const [isFixed, setIsFixed] = useState(false);
   const [expandedItem, setExpandedItem] = useState(null);
 
-
-
-
-    useEffect(() => {
-    mutate();
-  }, [mutate]);
-
+  //   useEffect(() => {
+  //   mutate();
+  // }, [mutate]);
 
   const toggleExpand = (label) => {
     setExpandedItem(expandedItem === label ? null : label);
@@ -31,7 +31,6 @@ export default function Navbar() {
   const [activeItem, setActiveItem] = useSessionStorageState("activeNavItem", {
     initialValue: "HOME",
   });
-
 
   const menuRef = useRef(null);
   const pathname = usePathname();
@@ -82,7 +81,13 @@ export default function Navbar() {
 
   const idMatch = pathname.match(/^\/conference\/([^/]+)/);
   const conferenceId = idMatch ? idMatch[1] : null;
-
+  useEffect(() => {
+    if (conferenceId) {
+      mutate({conferencId: conferenceId
+      });
+    }
+  }, [conferenceId, mutate]);
+  
   const conferenceMenuItems = [
     { label: "HOME", url: conferenceId ? `/conference/${conferenceId}` : "/" },
     {
@@ -210,9 +215,7 @@ export default function Navbar() {
       <div
         className={` d-none d-md-flex fw-bold justify-content-center p-2 align-items-center w-100 ${NavbarStyles.announcementBar}`}
       >
-        <span>
-          {Mdata?.detail?.location?.headerTexting}{" "}
-        </span>
+        <span>{Mdata?.detail?.landingPage?.heading} </span>
         <span className="ps-2 pe-2 p-1 ms-2 rounded">
           Attend Annex Global conference world
         </span>
@@ -225,14 +228,19 @@ export default function Navbar() {
             <Link href={"/"} className="text-decoration-none">
               <img src="/icons/annexWithText.png" alt="Logo" />
             </Link>
-                 {pathname.startsWith('/conference') &&(
-            <div className="mt-2">
-              {/* Location/Weather*/}
-              <p className={`d-none  d-xxl-block ${NavbarStyles["sub-title"]}`}>
-                {data?.detail?.location} &nbsp;•&nbsp;{data?.detail?.dates}&nbsp;•&nbsp;
-                <i className="bx bxs-sun text-warning" /> {data?.detail?.weather}
-              </p>
-            </div>)}
+            {pathname.startsWith("/conference") && (
+              <div className="mt-2">
+                {/* Location/Weather*/}
+                <p
+                  className={`d-none  d-xxl-block ${NavbarStyles["sub-title"]}`}
+                >
+                  {data?.detail?.location} &nbsp;•&nbsp;{data?.detail?.dates}
+                  &nbsp;•&nbsp;
+                  <i className="bx bxs-sun text-warning" />{" "}
+                  {data?.detail?.weather}
+                </p>
+              </div>
+            )}
           </div>
 
           <button
@@ -251,7 +259,7 @@ export default function Navbar() {
             }`}
           >
             <ul
-            // style={{ marginRight: "240px" }}
+              // style={{ marginRight: "240px" }}
               className={`navbar-nav d-flex justify-content-center w-100 ms-5 ${
                 isOpen ? " gap-3 " : " gap-5 "
               }`}
@@ -304,30 +312,28 @@ export default function Navbar() {
             </ul>
           </div>
 
-     {pathname.startsWith('/conference') &&(
+          {pathname.startsWith("/conference") && (
+            <div className="d-none d-xxl-flex gap-2 ms-3 ">
+              <Link
+                href={
+                  conferenceId
+                    ? `/conference/${conferenceId}/scientific-program`
+                    : "#"
+                }
+                className={`text-center text-uppercase mb-0 fw-bold text-decoration-none  ${NavbarStyles["sponsor"]}`}
+              >
+                Program
+              </Link>
 
-          <div className="d-none d-xxl-flex gap-2 ms-3 ">
-            <Link
-              href={
-                conferenceId
-                  ? `/conference/${conferenceId}/scientific-program`
-                  : "#"
-              }
-              className={`text-center text-uppercase mb-0 fw-bold text-decoration-none  ${NavbarStyles["sponsor"]}`}
-            >
-              Program
-            </Link>
-
-            <Link
-              href={`/conference/${conferenceId}/download-brochure`}
-              className={`text-uppercase text-center fw-bold mb-0 text-decoration-none ${NavbarStyles["buy-ticket"]}`}
-            >
-              Brochure
-            </Link>
-          </div>
-     )}
+              <Link
+                href={`/conference/${conferenceId}/download-brochure`}
+                className={`text-uppercase text-center fw-bold mb-0 text-decoration-none ${NavbarStyles["buy-ticket"]}`}
+              >
+                Brochure
+              </Link>
+            </div>
+          )}
         </div>
-
       </nav>
       {/* PrimeReact Sidebar for Mobile */}
       <Sidebar
@@ -358,11 +364,13 @@ export default function Navbar() {
                       >
                         {item.label}
                         <i
-                          className={`${isActive ? "pi pi-angle-up" : "pi pi-angle-down"}`}
+                          className={`${
+                            isActive ? "pi pi-angle-up" : "pi pi-angle-down"
+                          }`}
                           style={{ marginLeft: 8 }}
                         ></i>
                       </span>
-           <hr/>
+                      <hr />
                       {isActive && (
                         <ul className="list-unstyled ps-3 fs-5 mt-1">
                           {item.items.map((sub, i) => {
@@ -385,23 +393,20 @@ export default function Navbar() {
                           })}
                         </ul>
                       )}
-
                     </div>
-                    
                   ) : (
                     <>
-                         <Link
-                      href={item.url}
-                      className={`d-block py-1 fs-4 text-decoration-none ${
-                        isActive ? "fw-bold text-primary" : "text-dark"
-                      }`}
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                    <hr/>
+                      <Link
+                        href={item.url}
+                        className={`d-block py-1 fs-4 text-decoration-none ${
+                          isActive ? "fw-bold text-primary" : "text-dark"
+                        }`}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                      <hr />
                     </>
-               
                   )}
                 </li>
               );

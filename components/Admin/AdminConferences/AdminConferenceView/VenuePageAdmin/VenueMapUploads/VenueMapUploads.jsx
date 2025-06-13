@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import { uploadImage } from "@/service/mediaManagemnt";
+import { uploadImage,deleteMedia} from "@/service/mediaManagemnt";
 import { saveVenueLocationSection } from "@/service/AdminConfernecePages/confernce";
 export default function VenueMapUploads({
   selectedConferenceID,
@@ -57,15 +57,28 @@ export default function VenueMapUploads({
             severity: "success",
             summary: "Success!",
             detail:
-              response.data?.detail?.[0]?.msg || "Location info saved successfully.",
+              response.data?.detail?.[0]?.msg ||
+              "Location info saved successfully.",
             life: 3000,
           });
+          if (
+            upload.file &&
+            LocationData.screenShotUrl &&
+            !LocationData.screenShotUrl.startsWith("blob:")
+          ) {
+            try {
+              await deleteMedia("image", LocationData.screenShotUrl);
+            } catch {
+              throw new Error("Failed to Delete");
+            }
+          }
           fetchConfernceData();
         } else {
           toast.current.show({
             severity: "warn",
             summary: "Unknown response",
-            detail: response.data?.detail?.[0]?.msg || "Unknown server response",
+            detail:
+              response.data?.detail?.[0]?.msg || "Unknown server response",
             life: 3000,
           });
         }
@@ -90,7 +103,6 @@ export default function VenueMapUploads({
 
   return (
     <form onSubmit={formik.handleSubmit} className="mt-5">
-
       <div className="mt-3">
         <FileUpload
           title="Upload Google Maps Screenshot (Image Upload)"
@@ -103,9 +115,15 @@ export default function VenueMapUploads({
       </div>
 
       <div className="mt-4">
-        <label htmlFor="mapsEmbedLink" className="form-label">Google Maps Embed Link</label>
+        <label htmlFor="mapsEmbedLink" className="form-label">
+          Google Maps Embed Link
+        </label>
         <div className="input-group border rounded p-1">
-          <span className="btn rounded-2 text-white me-1" id="basic-addon1" style={{ backgroundColor: "#111880" }}>
+          <span
+            className="btn rounded-2 text-white me-1"
+            id="basic-addon1"
+            style={{ backgroundColor: "#111880" }}
+          >
             <i className="bx bx-link-alt"></i>
           </span>
           <input
@@ -123,7 +141,6 @@ export default function VenueMapUploads({
       </div>
 
       <div className=" mt-5 p-2 d-flex justify-content-start gap-2 w-100">
-
         <button
           type="submit"
           className="btn px-1 px-md-5 btn-warning text-white"

@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { Toast } from "primereact/toast";
-import { uploadImage } from "@/service/mediaManagemnt";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
 import { getAllGallery, saveAllGallery } from "@/service/galleryService";
 import { Button } from "primereact/button";
 
@@ -10,22 +10,23 @@ export default function GalleryImageUploads() {
   const toastRef = useRef(null);
   const [buttonLoading, setButtonLoading] = useState(false);
 
+  // Initial state with 15 slots: { file: File | Uploaded, oldUrl: string | null }
   const [uploads, setUploads] = useState(
-    Array.from({ length: 15 }, () => ({ file: null }))
+    Array.from({ length: 15 }, () => ({ file: null, oldUrl: null }))
   );
-
-  // Fetch gallery images on mount
-  useEffect(() => {
     const fetchGalleryImages = async () => {
       try {
         const response = await getAllGallery();
         const galleryUrls = response.data?.detail?.imageUrls || [];
-        console.log(response)
+
         const updatedUploads = Array.from({ length: 15 }, (_, index) => {
           const url = galleryUrls[index];
           return url
-            ? { file: { isUploaded: true, preview: url } }
-            : { file: null };
+            ? {
+                file: { isUploaded: true, preview: url },
+                oldUrl: url,
+              }
+            : { file: null, oldUrl: null };
         });
 
         setUploads(updatedUploads);
@@ -38,32 +39,54 @@ export default function GalleryImageUploads() {
         });
       }
     };
+  // Fetch gallery images on mount
+  useEffect(() => {
+
 
     fetchGalleryImages();
   }, []);
 
-  // Handle file upload per index
+  // Handle file selection and preserve old uploaded image URL
   const handleFileChange = (file, index) => {
     const updatedUploads = [...uploads];
-    updatedUploads[index].file = file;
+    const current = updatedUploads[index];
+
+    const oldUrl =
+      current.file?.isUploaded && current.file?.preview
+        ? current.file.preview
+        : current.oldUrl || null;
+
+    updatedUploads[index] = {
+      file,
+      oldUrl,
+    };
+
     setUploads(updatedUploads);
   };
 
-  // Disable submit if any file is missing or invalid
+  // Disable submit if any slot is empty or invalid
   const isSubmitDisabled = uploads.some(
-    (upload) => !upload.file || !upload.file.name && !upload.file.isUploaded
+    (upload) => !upload.file || (!upload.file.name && !upload.file.isUploaded)
   );
 
   const handleSubmit = async () => {
     setButtonLoading(true);
 
     try {
-      const uploadPromises = uploads.map(async ({ file }) => {
+      const urlMap = []; // Store mapping of replaced oldUrls
+
+      const uploadPromises = uploads.map(async ({ file, oldUrl }) => {
         if (file?.isUploaded) {
-          return { url: file.preview };
+          return { url: file.preview }; // already uploaded
         } else if (file) {
           const response = await uploadImage(file);
-          return response.data?.detail.message[0]; // expects { url: '...' }
+          const newUrl = response.data?.detail.message[0]?.url;
+
+          if (newUrl && oldUrl && oldUrl !== newUrl) {
+            urlMap.push({ oldUrl, newUrl });
+          }
+
+          return { url: newUrl };
         } else {
           return null;
         }
@@ -72,13 +95,19 @@ export default function GalleryImageUploads() {
       const responses = await Promise.all(uploadPromises);
       const imageUrls = responses.filter(Boolean).map((res) => res.url);
 
-      const finalPayload = {
-        imageUrls: imageUrls,
-      };
+      const finalPayload = { imageUrls };
 
       const response = await saveAllGallery(finalPayload);
 
       if (response.status === 200) {
+        // ✅ Now safe to delete old media
+        const deletePromises = urlMap.map(({ oldUrl }) =>
+          deleteMedia("image", oldUrl).catch((err) => {
+            console.warn("Failed to delete old image:", err);
+          })
+        );
+        await Promise.all(deletePromises);
+    fetchGalleryImages();
         toastRef.current.show({
           severity: "success",
           summary: "Success!",
@@ -104,7 +133,7 @@ export default function GalleryImageUploads() {
     <>
       <div className="mb-2">
         <label className="form-label">
-          Upload Landing page images (15 Images)
+          Upload Landing Page Images (15 Images)
         </label>
       </div>
 

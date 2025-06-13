@@ -35,7 +35,7 @@ console.log(conferenceData?.detail);
             <div>
               <h2 className="ms-3 mb-4 text-start ">Past Conference</h2>
             </div>
-            <div className="mb-4 d-flex justify-content-start">
+            {/* <div className="mb-4 d-flex justify-content-start">
               <select
                 className={`form-select w-auto ${Styles["dropdown"]}`}
                 onChange={handleSelectChange}
@@ -47,7 +47,7 @@ console.log(conferenceData?.detail);
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
           </div>
           {/*Past Conference Report */}
           <Link

@@ -7,9 +7,13 @@ import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { uploadImage } from "@/service/mediaManagemnt";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
 import { Button } from "primereact/button";
-import { saveLandingPageSpeakers,UpdateLandingPageSpeakers,deleteLandingPageSpeaker} from "@/service/AdminConfernecePages/confernce";
+import {
+  saveLandingPageSpeakers,
+  UpdateLandingPageSpeakers,
+  deleteLandingPageSpeaker,
+} from "@/service/AdminConfernecePages/confernce";
 import { Paginator } from "primereact/paginator";
 
 export default function LandingPageSpeakers({
@@ -24,33 +28,38 @@ export default function LandingPageSpeakers({
     content: null,
   });
   const [first, setFirst] = useState(0); // starting index
-const [rows, setRows] = useState(10); // rows per page
+  const [rows, setRows] = useState(10); // rows per page
 
-    const handleDelete = async (id) => {
+  const handleDelete = async (id, imageUrl) => {
+    try {
+      await deleteLandingPageSpeaker({ speakerId: id }, selectedConferenceID);
+      toast.current.show({
+        severity: "success",
+        summary: "Deleted",
+        detail: "Speaker has been deleted.",
+        life: 3000,
+      });
+
       try {
-        await deleteLandingPageSpeaker({ speakerId: id },selectedConferenceID);
-        toast.current.show({
-          severity: "success",
-          summary: "Deleted",
-          detail: "Speaker has been deleted.",
-          life: 3000,
-        });
- fetchConfernceData()
-     
-      } catch (error) {
-        toast.current.show({
-          severity: "error",
-          summary: "Error",
-          detail: error.message || "Failed to delete. Please try again.",
-          life: 3000,
-        });
+        await deleteMedia("image", imageUrl);
+      } catch {
+        throw new Error("Failed to Delete");
       }
-    };
-  const confirmDelete = (id) => {
+      fetchConfernceData();
+    } catch (error) {
+      toast.current.show({
+        severity: "error",
+        summary: "Error",
+        detail: error.message || "Failed to delete. Please try again.",
+        life: 3000,
+      });
+    }
+  };
+  const confirmDelete = (id, imageUrl) => {
     const accept = () => {
-      handleDelete(id)
+      handleDelete(id, imageUrl);
     };
-   
+
     confirmDialog({
       message: <Delete />,
       acceptLabel: "OK",
@@ -125,74 +134,82 @@ const [rows, setRows] = useState(10); // rows per page
           <p>Try adding a new speaker using the + button.</p>
         </div>
       ) : (
-      <div>
-        <table className="tabel w-100  table-striped-columns">
-          <thead>
-            <tr>
-              <td className="p-2 table-heading">Speaker Image</td>
-              <td className="p-2 table-heading">Name</td>
-              <td className="p-2 table-heading">Country</td>
-              <td className="p-2 table-heading">Action</td>
-            </tr>
-          </thead>
-
-          <tbody>
-            {LandingPageSpeakers.slice(first, first + rows).map((element, i) => (
-              <tr key={i}>
-                <td className="p-3 table-data">
-                  <Image
-                    src={element.imageUrl}
-                    height={80}
-                    width={80}
-                    alt="TopicImage"
-                    style={{ objectFit: "cover", borderRadius: "8px" }}
-                  />{" "}
-                </td>
-                <td className="p-3 table-data">{element.name}</td>
-                <td className="p-3  table-data ">{element.country}</td>
-                <td className="p-3 table-data ">
-                  <div className="d-flex gap-1  justify-content-center flex-nowrap">
-                    <button
-                      name="edit"
-                      className="btn btn-outline-secondary rounded"
-                      onClick={(e) => handleSidebar(e.target.name, element)}
-                    >
-                      <i className="bx bx-edit-alt"></i>
-                    </button>
-                    <button
-                      className="btn btn-outline-secondary rounded"
-                           onClick={() => confirmDelete(element.speakerId)}
-                    >
-                      <i className="bx bx-trash-alt"></i>
-                    </button>
-                    <button
-                      name="view"
-                      className="btn btn-outline-warning rounded"
-                      onClick={(e) => handleSidebar(e.target.name, element)}
-                    >
-                      <i className="bx bx-chevron-right"></i>
-                    </button>
-                  </div>
-                </td>
+        <div>
+          <table className="tabel w-100  table-striped-columns">
+            <thead>
+              <tr>
+                <td className="p-2 table-heading">Speaker Image</td>
+                <td className="p-2 table-heading">Name</td>
+                <td className="p-2 table-heading">Country</td>
+                <td className="p-2 table-heading">Action</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <Paginator
-  first={first}
-  rows={rows} // set rows using useState, e.g., 10
-  totalRecords={LandingPageSpeakers.length}
-  onPageChange={(e) => {
-    setFirst(e.first);
-  }}
-  className="mt-2"
-/>
+            </thead>
 
-      </div>)}
+            <tbody>
+              {LandingPageSpeakers.slice(first, first + rows).map(
+                (element, i) => (
+                  <tr key={i}>
+                    <td className="p-3 table-data">
+                      <Image
+                        src={element.imageUrl}
+                        height={80}
+                        width={80}
+                        alt="TopicImage"
+                        style={{ objectFit: "cover", borderRadius: "8px" }}
+                      />{" "}
+                    </td>
+                    <td className="p-3 table-data">{element.name}</td>
+                    <td className="p-3  table-data ">{element.country}</td>
+                    <td className="p-3 table-data ">
+                      <div className="d-flex gap-1  justify-content-center flex-nowrap">
+                        <button
+                          name="edit"
+                          className="btn btn-outline-secondary rounded"
+                          onClick={(e) =>
+                            handleSidebar(e.currentTarget.name, element)
+                          }
+                        >
+                          <i className="bx bx-edit-alt"></i>
+                        </button>
+                        <button
+                          className="btn btn-outline-secondary rounded"
+                          onClick={() =>
+                            confirmDelete(element.speakerId, element.imageUrl)
+                          }
+                        >
+                          <i className="bx bx-trash-alt"></i>
+                        </button>
+                        <button
+                          name="view"
+                          className="btn btn-outline-warning rounded"
+                          onClick={(e) =>
+                            handleSidebar(e.currentTarget.name, element)
+                          }
+                        >
+                          <i className="bx bx-chevron-right"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+          <Paginator
+            first={first}
+            rows={rows} // set rows using useState, e.g., 10
+            totalRecords={LandingPageSpeakers.length}
+            onPageChange={(e) => {
+              setFirst(e.first);
+            }}
+            className="mt-2"
+          />
+        </div>
+      )}
 
       <button
         name="add"
-        className="btn btn-lg text-white rounded-circle  btn-warning position-absolute"
+        className="btn btn-lg text-white rounded-circle btn-warning position-absolute"
         style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
         onClick={(e) => handleSidebar(e.target.name)}
       >
@@ -209,7 +226,10 @@ function Edit({
   setIsVisible,
   selectedConferenceID,
 }) {
-  const [upload, setUpload] = useState({ file: null, imageUrl: tableData.imageUrl ||"" });
+  const [upload, setUpload] = useState({
+    file: null,
+    imageUrl: tableData.imageUrl || "",
+  });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -240,7 +260,11 @@ function Edit({
         imageUrl: imageUrl,
       };
 
-      const response = await UpdateLandingPageSpeakers(payLoad,selectedConferenceID,tableData.speakerId);
+      const response = await UpdateLandingPageSpeakers(
+        payLoad,
+        selectedConferenceID,
+        tableData.speakerId
+      );
 
       if (response.status === 200) {
         toast.current?.show({
@@ -248,6 +272,13 @@ function Edit({
           summary: "updated",
           detail: response.data.detail[0].msg || "Speaker Updated successfully",
         });
+      if ( upload.file &&tableData.imageUrl && !tableData.imageUrl.startsWith("blob:")) {
+          try {
+            await deleteMedia("image", tableData.imageUrl);
+          } catch {
+            throw new Error("Failed to Delete");
+          }
+        }
         setIsVisible(false);
         fetchData();
       } else {
@@ -272,15 +303,14 @@ function Edit({
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: tableData.name||"",
-      country:tableData.country|| "",
+      name: tableData.name || "",
+      country: tableData.country || "",
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Name is required"),
       country: Yup.string().required("Country is required"),
     }),
     onSubmit: (values) => {
-  
       setImageError(null);
       const finalData = {
         ...values,
@@ -289,16 +319,16 @@ function Edit({
       submitSpeaker(finalData);
     },
   });
-  
+
   return (
-      <form
+    <form
       onSubmit={formik.handleSubmit}
       className="d-flex gap-3 container flex-column h-100"
     >
       <FileUpload
         title={"Speaker Image Upload*"}
         showBorder={true}
-         imageUrl={upload.imageUrl}
+        imageUrl={upload.imageUrl}
         onFileChange={handleFileChange}
         dimensionNote="Recommended dimensions: Width 250px × Height 270px"
       />
@@ -465,7 +495,6 @@ function Add({ toast, fetchData, setIsVisible, selectedConferenceID }) {
         showBorder={true}
         onFileChange={handleFileChange}
         dimensionNote="Recommended dimensions: Width 250px × Height 270px"
-        
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}
 

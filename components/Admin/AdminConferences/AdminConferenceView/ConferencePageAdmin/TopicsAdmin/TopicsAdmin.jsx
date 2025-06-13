@@ -6,17 +6,20 @@ import RichTextEditor from "../LandingPage/RichTextEditor";
 import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
 import { Paginator } from "primereact/paginator";
-import { deleteTopic,patchTopic} from "@/service/AdminConfernecePages/confernce";
-import { uploadImage } from "@/service/mediaManagemnt";
+import {
+  deleteTopic,
+  patchTopic,
+} from "@/service/AdminConfernecePages/confernce";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
 import { useFormik } from "formik";
 import { Button } from "primereact/button";
 import * as Yup from "yup";
-export default function TopicsAdmin(
-{  selectedConferenceID,
+export default function TopicsAdmin({
+  selectedConferenceID,
   topicsData,
   fetchConfernceData,
-  toast}
-) {
+  toast,
+}) {
   const [isVisible, setIsVisible] = useState(false);
   const [sidebarState, setSidebarState] = useState({
     header: null,
@@ -24,22 +27,30 @@ export default function TopicsAdmin(
   });
   const [first, setFirst] = useState(0); // starting index
   const [rows, setRows] = useState(10); // rows per page
-  const handleDelete = async (topicId) => {
+  const handleDelete = async (topicId, imageUrl) => {
     try {
-      const payload={
-        contentType:"Conference",
-        topicId:topicId,
+      const payload = {
+        contentType: "Conference",
+        topicId: topicId,
+      };
+      const response = await deleteTopic(selectedConferenceID, payload);
+      if (response.status !== 200) {
+        throw new Error(
+          response.data.detail[0].msg || "Failed to delete testimonial"
+        );
       }
-      const response=await deleteTopic(selectedConferenceID,payload);
-     if(response.status !== 200) {
-        throw new Error(response.data.detail[0].msg || "Failed to delete testimonial");
-     }
       toast.current.show({
         severity: "success",
         summary: "Deleted",
-        detail: response.data.detail[0].msg||"Topic has been deleted.",
+        detail: response.data.detail[0].msg || "Topic has been deleted.",
         life: 3000,
       });
+
+       try {
+              await deleteMedia("image", imageUrl);
+            } catch {
+              throw new Error("Failed to Delete");
+            }
       fetchConfernceData();
     } catch (error) {
       toast.current.show({
@@ -50,10 +61,9 @@ export default function TopicsAdmin(
       });
     }
   };
-  const confirmDelete = (topicId) => {
+  const confirmDelete = (topicId, imageUrl) => {
     const accept = () => {
-      handleDelete(topicId);
-
+      handleDelete(topicId, imageUrl);
     };
 
     confirmDialog({
@@ -75,15 +85,26 @@ export default function TopicsAdmin(
       },
       edit: {
         header: "Edit Topic",
-        content: <Edit data={data} selectedConferenceID={selectedConferenceID} toast={toast}
+        content: (
+          <Edit
+            data={data}
+            selectedConferenceID={selectedConferenceID}
+            toast={toast}
             setIsVisible={setIsVisible}
-            fetchData={fetchConfernceData} />,
+            fetchData={fetchConfernceData}
+          />
+        ),
       },
       add: {
         header: "Add Topic",
-        content: <Add  selectedConferenceID={selectedConferenceID} toast={toast}
+        content: (
+          <Add
+            selectedConferenceID={selectedConferenceID}
+            toast={toast}
             setIsVisible={setIsVisible}
-            fetchData={fetchConfernceData}/>,
+            fetchData={fetchConfernceData}
+          />
+        ),
       },
     };
 
@@ -109,13 +130,11 @@ export default function TopicsAdmin(
             {/* Content Area */}
 
             {sidebarState.content}
-
-     
           </div>
         </>
       </Sidebar>
       <ConfirmDialog draggable={false} />
-      {topicsData.length=== 0 ? (
+      {topicsData.length === 0 ? (
         <div className="text-center w-100 py-5">
           <h5>No Topics found</h5>
           <p>Try adding a new topic using the + button.</p>
@@ -140,32 +159,41 @@ export default function TopicsAdmin(
                       height={80}
                       width={80}
                       alt="TopicImage"
-                                              style={{ objectFit: "cover", borderRadius: "8px" }}
-
+                      style={{ objectFit: "cover", borderRadius: "8px" }}
                     />{" "}
                   </td>
                   <td className="p-3 table-data">{element.topic}</td>
-                  <td className="p-3  table-data text-truncate"
-                      style={{ maxWidth: "200px" }}>{element.content}</td>
+                  <td
+                    className="p-3  table-data text-truncate"
+                    style={{ maxWidth: "200px" }}
+                  >
+                    {element.content}
+                  </td>
                   <td className="p-3 table-data ">
                     <div className="d-flex gap-1  justify-content-center flex-nowrap">
                       <button
                         name="edit"
                         className="btn btn-outline-secondary rounded"
-                        onClick={(e) => handleSidebar(e.target.name, element)}
+                        onClick={(e) =>
+                          handleSidebar(e.currentTarget.name, element)
+                        }
                       >
                         <i className="bx bx-edit-alt"></i>
                       </button>
                       <button
                         className="btn btn-outline-secondary rounded"
-                          onClick={() => confirmDelete(element.topicId)}
+                        onClick={() =>
+                          confirmDelete(element.topicId, element.imageUrl)
+                        }
                       >
                         <i className="bx bx-trash-alt"></i>
                       </button>
                       <button
                         name="view"
                         className="btn btn-outline-warning rounded"
-                        onClick={(e) => handleSidebar(e.target.name, element)}
+                        onClick={(e) =>
+                          handleSidebar(e.currentTarget.name, element)
+                        }
                       >
                         <i className="bx bx-chevron-right"></i>
                       </button>
@@ -198,55 +226,66 @@ export default function TopicsAdmin(
   );
 }
 
-function Edit({ data,selectedConferenceID, setIsVisible, toast, fetchData }) {
-    const [upload, setUpload] = useState({ file: null, imageUrl: data.imageUrl });
-   const [buttonLoading, setButtonLoading] = useState(false);
+function Edit({ data, selectedConferenceID, setIsVisible, toast, fetchData }) {
+  const [upload, setUpload] = useState({ file: null, imageUrl: data.imageUrl });
+  const [buttonLoading, setButtonLoading] = useState(false);
   const handleFileChange = (file) => {
     const preview = file ? URL.createObjectURL(file) : null;
     setUpload({ file, imageUrl: preview });
-  }; 
+  };
   const formik = useFormik({
-     enableReinitialize: true,
+    enableReinitialize: true,
     initialValues: {
-      topic: data.topic||"",
-      content: data.content||"",
+      topic: data.topic || "",
+      content: data.content || "",
     },
     validationSchema: Yup.object({
       topic: Yup.string().required("Topic is required"),
       content: Yup.string().required("Content is required"),
     }),
     onSubmit: async (values) => {
- 
       try {
-           let imageUrl = upload.imageUrl;
-    
-          if (upload.file) {
-            const res = await uploadImage(upload.file);
-            if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
-              throw new Error("Failed to upload image");
-            }
-            imageUrl = res.data.detail.message[0].url;
+        let imageUrl = upload.imageUrl;
+
+        if (upload.file) {
+          const res = await uploadImage(upload.file);
+          if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
+            throw new Error("Failed to upload image");
           }
+         
+          imageUrl = res.data.detail.message[0].url;
+        }
         setButtonLoading(true);
 
         const payload = {
           contentType: "Conference",
           ...values,
-          imageUrl:imageUrl,
+          imageUrl: imageUrl,
         };
 
-        const response = await patchTopic(selectedConferenceID,payload,data.topicId);
+        const response = await patchTopic(
+          selectedConferenceID,
+          payload,
+          data.topicId
+        );
 
         if (response.status === 200) {
           toast.current?.show({
             severity: "success",
             summary: "Success",
-            detail:  response.data.detail[0].msg||"Submitted successfully",
+            detail: response.data.detail[0].msg || "Submitted successfully",
           });
+           if (upload.file && data.imageUrl && !data.imageUrl.startsWith("blob:")) {
+            try {
+              await deleteMedia("image", data.imageUrl);
+            } catch {
+              throw new Error("Failed to Delete");
+            }
+          }
           setIsVisible(false);
           fetchData();
         } else {
-          throw new Error( response.data.detail[0].msg||"Submission failed");
+          throw new Error(response.data.detail[0].msg || "Submission failed");
         }
       } catch (error) {
         toast.current?.show({
@@ -267,8 +306,7 @@ function Edit({ data,selectedConferenceID, setIsVisible, toast, fetchData }) {
         showBorder={true}
         imageUrl={upload.imageUrl}
         onFileChange={handleFileChange}
-                dimensionNote="Recommended dimensions: Width 250px × Height 170px"
-
+        dimensionNote="Recommended dimensions: Width 250px × Height 170px"
       />
 
       <div className="mb-2">
@@ -301,29 +339,29 @@ function Edit({ data,selectedConferenceID, setIsVisible, toast, fetchData }) {
         )}
       </div>
 
-       <div
-           className="bg-secondary position-absolute z-2 bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100"
-           style={{ bottom: 0, left: 0, height: "80px" }}
-         >
-           <button
-             className="btn px-5 bg-white border"
-             onClick={() => setIsVisible(false)}
-             type="button"
-           >
-             Close
-           </button>
-           <Button
-             label="Update"
-             type="submit"
-             className="btn px-5 btn-warning text-white"
-             loading={buttonLoading}
-             style={{ outline: "none", boxShadow: "none" }}
-           />
-         </div>
+      <div
+        className="bg-secondary position-absolute z-2 bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100"
+        style={{ bottom: 0, left: 0, height: "80px" }}
+      >
+        <button
+          className="btn px-5 bg-white border"
+          onClick={() => setIsVisible(false)}
+          type="button"
+        >
+          Close
+        </button>
+        <Button
+          label="Update"
+          type="submit"
+          className="btn px-5 btn-warning text-white"
+          loading={buttonLoading}
+          style={{ outline: "none", boxShadow: "none" }}
+        />
+      </div>
     </form>
   );
 }
-function Add({selectedConferenceID, setIsVisible, toast, fetchData }) {
+function Add({ selectedConferenceID, setIsVisible, toast, fetchData }) {
   const [upload, setUpload] = useState({ file: null });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -361,22 +399,22 @@ function Add({selectedConferenceID, setIsVisible, toast, fetchData }) {
         const payload = {
           contentType: "Conference",
           ...values,
-          imageUrl:imageUrl,
+          imageUrl: imageUrl,
         };
 
         // Replace this with your actual API call
-        const response = await patchTopic(selectedConferenceID,payload);
+        const response = await patchTopic(selectedConferenceID, payload);
 
         if (response.status === 200) {
           toast.current?.show({
             severity: "success",
             summary: "Success",
-            detail:  response.data.detail[0].msg||"Submitted successfully",
+            detail: response.data.detail[0].msg || "Submitted successfully",
           });
           setIsVisible(false);
           fetchData();
         } else {
-          throw new Error( response.data.detail[0].msg||"Submission failed");
+          throw new Error(response.data.detail[0].msg || "Submission failed");
         }
       } catch (error) {
         toast.current?.show({
@@ -396,8 +434,7 @@ function Add({selectedConferenceID, setIsVisible, toast, fetchData }) {
         title="Upload Image*"
         showBorder={true}
         onFileChange={handleFileChange}
-                dimensionNote="Recommended dimensions: Width 250px × Height 170px"
-
+        dimensionNote="Recommended dimensions: Width 250px × Height 170px"
       />
       {imageError && <div className="text-danger">{imageError}</div>}
 
@@ -431,25 +468,25 @@ function Add({selectedConferenceID, setIsVisible, toast, fetchData }) {
         )}
       </div>
 
-         <div
-             className="bg-secondary position-absolute z-2 bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100"
-             style={{ bottom: 0, left: 0, height: "80px" }}
-           >
-             <button
-               className="btn px-5 bg-white border"
-               onClick={() => setIsVisible(false)}
-               type="button"
-             >
-               Close
-             </button>
-             <Button
-               label="Save"
-               type="submit"
-               className="btn px-5 btn-warning text-white"
-               loading={buttonLoading}
-               style={{ outline: "none", boxShadow: "none" }}
-             />
-           </div>
+      <div
+        className="bg-secondary position-absolute z-2 bg-opacity-10 p-2 d-flex justify-content-center align-items-center gap-3 w-100"
+        style={{ bottom: 0, left: 0, height: "80px" }}
+      >
+        <button
+          className="btn px-5 bg-white border"
+          onClick={() => setIsVisible(false)}
+          type="button"
+        >
+          Close
+        </button>
+        <Button
+          label="Save"
+          type="submit"
+          className="btn px-5 btn-warning text-white"
+          loading={buttonLoading}
+          style={{ outline: "none", boxShadow: "none" }}
+        />
+      </div>
     </form>
   );
 }
@@ -458,13 +495,16 @@ function View({ data }) {
   return (
     <div className="d-flex gap-4 flex-column">
       <label className="form-label fw-bold">Image</label>
-      <Image src={data.imageUrl} width={120} height={120} alt="image"                         style={{ objectFit: "cover", borderRadius: "8px" }}
-/>
+      <Image
+        src={data.imageUrl}
+        width={120}
+        height={120}
+        alt="image"
+        style={{ objectFit: "cover", borderRadius: "8px" }}
+      />
       <div>
         <label className="form-label fw-bold mb-2">Topic</label>
-        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-          {data.topic}
-        </p>
+        <p className="bg-secondary bg-opacity-10 rounded-2 p-2">{data.topic}</p>
       </div>
       <div>
         <label className="form-label fw-bold mb-2">Content</label>

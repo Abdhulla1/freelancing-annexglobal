@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
 export default function FileUploadVideo({
@@ -7,30 +7,31 @@ export default function FileUploadVideo({
   showTitle = true,
   showBorder = true,
   videoUrl = "",
-  dimensionNote="",
+  dimensionNote = "",
   onFileChange,
 }) {
   const inputRef = useRef();
-  const [previewSrc, setPreviewSrc] = useState(null);
+  // const [previewSrc, setPreviewSrc] = useState(null);
   const [fileName, setFileName] = useState("No File Chosen");
-  useEffect(() => {
-    if (videoUrl) {
-      setPreviewSrc(videoUrl);
-    }
-  }, [videoUrl]);
+// useEffect(() => {
+//   setPreviewSrc(videoUrl);
+// }, [videoUrl]);
+
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("video/")) {
       setFileName(file.name);
       const reader = new FileReader();
-      reader.onload = () => {
-        setPreviewSrc(reader.result);
-      };
+      // reader.onload = () => {
+      //   setPreviewSrc(reader.result);
+      // };
+
       reader.readAsDataURL(file);
+ 
       onFileChange(file);
     } else {
       setFileName("No File Chosen");
-      setPreviewSrc(null);
+    onFileChange(null);
     }
   };
 
@@ -58,14 +59,15 @@ export default function FileUploadVideo({
             flexShrink: 0,
           }}
         >
-          {previewSrc ? (
+          {videoUrl  ? (
             <video
+            key={videoUrl}
               width="100%"
               height="100%"
               controls
               style={{ objectFit: "cover" }}
             >
-              <source src={previewSrc} type="video/mp4" />
+              <source src={videoUrl } type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           ) : (
@@ -85,10 +87,10 @@ export default function FileUploadVideo({
             <em>Please upload video</em>
           </p>
           {dimensionNote && (
-    <p className=" text-black" style={{ fontSize: "10px" }}>
-      <em>{dimensionNote}</em>
-    </p>
-  )}
+            <p className=" text-black" style={{ fontSize: "10px" }}>
+              <em>{dimensionNote}</em>
+            </p>
+          )}
           <input
             type="file"
             ref={inputRef}
@@ -98,6 +100,7 @@ export default function FileUploadVideo({
           />
           <div className="d-flex mt-md-4 flex-column flex-sm-row align-items-start align-items-sm-center gap-2">
             <button
+              type="button"
               className="btn btn-outline-warning px-3"
               style={{ whiteSpace: "nowrap", minWidth: "120px" }}
               onClick={handleButtonClick}

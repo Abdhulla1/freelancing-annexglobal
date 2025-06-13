@@ -2,10 +2,11 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { updateLocationOverview } from "@/service/mainPageService"; // Replace with your actual API function
+import { updateLocationOverview } from "@/service/mainPageService";
+import { updateLocationOverviewConference } from "@/service/AdminConfernecePages/confernce"; // Replace with your actual API function
 import { Button } from "primereact/button";
 
-export default function NavLocationOverview({ Location, toast, fetchData }) {
+export default function NavLocationOverview({ Location, toast, fetchData,selectedConferenceID }) {
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -27,7 +28,7 @@ export default function NavLocationOverview({ Location, toast, fetchData }) {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const response = await updateLocationOverview(values); // Call your backend service
+        const response = await updateLocationOverviewConference(selectedConferenceID,values); // Call your backend service
         if (response.status === 200) {
           toast.current.show({
             severity: "success",

@@ -1,23 +1,23 @@
-'use client'
-import React, { useEffect, useRef, useState } from 'react';
-import { Dialog } from 'primereact/dialog';
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
-import { InputSwitch } from 'primereact/inputswitch';
-import { Paginator } from 'primereact/paginator';
-import { Toast } from 'primereact/toast';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import Image from 'next/image';
-import FileUpload from '@/components/Reusable/Admin/FileUpload/FileUpload';
-import RichTextEditor from '../../AdminConferences/AdminConferenceView/ConferencePageAdmin/LandingPage/RichTextEditor';
+"use client";
+import React, { useEffect, useRef, useState } from "react";
+import { Dialog } from "primereact/dialog";
+import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { InputSwitch } from "primereact/inputswitch";
+import { Paginator } from "primereact/paginator";
+import { Toast } from "primereact/toast";
+import { ProgressSpinner } from "primereact/progressspinner";
+import Image from "next/image";
+import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
+import RichTextEditor from "../../AdminConferences/AdminConferenceView/ConferencePageAdmin/LandingPage/RichTextEditor";
 import {
   getOCMTableResponse,
   saveOCM,
   updateOCM,
   deleteOCM,
   updateOCMStatus,
-  getOCMPageResponse
-} from '@/service/ocmService';
-import { uploadImage } from "@/service/mediaManagemnt";
+  getOCMPageResponse,
+} from "@/service/ocmService";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
 import { Button } from "primereact/button";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -26,7 +26,10 @@ import { getallConferencesNames } from "@/service/adminConference";
 export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
   const toast = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [sidebarState, setSidebarState] = useState({ header: null, content: null });
+  const [sidebarState, setSidebarState] = useState({
+    header: null,
+    content: null,
+  });
   const [ocmData, setOcmData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -44,9 +47,9 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
       }
     } catch (error) {
       toast.current?.show({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Failed to load OCMs.',
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to load OCMs.",
         life: 3000,
       });
     } finally {
@@ -66,10 +69,10 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
         detail: "Failed to load Conferences.",
         life: 3000,
       });
-    } 
+    }
   };
   useEffect(() => {
-    fetchAllConferencesNamesData()
+    fetchAllConferencesNamesData();
 
     fetchData();
   }, []);
@@ -87,65 +90,85 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
         );
         setOcmData(updatedData);
         toast.current?.show({
-          severity: 'success',
-          summary: 'Updated',
-          detail: response.data.detail[0].msg || 'Status updated successfully',
+          severity: "success",
+          summary: "Updated",
+          detail: response.data.detail[0].msg || "Status updated successfully",
         });
       }
     } catch (err) {
       toast.current?.show({
-        severity: 'error',
-        summary: 'Error',
-        detail: 'Failed to update status',
+        severity: "error",
+        summary: "Error",
+        detail: "Failed to update status",
       });
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id, imageUrl) => {
     try {
       await deleteOCM(id);
       toast.current?.show({
-        severity: 'success',
-        summary: 'Deleted',
-        detail: 'OCM deleted successfully.',
+        severity: "success",
+        summary: "Deleted",
+        detail: "OCM deleted successfully.",
       });
+      try {
+        await deleteMedia("image", imageUrl);
+      } catch {
+        console.error("Failed to Delete");
+      }
       fetchData(currentPage);
     } catch (error) {
       toast.current?.show({
-        severity: 'error',
-        summary: 'Error',
-        detail: error.message || 'Failed to delete.',
+        severity: "error",
+        summary: "Error",
+        detail: error.message || "Failed to delete.",
       });
     }
   };
 
-  const confirmDelete = (id) => {
+  const confirmDelete = (id, imageUrl) => {
     confirmDialog({
       message: <Delete />,
-      acceptLabel: 'OK',
-      rejectLabel: 'Cancel',
-      acceptClassName: 'btn px-5 btn-warning text-white shadow-none',
-      rejectClassName: 'btn px-5 bg-white border me-3 shadow-none',
-      defaultFocus: 'accept',
-      accept: () => handleDelete(id),
+      acceptLabel: "OK",
+      rejectLabel: "Cancel",
+      acceptClassName: "btn px-5 btn-warning text-white shadow-none",
+      rejectClassName: "btn px-5 bg-white border me-3 shadow-none",
+      defaultFocus: "accept",
+      accept: () => handleDelete(id, imageUrl),
       reject: () => {},
-      className: 'custom-confirm-dialog',
+      className: "custom-confirm-dialog",
     });
   };
 
   const handleModel = (type, data = null) => {
     const componentsMap = {
       view: {
-        header: 'View OCM',
+        header: "View OCM",
         content: <View tableData={data} />,
       },
       edit: {
-        header: 'Edit OCM',
-        content: <Edit tableData={data} toast={toast} fetchData={fetchData} setIsVisible={setIsVisible} conferencesData={conferencesData}/>,
+        header: "Edit OCM",
+        content: (
+          <Edit
+            tableData={data}
+            toast={toast}
+            fetchData={fetchData}
+            setIsVisible={setIsVisible}
+            conferencesData={conferencesData}
+          />
+        ),
       },
       add: {
-        header: 'Add OCM',
-        content: <Add toast={toast} fetchData={fetchData} setIsVisible={setIsVisible} conferencesData={conferencesData} />,
+        header: "Add OCM",
+        content: (
+          <Add
+            toast={toast}
+            fetchData={fetchData}
+            setIsVisible={setIsVisible}
+            conferencesData={conferencesData}
+          />
+        ),
       },
     };
     const selected = componentsMap[type];
@@ -163,15 +186,18 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
         visible={isVisible}
         draggable={false}
         onHide={() => setIsVisible(false)}
-        style={{ width: '50vw' }}
-        breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+        style={{ width: "50vw" }}
+        breakpoints={{ "960px": "75vw", "641px": "100vw" }}
       >
         {sidebarState.content}
       </Dialog>
       <ConfirmDialog draggable={false} />
       {loading ? (
         <div className="d-flex justify-content-center align-items-center py-5">
-          <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="5" />
+          <ProgressSpinner
+            style={{ width: "50px", height: "50px" }}
+            strokeWidth="5"
+          />
         </div>
       ) : ocmData.length === 0 ? (
         <div className="text-center w-100 py-5">
@@ -196,11 +222,11 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
                 <tr key={i}>
                   <td className="p-3 table-data">
                     <Image
-                      src={element.imageUrl || '/icons/DefaultPreviewImage.png'}
+                      src={element.imageUrl || "/icons/DefaultPreviewImage.png"}
                       height={90}
                       width={110}
                       alt="OCM Image"
-                      style={{ objectFit: 'cover', borderRadius: '8px' }}
+                      style={{ objectFit: "cover", borderRadius: "8px" }}
                     />
                   </td>
                   <td className="p-3 table-data">{element.name}</td>
@@ -210,7 +236,7 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
                     <InputSwitch
                       checked={element.status}
                       onChange={(e) => handleStatusChange(e.value, element._id)}
-                      style={{ scale: '0.7' }}
+                      style={{ scale: "0.7" }}
                     />
                   </td>
                   <td className="p-3 table-data">
@@ -218,20 +244,26 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
                       <button
                         name="edit"
                         className="btn btn-outline-secondary rounded"
-                        onClick={(e) => handleModel(e.target.name, element)}
+                        onClick={(e) =>
+                          handleModel(e.currentTarget.name, element)
+                        }
                       >
                         <i className="bx bx-edit-alt"></i>
                       </button>
                       <button
                         className="btn btn-outline-secondary rounded"
-                        onClick={() => confirmDelete(element._id)}
+                        onClick={() =>
+                          confirmDelete(element._id, element.imageUrl)
+                        }
                       >
                         <i className="bx bx-trash-alt"></i>
                       </button>
                       <button
                         name="view"
                         className="btn btn-outline-warning rounded"
-                        onClick={(e) => handleModel(e.target.name, element)}
+                        onClick={(e) =>
+                          handleModel(e.currentTarget.name, element)
+                        }
                       >
                         <i className="bx bx-chevron-right"></i>
                       </button>
@@ -245,7 +277,9 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
             first={(currentPage - 1) * rowsPerPage}
             rows={rowsPerPage}
             totalRecords={totalRecords}
-            onPageChange={(e) => setCurrentPage(Math.floor(e.first / e.rows) + 1)}
+            onPageChange={(e) =>
+              setCurrentPage(Math.floor(e.first / e.rows) + 1)
+            }
             className="mt-5"
           />
         </>
@@ -253,7 +287,7 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
       <button
         name="add"
         className="btn btn-lg text-white rounded-circle btn-warning position-absolute"
-        style={{ bottom: '50px', right: '50px', zIndex: 1000 }}
+        style={{ bottom: "50px", right: "50px", zIndex: 1000 }}
         onClick={(e) => handleModel(e.target.name)}
       >
         +
@@ -262,15 +296,14 @@ export default function OCMTabelAdmin({ visibleDetails, setVisibleDetails }) {
   );
 }
 
-function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
+function Edit({ tableData, toast, fetchData, setIsVisible, conferencesData }) {
   const [data, setData] = useState({});
- const [upload, setUpload] = useState({ file: null, imageUrl: "" });
+  const [upload, setUpload] = useState({ file: null, imageUrl: "" });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [loading, setLoading] = useState(true);
 
-
-    useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -306,20 +339,19 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
     setImageError(null);
   };
 
- const submitSpeaker = async (data) => {
+  const submitSpeaker = async (data) => {
     setButtonLoading(true);
     try {
       // STEP 1: Check if image is present
       let imageUrl = upload.imageUrl;
-  
-        if (upload.file) {
-          const res = await uploadImage(upload.file);
-          if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
-            throw new Error("Failed to upload image");
-          }
-          imageUrl = res.data.detail.message[0].url;
-        }
 
+      if (upload.file) {
+        const res = await uploadImage(upload.file);
+        if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
+          throw new Error("Failed to upload image");
+        }
+        imageUrl = res.data.detail.message[0].url;
+      }
 
       // STEP 4: Prepare payload and call API
       const payLoad = {
@@ -330,15 +362,28 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
         imageUrl: imageUrl,
       };
 
-      const response = await updateOCM(tableData._id,payLoad);
+      const response = await updateOCM(tableData._id, payLoad);
 
       if (response.status === 200) {
         toast.current?.show({
           severity: "success",
           summary: "updated",
-          detail:
-            response.data.detail[0].msg || "Speaker Updated successfully",
+          detail: response.data.detail[0].msg || "Speaker Updated successfully",
         });
+        if (
+          upload.file && // user chose a new file
+          tableData.imageUrl &&
+          typeof tableData.imageUrl === "string" &&
+          !tableData.imageUrl.startsWith("blob:") &&
+          tableData.imageUrl !== imageUrl // ensure it's not the same
+        ) {
+          try {
+            await deleteMedia("image", tableData.imageUrl);
+          } catch (err) {
+            console.warn("Failed to delete old image", err);
+          }
+        }
+
         setIsVisible(false);
         fetchData();
       } else {
@@ -364,7 +409,7 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
     enableReinitialize: true,
     initialValues: {
       name: data.name || "",
-      author: data.author ||"",
+      author: data.author || "",
       bio: data.bioData || "",
       companyDetails: data.companyDetails || "",
     },
@@ -388,21 +433,21 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
       submitSpeaker(finalData);
     },
   });
-    if (loading) {
-      return (
-        <div className="d-flex justify-content-center align-items-center py-5">
-          <ProgressSpinner
-            style={{ width: "50px", height: "50px" }}
-            strokeWidth="5"
-            fill="var(--surface-ground)"
-            animationDuration=".5s"
-          />
-        </div>
-      );
-    }
-  
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center py-5">
+        <ProgressSpinner
+          style={{ width: "50px", height: "50px" }}
+          strokeWidth="5"
+          fill="var(--surface-ground)"
+          animationDuration=".5s"
+        />
+      </div>
+    );
+  }
+
   return (
-      <form
+    <form
       onSubmit={formik.handleSubmit}
       className="d-flex gap-3 container flex-column h-100"
     >
@@ -426,28 +471,29 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
 
       <div className="mb-3">
         <label className="form-label">Author*</label>
-             {conferencesData.length === 0 ? (
+        {conferencesData.length === 0 ? (
           <div className="alert alert-warning p-2 mt-2" role="alert">
             No Conferences found. Please add Conferences first.
           </div>
         ) : (
-        <select
-          name="author"
-          className={`form-select ${
-            formik.touched.author && formik.errors.author ? "is-invalid" : ""
-          }`}
-          value={formik.values.author}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        >
-          <option value="">Select Author</option>
-  
+          <select
+            name="author"
+            className={`form-select ${
+              formik.touched.author && formik.errors.author ? "is-invalid" : ""
+            }`}
+            value={formik.values.author}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            <option value="">Select Author</option>
+
             {conferencesData.map((user, i) => (
               <option key={i} value={user}>
                 {user}
               </option>
             ))}
-        </select>)}
+          </select>
+        )}
         {formik.touched.author && formik.errors.author && (
           <div className="text-danger">{formik.errors.author}</div>
         )}
@@ -477,8 +523,8 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
         title="Speaker Image Upload*"
         showBorder={true}
         onFileChange={handleFileChange}
-          imageUrl={upload.imageUrl}
-          dimensionNote="Recommended dimensions: Width 250px × Height 270px"
+        imageUrl={upload.imageUrl}
+        dimensionNote="Recommended dimensions: Width 250px × Height 270px"
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}
 
@@ -494,7 +540,6 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
         )}
       </div>
 
-
       <Button
         label="Update OCM"
         type="submit"
@@ -505,7 +550,7 @@ function Edit({tableData , toast , fetchData, setIsVisible,conferencesData }) {
     </form>
   );
 }
-function Add({ data, toast, fetchData, setIsVisible,conferencesData }) {
+function Add({ data, toast, fetchData, setIsVisible, conferencesData }) {
   const [upload, setUpload] = useState({ file: null });
   const [imageError, setImageError] = useState(null);
   const [buttonLoading, setButtonLoading] = useState(false);
@@ -543,8 +588,7 @@ function Add({ data, toast, fetchData, setIsVisible,conferencesData }) {
         toast.current?.show({
           severity: "success",
           summary: "Saved",
-          detail:
-            response.data.detail[0].msg || "OCM successfully",
+          detail: response.data.detail[0].msg || "OCM successfully",
         });
         setIsVisible(false);
         fetchData();
@@ -626,30 +670,31 @@ function Add({ data, toast, fetchData, setIsVisible,conferencesData }) {
         )}
       </div>
 
-    <div className="mb-3">
+      <div className="mb-3">
         <label className="form-label">Author*</label>
-             {conferencesData.length === 0 ? (
+        {conferencesData.length === 0 ? (
           <div className="alert alert-warning p-2 mt-2" role="alert">
             No Conferences found. Please add Conferences first.
           </div>
         ) : (
-        <select
-          name="author"
-          className={`form-select ${
-            formik.touched.author && formik.errors.author ? "is-invalid" : ""
-          }`}
-          value={formik.values.author}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        >
-          <option value="">Select Author</option>
-  
+          <select
+            name="author"
+            className={`form-select ${
+              formik.touched.author && formik.errors.author ? "is-invalid" : ""
+            }`}
+            value={formik.values.author}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            <option value="">Select Author</option>
+
             {conferencesData.map((user, i) => (
               <option key={i} value={user}>
                 {user}
               </option>
             ))}
-        </select>)}
+          </select>
+        )}
         {formik.touched.author && formik.errors.author && (
           <div className="text-danger">{formik.errors.author}</div>
         )}
@@ -680,7 +725,6 @@ function Add({ data, toast, fetchData, setIsVisible,conferencesData }) {
         showBorder={true}
         onFileChange={handleFileChange}
         dimensionNote="Recommended dimensions: Width 250px × Height 270px"
-
       />
       {imageError && <div className="text-danger mt-1">{imageError}</div>}
 
@@ -775,9 +819,9 @@ function View({ tableData, toast }) {
 
             <div>
               <label className="form-label mb-2">Bio-Data</label>
-            
-               <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
-                 {data.bioData}
+
+              <p className="bg-secondary bg-opacity-10 rounded-2 p-2">
+                {data.bioData}
               </p>
             </div>
             <div>

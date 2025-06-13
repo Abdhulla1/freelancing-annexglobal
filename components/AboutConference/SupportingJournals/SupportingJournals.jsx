@@ -6,7 +6,9 @@ import Image from "next/image";
 const SupportingJournals = ({ supportingJournals }) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
-  const accordionData = supportingJournals;
+  // const accordionData = supportingJournals;
+    const accordionData = supportingJournals?.filter((item) => item.status);
+
 
   // const accordionData = [
   //   {

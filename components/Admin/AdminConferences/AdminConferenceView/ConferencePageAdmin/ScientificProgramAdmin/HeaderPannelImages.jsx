@@ -1,76 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import FileUpload from "@/components/Reusable/Admin/FileUpload/FileUpload";
-import { patchHeaderPannelImages ,deleteHeaderPannelImages} from "@/service/AdminConfernecePages/confernce";
-import { uploadImage } from "@/service/mediaManagemnt";
+import {
+  patchHeaderPannelImages,
+  deleteHeaderPannelImages,
+} from "@/service/AdminConfernecePages/confernce";
+import { uploadImage, deleteMedia } from "@/service/mediaManagemnt";
+
 export default function LandingPage({
   selectedConferenceID,
   headerPannelImages = [],
   fetchConfernceData,
   toast,
 }) {
-  const [uploads, setUploads] = useState(() => {
-    if (headerPannelImages.length > 0) {
-      const existing = headerPannelImages.map((img, i) => ({
-        id: Date.now() + i,
-        imageUrl: img.imageUrl,
-        imageId: img.imageId,
-        uploaded: true,
-      }));
+  const [uploads, setUploads] = useState([]);
 
-      const fillers = Array.from({ length: 4 - existing.length }, (_, i) => ({
-        id: Date.now() + 100 + i,
+  // Sync uploads from backend when props change
+  useEffect(() => {
+    const maxSlots = 4;
+
+    const existing = headerPannelImages.map((img, i) => ({
+      id: img.imageId || `slot-${i}`, // stable id
+      imageUrl: img.imageUrl,
+      imageId: img.imageId,
+      uploaded: true,
+    }));
+
+    const fillers = Array.from(
+      { length: maxSlots - existing.length },
+      (_, i) => ({
+        id: `empty-${i}`,
         imageUrl: "",
         imageId: null,
         uploaded: false,
-      }));
+      })
+    );
 
-      return [...existing, ...fillers];
-    } else {
-      return Array.from({ length: 4 }, (_, i) => ({
-        id: Date.now() + i,
-        imageUrl: "",
-        imageId: null,
-        uploaded: false,
-      }));
-    }
-  });
+    setUploads([...existing, ...fillers]);
+  }, [headerPannelImages]);
+
   const handleFileChange = async (file, id) => {
     try {
       const preview = file ? URL.createObjectURL(file) : null;
+
+      // Get the item BEFORE updating state
+      const uploadItem = uploads.find((u) => u.id === id);
+      const oldImageUrl = uploadItem?.imageUrl;
+      const imageIdToPatch = uploadItem?.imageId || null;
+
+      // Show preview
       setUploads((prev) =>
         prev.map((upload) =>
           upload.id === id ? { ...upload, imageUrl: preview } : upload
         )
       );
 
+      // Upload file to storage
       const res = await uploadImage(file);
       if (res.status !== 201 || !res.data?.detail?.message?.[0]?.url) {
         throw new Error("Image upload failed");
       }
 
       const imageUrl = res.data.detail.message[0].url;
- const payload = { imageUrl:imageUrl }; 
-      const uploadItem = uploads.find((u) => u.id === id);
+
+      // Patch or create image
       const patchRes = await patchHeaderPannelImages(
         selectedConferenceID,
-           {  contentType: "scientificProgram ",
-              imageUrl: imageUrl
-            },
-        uploadItem?.imageId || null
+        {
+          contentType: "scientificProgram",
+          imageUrl: imageUrl,
+        },
+        imageIdToPatch
       );
 
       if (patchRes.status === 200) {
-        toast.current.show({
-          severity: "success",
-          summary: "Image Uploaded",
-          detail:
-          "Image saved successfully.",
-          life: 3000,
-        });
+        const updatedImageId = patchRes.data?.detail?.[0]?.id;
 
-        const updatedImageId = patchRes.data?.detail?.[0]?.id; // optional
-
+        // Update state
         setUploads((prev) =>
           prev.map((upload) =>
             upload.id === id
@@ -84,7 +90,24 @@ export default function LandingPage({
           )
         );
 
-        fetchConfernceData();
+        // Delete old image if replacing
+        if (uploadItem?.uploaded && oldImageUrl && oldImageUrl !== imageUrl) {
+          try {
+            await deleteMedia("image", oldImageUrl);
+          } catch (err) {
+            console.warn("Old image deletion failed", err);
+          }
+        }
+
+        // Refetch data to sync
+        await fetchConfernceData();
+
+        toast.current.show({
+          severity: "success",
+          summary: "Image Uploaded",
+          detail: "Image saved successfully.",
+          life: 3000,
+        });
       }
     } catch (error) {
       toast.current.show({
@@ -95,6 +118,7 @@ export default function LandingPage({
       });
     }
   };
+
   return (
     <div className="container">
       <h6>Upload Header Pannel Images</h6>
@@ -110,7 +134,6 @@ export default function LandingPage({
             />
           </div>
         ))}
-       
       </div>
     </div>
   );
