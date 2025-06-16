@@ -3,7 +3,7 @@ import "boxicons/css/boxicons.min.css";
 import Providers from "./providers";
 import Script from "next/script";
 import 'quill/dist/quill.snow.css';
-
+import FloatingButtons from "@/components/Static/FloatingButtons/FloatingButtons";
 export const metadata = {
   title: "WELCOME TO ANNEX GLOBAL CONFERENCES ",
   description:
@@ -21,6 +21,7 @@ export default function RootLayout({ children }) {
         <Script
           src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}`}
         />
+              <FloatingButtons />
         <div suppressHydrationWarning>
           <Providers>{children}</Providers>
         </div>

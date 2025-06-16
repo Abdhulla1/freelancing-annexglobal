@@ -1,5 +1,5 @@
 .header {
-  background: linear-gradient(90deg, #A1A1A1 0%, #3B3B3B 100%);
+  background: linear-gradient(90deg, #a1a1a1 0%, #3b3b3b 100%);
   border: 1px solid #000000;
   text-align: center;
   color: white;
@@ -9,14 +9,14 @@
 }
 
 .card {
-  width: 80%;
+  width: 100%;
+
   background: white;
   text-align: center;
   overflow: hidden;
 }
 .card-header {
-  background: url("/icons/profile-bg.png")
-    no-repeat center/cover;
+  background: url("/icons/profile-bg.png") no-repeat center/cover;
   padding: 20px;
   border-radius: 50px;
   position: relative;
@@ -24,18 +24,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-    transition: all 0.3s ease;
+  transition: all 0.3s ease;
   overflow: hidden;
-
 }
 .card-header img {
   transition: transform 0.3s ease-in-out;
-
 }
-.card-header:hover  {
+.card-header:hover {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.512);
-    transform: translateY(-2px);
-
+  transform: translateY(-2px);
 }
 .card-header:hover img {
   transform: scale(1.08); /* zoom image */
@@ -43,34 +40,50 @@
 
 .profile-img {
   width: auto;
-  height: 200px   ;
+  height: 200px;
   cursor: pointer;
   object-fit: cover;
 }
-.profile-img2{
+.profile-img2 {
   width: auto;
   height: 100px;
   cursor: pointer;
   object-fit: cover;
 }
 
-
 .mic-icon {
   position: absolute;
   bottom: 10px;
-  right: 10px;
-  background: linear-gradient(180deg, #8CFF8C 0%, #00FFCB 100%);
+  right: 15px;
+  background: linear-gradient(180deg, #8cff8c 0%, #00ffcb 100%);
   padding: 10px;
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
 }
-.mic-icon:hover {
-  background: linear-gradient(180deg, #F4A300 0%, #8E5F00 100%);
+
+.card-header:hover .mic-icon {
+  right: 20px;
+  border-radius: 10%;
+  width: 80px;
+}
+/* Hide mic icon when hovered, show text */
+.icon-layer img {
+  /* width: 20px; */
+  height: 20px;
+}
+
+.card-header:hover .mic-icon {
+  background: linear-gradient(180deg, #f4a300 0%, #8e5f00 100%);
 }
 .mic-icon:hover > img {
   filter: brightness(0) invert(1); /* Makes it look white */
@@ -103,12 +116,12 @@
   filter: brightness(0.6);
 }
 
-.about-content-height{
+.about-content-height {
   height: 60vh;
   overflow-y: hidden;
   overflow-x: hidden;
   scrollbar-width: thin;
-  scrollbar-color: #F4A300 #f1f1f1;
+  scrollbar-color: #f4a300 #f1f1f1;
 }
 
 /* Custom scrollbar styling */
@@ -117,12 +130,12 @@
 }
 
 .about-content-height::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
   border-radius: 10px;
 }
 
 .about-content-height::-webkit-scrollbar-thumb {
-  background: #F4A300;
+  background: #f4a300;
   border-radius: 10px;
 }
 
@@ -130,4 +143,56 @@
   background: #dc9300;
 }
 
+/* Icon Layer */
+.icon-layer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  opacity: 1;
+}
 
+/* Text Layer */
+.text-layer {
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  position: absolute;
+}
+
+/* On hover, fade icon out and text in */
+
+.card-header:hover .mic-icon .icon-layer {
+  opacity: 0;
+}
+.card-header:hover .mic-icon .text-layer {
+  opacity: 1;
+}
+.speakerCardCol {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+@media (max-width: 1200px) {
+  .speakerCardCol {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+  }
+}
+
+@media (max-width: 768px) {
+  .speakerCardCol {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (max-width: 576px) {
+  .speakerCardCol {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}

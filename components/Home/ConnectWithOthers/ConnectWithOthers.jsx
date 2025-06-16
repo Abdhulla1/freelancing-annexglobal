@@ -42,7 +42,10 @@ const ConnectWithOthers = ({ conference }) => {
 
   return (
     <div className={connectWithOthers["container"]}>
-      <div className="container col-xl-11 col-lg-12">
+      <div className="container col-xl-11 col-lg-12 position-relative">
+        <div className={connectWithOthers["quote-circle"]}>
+          <i className="bx bxs-quote-left fs-4"></i>
+        </div>
         <div className={connectWithOthers["members-section"]}>
           <div className="row p-0 p-md-3">
             <div className="col-lg-3 ps-5 p-4 d-flex align-items-center">
@@ -68,11 +71,7 @@ const ConnectWithOthers = ({ conference }) => {
                       <div className={connectWithOthers["card"]}>
                         <div className={connectWithOthers["card-header"]}>
                           <img src={item.imageUrl} alt={item.name} />
-                        </div>
-                        <div
-                          className={` py-3 px-2 ${connectWithOthers["card-body"]}`}
-                        >
-                          <div className={connectWithOthers["quote-icon"]}>
+                           <div className={connectWithOthers["quote-icon"]}>
                             {item.videoUrl ? (
                               <Link
                                 href={item.videoUrl}
@@ -88,6 +87,11 @@ const ConnectWithOthers = ({ conference }) => {
                               <i className="bx bxs-quote-left"></i>
                             )}
                           </div>
+                        </div>
+                        <div
+                          className={` py-3 px-2 ${connectWithOthers["card-body"]}`}
+                        >
+                         
                           <p
                             className={`ql-editor ${connectWithOthers["description"]}`}
                             dangerouslySetInnerHTML={{

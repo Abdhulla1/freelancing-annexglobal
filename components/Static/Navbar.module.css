@@ -223,3 +223,9 @@
     color: #121989; /* Keep the highlight */
     font-weight: bold; /* Optionally make the text bold for better visibility */
   }
+  .p-sidebar-close.p-sidebar-icon.p-link {
+    background: black !important;
+
+  /* background: #F4A300; */
+  color: white;
+}

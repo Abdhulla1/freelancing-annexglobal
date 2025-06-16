@@ -22,7 +22,7 @@ const CustomArrow = ({ className, style, onClick, direction }) => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        top:"39%"
+        top: "39%",
       }}
       onClick={onClick}
     >
@@ -85,7 +85,7 @@ const AlumniSpeakers = ({ conference }) => {
   }, []);
   const slides = isMobile
     ? chunkArray(speakerData, 1)
-    : chunkArray(speakerData, 8);
+    : chunkArray(speakerData, 10);
 
   return (
     <div className="alumni-speakers">
@@ -141,16 +141,20 @@ const AlumniSpeakers = ({ conference }) => {
       </Sidebar>
       <div className="container mt-5">
         <div className="col-xl-3 col-lg-4 col-md-6 ">
-          <div className={` d-flex justify-content-center align-items-center pt-2  ${AlumniSpeakerStyles["header"]}`}>MEET OUR SPEAKERS</div>
+          <div
+            className={` d-flex justify-content-center align-items-center pt-2  ${AlumniSpeakerStyles["header"]}`}
+          >
+            MEET OUR SPEAKERS
+          </div>
         </div>
         <div className=" p-2 container flex-wrap">
           <Slider {...settings}>
             {slides.map((slide, index) => (
               <div key={index}>
                 <div className="container p-5">
-                  <div className="row">
+                  <div className="row  d-flex flex-wrap justify-content-start">
                     {slide.map((speaker, i) => (
-                      <div className="col-md-6 col-lg-4 col-xl-3 mb-2" key={i}>
+                      <div className={`${AlumniSpeakerStyles.speakerCardCol} mb-2`} key={i}  >
                         <div className={AlumniSpeakerStyles["card"]}>
                           <div className={AlumniSpeakerStyles["card-header"]}>
                             <img
@@ -159,12 +163,27 @@ const AlumniSpeakers = ({ conference }) => {
                               alt="Profile"
                               className={AlumniSpeakerStyles["profile-img"]}
                             />
-                            <div className={AlumniSpeakerStyles["mic-icon"]}>
+                            {/* <div className={AlumniSpeakerStyles["mic-icon"]}>
                               <img
                                 src="/icons/mic.png"
                                 alt="Mic"
                                 onClick={() => handleSpeakerClick(speaker)}
                               />
+                            </div> */}
+                            <div
+                              className={AlumniSpeakerStyles["mic-icon"]}
+                              onClick={() => handleSpeakerClick(speaker)}
+                            >
+                              <span
+                                className={AlumniSpeakerStyles["icon-layer"]}
+                              >
+                                <img src="/icons/mic.png" alt="Mic" />
+                              </span>
+                              <span
+                                className={AlumniSpeakerStyles["text-layer"]}
+                              >
+                                More Info
+                              </span>
                             </div>
                           </div>
                           <div className={AlumniSpeakerStyles["card-body"]}>

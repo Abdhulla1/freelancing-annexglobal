@@ -45,6 +45,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 .badge {
   background-color: rgb(0, 0, 0, 0.7);
@@ -70,6 +71,7 @@
   font-family: 'Good Times', sans-serif;
   font-weight: 400;
   line-height: 40px;
+  font-size: 48px;
   text-align: center;
   text-transform: uppercase;
   position: relative;
@@ -113,4 +115,102 @@
 
 .welcome{
     font-family: 'Centra 2', sans-serif;
+}
+
+.bannerLine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: white;
+  gap: 0.5rem;
+  font-weight: 300;
+  margin-top: 15px;
+}
+
+.animatedText {
+  padding: 0.4rem 1rem;
+  border: 2px solid white;
+  border-radius: 30px;
+  font-weight: 600;
+  color: white;
+  /* animation: fadeZoom 0.6s ease-in-out; */
+  white-space: nowrap;
+}
+
+@keyframes fadeZoom {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Marquee container overlay at the bottom */
+.marquee-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 12px 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Marquee logo styling */
+.marquee-logo {
+  width: auto;
+  height: 60px;
+  filter: brightness(0) invert(1);
+  margin: 0 20px;
+  flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  .video {
+    height: 60vh; /* or adjust as needed, e.g., 50vh */
+    object-fit: cover;
+    object-position: center top; /* ensures it stays focused nicely */
+  }
+
+  .content {
+    top: 55%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+  }
+
+  .location {
+    font-size: 28px;
+    line-height: 32px;
+  }
+
+  .bannerLine {
+    font-size: 0.9rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .animatedText {
+    margin-top: 8px;
+    font-size: 1rem;
+  }
+
+  .max-width-700 {
+    padding: 10px;
+  }
+   .marquee-container {
+    padding: 8px 0;
+  }
+  .marquee-logo {
+    height: 40px;
+    margin: 0 12px;
+  }
 }

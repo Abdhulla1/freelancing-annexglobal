@@ -35,7 +35,6 @@ const CustomArrow = ({ className, style, onClick, direction }) => {
 };
 
 const OrganizingCommitee = ({ organizingCommittee }) => {
-  
   const [visibleDetails, setVisibleDetails] = useState(false);
   const [selectedSpeaker, setSelectedSpeaker] = useState(null);
   const speakerData = organizingCommittee?.ocms;
@@ -134,106 +133,127 @@ const OrganizingCommitee = ({ organizingCommittee }) => {
       </Sidebar>
       <div className="container mt-5">
         <div className="col-md-5">
-          <div className={` pt-2   ${style["header"]} `}>MEET OUR ORGANIZING COMMITTEE</div>
+          <div className={` pt-2   ${style["header"]} `}>
+            MEET OUR ORGANIZING COMMITTEE
+          </div>
         </div>
 
         {/* <div className="mt-4">
           <h3 className="fw-bold">Event Oversight Panel</h3>
         </div> */}
 
-      <div className=" p-2 container">
-      {isMobile ? (
-        // 📱 Mobile View - Grid without slider
-        <div className="row">
-          {slides.flat().map((speaker, index) => (
-            <div className=" mb-3" key={index}>
-              <div className={style["card"]}>
-                <div className={style["card-header"]}>
-                  <img
-                    onClick={() => handleSpeakerClick(speaker)}
-                    src={speaker.imageUrl}
-                    alt="Profile"
-                    className={style["profile-img"]}
-                  />
-                  <div className={style["mic-icon"]}>
+        <div className=" p-2 container">
+          {isMobile ? (
+            // 📱 Mobile View - Grid without slider
+            <div className="row">
+              {slides.flat().map((speaker, index) => (
+                <div className=" mb-3" key={index}>
+                  <div className={style["card"]}>
+                    <div className={style["card-header"]}>
+                      <img
+                        onClick={() => handleSpeakerClick(speaker)}
+                        src={speaker.imageUrl}
+                        alt="Profile"
+                        className={style["profile-img"]}
+                      />
+                      {/* <div className={style["mic-icon"]}>
                     <img src="/icons/micwhite.png" alt="Mic" />
+                  </div> */}
+                      <div
+                        className={style["mic-icon"]}
+                        onClick={() => handleSpeakerClick(speaker)}
+                      >
+                        <span className={style["icon-layer"]}>
+                          <img src="/icons/mic.png" alt="Mic" />
+                        </span>
+                        <span className={style["text-layer"]}>
+                          More Info
+                        </span>
+                      </div>
+                    </div>
+                    <div className={style["card-body"]}>
+                      <div
+                        onClick={() => handleSpeakerClick(speaker)}
+                        className={style["name"]}
+                      >
+                        {speaker.name}
+                      </div>
+                      <div className={style["designation"]}>
+                        {speaker.companyDetails}
+                      </div>
+                      <div className={style["company"]}>
+                        <img
+                          src={speaker.companyLogo}
+                          alt={speaker.companyDetails}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className={style["card-body"]}>
-                  <div
-                    onClick={() => handleSpeakerClick(speaker)}
-                    className={style["name"]}
-                  >
-                    {speaker.name}
-                  </div>
-                  <div className={style["designation"]}>
-                    {speaker.companyDetails}
-                  </div>
-                  <div className={style["company"]}>
-                    <img
-                      src={speaker.companyLogo}
-                      alt={speaker.companyDetails}
-                    />
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ) : (
-        // 💻 Desktop View - Slider
-        <Slider {...settings}>
-          {slides?.map((slide, index) => (
-            <div key={index}>
-              <div className="container pt-5 pb-3">
-                <div className="row">
-                  {slide?.map((speaker, index) => (
-                    <div
-                      className="col-md-6 col-lg-4 col-xl-3 mb-3"
-                      key={index}
-                    >
-                      <div className={style["card"]}>
-                        <div className={style["card-header"]}>
-                          <img
-                            onClick={() => handleSpeakerClick(speaker)}
-                            src={speaker.imageUrl}
-                            alt="Profile"
-                            className={style["profile-img"]}
-                          />
-                          <div className={style["mic-icon"]}>
-                            <img src="/icons/micwhite.png" alt="Mic" />
-                          </div>
-                        </div>
-                        <div className={style["card-body"]}>
-                          <div
-                            onClick={() => handleSpeakerClick(speaker)}
-                            className={style["name"]}
-                          >
-                            {speaker.name}
-                          </div>
-                          <div className={style["designation"]}>
-                          </div>
-                          <div className={style["company"]}>
-                            {speaker.companyDetails}
-                            {/* <img
+          ) : (
+            // 💻 Desktop View - Slider
+            <Slider {...settings}>
+              {slides?.map((slide, index) => (
+                <div key={index}>
+                  <div className="container pt-5 pb-3">
+                    <div className="row  d-flex flex-wrap justify-content-start" >
+                      {slide?.map((speaker, index) => (
+                        <div
+                          className={`${style.speakerCardCol} mb-2`}
+                          key={index}
+                        >
+                          <div className={style["card"]}>
+                            <div className={style["card-header"]}>
+                              <img
+                                onClick={() => handleSpeakerClick(speaker)}
+                                src={speaker.imageUrl}
+                                alt="Profile"
+                                className={style["profile-img"]}
+                              />
+                              {/* <div className={style["mic-icon"]}>
+                                <img src="/icons/micwhite.png" alt="Mic" />
+                              </div> */}
+                                  <div
+                        className={style["mic-icon"]}
+                        onClick={() => handleSpeakerClick(speaker)}
+                      >
+                        <span className={style["icon-layer"]}>
+                          <img src="/icons/mic.png" alt="Mic" />
+                        </span>
+                        <span className={style["text-layer"]}>
+                          More Info
+                        </span>
+                      </div>
+                            </div>
+                            <div className={style["card-body"]}>
+                              <div
+                                onClick={() => handleSpeakerClick(speaker)}
+                                className={style["name"]}
+                              >
+                                {speaker.name}
+                              </div>
+                              <div className={style["designation"]}></div>
+                              <div className={style["company"]}>
+                                {speaker.companyDetails}
+                                {/* <img
                               src={speaker.companyLogo}
                               alt={speaker.companyDetails}
                             /> */}
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
-        </Slider>
-      )}
+              ))}
+            </Slider>
+          )}
+        </div>
       </div>
-      </div>
-
-
     </div>
   );
 };

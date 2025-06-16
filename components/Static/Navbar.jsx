@@ -341,11 +341,14 @@ export default function Navbar() {
         onHide={() => setIsOpen(false)}
         position="right"
         className="p-sidebar"
+        blockScroll 
         style={{
           zIndex: 1050,
           borderTopLeftRadius: "15px",
           borderBottomLeftRadius: "15px",
           overflow: "hidden",
+            background: `linear-gradient(135deg, #f1efe8 0%, #ffffff 100%)`
+
         }}
         ref={menuRef}
       >

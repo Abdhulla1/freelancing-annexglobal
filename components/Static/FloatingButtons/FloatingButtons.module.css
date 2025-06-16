@@ -1,0 +1,38 @@
+.floatingContainer {
+  position: fixed;
+  bottom: 2px;
+  z-index: 9999;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px ;
+
+  width: 100vw;
+}
+
+.whatsapp,
+.chat {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+
+.whatsapp {
+  background-color: #25d366;
+}
+
+.chat {
+  background-color: #f39c12;
+}
+
+.whatsapp:hover,
+.chat:hover {
+  transform: scale(1.1);
+}

@@ -9,16 +9,40 @@ import { useMainPage } from "@/hooks/useWeather";
 
 const UpcomingConference = ({ conference, honeyComb }) => {
   const categories = honeyComb?.detail?.categories || [];
+  const formatDateWithSuffix = (dateString) => {
+    const date = new Date(dateString);
+    if (isNaN(date)) return ""; // Invalid date safety
+
+    const day = date.getDate();
+    const month = date.toLocaleString("default", { month: "long" });
+    const year = date.getFullYear();
+
+    const getDaySuffix = (d) => {
+      if (d > 3 && d < 21) return "th";
+      switch (d % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+
+    return `${day}${getDaySuffix(day)} ${month} ${year}`;
+  };
 
   const upcomingConferences = conference?.detail?.map((conference) => ({
     image: conference?.cardBgImage,
-    date: conference?.conference?.landingPage?.startDate, // Replace with dynamic data if available
+    // date: conference?.conference?.landingPage?.startDate,
+    date: formatDateWithSuffix(conference?.conference?.landingPage?.startDate),
     location: conference?.conference?.landingPage?.location, // Replace with conference?.conference?.location if present
     heading: conference?.name,
     desc: conference?.conference?.landingPage?.theme, // Replace with dynamic description if available
     buylink: conference?._id, // Add a dynamic link if available
   }));
-
 
   const CustomArrow = ({ className, style, onClick, direction }) => {
     return (
@@ -72,11 +96,9 @@ const UpcomingConference = ({ conference, honeyComb }) => {
     ? upcomingConferences?.slice(0, 4)
     : upcomingConferences;
 
-
   const slides = isMobile
     ? chunkArray(limitedConferences, 4)
     : chunkArray(limitedConferences, 6);
-
 
   const settings = {
     dots: true,
