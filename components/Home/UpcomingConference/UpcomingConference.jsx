@@ -8,6 +8,9 @@ import Button from "@/components/Static/Button";
 import { useMainPage } from "@/hooks/useWeather";
 
 const UpcomingConference = ({ conference, honeyComb }) => {
+  const [visibleCount, setVisibleCount] = useState(4);
+  const [showAll, setShowAll] = useState(false);
+
   const categories = honeyComb?.detail?.categories || [];
   const formatDateWithSuffix = (dateString) => {
     const date = new Date(dateString);
@@ -43,7 +46,18 @@ const UpcomingConference = ({ conference, honeyComb }) => {
     desc: conference?.conference?.landingPage?.theme, // Replace with dynamic description if available
     buylink: conference?._id, // Add a dynamic link if available
   }));
-
+  // For mobile: Show only first `visibleCount` conferences
+  const visibleMobileCards = upcomingConferences?.slice(0, visibleCount);
+  // Handle View More / View Less
+  const handleToggleView = () => {
+    if (showAll) {
+      setVisibleCount(4);
+      setShowAll(false);
+    } else {
+      setVisibleCount((prev) => prev + 8);
+      setShowAll(true);
+    }
+  };
   const CustomArrow = ({ className, style, onClick, direction }) => {
     return (
       <div
@@ -128,56 +142,99 @@ const UpcomingConference = ({ conference, honeyComb }) => {
       </h3>
       <HoneycombTabs data={categories} />
       <div className="mt-4 container">
-        <Slider {...settings}>
-          {slides.map((slide, index) => (
-            <div key={index}>
-              <div className={`container ${isMobile ? "p-0" : "p-5"}`}>
-                <div className="row">
-                  {slide.map((event, i) => (
-                    <Link
-                      href={`/conference/${event.buylink}`}
-                      className={`text-decoration-none ${
-                        isMobile
-                          ? "custom-mobile-col col-12 col-sm-6"
-                          : "col-12 col-sm-12 col-md-6 col-lg-4"
-                      } mb-3`}
-                      key={i}
-                    >
-                      <div
-                        className={
-                          UpcomingConferenceStyle["upcoming-events-card"]
-                        }
-                      >
-                        <span className={UpcomingConferenceStyle["date"]}>
-                          {event.date}
-                        </span>
-                        <img src={event.image} alt="Event Image" />
-                        <div className={UpcomingConferenceStyle["content"]}>
-                          <div
-                            className={UpcomingConferenceStyle["event-title"]}
-                          >
-                            {event.heading}
-                          </div>
-                          <div className={UpcomingConferenceStyle["location"]}>
-                            {event.location}
-                          </div>
-                        </div>
-                        <div
-                          href={`/conference/${event.buylink}`}
-                          className={` ${UpcomingConferenceStyle["buy-button"]}`}
-                        >
-                          BUY TICKETS
-                        </div>
+        {isMobile ? (
+          <>
+            <div className="row">
+              {visibleMobileCards.map((event, i) => (
+                <Link
+                  href={`/conference/${event.buylink}`}
+                  className="text-decoration-none col-12 col-sm-6 mb-3"
+                  key={i}
+                >
+                  <div
+                    className={UpcomingConferenceStyle["upcoming-events-card"]}
+                  >
+                    <span className={UpcomingConferenceStyle["date"]}>
+                      {event.date}
+                    </span>
+                    <img src={event.image} alt="Event Image" />
+                    <div className={UpcomingConferenceStyle["content"]}>
+                      <div className={UpcomingConferenceStyle["event-title"]}>
+                        {event.heading}
                       </div>
-                    </Link>
-                  ))}
+                      <div className={UpcomingConferenceStyle["location"]}>
+                        {event.location}
+                      </div>
+                    </div>
+                    <div className={UpcomingConferenceStyle["buy-button"]}>
+                      BUY TICKETS
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* View More / Less Button */}
+            {upcomingConferences.length > 4 && (
+              <div className="text-center my-3">
+                <button className="brand-btn" onClick={handleToggleView}>
+                  {visibleCount >= upcomingConferences.length
+                    ? "View Less"
+                    : "View More"}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <Slider {...settings}>
+            {slides.map((slide, index) => (
+              <div key={index}>
+                <div className="container p-5">
+                  <div className="row">
+                    {slide.map((event, i) => (
+                      <Link
+                        href={`/conference/${event.buylink}`}
+                        className="text-decoration-none col-12 col-sm-12 col-md-6 col-lg-4 mb-3"
+                        key={i}
+                      >
+                        <div
+                          className={
+                            UpcomingConferenceStyle["upcoming-events-card"]
+                          }
+                        >
+                          <span className={UpcomingConferenceStyle["date"]}>
+                            {event.date}
+                          </span>
+                          <img src={event.image} alt="Event Image" />
+                          <div className={UpcomingConferenceStyle["content"]}>
+                            <div
+                              className={UpcomingConferenceStyle["event-title"]}
+                            >
+                              {event.heading}
+                            </div>
+                            <div
+                              className={UpcomingConferenceStyle["location"]}
+                            >
+                              {event.location}
+                            </div>
+                          </div>
+                          <div
+                            className={UpcomingConferenceStyle["buy-button"]}
+                          >
+                            BUY TICKETS
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </Slider>
+            ))}
+          </Slider>
+        )}
       </div>
-      <div className="mb-4 d-flex align-items-center justify-content-center">
+
+      <div className="mb-4 d-none d-md-flex align-items-center justify-content-center">
         {/* <Button label="View More" href="/conferences" /> */}
         <button className="brand-btn ">
           <Link
